@@ -1,14 +1,470 @@
 {
- "updated_at": "2026-09-15T23:37:05+00:00",
+ "updated_at": "2026-09-16T23:45:09+00:00",
  "items": [
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "Where is all the tech money rotating to? Oil and Biotech",
+   "link": "https://www.reddit.com/r/stocks/comments/1widei8/where_is_all_the_tech_money_rotating_to_oil_and/",
+   "published": "2026-09-16T23:30:51+00:00",
+   "summary": "I have noticed that a lot of tech stocks have been falling off a cliff the past 1-3 months while the S&amp;P has been holding somewhat steady. After doing a little research, it appears that oil and biotech companies have been doing very well during this tech pullback. Put togethe…",
+   "rank": 8
+  },
   {
    "source": "r/wallstreetbets 热帖",
    "category": "community",
-   "title": "Take a hike and the anniversary",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1whgmrx/take_a_hike_and_the_anniversary/",
-   "published": "2026-09-15T23:36:03+00:00",
-   "summary": "Hey all, tomorrow, Sept 16th and 34 years to the day is the anniversary of one of the greatest trades to ever take place and it involved George Soros, Stanley Druckenmiller and none other than Scott Bessent. The trio would go to bet that the British Pound would fall and of course…",
+   "title": "You lowered the rates, right? Right?",
+   "link": "https://www.reddit.com/r/wallstreetbets/comments/1widdvt/you_lowered_the_rates_right_right/",
+   "published": "2026-09-16T23:30:09+00:00",
+   "summary": "&#32; submitted by &#32; /u/FalconsArentReal [link] &#32; [comments]",
+   "rank": 5
+  },
+  {
+   "source": "r/wallstreetbets 热帖",
+   "category": "community",
+   "title": "Who shorted oil?",
+   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wicmg0/who_shorted_oil/",
+   "published": "2026-09-16T22:57:46+00:00",
+   "summary": "&#32; submitted by &#32; /u/Practical_4785 [link] &#32; [comments]",
+   "rank": 4
+  },
+  {
+   "source": "r/wallstreetbets 热帖",
+   "category": "community",
+   "title": "Bad Hood",
+   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wibl58/bad_hood/",
+   "published": "2026-09-16T22:14:09+00:00",
+   "summary": "Bought HOOD during the recent pump. Did I buy the top? &#32; submitted by &#32; /u/Jay3377 [link] &#32; [comments]",
+   "rank": 19
+  },
+  {
+   "source": "Massive · Zacks Investment Research",
+   "category": "news",
+   "title": "Robinhood Markets, Inc. (HOOD) Falls More Steeply Than Broader Market: What Investors Need to Know",
+   "link": "https://www.zacks.com/stock/news/2990936/robinhood-markets-inc-hood-falls-more-steeply-than-broader-market-what-investors-need-to-know?cid=CS-ZC-FT-fundamental_analysis|yseop_template_6-2990936",
+   "published": "2026-09-16T21:45:05",
+   "summary": "Robinhood Markets (HOOD) declined 5.46% in recent trading, significantly underperforming the S&P 500's 0.45% loss. Despite a strong 20.67% monthly gain, the stock faces mixed near-term prospects with expected EPS down 13.11% year-over-year, though revenue is projected up 7.97%. T…",
+   "tickers": [
+    "HOOD"
+   ],
+   "sentiment": "neutral"
+  },
+  {
+   "source": "Massive · The Motley Fool",
+   "category": "news",
+   "title": "The Fed Hiked Interest Rates for the First Time in 3 Years. Are AI Stocks in Trouble?",
+   "link": "https://www.fool.com/investing/2026/09/16/the-fed-hiked-interest-rates-for-the-first-time-in-3-years-are-ai-stocks-in-trouble/?source=iedfolrf0000001",
+   "published": "2026-09-16T21:24:42",
+   "summary": "The Federal Reserve raised interest rates for the first time since 2023 to combat inflation. Higher borrowing costs could disproportionately impact AI stocks, particularly those relying on debt funding for capital-intensive data center infrastructure. However, profitable AI compa…",
+   "tickers": [
+    "SPCX"
+   ],
+   "sentiment": "neutral"
+  },
+  {
+   "source": "Massive · The Motley Fool",
+   "category": "news",
+   "title": "Stock Market Today, Sept. 16: Stocks Slip as Fed Raises Rates",
+   "link": "https://www.fool.com/coverage/stock-market-today/2026/09/16/stock-market-today-sept-16-stocks-slip-as-fed-raises-rates/?source=iedfolrf0000001",
+   "published": "2026-09-16T21:15:59",
+   "summary": "The Federal Reserve raised interest rates by 25 basis points to 3.50%-3.75%, marking the first hike in three years. Major indices declined with the S&P 500 falling 0.45%, Dow Jones dropping 1.21%, and Nasdaq slipping 0.01%. AI stocks recovered slightly with Dell, Intel, and Nvidi…",
+   "tickers": [
+    "INTC",
+    "NVDA"
+   ],
+   "sentiment": "positive"
+  },
+  {
+   "source": "Massive · The Motley Fool",
+   "category": "news",
+   "title": "Stock Market Today, Sept. 16: Intel Jumps on SK Hynix Memory-Chip Manufacturing Talks",
+   "link": "https://www.fool.com/coverage/stock-market-today/2026/09/16/stock-market-today-sept-16-intel-jumps-on-sk-hynix-memory-chip-manufacturing-talks/?source=iedfolrf0000001",
+   "published": "2026-09-16T21:09:59",
+   "summary": "Intel stock surged 4.03% to $101.05 on reports of potential manufacturing talks with SK Hynix to produce memory chips domestically in the U.S. for the first time. Multiple analyst target raises, including Melius Research's $165 price target and potential $200 upside in two years,…",
+   "tickers": [
+    "INTC",
+    "AMD"
+   ],
+   "sentiment": "positive"
+  },
+  {
+   "source": "r/wallstreetbets 热帖",
+   "category": "community",
+   "title": "How do I recover since my refund was denied?",
+   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wi9q86/how_do_i_recover_since_my_refund_was_denied/",
+   "published": "2026-09-16T21:01:26+00:00",
+   "summary": "Few days earlier I posted loss porn and I would like to post on gain porn (in future) as well. My account was deficit so I deposited enough to cover and now deficit again. Do I need to sell all these stocks and fresh start? &#32; submitted by &#32; /u/Iwantobegoodatrade [link] &#…",
+   "rank": 8
+  },
+  {
+   "source": "CNBC Markets",
+   "category": "news",
+   "title": "'Science fiction': Transport companies — the backbone of economy — are sounding alarm on fuel prices",
+   "link": "https://www.cnbc.com/2026/09/16/transport-economy-diesel-prices-iran.html",
+   "published": "2026-09-16T20:22:24+00:00",
+   "summary": "Prices for diesel, the fuel type used to power trucks and trains, came in at an all-time high of $6.31 per gallon on Wednesday."
+  },
+  {
+   "source": "r/wallstreetbets 热帖",
+   "category": "community",
+   "title": "Thank you Kevin Warsh",
+   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wi87nj/thank_you_kevin_warsh/",
+   "published": "2026-09-16T20:05:15+00:00",
+   "summary": "Thought stocks only went up 🚀😔. I guess Analyst PT raise means Stock down📉 &#32; submitted by &#32; /u/momolover95 [link] &#32; [comments]",
+   "rank": 7
+  },
+  {
+   "source": "Massive · The Motley Fool",
+   "category": "news",
+   "title": "Forget Nvidia's Chips: Hugging Face Is the Real Reason to Own This Stock Now",
+   "link": "https://www.fool.com/investing/2026/09/16/forget-nvidia-chips-hugging-face-reason-own-stock/?source=iedfolrf0000001",
+   "published": "2026-09-16T20:02:00",
+   "summary": "Nvidia agreed to acquire Hugging Face for $11.9 billion ($12.9 billion including employee awards), a steep price at 86x annualized revenue. However, the acquisition gives Nvidia strategic access to a platform hosting 3 million models used by 18 million developers and 200,000+ com…",
+   "tickers": [
+    "NVDA",
+    "AMD"
+   ],
+   "sentiment": "positive"
+  },
+  {
+   "source": "r/wallstreetbets 热帖",
+   "category": "community",
+   "title": "What Are Your Moves Tomorrow, September 17, 2026",
+   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wi833y/what_are_your_moves_tomorrow_september_17_2026/",
+   "published": "2026-09-16T20:00:40+00:00",
+   "summary": "This post contains content not supported on old Reddit. Click here to view the full post &#32; submitted by &#32; /u/verified-trader [link] &#32; [comments]",
+   "rank": 0
+  },
+  {
+   "source": "r/wallstreetbets 热帖",
+   "category": "community",
+   "title": "HOLY STRESSFUL",
+   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wi7s46/holy_stressful/",
+   "published": "2026-09-16T19:49:40+00:00",
+   "summary": "I don't know how you regards diamond hands this shit, I was stressing staring at the SPY chart for an hour straight. Almost pulled the trigger and sold for a small gain like 4 times but I convinced myself that if SPY wasn't down around %1 it wasn't worth it. Had a good call on wh…",
+   "rank": 11
+  },
+  {
+   "source": "Massive · The Motley Fool",
+   "category": "news",
+   "title": "Salesforce vs. Figma: Evaluating the Better High-Growth Software Stock to Buy in 2026",
+   "link": "https://www.fool.com/coverage/better-buy/2026/09/16/salesforce-vs-figma-evaluating-the-better-high-growth-software-stock-to-buy-in-2026/?source=iedfolrf0000001",
+   "published": "2026-09-16T19:36:17",
+   "summary": "The article compares Salesforce and Figma as investment options in 2026. Salesforce, the dominant CRM leader, offers proven profitability with $41.5B revenue, 18% net margins, and $14.4B free cash flow, trading at a reasonable 23.3x P/E ratio. Figma, a rapidly growing design plat…",
+   "tickers": [
+    "FIG"
+   ],
+   "sentiment": "neutral"
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "I have seen all Fed reserve meetings for the past 5 years- Today’s meeting was VERY different",
+   "link": "https://www.reddit.com/r/stocks/comments/1wi6uif/i_have_seen_all_fed_reserve_meetings_for_the_past/",
+   "published": "2026-09-16T19:15:33+00:00",
+   "summary": "Everytime Fed Powell had these meetings, he would give specifics and details. These specifics would help people understand how the economy works. The questions he would answer ( from the journalists) had clean logic and the main approach he had- highly DATA DEPENDENT approach to …",
+   "rank": 1
+  },
+  {
+   "source": "r/wallstreetbets 热帖",
+   "category": "community",
+   "title": "Quick in and out - 5.9K gain on DELL short",
+   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wi6aya/quick_in_and_out_59k_gain_on_dell_short/",
+   "published": "2026-09-16T18:57:01+00:00",
+   "summary": "&#32; submitted by &#32; /u/Newbie-Investor-SC [link] &#32; [comments]",
+   "rank": 12
+  },
+  {
+   "source": "Massive · The Motley Fool",
+   "category": "news",
+   "title": "Nvidia Stock Forecast: Where Investors Could Stand in 5 Years",
+   "link": "https://www.fool.com/investing/2026/09/16/nvidia-stock-forecast-where-investors-could-stand/?source=iedfolrf0000001",
+   "published": "2026-09-16T18:23:00",
+   "summary": "Nvidia, currently the world's largest company with a $5.1 trillion market cap, is projected to deliver significant gains over the next five years despite unlikely 10x returns. With AI infrastructure spending expected to reach $3 trillion by 2030 and Nvidia commanding 80% of the A…",
+   "tickers": [
+    "NVDA"
+   ],
+   "sentiment": "positive"
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "Fed approves interest rate hike, signals one more to come this year",
+   "link": "https://www.reddit.com/r/stocks/comments/1wi54e3/fed_approves_interest_rate_hike_signals_one_more/",
+   "published": "2026-09-16T18:15:09+00:00",
+   "summary": "The Federal Reserve on Wednesday approved its first interest rate hike in more than three years and indicated another to come, as part of an effort aimed at combating inflation brought on by spiraling oil prices and other factors. In a move that markets widely anticipated, the ce…",
+   "rank": 2
+  },
+  {
+   "source": "r/wallstreetbets 热帖",
+   "category": "community",
+   "title": "Fed approves interest rate hike, signals one more to come this year",
+   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wi4s45/fed_approves_interest_rate_hike_signals_one_more/",
+   "published": "2026-09-16T18:03:03+00:00",
+   "summary": "&#32; submitted by &#32; /u/Independent-Cress382 [link] &#32; [comments]",
+   "rank": 1
+  },
+  {
+   "source": "r/wallstreetbets 热帖",
+   "category": "community",
+   "title": "Hyperscaler debt signals warning sign, Apollo cautions",
+   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wi4c79/hyperscaler_debt_signals_warning_sign_apollo/",
+   "published": "2026-09-16T17:47:17+00:00",
+   "summary": "&#32; submitted by &#32; /u/Force_Hammer [link] &#32; [comments]",
+   "rank": 6
+  },
+  {
+   "source": "Massive · The Motley Fool",
+   "category": "news",
+   "title": "Apple Is Considering Something It Hasn't Done in 15 Years. Here's What Investors Need to Know.",
+   "link": "https://www.fool.com/investing/2026/09/16/apple-is-considering-something-it-hasnt-done-in-15-years-heres-what-investors-need-to-know/?source=iedfolrf0000001",
+   "published": "2026-09-16T17:39:50",
+   "summary": "Apple is reportedly considering developing its own AI servers in partnership with Nvidia, marking the company's first enterprise server venture since 2011. The proposed servers would combine Apple's M8 Ultra chips with Nvidia's NVLink Fusion technology for AI inference. If approv…",
+   "tickers": [
+    "NVDA",
+    "TSLA"
+   ],
+   "sentiment": "positive"
+  },
+  {
+   "source": "CNBC Markets",
+   "category": "news",
+   "title": "Consumers hit by one-two punch of oil and rates from Iran war. The estimated bill is $1,700 per household",
+   "link": "https://www.cnbc.com/2026/09/16/oil-prices-treasury-yields-consumers-iran.html",
+   "published": "2026-09-16T17:32:22+00:00",
+   "summary": "Rising oil prices and Treasury yields are lifting energy and borrowing costs for U.S. households, pushing consumers to draw more heavily on savings."
+  },
+  {
+   "source": "Massive · The Motley Fool",
+   "category": "news",
+   "title": "September Effect: 2 Memory Stocks to Buy on a Potential Market Dip",
+   "link": "https://www.fool.com/investing/2026/09/16/september-effect-memory-stocks-buy-market-dip/?source=iedfolrf0000001",
+   "published": "2026-09-16T17:22:00",
+   "summary": "With September historically being the worst month for stocks and midterm election years amplifying market pullbacks, the article recommends two memory stocks—Micron Technology and Sandisk—as potential buying opportunities on a dip. Both companies are benefiting from AI infrastruc…",
+   "tickers": [
+    "MU",
+    "SNDK"
+   ],
+   "sentiment": "positive"
+  },
+  {
+   "source": "r/wallstreetbets 热帖",
+   "category": "community",
+   "title": "Rate cutters get stitches",
+   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wi3770/rate_cutters_get_stitches/",
+   "published": "2026-09-16T17:06:48+00:00",
+   "summary": "&#32; submitted by &#32; /u/shaqille04tmeal [link] &#32; [comments]",
+   "rank": 3
+  },
+  {
+   "source": "Massive · The Motley Fool",
+   "category": "news",
+   "title": "Hock Tan Just Guided Broadcom's AI Revenue to Reach $230 Billion by 2028. Should You Believe Him?",
+   "link": "https://www.fool.com/investing/2026/09/16/hock-tan-just-guided-broadcoms-ai-revenue-to-reach/?source=iedfolrf0000001",
+   "published": "2026-09-16T16:45:00",
+   "summary": "Broadcom CEO Hock Tan projects the company will generate $230 billion in annual AI semiconductor revenue by fiscal 2028, representing more than a tripling from current levels. The article argues this forecast is credible given Tan's track record of underestimating growth and Broa…",
+   "tickers": [
+    "AVGO"
+   ],
+   "sentiment": "positive"
+  },
+  {
+   "source": "Massive · The Motley Fool",
+   "category": "news",
+   "title": "Why Marvell Stock Rallied Today",
+   "link": "https://www.fool.com/investing/2026/09/16/why-marvell-stock-rallied-today/?source=iedfolrf0000001",
+   "published": "2026-09-16T16:12:41",
+   "summary": "Marvell Technology stock surged up to 5.4% following reports of a potential deal between SK Hynix and Intel to manufacture memory chips in the U.S. for the first time. As a partner of SK Hynix working on data transfer acceleration, Marvell benefits from any steps to ease the memo…",
+   "tickers": [
+    "MRVL",
+    "INTC"
+   ],
+   "sentiment": "positive"
+  },
+  {
+   "source": "r/wallstreetbets 热帖",
+   "category": "community",
+   "title": "How do I make free money arbing the FOMC in 2 hours",
+   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wi15b0/how_do_i_make_free_money_arbing_the_fomc_in_2/",
+   "published": "2026-09-16T15:54:18+00:00",
+   "summary": "FedWatch ( https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html ) has a 25bps rate hike priced at 90.7% meanwhile Polymarket is showing 88%. Even better, no change is 9.3% on FedWatch and Polymarket is 12%, or a 30% difference. Does anyone know how to arb this t…",
+   "rank": 9
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "What the data shows on SP500 post Fed rate hike",
+   "link": "https://www.reddit.com/r/stocks/comments/1wi13x0/what_the_data_shows_on_sp500_post_fed_rate_hike/",
+   "published": "2026-09-16T15:52:54+00:00",
+   "summary": "From Barron's &quot;It is not the first Fed hike that ends equity bull markets, although it does inject near-term volatility,&quot; Citi's global equity strategy team said. The S&amp;P 500, the Nasdaq, and the Dow see an average decline in the three months following the Fed's fir…",
+   "rank": 4
+  },
+  {
+   "source": "Massive · Zacks Investment Research",
+   "category": "news",
+   "title": "Snowflake vs. Adobe: Which Enterprise AI Stock Is a Better Buy?",
+   "link": "https://www.zacks.com/stock/news/2990763/snowflake-vs-adobe-which-enterprise-ai-stock-is-a-better-buy?cid=CS-ZC-FT-analyst_blog|most_popular_stocks-2990763",
+   "published": "2026-09-16T15:46:00",
+   "summary": "Snowflake is positioned as the stronger enterprise AI play with accelerating growth (37% product revenue YoY), robust customer expansion (32% net additions YoY), and strong AI adoption metrics. Adobe faces headwinds from slower near-term monetization and moderating RPO growth des…",
+   "tickers": [
+    "SNOW"
+   ],
+   "sentiment": "positive"
+  },
+  {
+   "source": "Massive · Zacks Investment Research",
+   "category": "news",
+   "title": "ALAB Broadens Leo Portfolio: Can It Stay Ahead of MRVL & CRDO?",
+   "link": "https://www.zacks.com/stock/news/2990759/alab-broadens-leo-portfolio-can-it-stay-ahead-of-mrvl-crdo?cid=CS-ZC-FT-analyst_blog|quick_take-2990759",
+   "published": "2026-09-16T15:42:00",
+   "summary": "Astera Labs (ALAB) has expanded its Leo Smart Memory Controller portfolio with new X-Series and Leo 2 E/P Series products targeting agentic AI and cloud workloads. The company reported record Q2 2026 revenue growth and expects Q3 revenues between $540-560 million, representing ~4…",
+   "tickers": [
+    "ALAB",
+    "MRVL"
+   ],
+   "sentiment": "positive"
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "Is anyone looking at $ETOR (etoro) broker?",
+   "link": "https://www.reddit.com/r/stocks/comments/1wi0248/is_anyone_looking_at_etor_etoro_broker/",
+   "published": "2026-09-16T15:14:29+00:00",
+   "summary": "It's a stock/crypto broker that has a customer base mainly in the UK and Europe. The stock fall to 28$ which is 2.3B with 1B of cash on hands no debt.. P/E of 11. They ain't got that much growth In revenue but decent 10% growth.. 4.28M founded accounts, they grew founded accounts…",
+   "rank": 14
+  },
+  {
+   "source": "r/wallstreetbets 热帖",
+   "category": "community",
+   "title": "DD: $DXYZ is the cleanest way to front-run the Anthropic IPO",
+   "link": "https://www.reddit.com/r/wallstreetbets/comments/1whzj80/dd_dxyz_is_the_cleanest_way_to_frontrun_the/",
+   "published": "2026-09-16T14:55:14+00:00",
+   "summary": "Alright fellow regards, here's the thesis: DXYZ's last reported NAV was $34.30/share. Stock is around ~$30. For context: in May, DXYZ had $24.56/share of NAV and traded at $61.66. This was pre-IPO Space X. Anthropic's IPO is rumored to be the largest IPO in history. So unlike the…",
+   "rank": 15
+  },
+  {
+   "source": "r/wallstreetbets 热帖",
+   "category": "community",
+   "title": "No way out",
+   "link": "https://www.reddit.com/r/wallstreetbets/comments/1whyyyd/no_way_out/",
+   "published": "2026-09-16T14:34:02+00:00",
+   "summary": "&#32; submitted by &#32; /u/SorryLifeguard7 [link] &#32; [comments]",
+   "rank": 2
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "Can some one ELI5 why it’s good to have 25bp hiked but it’s not better to have 50bph or even 75bph?",
+   "link": "https://www.reddit.com/r/stocks/comments/1why1e4/can_some_one_eli5_why_its_good_to_have_25bp_hiked/",
+   "published": "2026-09-16T13:58:58+00:00",
+   "summary": "so I am not sure how people keep saying it’s priced in and the market priced in a 25bph. does the market also price in a 50bph or even a 75bph? can some one ELi5 why 25bph is good but 50bph is bad and 75bph is horrible? if the fed, is already priced in a 50bph by the end of the y…",
+   "rank": 5
+  },
+  {
+   "source": "r/wallstreetbets 热帖",
+   "category": "community",
+   "title": "AUR is worth $13B. KDK is worth $750M. Both run driverless semis, and KDK targets highway driver out in December... ($KDK DD)",
+   "link": "https://www.reddit.com/r/wallstreetbets/comments/1whwf4i/aur_is_worth_13b_kdk_is_worth_750m_both_run/",
+   "published": "2026-09-16T12:54:03+00:00",
+   "summary": "Positions: 50,000 shares at $3.90 - will hold to a $5bn - $10bn market cap Loaded to a full tittie I am not your financial advisor, I am your enabler - and I will continue to load up on this asymmetric af opportunity. I am also the lunatic willingly holding this into both a share…",
    "rank": 18
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "Fed Countdown: Futures flat, Yields up. What’s the play?",
+   "link": "https://www.reddit.com/r/stocks/comments/1whv649/fed_countdown_futures_flat_yields_up_whats_the/",
+   "published": "2026-09-16T11:58:56+00:00",
+   "summary": "The divergence between macro policy and corporate earnings this morning is setting up a really weird backdrop for the 2 PM Fed decision. The bond market is aggressively pricing in a hawkish path, with the 10-year Treasury yield crossing the 5.01% threshold and the 2-year sitting …",
+   "rank": 7
+  },
+  {
+   "source": "r/wallstreetbets 热帖",
+   "category": "community",
+   "title": "SK Hynix in talks with Intel about deal to make memory chips in US for the first time, sources say",
+   "link": "https://www.reddit.com/r/wallstreetbets/comments/1whtiul/sk_hynix_in_talks_with_intel_about_deal_to_make/",
+   "published": "2026-09-16T10:34:59+00:00",
+   "summary": "https://www.reuters.com/world/asia-pacific/sk-hynix-talks-with-intel-about-deal-make-memory-chips-us-first-time-sources-say-2026-09-16/ thinking of buying 0dte for both tbh...in n out or maybe monthlies lol &#32; submitted by &#32; /u/DEElightful92 [link] &#32; [comments]",
+   "rank": 13
+  },
+  {
+   "source": "r/wallstreetbets 热帖",
+   "category": "community",
+   "title": "Daily Discussion Thread for September 16, 2026",
+   "link": "https://www.reddit.com/r/wallstreetbets/comments/1whswko/daily_discussion_thread_for_september_16_2026/",
+   "published": "2026-09-16T10:00:40+00:00",
+   "summary": "This post contains content not supported on old Reddit. Click here to view the full post &#32; submitted by &#32; /u/verified-trader [link] &#32; [comments]",
+   "rank": 16
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "TechIntel, SK Hynix shares jump on report they’re discussing U.S. memory chip manufacturing",
+   "link": "https://www.reddit.com/r/stocks/comments/1whsqqc/techintel_sk_hynix_shares_jump_on_report_theyre/",
+   "published": "2026-09-16T09:52:00+00:00",
+   "summary": "Under one scenario, SK Hynix would lease part of Intel’s chipmaking facility in Ohio, Reuters reported, citing people familiar with the matter. Intel and SK Hynix could also form a joint venture with Intel and major cloud firms, Reuters said. SK Hynix could also look at other way…",
+   "rank": 10
+  },
+  {
+   "source": "r/wallstreetbets 热帖",
+   "category": "community",
+   "title": "What changed do you see from the Fed meeting tomorrow ?",
+   "link": "https://www.reddit.com/r/wallstreetbets/comments/1whq51s/what_changed_do_you_see_from_the_fed_meeting/",
+   "published": "2026-09-16T07:19:14+00:00",
+   "summary": "https://preview.redd.it/7s35c66d2uph1.png?width=713&amp;format=png&amp;auto=webp&amp;s=f060606923c99f32b8edf16765f5f0be6127dcdc So, what do we think the outcome of tomorrow’s Fed meeting will be? Do you think it’ll play out like one of these scenarios, or do you think something e…",
+   "rank": 17
+  },
+  {
+   "source": "CNBC Markets",
+   "category": "news",
+   "title": "UK inflation jumps to 3.1% as energy costs soar",
+   "link": "https://www.cnbc.com/2026/09/16/uk-august-inflation-energy-gasoline.html",
+   "published": "2026-09-16T07:18:23+00:00",
+   "summary": "The reading comes a day before the Bank of England updates its monetary policy."
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "r/Stocks Daily Discussion Wednesday - Sep 16, 2026",
+   "link": "https://www.reddit.com/r/stocks/comments/1whptau/rstocks_daily_discussion_wednesday_sep_16_2026/",
+   "published": "2026-09-16T07:01:13+00:00",
+   "summary": "These daily discussions run from Monday to Friday including during our themed posts. Some helpful links: Finviz for charts, fundamentals, and aggregated news on individual stocks Bloomberg market news StreetInsider news Market Check - Possibly why the market is doing what it's do…",
+   "rank": 0
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "I'm dumb, please explain",
+   "link": "https://www.reddit.com/r/stocks/comments/1whlyfk/im_dumb_please_explain/",
+   "published": "2026-09-16T03:36:22+00:00",
+   "summary": "I'm really having a hard time wrapping my brain around the ramifications of the Fed's decision rates decision Wednesday. Does a rate hike mean it costs more to borrow money, so industrial growth slows? How would that affect interest rates paid out, like from a HYSA or money marke…",
+   "rank": 6
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "Canada offers permanent tax incentive on capital investment as Carney lures investors",
+   "link": "https://www.reddit.com/r/stocks/comments/1whlo0x/canada_offers_permanent_tax_incentive_on_capital/",
+   "published": "2026-09-16T03:22:02+00:00",
+   "summary": "TORONTO, Sept 15 (Reuters) - Canada will let businesses immediately write off ‌the cost of most new capital investments for tax purposes, Prime Minister Mark Carney said on Tuesday, unveiling a measure aimed at strengthening the economy and drawing more foreign investment. Carney…",
+   "rank": 3
+  },
+  {
+   "source": "CNBC Markets",
+   "category": "news",
+   "title": "Indonesia's new finance minister faces an uphill battle on fiscal credibility",
+   "link": "https://www.cnbc.com/2026/09/16/indonesia-finance-minister-msci-prabowo-.html",
+   "published": "2026-09-16T01:53:52+00:00",
+   "summary": "Nazara, sworn in hours after Purbaya's dismissal, spent seven years as deputy finance minister and led the ministry's fiscal policy agency from 2015 to 2019."
+  },
+  {
+   "source": "r/wallstreetbets 热帖",
+   "category": "community",
+   "title": "Oracle CFO says 'doing more with less' isn't the answer in all-hands after layoffs",
+   "link": "https://www.reddit.com/r/wallstreetbets/comments/1whh1so/oracle_cfo_says_doing_more_with_less_isnt_the/",
+   "published": "2026-09-15T23:54:04+00:00",
+   "summary": "&#32; submitted by &#32; /u/Federal-Trip4067 [link] &#32; [comments]",
+   "rank": 14
   },
   {
    "source": "CNBC Markets",
@@ -19,139 +475,13 @@
    "summary": "BRICS leaders have asserted the need to use local currencies in intra-BRICS trade to cut dependency on dollar."
   },
   {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "What’s this? Feeling kind of targeted?",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1whgfu6/whats_this_feeling_kind_of_targeted/",
-   "published": "2026-09-15T23:27:47+00:00",
-   "summary": "&#32; submitted by &#32; /u/Available-Team5336 [link] &#32; [comments]",
-   "rank": 17
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "*BESSENT: examining $5,000 check proposal at treasury",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1whg4nl/bessent_examining_5000_check_proposal_at_treasury/",
-   "published": "2026-09-15T23:14:43+00:00",
-   "summary": "&#32; submitted by &#32; /u/littleslavegirl2 [link] &#32; [comments]",
-   "rank": 3
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "It’s never going down",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1whg0t7/its_never_going_down/",
-   "published": "2026-09-15T23:10:15+00:00",
-   "summary": "Tariffs? Calls Oil shortage? Calls Bombing countries? Calls Not bombing countries? Calls 10yr +5%? Calls Rate Hold? Calls Rate Hike? Calls Warsh doesn’t show? believe it or not… calls. You get the point. Had an order for some Qqq but didn’t fill. Got another 20k for some 0dte if …",
-   "rank": 12
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Where Tesla's Robotaxi Rollout Stands Today and What Investors Should Know",
-   "link": "https://www.fool.com/investing/2026/09/15/where-teslas-robotaxi-rollout-stands-today-and-wha/?source=iedfolrf0000001",
-   "published": "2026-09-15T22:05:00",
-   "summary": "Tesla launched its Cybercab robotaxi service in Austin on September 3, showcasing improvements in manufacturing efficiency with a 50% reduction in production line size and highlighting that vehicles require no rare-earth minerals. However, the event was less impressive than antic…",
-   "tickers": [
-    "TSLA"
-   ],
-   "sentiment": "neutral"
-  },
-  {
-   "source": "Massive · Zacks Investment Research",
-   "category": "news",
-   "title": "Why the Market Dipped But Advanced Micro Devices (AMD) Gained Today",
-   "link": "https://www.zacks.com/stock/news/2990213/why-the-market-dipped-but-advanced-micro-devices-amd-gained-today?cid=CS-ZC-FT-fundamental_analysis|yseop_template_6-2990213",
-   "published": "2026-09-15T21:45:03",
-   "summary": "AMD closed at $504.19, up 2.18% and outpacing the S&P 500's 0.45% decline. The chipmaker is projected to report 58.33% EPS growth and 41.3% revenue growth for the upcoming quarter, with full-year estimates showing 79.38% earnings growth and 45.79% revenue growth. However, AMD tra…",
-   "tickers": [
-    "AMD"
-   ],
-   "sentiment": "neutral"
-  },
-  {
-   "source": "Massive · Zacks Investment Research",
-   "category": "news",
-   "title": "Super Micro Computer (SMCI) Dips More Than Broader Market: What You Should Know",
-   "link": "https://www.zacks.com/stock/news/2990215/super-micro-computer-smci-dips-more-than-broader-market-what-you-should-know?cid=CS-ZC-FT-fundamental_analysis|yseop_template_6-2990215",
-   "published": "2026-09-15T21:45:02",
-   "summary": "Super Micro Computer (SMCI) declined 3.06% on September 15, 2026, underperforming the S&P 500's 0.45% loss. Despite the recent dip, the stock maintains a Zacks Rank #1 (Strong Buy) rating with a favorable Forward P/E of 8.29 and strong expected earnings growth of 202.86% year-ove…",
-   "tickers": [
-    "SMCI"
-   ],
-   "sentiment": "positive"
-  },
-  {
-   "source": "Massive · GlobeNewswire Inc.",
-   "category": "news",
-   "title": "INVESTOR ALERT: Pomerantz Law Firm Reminds Investors with Losses on their Investment in Babcock & Wilcox Enterprises, Inc. of Class Action Lawsuit - BW",
-   "link": "https://www.globenewswire.com/news-release/2026/09/15/3362703/1087/en/investor-alert-pomerantz-law-firm-reminds-investors-with-losses-on-their-investment-in-babcock-wilcox-enterprises-inc-of-class-action-lawsuit-bw.html",
-   "published": "2026-09-15T20:58:00",
-   "summary": "Pomerantz Law Firm has filed class action lawsuits against Babcock & Wilcox Enterprises, Inc. (BW) on behalf of investors who acquired securities between November 5, 2025, and March 11, 2026. The firm is also investigating claims on behalf of investors in Abeona Therapeutics Inc.…",
-   "tickers": [
-    "ASTS"
-   ],
-   "sentiment": "negative"
-  },
-  {
    "source": "r/stocks 热帖",
    "category": "community",
    "title": "Nike - it’s getting to the point where the CEO is hanging on by a thread regardless of how much everyone likes him",
    "link": "https://www.reddit.com/r/stocks/comments/1whc9a4/nike_its_getting_to_the_point_where_the_ceo_is/",
    "published": "2026-09-15T20:41:21+00:00",
    "summary": "In 2026, the stock is down 43 %. Since Elliott Hill took the job as CEO on October 14, 2024, the stock is down 56 %. If you bought Nike stock in 2014 and reinvested all dividends, you would have lost money today. Add CPI inflation to that equation and you’re even worse off. The o…",
-   "rank": 2
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Boeing vs. Redwire: Which Aerospace Stock Is a Better Buy in 2026?",
-   "link": "https://www.fool.com/coverage/better-buy/2026/09/15/boeing-vs-redwire-which-aerospace-stock-is-a-better-buy-in-2026/?source=iedfolrf0000001",
-   "published": "2026-09-15T20:18:01",
-   "summary": "Boeing and Redwire represent different aerospace investment profiles: Boeing is a recovery play with $89.5B in FY2025 revenue but faces high leverage (10x debt-to-equity) and negative free cash flow, while Redwire is a high-growth space tech company with 10% revenue growth, minim…",
-   "tickers": [
-    "RKLB"
-   ],
-   "sentiment": "neutral"
-  },
-  {
-   "source": "Massive · Zacks Investment Research",
-   "category": "news",
-   "title": "Top Research Reports for S&P Global, Cloudflare & Canadian Natural",
-   "link": "https://www.zacks.com/commentary/2989703/top-research-reports-for-s-p-global-cloudflare-canadian-natural?cid=CS-ZC-FT-research_daily-2989703",
-   "published": "2026-09-15T20:13:00",
-   "summary": "Zacks analysts published research on 16 major stocks and 2 microcaps on September 15, 2026. Key reports include S&P Global (neutral outlook despite strong recurring revenues and AI adoption), Cloudflare (balanced risk-reward with strong enterprise demand but valuation concerns), …",
-   "tickers": [
-    "NET"
-   ],
-   "sentiment": "neutral"
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "What Are Your Moves Tomorrow, September 16, 2026",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1whb5fy/what_are_your_moves_tomorrow_september_16_2026/",
-   "published": "2026-09-15T20:00:39+00:00",
-   "summary": "This post contains content not supported on old Reddit. Click here to view the full post &#32; submitted by &#32; /u/verified-trader [link] &#32; [comments]",
-   "rank": 0
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "Why is the media pushing for the Fed to increase rates?",
-   "link": "https://www.reddit.com/r/stocks/comments/1whad3r/why_is_the_media_pushing_for_the_fed_to_increase/",
-   "published": "2026-09-15T19:32:13+00:00",
-   "summary": "I find it odd that media today is pushing hard for feds to increase the current rate. Stating that warsh needs to increase rates or he will lose credibility. But August CPI print was 3.4% and core PCE was 2.4%. both below the current rate of 3.5% - 3.75%. Core being more of an im…",
-   "rank": 18
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "Stopped chasing every scanner alert, now what",
-   "link": "https://www.reddit.com/r/stocks/comments/1wha7ue/stopped_chasing_every_scanner_alert_now_what/",
-   "published": "2026-09-15T19:26:58+00:00",
-   "summary": "Here's what I stopped doing after burning through a bunch of random alerts last year. I quit grabbing every ticker that flashed across a list without checking the balance sheet first. Too many times it turned out to be noise instead of anything with real revenue behind it. Lately…",
-   "rank": 11
+   "rank": 9
   },
   {
    "source": "r/wallstreetbets 热帖",
@@ -160,179 +490,7 @@
    "link": "https://www.reddit.com/r/wallstreetbets/comments/1wh9t53/clarity_act_senate_vote_fails_4950_did_not_reach/",
    "published": "2026-09-15T19:12:11+00:00",
    "summary": "“Senators voted to reject cloture on the motion to proceed, a step that limits debate on whether to take up the legislation and requires 60 votes.” “The Clarity Act would establish rules for crypto markets, essentially legalizing most crypto activity in the United States, and cla…",
-   "rank": 1
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Hyperliquid Could Be Bringing Perpetual Futures to US Customers Soon. Is HYPE a Buy, Sell, or Hold Right Now?",
-   "link": "https://www.fool.com/investing/2026/09/15/hyperliquid-could-be-bringing-perpetual-futures-to/?source=iedfolrf0000001",
-   "published": "2026-09-15T19:05:00",
-   "summary": "Hyperliquid's HYPE token has tripled in value this year on hopes that U.S. regulators will approve perpetual futures trading. The Trump Administration has urged the CFTC to bring HYPE to the U.S. market as a regulated token, though approval could take 10-12 months and may include…",
-   "tickers": [
-    "COIN"
-   ],
-   "sentiment": "negative"
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "RKLB profit (outdated) and maybe the worst fumble of my life simultaneously",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wh9cna/rklb_profit_outdated_and_maybe_the_worst_fumble/",
-   "published": "2026-09-15T18:56:09+00:00",
-   "summary": "This is outdated as rocket lab dropped to $63, but I haven’t sold and don’t plan to for a long time. Been holding since late 2024 and didn’t want to trim any even though I heavily thought about it at $110. So now I’m only up around $63,000 but diamond hands retards. (I don’t trad…",
-   "rank": 5
-  },
-  {
-   "source": "Massive · GlobeNewswire Inc.",
-   "category": "news",
-   "title": "AST SPACEMOBILE, INC. (ASTS) INVESTOR ALERT Investors With Large Losses in AST SpaceMobile, Inc. Should Contact Bernstein Liebhard LLP To Discuss Their Rights",
-   "link": "https://www.globenewswire.com/news-release/2026/09/15/3362603/0/en/ast-spacemobile-inc-asts-investor-alert-investors-with-large-losses-in-ast-spacemobile-inc-should-contact-bernstein-liebhard-llp-to-discuss-their-rights.html",
-   "published": "2026-09-15T18:55:00",
-   "summary": "A securities class action lawsuit has been filed against AST SpaceMobile, Inc. on behalf of investors who purchased securities between March 4, 2025 and July 15, 2026. The lawsuit alleges that defendants made materially false and misleading statements regarding the company's busi…",
-   "tickers": [
-    "ASTS"
-   ],
-   "sentiment": "negative"
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "CQTM? Quantum Computing ETF thoughts?",
-   "link": "https://www.reddit.com/r/stocks/comments/1wh97xa/cqtm_quantum_computing_etf_thoughts/",
-   "published": "2026-09-15T18:51:30+00:00",
-   "summary": "Hello, I am interested in the quantum computing field as I am young and know this will for sure be a long term investment. I love my ETFS!! But just ran into the Corgi Quantum Computing ETF (CQTM). It just entered the market in May but seems to hold the companies I’d like to see.…",
-   "rank": 9
-  },
-  {
-   "source": "Massive · GlobeNewswire Inc.",
-   "category": "news",
-   "title": "BAIDU, INC. (BIDU) INVESTOR ALERT Investors With Large Losses in Baidu, Inc. Should Contact Bernstein Liebhard LLP To Discuss Their Rights",
-   "link": "https://www.globenewswire.com/news-release/2026/09/15/3362599/0/en/baidu-inc-bidu-investor-alert-investors-with-large-losses-in-baidu-inc-should-contact-bernstein-liebhard-llp-to-discuss-their-rights.html",
-   "published": "2026-09-15T18:47:00",
-   "summary": "Bernstein Liebhard LLP has announced multiple securities class action lawsuits against Baidu, Inc., AST SpaceMobile, Inc., and FuelCell Energy, Inc. for allegedly making materially false and misleading statements regarding their business operations and financial stability. Invest…",
-   "tickers": [
-    "ASTS"
-   ],
-   "sentiment": "negative"
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Chip Stocks Recovered Today and the Major Indexes Fell Anyway",
-   "link": "https://www.fool.com/investing/2026/09/15/chip-stocks-recovered-today-and-the-indexes-fell/?source=iedfolrf0000001",
-   "published": "2026-09-15T18:26:52",
-   "summary": "Major stock indexes fell despite chip stocks recovering from Monday's AI-driven selloff. The Dow and Nasdaq Composite each dropped 0.7% while the S&P 500 fell 0.4%. Rising Treasury yields (10-year at 5.041%, highest since July 2007) and elevated oil prices drove market concerns. …",
-   "tickers": [
-    "NVDA",
-    "AMD"
-   ],
-   "sentiment": "positive"
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "PagerDuty's 2026 Outlook: Operational Discipline and New AI Opportunities Sustains Profitable Growth Model",
-   "link": "https://www.fool.com/coverage/moneyball/2026/09/15/pagerduty-s-2026-outlook-operational-discipline-and-new-ai-opportunities-sustains-profitable-growth-model/?source=iedfolrf0000001",
-   "published": "2026-09-15T18:19:40",
-   "summary": "PagerDuty has achieved five consecutive quarters of GAAP profitability and generated $33 million in free cash flow, earning a Superscore of 72. However, revenue growth has stalled at less than 1% year-over-year, and the company faces competitive pressure from platform giants bund…",
-   "tickers": [
-    "NOW"
-   ],
-   "sentiment": "neutral"
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Is Nvidia Stock a Buy in September 2026?",
-   "link": "https://www.fool.com/investing/2026/09/15/is-nvidia-stock-a-buy-in-september-2026/?source=iedfolrf0000001",
-   "published": "2026-09-15T18:15:00",
-   "summary": "Nvidia has transformed into an AI infrastructure powerhouse with extraordinary growth (106% YoY revenue increase), expanding beyond GPUs into complete AI systems. While the company is well-positioned for the next phase of AI (inference and agents), the stock trades at a 29x P/E r…",
-   "tickers": [
-    "NVDA"
-   ],
-   "sentiment": "positive"
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Rocket Lab Raises Funds To Prepare For Closing Of Iridium Acquisition",
-   "link": "https://www.fool.com/investing/2026/09/15/rocket-lab-raises-funds-to-prepare-for-closing-of-iridium-acquisition/?source=iedfolrf0000001",
-   "published": "2026-09-15T18:12:22",
-   "summary": "Rocket Lab completed a $1.94 billion equity offering and amended its credit facility to secure financing for its acquisition of Iridium Communications. The deal, expected to close in mid-2027, will combine Rocket Lab's launch and satellite capabilities with Iridium's global satel…",
-   "tickers": [
-    "RKLB"
-   ],
-   "sentiment": "positive"
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "Why so little discussion on the capability of AI models in investing subreddits? Isn't it the most important question right now?",
-   "link": "https://www.reddit.com/r/stocks/comments/1wh6yyt/why_so_little_discussion_on_the_capability_of_ai/",
-   "published": "2026-09-15T17:32:13+00:00",
-   "summary": "The performance of the S&amp;P and just about every stock talked about on this sub in large part comes down to if AI models will be able to replace/augment economically useful work. It doesn't matter if MSFT is below it's historical PE or that profits were up X% last quarter. If …",
-   "rank": 17
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "Is Apple the AI Hedge?",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wh5x6g/is_apple_the_ai_hedge/",
-   "published": "2026-09-15T16:55:09+00:00",
-   "summary": "Off late, If NVIDIA &amp; DRAM are the AI bets, Apple turns out to be the AI hedge? Where is smart money moving the money to? &#32; submitted by &#32; /u/c4cheeku [link] &#32; [comments]",
-   "rank": 7
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "DELL hit a new high. Piggy bought a small amount of put options",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wh5n8r/dell_hit_a_new_high_piggy_bought_a_small_amount/",
-   "published": "2026-09-15T16:45:02+00:00",
-   "summary": "https://preview.redd.it/azlktmgkqpph1.png?width=1011&amp;format=png&amp;auto=webp&amp;s=9138ba10d139811128665642c39c80b43bd27276 Every time DELL l hits a new high, it faces a wave of selling pressure &#32; submitted by &#32; /u/Feisty_Level_1412 [link] &#32; [comments]",
-   "rank": 8
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Stock Market Midday, Sept. 15: Stocks Slide on AI and Bond Jitters",
-   "link": "https://www.fool.com/coverage/stock-market-today/2026/09/15/stock-market-midday-sept-15-stocks-slide-on-ai-and-bond-jitters/?source=iedfolrf0000001",
-   "published": "2026-09-15T16:34:52",
-   "summary": "Major stock indexes declined on September 15, 2026, as concerns over AI scaling pressures and rising bond yields weighed on markets. The S&P 500 fell 0.45%, the Nasdaq dropped 0.73%, and the Dow declined 0.88%. The 10-year Treasury yield reached 4.99%, its highest level since 200…",
-   "tickers": [
-    "NVDA",
-    "INTC",
-    "MU",
-    "COIN",
-    "HOOD"
-   ],
-   "sentiment": "positive"
-  },
-  {
-   "source": "Massive · Zacks Investment Research",
-   "category": "news",
-   "title": "Coherent Stock Declines 24% in a Month: Is This a Buying Opportunity?",
-   "link": "https://www.zacks.com/stock/news/2990099/coherent-stock-declines-24-in-a-month-is-this-a-buying-opportunity?cid=CS-ZC-FT-analyst_blog|most_popular_stocks-2990099",
-   "published": "2026-09-15T16:26:00",
-   "summary": "Coherent Corp (COHR) has experienced a 24% monthly decline after a 155% annual surge. Despite premium valuation, the company's AI-focused portfolio, strong datacenter revenue growth (58.6% YoY), expanding margins, and capacity expansion plans support a positive long-term outlook.…",
-   "tickers": [
-    "COHR",
-    "LITE",
-    "AAOI"
-   ],
-   "sentiment": "positive"
-  },
-  {
-   "source": "Massive · Zacks Investment Research",
-   "category": "news",
-   "title": "PATH's 21% Rise in Million-Dollar Customers is the Number to Watch",
-   "link": "https://www.zacks.com/stock/news/2990098/path-s-21-rise-in-million-dollar-customers-is-the-number-to-watch?cid=CS-ZC-FT-analyst_blog|quick_take-2990098",
-   "published": "2026-09-15T16:24:00",
-   "summary": "UiPath's million-dollar customer base grew 21% to 387 customers, significantly outpacing the 10% growth in its broader $100,000+ ARR customer segment. This indicates deeper enterprise penetration and stronger adoption of automation solutions. However, UiPath faces intensifying co…",
-   "tickers": [
-    "NOW"
-   ],
-   "sentiment": "neutral"
+   "rank": 10
   },
   {
    "source": "r/stocks 热帖",
@@ -341,50 +499,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1wh4z4v/what_individual_stocks_should_i_add_to_my/",
    "published": "2026-09-15T16:20:33+00:00",
    "summary": "Hi Reddit, I'm a 21 year old with some money in my brokerage account in Fidelity looking for some ideas. I currently have about $4000 in my account just sitting in cash which I have purposefully set aside to use on individual stocks rather than ETFs. I've got VOO, VHT, and VXUS i…",
-   "rank": 5
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "This Is the No. 1 Reason I'm Buying and Holding the Vanguard Total Stock Market ETF (VTI) Right Now",
-   "link": "https://www.fool.com/investing/2026/09/15/no-1-reason-buying-holding-vanguard-vti/?source=iedfolrf0000001",
-   "published": "2026-09-15T16:05:00",
-   "summary": "Despite concerns about inflation and rising interest rates, the author recommends buying VTI due to resilient corporate earnings growth driven by AI investment. Strong second-quarter results and revised guidance from analysts suggest earnings will continue growing through 2027, w…",
-   "tickers": [
-    "NVDA"
-   ],
-   "sentiment": "positive"
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "Best AI Driven Drug/Cure development Company?",
-   "link": "https://www.reddit.com/r/stocks/comments/1wh47cx/best_ai_driven_drugcure_development_company/",
-   "published": "2026-09-15T15:52:25+00:00",
-   "summary": "Hello, Looking to learn about AI's impact on drug and disease cure developing area. I have been reading this is one of the fields where we can truly benefit from using AI and have already experienced exponential growth. An example I read last night, there are ~190,000 protein str…",
-   "rank": 14
-  },
-  {
-   "source": "Massive · Zacks Investment Research",
-   "category": "news",
-   "title": "Time to Boost Cybersecurity ETF Exposure as AI Safety Concerns Rise",
-   "link": "https://www.zacks.com/stock/news/2990020/time-to-boost-cybersecurity-etf-exposure-as-ai-safety-concerns-rise?cid=CS-ZC-FT-etf_news_and_commentary-2990020",
-   "published": "2026-09-15T15:29:00",
-   "summary": "Rising AI safety concerns from tech leaders calling for slower AI development are expected to boost cybersecurity spending and investments. Major cybersecurity firms posted double-digit gains as investors recognize that securing AI infrastructure and protecting against AI-driven …",
-   "tickers": [
-    "CRWD",
-    "PANW"
-   ],
-   "sentiment": "positive"
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "Ready for COIN to rippp ahead of senate vote on CLARITY",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wh375m/ready_for_coin_to_rippp_ahead_of_senate_vote_on/",
-   "published": "2026-09-15T15:15:25+00:00",
-   "summary": "UPDATE: Closed out the calls expiring this week as soon as it was impossible to get 60 votes. Clawed back $2.5k. Still holding onto the Nov calls but I'm not sure what happens with them. Will look to sell during next rally. Overall losses: $4.4k. The lesson here is never trust yo…",
-   "rank": 9
+   "rank": 15
   },
   {
    "source": "r/stocks 热帖",
@@ -393,16 +508,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1wh2bej/what_fomc_decision_would_result_in_a_stock_market/",
    "published": "2026-09-15T14:42:20+00:00",
    "summary": "I have no idea what to expect on Wednesday. One on hand, no one was predicting rate hikes in January. However, there is now a 90% chance the Fed raises the benchmark treasury rate. Normally, we’d expect stocks to go negative, but the hike is effectively priced in and I think yiel…",
-   "rank": 4
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "28k NVDA YOLO. 3 DTE",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wh1dqr/28k_nvda_yolo_3_dte/",
-   "published": "2026-09-15T14:06:29+00:00",
-   "summary": "Way OOTM. 3 DTE. My entire port. Before a crucial rate decision. Real wallstreetbets style. &#32; submitted by &#32; /u/find-the-9 [link] &#32; [comments]",
-   "rank": 6
+   "rank": 13
   },
   {
    "source": "r/stocks 热帖",
@@ -411,25 +517,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1wh0kmq/triple_witching_day_this_friday_sept_18th/",
    "published": "2026-09-15T13:34:15+00:00",
    "summary": "This Friday is triple witching day again! This means stock options, index options, and index futures all expire at the same time. In addition, this time we're adding the S&amp;P rebalance. This means there will be enormous mechanical orders flooding in at the same time. There wil…",
-   "rank": 3
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "$COIN - Fading Clarity Act",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wgzw7g/coin_fading_clarity_act/",
-   "published": "2026-09-15T13:06:45+00:00",
-   "summary": "What the title says. $COIN rallied yesterday as optimism around the CLARITY Act increased after Trump agreed to stronger ethics provisions in the revised bill. Prediction-market odds of the bill becoming law also jumped sharply on the news. This is a major potential catalyst for …",
-   "rank": 13
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "Anthropic’s definition of profit (Source: FT)",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wgzens/anthropics_definition_of_profit_source_ft/",
-   "published": "2026-09-15T12:46:25+00:00",
-   "summary": "&#32; submitted by &#32; /u/deeptechdegen [link] &#32; [comments]",
-   "rank": 2
+   "rank": 12
   },
   {
    "source": "r/stocks 热帖",
@@ -438,15 +526,6 @@
    "link": "https://www.reddit.com/r/stocks/comments/1wgxk3c/saudi_arabia_may_be_just_days_away_from_not_being/",
    "published": "2026-09-15T11:20:34+00:00",
    "summary": "From Market Watch (WSJ) last night - Saudi Arabia, a top oil exporter to the world, may be days away from not being able to export much crude, intensifying pressure on global energy markets with the northern hemisphere’s winter and harvest season just around the corner. The kingd…",
-   "rank": 1
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "Daily Discussion Thread for September 15, 2026",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wgw1c4/daily_discussion_thread_for_september_15_2026/",
-   "published": "2026-09-15T10:00:41+00:00",
-   "summary": "This post contains content not supported on old Reddit. Click here to view the full post &#32; submitted by &#32; /u/verified-trader [link] &#32; [comments]",
    "rank": 11
   },
   {
@@ -456,34 +535,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1wgvwxo/where_wall_street_stands_on_wednesdays_fed/",
    "published": "2026-09-15T09:53:57+00:00",
    "summary": "Odds are around 90% for a 25 bp hike tomorrow. Hold: Wells Fargo: no change through year-end 25 bp hike Wednesday: Bank of America Goldman Sachs JPMorgan Citi HSBC Pantheon Morgan Stanley Deutsche Bank Barclays UBS BNP Paribas Expect more than one hike this year: Morgan Stanley: …",
-   "rank": 10
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "r/Stocks Daily Discussion & Technicals Tuesday - Sep 15, 2026",
-   "link": "https://www.reddit.com/r/stocks/comments/1wgvhy1/rstocks_daily_discussion_technicals_tuesday_sep/",
-   "published": "2026-09-15T09:30:06+00:00",
-   "summary": "This is the daily discussion, so anything stocks related is fine, but the theme for today is on technical analysis (TA), but if TA is not your thing then just ignore the theme. Some helpful day to day links, including news: Finviz for charts, fundamentals, and aggregated news on …",
-   "rank": 0
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "Schwab filled 10 SPX options contract $10 cheaper than intrinsic value.",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wgsfp6/schwab_filled_10_spx_options_contract_10_cheaper/",
-   "published": "2026-09-15T06:27:33+00:00",
-   "summary": "Schwab bending me over for 10k count as sufficient losses? 7690 puts got filled at $75 with SPX trading between 7595 and 7605. They wouldn’t cross that threshold for almost another half hour &#32; submitted by &#32; /u/EanBvasion [link] &#32; [comments]",
-   "rank": 10
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "Get rich or die crying 🧨",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wgnul2/get_rich_or_die_crying/",
-   "published": "2026-09-15T02:37:18+00:00",
-   "summary": "&#32; submitted by &#32; /u/ElectronicMatch363 [link] &#32; [comments]",
-   "rank": 16
+   "rank": 18
   },
   {
    "source": "r/stocks 热帖",
@@ -492,25 +544,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1wgkd0v/why_does_the_market_believe_trumps_tweets/",
    "published": "2026-09-14T23:58:57+00:00",
    "summary": "I am trading every minute of regular market hours and I see a lot of news generated price action. For the last 18 months the level of algo moves on Trump tweets has been surreal, but it wasn’t until the Iran “conflict” got started that it became absolutely ridiculous. You reading…",
-   "rank": 8
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "1.1M to 150k",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wgjhts/11m_to_150k/",
-   "published": "2026-09-14T23:20:18+00:00",
-   "summary": "sigh, I used margins last year or October, and this is as of today &#32; submitted by &#32; /u/ViscouslyConsumed [link] &#32; [comments]",
-   "rank": 4
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "AI Cybersecurity",
-   "link": "https://www.reddit.com/r/stocks/comments/1wgg4wb/ai_cybersecurity/",
-   "published": "2026-09-14T21:06:29+00:00",
-   "summary": "Obviously a ton of the AI-specific cybersecurity firms aren’t public, but any thoughts on the space in general? Cybersecurity seems to win no matter what happens: AI development slows: in this case, most companies would still use AI cybersecurity services as a precaution against …",
-   "rank": 16
+   "rank": 19
   },
   {
    "source": "r/stocks 热帖",
@@ -519,7 +553,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1wgfjwk/the_recession_that_never_came_and_lessons_to_learn/",
    "published": "2026-09-14T20:44:41+00:00",
    "summary": "The S&amp;P 500 entered a bear market in 2022 and finished the year -18.11%. Everyone was talking about the upcoming recession. In October 2022, Bloomberg Economics declared there was a 100% probability of a recession within the next 12 months. The Economist published a piece tit…",
-   "rank": 7
+   "rank": 16
   },
   {
    "source": "CNBC Markets",
@@ -536,70 +570,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1wgdpud/10y_hit_5_today_then_reports_surfaced_about_a/",
    "published": "2026-09-14T19:38:37+00:00",
    "summary": "https://www.cnn.com/2026/09/14/investing/bond-yields-market-turmoil 10 year treasury yield hit 5% for the first time in over 3 years today. Shortly afterwards, Trump posted on social media that he was open to a peace deal with Iran. Oil and yields instantly dumped, stocks pumped …",
-   "rank": 6
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "$VST Vistra Corp. Opinions?",
-   "link": "https://www.reddit.com/r/stocks/comments/1wg9xvo/vst_vistra_corp_opinions/",
-   "published": "2026-09-14T17:27:46+00:00",
-   "summary": "I’ve recently started looking into Vistra (VST) and I’m trying to figure out whether it’s actually a good opportunity at the current valuation. One thing that caught my attention is the amount of political and insider activity around the stock. Nancy Pelosi, Donald Trump, Ro Khan…",
-   "rank": 15
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "Cybersecurity sector skyrocketed amid AI worries and regulation",
-   "link": "https://www.reddit.com/r/stocks/comments/1wg9c9i/cybersecurity_sector_skyrocketed_amid_ai_worries/",
-   "published": "2026-09-14T17:06:48+00:00",
-   "summary": "The pure-play security names are catching a sector bid on fresh artificial intelligence (AI) safety warnings from two frontier lab CEOs over the weekend, on the reasoning that a more dangerous threat environment expands security spending. CrowdStrike is the clearest expression of…",
-   "rank": 12
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "10-year Treasury yield hits 5% for first time since 2023 as traders brace for Fed decision this week",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wg4uae/10year_treasury_yield_hits_5_for_first_time_since/",
-   "published": "2026-09-14T14:22:36+00:00",
-   "summary": "&#32; submitted by &#32; /u/Force_Hammer [link] &#32; [comments]",
-   "rank": 14
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "You can’t spell DARIO AMODEI without AI DOOMER",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wg4py0/you_cant_spell_dario_amodei_without_ai_doomer/",
-   "published": "2026-09-14T14:17:57+00:00",
-   "summary": "It was always hidden right in front of us. &#32; submitted by &#32; /u/twist_games [link] &#32; [comments]",
-   "rank": 15
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "Congratulations to the folks who bought put options and shorted the market last week. Let's raise a glass",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1wg3ke3/congratulations_to_the_folks_who_bought_put/",
-   "published": "2026-09-14T13:33:04+00:00",
-   "summary": "https://preview.redd.it/sz0pw0h6nhph1.png?width=1262&amp;format=png&amp;auto=webp&amp;s=0a0603d2fadf2ad92bd8ea826f2fd04ce890e95c Last week, my profit was only 30k. Now it has risen to 100k. &#32; submitted by &#32; /u/Feisty_Level_1412 [link] &#32; [comments]",
-   "rank": 19
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "r/Stocks Daily Discussion Monday - Sep 14, 2026",
-   "link": "https://www.reddit.com/r/stocks/comments/1wg01az/rstocks_daily_discussion_monday_sep_14_2026/",
-   "published": "2026-09-14T10:50:07+00:00",
-   "summary": "These daily discussions run from Monday to Friday including during our themed posts. Some helpful links: * [Finviz]( https://finviz.com/quote.ashx?t=spy ) for charts, fundamentals, and aggregated news on individual stocks * [Bloomberg market news]( https://www.bloomberg.com/marke…",
-   "rank": 19
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "Oil prices jump to near 4-month high as Oman-Iran talks on Strait of Hormuz end after Iran Cargo vessel hit over weekend",
-   "link": "https://www.reddit.com/r/stocks/comments/1wfzstj/oil_prices_jump_to_near_4month_high_as_omaniran/",
-   "published": "2026-09-14T10:37:16+00:00",
-   "summary": "As of Today Oil prices hit a record high on the international markets that already have trading hours prior to US soooo OIL is back on The Menu. $XLE will be the energy ETF to look at. $USO will be the go to etf for US oil exposure (as of 2025 US is largest exporter of Oil WORLDW…",
-   "rank": 13
+   "rank": 17
   },
   {
    "source": "CNBC Markets",
@@ -688,14 +659,6 @@
    "link": "https://www.cnbc.com/2026/09/08/china-exports-imports-august-trade-rebalance-demand-surplus-.html",
    "published": "2026-09-08T04:45:07+00:00",
    "summary": "China's exports and imports gathered momentum in August, as the world's second-largest economy faces mounting pressure to rebalance trade."
-  },
-  {
-   "source": "CNBC Markets",
-   "category": "news",
-   "title": "From ‘mystery vacations’ to hostels, budget travelers get thrifty as prices rise",
-   "link": "https://www.cnbc.com/2026/09/05/budget-travel-vacation-costs.html",
-   "published": "2026-09-05T23:55:52+00:00",
-   "summary": "Despite rising prices and the travel industry focusing on the luxury segment, budget-minded vacationers are still finding ways to get away."
   }
  ],
  "errors": [
