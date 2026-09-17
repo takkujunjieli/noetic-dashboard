@@ -1214,7 +1214,7 @@ function monthlyExact(acctKey) {
 
 /* 月历:账户跟随 Portfolio 下拉(全部→_all)。四个口径:
    已实现$ = 券商精确(含期权,仅已实现);总$ = 精确(已实现+未实现变化,需相邻月末快照)优先,缺快照回退
-   M2M 估算,金额前带「(估)」;收益率% 同理(精确=总$÷上月末净值,估=M2M ret);log = M2M 对数收益(恒估)。
+   M2M 估算,金额前带「(估)」;收益率% 同理(精确=总$÷上月末净值,估=M2M ret);log = ln(1 + P&L %)。
    精确与估计合并同一列,靠「(估)」前缀区分。绿正红负,深浅∝|值|。 */
 function buildMonthlyCalendar() {
   const acctKey = pfAccount || "_all";
@@ -1227,31 +1227,37 @@ function buildMonthlyCalendar() {
   if (!MODES[mode]) mode = "realized";
   const kind = MODES[mode].kind;
   const modeChips = Object.entries(MODES).map(([k, m]) => `<button data-cal="${k}"${k === mode ? ' class="active"' : ""}>${m.label}</button>`).join("");
-  const head = `<div class="pf-cal-head"><b>📅 月历</b> <span class="muted small">Realized P&L=券商精确(仅已实现);P&L/收益率=当月总盈亏,精确优先(需相邻月末快照)、缺则「(估)」M2M;log=M2M对数收益(恒估)</span>`
+  const head = `<div class="pf-cal-head"><b>📅 月历</b> <span class="muted small">Realized P&L=券商精确(仅已实现);P&L/P&L %=当月总盈亏,精确优先(需相邻月末快照)、缺则「(估)」M2M;log P&L=ln(1 + P&L %)</span>`
     + `<div class="chips seg" id="pf-calmode" style="margin-left:auto">${modeChips}</div></div>`;
   const prevYm = (ym) => { let [y, mm] = ym.split("-").map(Number); mm--; if (mm < 1) { mm = 12; y--; } return `${y}-${String(mm).padStart(2, "0")}`; };
   const exactMoney = (ym) => {   // 精确总$ = 已实现 + 未实现变化(需本/上月末快照)
     const r = realized[ym], u = snaps[ym]?.unreal, pu = snaps[prevYm(ym)]?.unreal;
     return (r != null && u != null && pu != null) ? r + (u - pu) : null;
   };
+  const retObj = (ym) => {   // P&L %:精确优先,否则回退 M2M 估算
+    const ex = exactMoney(ym), base = snaps[prevYm(ym)]?.netliq;
+    if (ex != null && base > 0) return { v: ex / base * 100, est: false };
+    const e = robMap[ym]?.ret_pct; return e == null ? null : { v: e, est: true };
+  };
   // 每月取值 → {v, est}(est=用了 M2M 估算)或 null
   const valObj = (ym) => {
-    if (kind === "log") { const l = robMap[ym]?.logret; return l == null ? null : { v: l, est: true }; }
+    if (kind === "log") {
+      const ret = retObj(ym);
+      return ret == null || ret.v <= -100 ? null : { v: Math.log1p(ret.v / 100), est: ret.est };
+    }
     if (mode === "realized") { const r = realized[ym]; return r == null ? null : { v: r, est: false }; }
     if (mode === "total") {
       const ex = exactMoney(ym); if (ex != null) return { v: ex, est: false };
       const e = robMap[ym]?.pnl; return e == null ? null : { v: e, est: true };
     }
-    const ex = exactMoney(ym), base = snaps[prevYm(ym)]?.netliq;   // ret %
-    if (ex != null && base > 0) return { v: ex / base * 100, est: false };
-    const e = robMap[ym]?.ret_pct; return e == null ? null : { v: e, est: true };
+    return retObj(ym);
   };
   const usd = (v) => (v < 0 ? "−$" : "$") + Math.round(Math.abs(v)).toLocaleString();
   const fmtV = (o) => {
     if (o == null) return '<span class="muted">—</span>';
-    const tag = o.est && kind !== "log" ? "(估)" : "";   // log 恒估,标题已注明,不逐格标
+    const tag = o.est ? "(估)" : "";
     if (kind === "pct") return `${tag}${o.v >= 0 ? "+" : ""}${o.v.toFixed(1)}%`;
-    if (kind === "log") return `${o.v >= 0 ? "+" : ""}${o.v.toFixed(3)}`;
+    if (kind === "log") return `${tag}${o.v >= 0 ? "+" : ""}${o.v.toFixed(3)}`;
     return `${tag}${usd(o.v)}`;
   };
   const MM = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
