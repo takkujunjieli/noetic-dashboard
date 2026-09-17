@@ -1123,10 +1123,11 @@ function buildPnlPanel() {
     tile("Sortino", m.sortino != null ? m.sortino.toFixed(2) : "—", "年化·仅下行", (m.sortino ?? 0) >= 1 ? "up" : "", "同 Sharpe(MAR=15%年化门槛),但分母只用低于门槛的下行波动"),
     tile("最大回撤", m.max_dd != null ? usd(m.max_dd) : "—", "已实现累计峰谷", (m.max_dd ?? 0) < 0 ? "down" : "", "已实现盈亏累计曲线从峰值的最大回落(美元)"),
   ].join("");
-  return `<details open class="pf-pnl"><summary class="muted small">📊 盈亏诊断 · ${esc(acc.label)} <span class="muted">(已实现,截至 ${esc(PNL.as_of)})</span></summary>
+  return `<details open class="pf-pnl"><summary class="muted small">📊 盈亏诊断</summary>
       <div class="pf-pnl-bar"><div class="chips seg" id="pf-pw">${toggle}</div><span class="muted small">无风险收益为 ${(((PNL && PNL.risk_free_annual) || 0) * 100).toFixed(0)}%</span></div>
       <div class="opt-grid">${tiles}</div>
-      <div class="pf-hist">${buildHist(trades)}</div></details>`;
+      <div class="pf-hist">${buildHist(trades)}</div>
+      ${buildMonthlyCalendar()}</details>`;
 }
 
 function renderPortfolio() {
@@ -1157,12 +1158,16 @@ function renderPortfolio() {
   const netLiq = pfAccount
     ? accounts.find((a) => a.id === pfAccount)?.equity
     : accounts.reduce((s, a) => s + (a.equity || 0), 0);
+  const selectedAccount = pfAccount ? accounts.find((a) => a.id === pfAccount) : null;
+  const sourceSummary = pfAccount
+    ? (selectedAccount?.source_updated_at ? fmtDT(selectedAccount.source_updated_at) : "未记录")
+    : accounts.map((a) => `${a.label || a.id}: ${a.source_updated_at ? fmtDT(a.source_updated_at) : "未记录"}`).join(" · ");
   const tiles = [
     tile("总市值", fmtMoney(total)),
     tile("未实现盈亏", `${pnl >= 0 ? "+" : ""}${fmtMoney(pnl)}`, netLiq > 0 ? `${(pnl / netLiq * 100).toFixed(1)}% net liq` : "", pnl >= 0 ? "up" : "down"),
     tile("持仓数", String(pos.length)),
     tile("账户", curAcct),
-    tile("更新", p.updated_at ? fmtDT(p.updated_at) : "—"),
+    tile("券商源更新", pfAccount ? sourceSummary : "分别记录", pfAccount ? "" : sourceSummary),
   ].join("");
   // 交易明细已移除,改为月历(见 buildMonthlyCalendar)。pfFilter 仍由饼图点击驱动(控制饼图中心显示)。
   // 多头饼图(市值) + 空头饼图(按 |市值|,有做空仓位才显示)。标题右侧显示该饼图总仓位。
@@ -1188,7 +1193,7 @@ function renderPortfolio() {
       + `${buildDonut(shorts, { value: (x) => -x.mkt_value, centerSub: K, emptyMsg: `无 ${K} 的做空仓位` })}</div>`
       + `</div>`
     : `<div class="pf-pies">${longBox}</div>`;
-  el.innerHTML = `<div class="card">${acctBar}<div class="opt-grid">${tiles}</div>${donuts}${buildPnlPanel()}${buildMonthlyCalendar()}</div>`;
+  el.innerHTML = `<div class="card">${acctBar}<div class="opt-grid">${tiles}</div>${donuts}${buildPnlPanel()}</div>`;
 }
 
 /* monthly_returns.json 的账户视图;_all = 各账户 realized/unreal 求和(前端聚合,新增账户自动纳入)。 */
@@ -1217,7 +1222,7 @@ function buildMonthlyCalendar() {
   const mr = monthlyExact(acctKey);
   const realized = mr?.realized || {}, snaps = mr?.snapshots || {};
   const MODES = { realized: { label: "Realized P&L", kind: "money" }, total: { label: "P&L", kind: "money" },
-    ret: { label: "收益率 %", kind: "pct" }, log: { label: "log(估)", kind: "log" } };
+    ret: { label: "P&L %", kind: "pct" }, log: { label: "log P&L", kind: "log" } };
   let mode = pfCalMode === "exact" || pfCalMode === "est" ? "total" : pfCalMode;   // 迁移旧存档
   if (!MODES[mode]) mode = "realized";
   const kind = MODES[mode].kind;
@@ -1492,6 +1497,7 @@ export async function initPortfolioPanel() {
     pfAccount = ev.target.value || null;
     pfFilter = null;
     renderPortfolio();
+    window.dispatchEvent(new CustomEvent("portfolio-account-change", { detail: { account: pfAccount } }));
   });
 }
 

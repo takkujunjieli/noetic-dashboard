@@ -5,6 +5,7 @@ import { initPortfolioPanel } from "./trading.js";
 import { renderRiskControl, renderRiskExposure, renderRobust, renderJournal } from "./strategy.js";
 
 (async function main() {
+  window.addEventListener("portfolio-account-change", () => renderRiskExposure());
   await initPortfolioPanel();   // 💼 持仓 + 打分 + 盈亏诊断
   await renderRiskControl();     // 🛡️ 仓位/风控
   await renderRiskExposure();    // 🌡️ 风险敞口热力图

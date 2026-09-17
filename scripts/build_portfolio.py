@@ -3,7 +3,8 @@
 原料 data/_*_raw.json 与 portfolio_history.json 仍本地专用不提交。
 
 每个券商写一份已归一的原料 data/_<broker>_raw.json,形如
-  {"accounts":[{id,label,equity}...],   # 可选;多账户。equity=账户 net liq(现金+持仓),供风险%基数
+  {"source_updated_at":"ISO-8601",     # 可选;本次券商数据实际拉取时间
+   "accounts":[{id,label,equity,source_updated_at}...], # 账户字段可覆盖顶层来源时间
    "positions":[{account,kind,sym,qty,avg_cost,price,mkt_value,pnl,pnl_pct}...],
    "transactions":[{account,kind,ts,sym,side,qty,price,state}...]}
 kind: equity(正股,默认)/ option(期权);省略即 equity。做空仓位 qty<0、mkt_value<0。
@@ -93,12 +94,15 @@ def main() -> None:
         brokers.append(broker)
         # 账户表:文件可声明 accounts[{id,label}];未声明则该券商作单一账户(id=broker)
         file_accts = d.get("accounts") or [{"id": broker, "label": broker}]
+        file_source_updated_at = d.get("source_updated_at") or d.get("updated_at")
         for a in file_accts:
             aid = a.get("id") or broker
             if aid not in seen_acct:
                 seen_acct.add(aid)
                 accounts.append({"id": aid, "label": a.get("label") or aid, "broker": broker,
-                                 "equity": _num(a.get("equity"))})   # net liq(现金+持仓);缺则 None,前端回退持仓市值
+                                 "equity": _num(a.get("equity")),
+                                 # 券商数据实际拉取时间;与本地 portfolio.json 重建时间分开。
+                                 "source_updated_at": a.get("source_updated_at") or file_source_updated_at})
         default_acct = file_accts[0].get("id") if len(file_accts) == 1 else broker
         for p in d.get("positions") or []:
             positions.append({"broker": broker, "account": p.get("account") or default_acct, **_pos(p)})

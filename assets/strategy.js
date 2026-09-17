@@ -395,7 +395,9 @@ export async function renderRiskExposure() {
   const targets = rLS("riskTargets", {});   // 每仓止盈目标价(本机,可空)
   // 账户净值直接从 portfolio.json 读:按账户(全部/各账户)汇总持仓市值
   const accounts = pf.accounts || [];
-  const acctSel = rLS("riskAccount", "ALL");
+  // 风险热力图与 Portfolio 顶部账户选择保持一致,不再维护独立账户状态。
+  const portfolioAccount = $("pf-acct")?.value || null;
+  const acctSel = portfolioAccount || "ALL";
   const positions = pf.positions.filter((p) => acctSel === "ALL" || p.account === acctSel);
   // 净值:每账户优先用 portfolio.json 的 net liq(build_portfolio 从 MCP get_portfolio 带出),缺则回退该账户持仓市值合计
   const acctMV = {};
@@ -507,8 +509,9 @@ export async function renderRiskExposure() {
     <div class="muted small" style="margin-top:8px">在险%=|股数|×|现价−止损|÷净值 · 在险/预算=该仓在险÷所属 thesis 单笔预算(>1 超险)· <b>距目标</b>:thesis 超总风险/总仓位时按各仓当前比例共同缩减,再叠加单票风险/仓位上限;未超总上限时显示单独调整本票的空间。符号是交易方向:<b>+</b>=买入、<b>−</b>=卖出/做空;颜色是仓位变化:<span class="up">绿=加大仓位</span>、<span class="down">红=减少仓位</span> · 仓位%对比 thesis 上限 · 距止损%小=逼近止损 · 浮盈%仅参考(现价口径,成本不进风险)。止损默认 ATR 法,可每仓手填覆盖(存本机)。<b>止盈</b>:thesis 填了 Target Profit% 的,按成本×(1±%)自动预填(多加空减,灰色),可每仓手填覆盖;留空=无止盈。</div>`;
 
   const totalPct = totalHeat / equity * 100;
+  const accountLabel = acctSel === "ALL" ? "全部账户" : ((accounts.find((a) => a.id === acctSel) || {}).label || acctSel);
   heatEl.innerHTML = `<div class="wb-statbar">
-    <div class="opt-tile"><div class="opt-k">账户</div><div class="opt-v"><select id="rk-acct" style="background:var(--card-hover);border:1px solid var(--border);border-radius:6px;padding:3px 6px;color:var(--text);font-size:13px">${["ALL", ...accounts.map((a) => a.id)].map((id) => `<option value="${esc(id)}"${id === acctSel ? " selected" : ""}>${esc(id === "ALL" ? "全部" : (accounts.find((a) => a.id === id) || {}).label || id)}</option>`).join("")}</select></div></div>
+    <div class="opt-tile"><div class="opt-k">账户范围</div><div class="opt-v">${esc(accountLabel)}</div><div class="opt-sub">跟随持仓账户</div></div>
     <div class="opt-tile"><div class="opt-k">账户净值(portfolio)</div><div class="opt-v">$${Math.round(equity).toLocaleString()}</div><div class="opt-sub">${eqSrc}</div></div>
     <div class="opt-tile"><div class="opt-k">组合总在险 heat</div><div class="opt-v" style="${heatBg(Math.min(totalPct / maxHeat, 1))};border-radius:6px;padding:1px 8px">$${Math.round(totalHeat).toLocaleString()} · ${totalPct.toFixed(2)}%</div><div class="opt-sub">上限 <input id="rk-maxheat" type="number" step="0.5" value="${maxHeat}" style="width:52px;background:var(--card-hover);border:1px solid var(--border);border-radius:5px;padding:1px 5px;color:var(--text);font-size:12px"> % 净值</div></div>
     ${bnames.filter((k) => heatByBundle[k] || posByBundle[k]).map((k) => {
@@ -547,7 +550,6 @@ export async function renderRiskExposure() {
   }));
   host.querySelectorAll(".rk-stopin").forEach((el) => el.addEventListener("change", () => { const s = rLS("riskStops", {}), v = el.value.trim(); if (v === "") delete s[el.dataset.sym]; else s[el.dataset.sym] = +v; rLSset("riskStops", s); renderRiskExposure(); }));
   host.querySelectorAll(".rk-tpin").forEach((el) => el.addEventListener("change", () => { const t = rLS("riskTargets", {}), v = el.value.trim(); if (v === "") delete t[el.dataset.sym]; else t[el.dataset.sym] = +v; rLSset("riskTargets", t); renderRiskExposure(); }));   // 止盈价:空=删除→留白
-  const ac = $("rk-acct"); if (ac) ac.addEventListener("change", () => { rLSset("riskAccount", ac.value); renderRiskExposure(); });
   const sp = $("rk-syncpx"); if (sp) sp.addEventListener("click", async () => {
     sp.textContent = "同步中…";
     const r = await loadFreshJSON("data/research.json");   // 从 data 分支拉最新 K线快照(比本地文件新)

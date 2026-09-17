@@ -11,6 +11,8 @@ data/portfolio_history.json
 data/_*_raw.json
 data/trade_journal.json
 data/risk_stops.json
+data/completed_theses.json
+data/thesis_events.json
 
 # 本地盈亏分析(含私人财务数据,绝不提交进公开 repo)
 analysis/
@@ -18,9 +20,9 @@ analysis/
 # research/ 下默认本地私有,但个股打分(scorecards)公开发布
 research/*
 !research/scorecards/
+research/scorecards/scorecards
 
 # build_scorecards.py 现随站点公开(个股分析非私密)
-data/atr.json
 
 # 组合稳健性(含仓位表现,私有)
 data/robustness.json

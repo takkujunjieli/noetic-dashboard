@@ -91,7 +91,7 @@ GitHub Pages(deploy.yml 用 workflow 部署 main)
 | **`pnl.json`** | 盈亏诊断 | ❌ gitignore(本地) |
 | **`portfolio_history.json`** | 持仓快照历史 | ❌ gitignore(本地) |
 | **`_rh_raw.json` / `_takku_raw.json`** | 券商原料 | ❌ **符号链接 → 私有库** |
-| `atr.json` | ATR 指标 | ❌ gitignore(当前) |
+| `atr.json` | ATR14 指标(风险敞口止损) | ✅ |
 
 ---
 
@@ -136,7 +136,7 @@ GitHub Pages(deploy.yml 用 workflow 部署 main)
   ln -s ../../stock-dashboard-private/_rh_raw.json data/_rh_raw.json
   ln -s ../../stock-dashboard-private/_takku_raw.json data/_takku_raw.json
   ```
-- 公开库 `.gitignore` 挡下的私有内容:`data/portfolio.json`、`data/pnl.json`、`data/portfolio_history.json`、`data/_*_raw.json`、`research/`、`analysis/`、`scripts/build_scorecards.py`、`data/atr.json`。
+- 公开库 `.gitignore` 挡下的私有内容:`data/portfolio.json`、`data/pnl.json`、`data/portfolio_history.json`、`data/_*_raw.json`、`research/`、`analysis/`、`scripts/build_scorecards.py`。`data/atr.json` 随仓库跟踪,供风险敞口页计算默认止损。
 - 私有库改分/刷新后要**单独 push 私有库**才同步远端(见 §7/§8)。
 
 ---
