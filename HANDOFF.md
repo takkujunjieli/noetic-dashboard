@@ -149,14 +149,27 @@ GitHub Pages(deploy.yml 用 workflow 部署 main)
 - **一个 MCP 连接 = 一个 Robinhood 登录**。当前两个账户是**两套独立登录**:
   - `hui`(id `rh-7159` = 账号 `640267159`)
   - `Takku·个人(Margin)`(id `takku-rh-2566` = 账号 `894432566`)
-  - 切换靠**用户重新 connect** MCP 到另一个登录(hui↔Takku);Claude 不能切。
+  - Codex 配置使用 `robinhood-trading`（hui）和 `robinhood-takku`（Takku）分别保存 OAuth；每次明确指定连接与账户号，不需要为了切换账户重新授权。
 - **刷新单账户的正确做法(别毁 PnL)**:MCP 拉的是**当前持仓 + 近端订单**,不是全历史;而 `analyze_pnl.py` 按**整段交易史**算已实现盈亏。所以**绝不能整份覆盖 raw**,要**合并**:保留旧 raw 全历史交易,只 append 上次最后一笔之后的新成交(按 ts秒+sym+side+qty+price **去重**),positions 换最新快照。side 用 Robinhood **原始值**(buy/sell/sell_short/buy_to_cover)与基线一致。
 - `build_portfolio.py`:合并各 `_*_raw.json` → `portfolio.json`(含 accounts 列表供 UI 下拉);交易明细裁到最近 `TX_KEEP_DAYS=90` 天;末尾自动调 `analyze_pnl.py` 生成 `pnl.json`。
 - **持仓不公开**(2026-08 改回私有):刷新后只需重建本地文件,**不 push、不 deploy**(公开站不显示持仓)。但券商原料的改动要 **push 私有库**留存。
-- **positions 过滤规则**:raw 里只留 `|qty|>=2` 股的股票(滤零头/1股),期权按合约数不受此规则。
+- **positions 过滤规则**:raw 保留完整持仓；风险热力图在显示层隐藏 `|qty|<=1` 股的股票，期权不受此限制。所有昵称为 Agentic 的账户在账户选择阶段直接排除。
 - **面板特性**(`trading.js` renderPortfolio):账户下拉筛选、多头/空头**双饼图**(空头按 |市值| 分块)、跨账户**同 sym 合并**、交易明细种类(正股/期权)+持仓变化列+分页(20/页)。
 
 ---
+
+
+### 7.1 MCP 刷新必须落盘并验收（2026-09-17 修订）
+
+- 实际工作目录是本仓库；券商原料位于相邻私有库 `../stock-dashboard-private/`，通过 `data/_rh_raw.json` / `data/_takku_raw.json` 链接读取。其他目录的 handoff 或聊天摘要不会更新页面。
+- 先调用 `get_accounts`，自动忽略所有昵称为 `Agentic` 的账户。Takku 必须匹配尾号 `2566`，hui 必须匹配 `7159`；每个账户接口显式传入选定账户号。不可读取时停止，不能用 Agentic 的零余额替代。交易权限标志为 false 不代表禁止只读查询。
+- 每次刷新：账户净值、现金/借记余额、购买力；完整正股/期权/加密持仓；每个持仓的数量、成本、行情及行情时间；未结订单、上次水位之后的成交；已实现 P&L 与分页历史。不可用端点记录原因，不能记作零。
+- 写入对应私有 raw：替换目标账户 positions；更新 accounts[].equity、顶层和账户级 `source_updated_at`（实际券商拉取时间）；行情时间单独保存。历史 transactions 必须保留并增量去重，不能用近端订单覆盖整段历史；未成交订单不计入成交。
+- 保留完整持仓原料；风险热力图按既有规则隐藏绝对数量不超过 1 股的股票。因此完整原料数量与热力图行数可以不同。Agentic 是账户级排除规则，与小仓位显示规则无关。
+- 本机使用 `.venv/bin/python scripts/build_portfolio.py`（系统 Python 缺 requests，会跳过 ATR），确认 portfolio.json、portfolio_history.json、pnl.json 及 ATR 依赖的实际输出；检查日志中的跳过/错误。构建时间 updated_at 不能冒充 source_updated_at。
+- 验收网页实际请求的 `data/portfolio.json`：目标账户 source_updated_at 非空，持仓数量/成本与 raw 一致，已清仓标的消失；选择相应账户验证「券商源更新」及风险热力图。必须刷新页面让内存中的旧数据重新加载。
+- 只有落盘、重建、网页数据验证全部完成，才能报告同步成功。仅调用 MCP、修改 handoff 或记录 SUCCESS 均不算页面已更新。
+- 不修改其他账户的来源时间；不把账户数据写入公开仓库或部署产物。
 
 ## 8. Scorecards 子系统
 
