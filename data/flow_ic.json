@@ -1,10 +1,10 @@
 {
- "generated": "2026-09-16T23:58:18+00:00",
+ "generated": "2026-09-17T23:47:26+00:00",
  "source": "gex_daily.json",
- "n_dates": 62,
+ "n_dates": 63,
  "date_range": [
   "2026-07-14",
-  "2026-09-16"
+  "2026-09-17"
  ],
  "horizons": [
   1,
@@ -19,31 +19,31 @@
    "desc": "净签名期权流 / |dealer gamma|(方向)",
    "ic": {
     "1": {
-     "n_days": 51,
-     "n_eff": 51.0,
+     "n_days": 52,
+     "n_eff": 52.0,
      "status": "ok",
-     "mean_ic": -0.017,
-     "ir": -0.081,
+     "mean_ic": -0.0175,
+     "ir": -0.084,
      "ci": [
-      -0.0696,
-      0.0326
+      -0.0683,
+      0.0299
      ],
      "sig": false
     },
     "5": {
-     "n_days": 55,
-     "n_eff": 11.0,
+     "n_days": 56,
+     "n_eff": 11.2,
      "status": "ok",
-     "mean_ic": -0.1128,
-     "ir": -0.547,
+     "mean_ic": -0.1103,
+     "ir": -0.537,
      "ci": [
-      -0.1878,
-      -0.0333
+      -0.18,
+      -0.0366
      ],
      "sig": true
     },
     "21": {
-     "n_days": 39,
+     "n_days": 40,
      "n_eff": 1.9,
      "status": "insufficient"
     }
@@ -51,79 +51,79 @@
    "gamma_split": {
     "short": {
      "1": {
-      "n_days": 33,
-      "n_eff": 33.0,
+      "n_days": 34,
+      "n_eff": 34.0,
       "status": "ok",
-      "mean_ic": 0.0611,
-      "ir": 0.223,
+      "mean_ic": 0.0565,
+      "ir": 0.209,
       "ci": [
-       -0.0112,
-       0.1585
+       -0.0133,
+       0.1515
       ],
       "sig": false
      },
      "5": {
-      "n_days": 36,
-      "n_eff": 7.2,
+      "n_days": 37,
+      "n_eff": 7.4,
       "status": "ok",
-      "mean_ic": -0.0276,
-      "ir": -0.097,
+      "mean_ic": -0.0315,
+      "ir": -0.111,
       "ci": [
-       -0.101,
-       0.0546
+       -0.1017,
+       0.0597
       ],
       "sig": false
      },
      "21": {
-      "n_days": 22,
-      "n_eff": 1.0,
+      "n_days": 23,
+      "n_eff": 1.1,
       "status": "insufficient"
      }
     },
     "long": {
      "1": {
-      "n_days": 46,
-      "n_eff": 46.0,
+      "n_days": 47,
+      "n_eff": 47.0,
       "status": "ok",
-      "mean_ic": -0.0021,
-      "ir": -0.009,
+      "mean_ic": -0.0074,
+      "ir": -0.033,
       "ci": [
-       -0.0534,
-       0.0307
+       -0.0577,
+       0.0314
       ],
       "sig": false
      },
      "5": {
-      "n_days": 46,
-      "n_eff": 9.2,
+      "n_days": 47,
+      "n_eff": 9.4,
       "status": "ok",
-      "mean_ic": -0.0477,
-      "ir": -0.175,
+      "mean_ic": -0.0453,
+      "ir": -0.168,
       "ci": [
-       -0.1475,
-       0.0562
+       -0.1463,
+       0.0547
       ],
       "sig": false
      },
      "21": {
-      "n_days": 30,
-      "n_eff": 1.4,
+      "n_days": 31,
+      "n_eff": 1.5,
       "status": "insufficient"
      }
     }
    },
    "ls_quintile_h1": {
     "status": "ok",
-    "n": 59,
+    "n": 60,
     "cost_bps": 3.0,
     "quintile": 6,
     "gross": {
-     "ann_pct": -95.4,
-     "sharpe": -2.39
+     "ann_pct": -97.3,
+     "sharpe": -2.46
     },
     "net": {
-     "ann_pct": -125.6,
-     "sharpe": -3.15
+     "ann_pct": -127.6,
+     "sharpe": -3.22
     },
     "curve_net_pct": [
      [
@@ -361,6 +361,10 @@
      [
       "2026-09-14",
       -26.9
+     ],
+     [
+      "2026-09-15",
+      -27.6
      ]
     ]
    }
@@ -370,31 +374,31 @@
    "desc": "方差风险溢价 IV−RV(保护贵→均值回归)",
    "ic": {
     "1": {
-     "n_days": 52,
-     "n_eff": 52.0,
+     "n_days": 53,
+     "n_eff": 53.0,
      "status": "ok",
-     "mean_ic": 0.0205,
-     "ir": 0.071,
+     "mean_ic": 0.0224,
+     "ir": 0.078,
      "ci": [
-      -0.0544,
-      0.0794
+      -0.0538,
+      0.0775
      ],
      "sig": false
     },
     "5": {
-     "n_days": 55,
-     "n_eff": 11.0,
+     "n_days": 56,
+     "n_eff": 11.2,
      "status": "ok",
-     "mean_ic": 0.0407,
-     "ir": 0.138,
+     "mean_ic": 0.0386,
+     "ir": 0.132,
      "ci": [
-      -0.0889,
-      0.1588
+      -0.0819,
+      0.157
      ],
      "sig": false
     },
     "21": {
-     "n_days": 39,
+     "n_days": 40,
      "n_eff": 1.9,
      "status": "insufficient"
     }
@@ -405,31 +409,31 @@
    "desc": "风险反转 call−put IV(偏多定价)",
    "ic": {
     "1": {
-     "n_days": 52,
-     "n_eff": 52.0,
+     "n_days": 53,
+     "n_eff": 53.0,
      "status": "ok",
-     "mean_ic": -0.0172,
-     "ir": -0.058,
+     "mean_ic": -0.0176,
+     "ir": -0.061,
      "ci": [
-      -0.1021,
-      0.0523
+      -0.1057,
+      0.0583
      ],
      "sig": false
     },
     "5": {
-     "n_days": 55,
-     "n_eff": 11.0,
+     "n_days": 56,
+     "n_eff": 11.2,
      "status": "ok",
-     "mean_ic": -0.0902,
-     "ir": -0.278,
+     "mean_ic": -0.0882,
+     "ir": -0.274,
      "ci": [
-      -0.1988,
-      0.0092
+      -0.1968,
+      0.0233
      ],
      "sig": false
     },
     "21": {
-     "n_days": 39,
+     "n_days": 40,
      "n_eff": 1.9,
      "status": "insufficient"
     }
