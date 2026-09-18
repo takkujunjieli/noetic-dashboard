@@ -359,24 +359,39 @@ const fmtIC = (v) => v == null ? "—" : (v > 0 ? "+" : "") + v.toFixed(3);
 const latest = (arr) => { for (let i = arr.length - 1; i >= 0; i--) if (arr[i] != null) return arr[i]; return null; };
 const sgncls = (v) => v == null ? "" : (v > 0 ? "up" : "down");
 
-// 预测信号(x)vs 实际收益(y)散点 + IC 标注
-function scatterPredVsRealized(points, ic, ylab) {
-  const W = 470, H = 250, pl = 46, pr = 12, pt = 14, pb = 30, iw = W - pl - pr, ih = H - pt - pb;
-  if (!points || !points.length) return `<div class="muted small" style="padding:20px">${esc(ylab)}:暂无已兑现样本(前瞻窗口未到期)</div>`;
-  const xs = points.map((p) => p[0]), ys = points.map((p) => p[1]);
-  const xmin = Math.min(...xs), xmax = Math.max(...xs), ymin = Math.min(...ys), ymax = Math.max(...ys);
-  const sx = (v) => pl + (xmax === xmin ? 0.5 : (v - xmin) / (xmax - xmin)) * iw;
-  const sy = (v) => pt + (1 - (ymax === ymin ? 0.5 : (v - ymin) / (ymax - ymin))) * ih;
-  const dots = points.map((p) => `<circle cx="${sx(p[0]).toFixed(1)}" cy="${sy(p[1]).toFixed(1)}" r="2.6" fill="var(--accent)" opacity="0.5"><title>${esc(p[2])} 信号 ${p[0].toFixed(2)} → ${(p[1] * 100).toFixed(2)}%</title></circle>`).join("");
-  const z0y = (ymin < 0 && ymax > 0) ? `<line x1="${pl}" y1="${sy(0).toFixed(1)}" x2="${pl + iw}" y2="${sy(0).toFixed(1)}" stroke="var(--border)"/>` : "";
-  const z0x = (xmin < 0 && xmax > 0) ? `<line x1="${sx(0).toFixed(1)}" y1="${pt}" x2="${sx(0).toFixed(1)}" y2="${pt + ih}" stroke="var(--border)"/>` : "";
-  return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:${W}px">
-    <rect x="${pl}" y="${pt}" width="${iw}" height="${ih}" fill="none" stroke="var(--border)"/>
-    ${z0y}${z0x}${dots}
-    <text x="${pl + iw / 2}" y="${H - 6}" text-anchor="middle" font-size="10" fill="var(--muted)">预测信号(z 之积)</text>
-    <text x="12" y="${pt + ih / 2}" text-anchor="middle" font-size="10" fill="var(--muted)" transform="rotate(-90 12 ${pt + ih / 2})">${esc(ylab)}</text>
-    <text x="${pl + iw - 4}" y="${pt + 12}" text-anchor="end" font-size="11" fill="var(--accent)">IC ${fmtIC(ic)} · n=${points.length}</text>
-  </svg>`;
+// Frozen point-in-time research: daily cross-sectional IC and quantile cohorts.
+function renderRetailResearch(R, set) {
+  if (!R) {
+    set("rf-scatter", "尚未生成 PIT 研究数据，请运行新版 retailflow 工作流。");
+    set("rf-ic", "—");
+    return;
+  }
+  const pct = (v) => v == null ? "—" : `${(v * 100).toFixed(2)}%`;
+  const priceErrors = Object.keys(R.price_errors || {});
+  const rows = [];
+  for (const [field, label] of [["signal", "PIT 复合"], ["netbuy", "净买入对照"]]) {
+    for (const h of [1, 5]) {
+      const v = R.results[field][String(h)].summary;
+      rows.push(`<tr><td>${label}</td><td>${h}D</td><td>${v.n_days}</td><td>${fmtIC(v.mean_ic)}</td><td>${fmtIC(v.ic_std)}</td><td>${fmtIC(v.icir)}</td><td>${pct(v.positive_ic_rate)}</td><td>${v.status === "insufficient" ? "样本不足" : "描述性统计"}</td></tr>`);
+    }
+  }
+  set("rf-ic", `<div class="muted small">已冻结 ${R.snapshot_count} 个入场日快照。每个交易日先算横截面 Spearman，再对日期等权平均；每日至少 ${R.min_names} 只股票。ICIR = mean(IC) / sample std(IC)，不年化。5D 窗口重叠。</div>
+    <div style="overflow-x:auto"><table class="bt-table"><tr><th>信号</th><th>持有期</th><th>有效IC天数</th><th>Mean IC</th><th>IC std</th><th>ICIR</th><th>IC胜率</th><th>状态</th></tr>${rows.join("")}</table></div>`);
+  let html = priceErrors.length ? `<p class="down">前瞻价格采集失败：${priceErrors.map(esc).join(", ")}。相关收益缺失，见覆盖率。</p>` : "";
+  html += `<div class="muted small">实际冻结时间 t → t 后首个 XNYS 交易日开盘 → 第 1/5 个交易日收盘。历史观察数据不补造 PIT 信号。主信号为 z(sentiment) × z(activity)，以此前最多20个交易日标准化（至少5个有效观测），搜索热度仅展示。</div>`;
+  for (const [field, label] of [["signal", "PIT 复合"], ["netbuy", "净买入对照"]]) {
+    for (const h of [1, 5]) {
+      const r = R.results[field][String(h)], v = r.summary;
+      html += `<h3>${label} · ${h}D 五分位多空</h3><div class="muted small">Q5−Q1，等权，100%多 + 100%空。有效批次 ${v.ls_days} · 平均毛收益 ${pct(v.mean_ls_gross)} · 成本后 ${pct(v.mean_ls_net)}（每腿每边 ${R.cost_bps_per_side}bp，往返共 ${4 * R.cost_bps_per_side}bp）。${h === 5 ? "5D 为重叠批次收益，不是每日策略收益，不复利。" : "开盘建仓、收盘平仓。"}</div>`;
+      if (!r.daily.length) {
+        html += `<p class="muted small">暂无到期的严格 PIT 样本，等待冻结信号后的交易窗口完成。</p>`;
+      } else {
+        html += `<details><summary>每日 IC、覆盖率与分位收益（最近60批次）</summary><div style="overflow-x:auto"><table class="bt-table"><tr><th>实际冻结 UTC</th><th>入场</th><th>退出</th><th>收益覆盖</th><th>IC</th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th><th>Q5</th><th>L/S毛</th><th>L/S净</th></tr>${r.daily.slice(-60).reverse().map(d => `<tr><td>${esc(d.formed_at)}</td><td>${d.entry_date}</td><td>${d.exit_date}</td><td>${d.n_returns}/${d.n_universe}</td><td>${fmtIC(d.ic)}</td>${[0,1,2,3,4].map(i => `<td>${pct(d.quantile_returns?.[i])}</td>`).join("")}<td>${pct(d.long_short_gross)}</td><td>${pct(d.long_short_net)}</td></tr>`).join("")}</table></div></details>`;
+      }
+    }
+  }
+  html += `<details><summary>研究口径与限制</summary><ul>${R.caveats.map(c => `<li>${esc(c)}</li>`).join("")}</ul></details>`;
+  set("rf-scatter", html);
 }
 
 // 散户净买入热力图(票 × 日)
@@ -457,7 +472,7 @@ async function renderRetailflow() {
     ["rf-now", "rf-scatter", "rf-ic", "rf-series"].forEach((id) => set(id, `<span class="muted small">暂无数据:需在 Actions 跑 fetch_tick_flow + build_retailflow 生成 data/retailflow.json</span>`));
     return;
   }
-  const d = J.dates, tks = J.tickers, D = J.data, E = J.eval;
+  const d = J.dates, tks = J.tickers, D = J.data;
   $("r-status").textContent = `Topic: 散户订单流 · ${d[0]}→${d[d.length - 1]} · ${tks.length} 票 × ${d.length} 天(${J.window_days || 30}d 滚动)· 更新 ${(J.updated || "").slice(0, 16)}`;
 
   // ① 当前信号表(可在日历日间任选;默认最新)。只列有数据的日子。
@@ -466,14 +481,11 @@ async function renderRetailflow() {
   const rowsAt = (idx) => tks.map((tk) => {
     const o = D[tk], nb = o.netbuy[idx], it = o.intensity[idx],
       at = o.attention ? o.attention[idx] : null, sg = o.signal[idx];
-    const p = (E.per_ticker || {})[tk] || {};
     return `<tr><td>${esc(tk)}</td>
       <td class="${sgncls(nb)}">${nb == null ? "—" : (nb > 0 ? "+" : "") + (nb * 100).toFixed(1) + "%"}</td>
       <td>${it == null ? "—" : (it * 100).toFixed(1) + "%"}</td>
       <td>${at == null ? "—" : at.toFixed(0)}</td>
-      <td class="${sgncls(sg)}">${sg == null ? "—" : (sg > 0 ? "+" : "") + sg.toFixed(2)}</td>
-      <td class="${sgncls(p.ic_1d)}">${fmtIC(p.ic_1d)}</td>
-      <td class="${sgncls(p.ic_5d)}">${fmtIC(p.ic_5d)}</td></tr>`;
+      <td class="${sgncls(sg)}">${sg == null ? "—" : (sg > 0 ? "+" : "") + sg.toFixed(2)}</td></tr>`;
   }).join("");
   // 日历选择:范围从 2026-01 起(便于日后 backfill),只有有数据的日子可点,其余(周末/未回填)灰不可选。
   const idxByDate = {};
@@ -512,8 +524,8 @@ async function renderRetailflow() {
         <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px">${wk}${cells}</div>
       </div>
       <div class="muted small" style="margin-bottom:6px">选中:<b>${d[nowIdx] || "—"}</b>${nowIdx === latestI ? "(最新)" : ""} · 灰色=无数据(周末/未回填)</div>
-      <table class="bt-table"><tr><th>票</th><th>sentiment</th><th>activity</th><th>Google Trends</th><th>复合信号</th><th>IC次日</th><th>IC次周</th></tr>${rowsAt(nowIdx)}</table>
-      <div class="muted small">所选交易日值。sentiment=散户买卖不平衡 %(中点签名的场外散户,+净买/−净卖,∈[-100%,100%]);activity=散户量/总量;Google Trends=搜索热度(0-100);复合=三项时序 z 之积。<b>IC 两列为全历史统计,不随所选日变化</b>。</div>`);
+      <table class="bt-table"><tr><th>票</th><th>sentiment</th><th>activity</th><th>Google Trends</th><th>已冻结 PIT 复合</th></tr>${rowsAt(nowIdx)}</table>
+      <div class="muted small">所选原始数据日。sentiment=估计的散户买卖不平衡（报价规则+tick rule）；activity=估计散户量/总量。Google Trends仅展示，不参与主信号。复合列仅显示实际冻结的两项z分数之积，历史未冻结显示—；对应可交易时点见下方研究。</div>`);
     const prev = $("rf-cal-prev"), next = $("rf-cal-next");
     if (prev) prev.onclick = () => { if (canPrev()) { if (--calM < 1) { calM = 12; calY--; } drawNow(); } };
     if (next) next.onclick = () => { if (canNext()) { if (++calM > 12) { calM = 1; calY++; } drawNow(); } };
@@ -531,20 +543,7 @@ async function renderRetailflow() {
   };
   drawNow();
 
-  // ② 散点:预测 vs 实际
-  set("rf-scatter", `<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start">
-      <div>${scatterPredVsRealized(E.scatter_1d, E.ic_1d, "次日实际收益")}</div>
-      <div>${scatterPredVsRealized(E.scatter_5d, E.ic_5d, "次周实际收益")}</div></div>
-    <div class="muted small">每点=某票某日:x=当日复合信号,y=之后实际收益。正斜率=信号有预测力。散户流常在极端处反向(聪明钱反做)。</div>`);
-
-  // ③ 预测力 IC
-  set("rf-ic", `<div class="opt-grid">
-      ${tile("IC 次日 · 复合", fmtIC(E.ic_1d), `n=${E.n_obs_1d}`)}
-      ${tile("IC 次周 · 复合", fmtIC(E.ic_5d), `n=${E.n_obs_5d}`)}
-      ${tile("IC 次日 · 仅净买入", fmtIC(E.ic_netbuy_1d), "对照:去掉强度/关注")}
-      ${tile("IC 次周 · 仅净买入", fmtIC(E.ic_netbuy_5d), "对照")}
-    </div>
-    <div class="muted small">${(J.meta && J.meta.caveats || []).map(esc).join(" · ")}</div>`);
+  renderRetailResearch(J.research, set);
 
   // ④ 净买入热力图
   set("rf-series", netbuyHeatmap(J));

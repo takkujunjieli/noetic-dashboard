@@ -23,6 +23,8 @@ import json
 import os
 import time
 from concurrent.futures import ThreadPoolExecutor
+from functools import lru_cache
+from retail_pit import sessions_between
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import urlparse
@@ -59,7 +61,6 @@ VAL_WINDOW = int(os.environ.get("RF_VAL_WINDOW", "120"))  # 验证记录(全量v
 BAD_CONDITIONS = {201, 202, 203, 204, 205, 206, 207, 208, 210, 227, 228, 229, 230,
                   232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244,
                   245, 246, 247, 248}
-RTH_GTE_H, RTH_LTE_H = "13:30:00", "20:00:00"   # 常规时段 UTC(夏令时;含少量冬令误差,对日聚合无碍)
 
 
 def rebase(u):
@@ -179,7 +180,8 @@ def flow_for(sym, day, verbose=False, ticker_sec=None):
     """返回该票当日聚合 dict,或 None(数据不足)。ticker_sec:单票硬墙秒(默认 TICKER_SEC;验证全量用更大)。
     每票内 trades ‖ quotes 两条独立流 2 并发拉(实测甜区:聚合吞吐 0.57→2.65 MB/s,~2×+;
     跨票仍串行,保证总并发 ≤2~3,不触网关上限——9 并发会全 Read timeout)。"""
-    win = f"&timestamp.gte={day}T{RTH_GTE_H}Z&timestamp.lte={day}T{RTH_LTE_H}Z"
+    lo, hi = _rth_bounds(day)
+    win = f"&timestamp.gte={_fmt(lo)}&timestamp.lte={_fmt(hi)}"
     dl = time.time() + (ticker_sec or TICKER_SEC)  # 单票硬墙:两条流都到点即抛,跳过该票不拖垮整跑
     with ThreadPoolExecutor(max_workers=2) as ex:
         fq = ex.submit(fetch_quotes, sym, win, dl)
@@ -224,9 +226,12 @@ def flow_for(sym, day, verbose=False, ticker_sec=None):
     return out
 
 
+@lru_cache(maxsize=512)
 def _rth_bounds(day):
-    return (datetime.fromisoformat(f"{day}T{RTH_GTE_H}+00:00"),
-            datetime.fromisoformat(f"{day}T{RTH_LTE_H}+00:00"))
+    sessions = sessions_between(day, day)
+    if not sessions:
+        raise ValueError(f"{day} is not an XNYS session")
+    return tuple(datetime.fromisoformat(sessions[0][k]) for k in ('open', 'close'))
 
 
 def _fmt(dt):

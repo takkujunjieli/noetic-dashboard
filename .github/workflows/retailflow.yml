@@ -25,6 +25,10 @@ on:
   schedule:
     - cron: "0 3 * * 2-6"        # 夜间空闲:03:00 UTC(美股收盘后数小时、网关空闲)跑上一交易日;周二~周六覆盖周一~周五盘
 
+concurrency:
+  group: retailflow-pit
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
@@ -35,7 +39,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
-      - run: pip install requests "urllib3<2" pytrends   # urllib3<2:修 pytrends method_whitelist
+      - run: pip install requests "urllib3<2" pytrends "exchange-calendars>=4.5,<5"   # urllib3<2:修 pytrends method_whitelist
+
+      - name: Verify PIT invariants
+        run: python -m unittest discover -s tests -p "test_retail_pit.py"
 
       - name: 散户流·采样引擎(分钟量选窗 + 分层比率估计 + 每日一票全量验证)
         timeout-minutes: 300       # 5h 上限;超时被杀后仍走 always() 提交已完成的天
@@ -56,6 +63,17 @@ jobs:
         env:
           RF_SYMS: ${{ inputs.sym }}   # 空=fetch_trends 读 config/retail_syms.json,与引擎标的一致
 
+      - name: 冻结实际可用时间的 PIT 信号
+        if: always()
+        run: python scripts/build_retailflow.py
+
+      - name: 获取冻结股票池的独立前瞻价格
+        if: always()
+        run: python scripts/fetch_retail_prices.py
+        env:
+          MASSIVE_API_KEY: ${{ secrets.MASSIVE_API_KEY }}
+          MASSIVE_BASE_URL: ${{ vars.MASSIVE_BASE_URL }}
+
       - name: 组装 retailflow.json
         if: always()
         run: python scripts/build_retailflow.py
@@ -65,7 +83,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/retail_flow_raw.json data/retail_trends.json data/retailflow.json 2>/dev/null || true
+          git add data/retail_flow_raw.json data/retail_trends.json data/retailflow.json data/retail_pit.json data/retail_prices.json 2>/dev/null || true
           if ! git diff --cached --quiet; then
             git commit -m "chore: retailflow $(date -u +%F\ %R)"
             git pull --rebase -X theirs origin main
