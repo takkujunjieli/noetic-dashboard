@@ -1196,24 +1196,35 @@ function renderPortfolio() {
   el.innerHTML = `<div class="card">${acctBar}<div class="opt-grid">${tiles}</div>${donuts}${buildPnlPanel()}</div>`;
 }
 
-/* monthly_returns.json 的账户视图;_all = 各账户 realized/unreal 求和(前端聚合,新增账户自动纳入)。 */
+/* monthly_returns.json 的账户视图;_all = 各账户 realized/snapshots 前端聚合。
+   聚合 Net Liq 只有在该月覆盖全部账户时才有效，避免拿部分账户净值跨月误算。 */
 function monthlyExact(acctKey) {
   const accts = MONTHLY?.accounts; if (!accts) return null;
   if (acctKey !== "_all") return accts[acctKey] || null;
+  const rows = Object.entries(accts).filter(([k]) => k !== "_all");
+  const accountCount = rows.length;
+  const finite = (v) => v != null && v !== "" && Number.isFinite(+v);
   const realized = {}, snapshots = {};
-  for (const [k, a] of Object.entries(accts)) {
-    if (k === "_all") continue;
+  for (const [, a] of rows) {
     for (const [ym, v] of Object.entries(a.realized || {})) realized[ym] = (realized[ym] || 0) + v;
     for (const [ym, s] of Object.entries(a.snapshots || {})) {
-      const t = snapshots[ym] || (snapshots[ym] = { netliq: 0, unreal: 0 });
-      t.netliq += s.netliq || 0; t.unreal += s.unreal || 0;
+      const t = snapshots[ym] || (snapshots[ym] = { netliq: 0, unreal: 0, net_flow: 0, _netliq_n: 0, _unreal_n: 0 });
+      if (finite(s.netliq)) { t.netliq += +s.netliq; t._netliq_n++; }
+      if (finite(s.unreal)) { t.unreal += +s.unreal; t._unreal_n++; }
+      if (finite(s.net_flow)) t.net_flow += +s.net_flow;
     }
+  }
+  for (const s of Object.values(snapshots)) {
+    if (s._netliq_n !== accountCount) delete s.netliq;
+    if (s._unreal_n !== accountCount) delete s.unreal;
+    delete s._netliq_n; delete s._unreal_n;
   }
   return { realized, snapshots };
 }
 
 /* 月历:账户跟随 Portfolio 下拉(全部→_all)。四个口径:
-   已实现$ = 券商精确(含期权,仅已实现);总$ = 精确(已实现+未实现变化,需相邻月末快照)优先,缺快照回退
+   已实现$ = 券商精确(含期权,仅已实现);总$ = 相邻月末 Net Liq 差−净入金(net_flow)优先，
+   缺连续 Net Liq 时退回已实现+未实现变化，再缺则回退
    M2M 估算,金额前带「(估)」;收益率% 同理(精确=总$÷上月末净值,估=M2M ret);log = ln(1 + P&L %)。
    精确与估计合并同一列,靠「(估)」前缀区分。绿正红负,深浅∝|值|。 */
 function buildMonthlyCalendar() {
@@ -1227,11 +1238,17 @@ function buildMonthlyCalendar() {
   if (!MODES[mode]) mode = "realized";
   const kind = MODES[mode].kind;
   const modeChips = Object.entries(MODES).map(([k, m]) => `<button data-cal="${k}"${k === mode ? ' class="active"' : ""}>${m.label}</button>`).join("");
-  const head = `<div class="pf-cal-head"><b>📅 月历</b> <span class="muted small">Realized P&L=券商精确(仅已实现);P&L/P&L %=当月总盈亏,精确优先(需相邻月末快照)、缺则「(估)」M2M;log P&L=ln(1 + P&L %)</span>`
+  const head = `<div class="pf-cal-head"><b>📅 月历</b> <span class="muted small">Realized P&L=券商精确(仅已实现);P&L=相邻月末 Net Liq 差−净入金,缺则回退「(估)」M2M;未记录 net_flow 的入出金会计入净值变化;log P&L=ln(1 + P&L %)</span>`
     + `<div class="chips seg" id="pf-calmode" style="margin-left:auto">${modeChips}</div></div>`;
   const prevYm = (ym) => { let [y, mm] = ym.split("-").map(Number); mm--; if (mm < 1) { mm = 12; y--; } return `${y}-${String(mm).padStart(2, "0")}`; };
-  const exactMoney = (ym) => {   // 精确总$ = 已实现 + 未实现变化(需本/上月末快照)
-    const r = realized[ym], u = snaps[ym]?.unreal, pu = snaps[prevYm(ym)]?.unreal;
+  const finite = (v) => v != null && v !== "" && Number.isFinite(+v);
+  const exactMoney = (ym) => {
+    const cur = snaps[ym], prev = snaps[prevYm(ym)];
+    // 真实月末账户净值优先；net_flow 约定正数=净入金、负数=净出金。
+    if (finite(cur?.netliq) && finite(prev?.netliq)) {
+      return +cur.netliq - +prev.netliq - (finite(cur.net_flow) ? +cur.net_flow : 0);
+    }
+    const r = realized[ym], u = cur?.unreal, pu = prev?.unreal;
     return (r != null && u != null && pu != null) ? r + (u - pu) : null;
   };
   const retObj = (ym) => {   // P&L %:精确优先,否则回退 M2M 估算
@@ -1261,7 +1278,7 @@ function buildMonthlyCalendar() {
     return `${tag}${usd(o.v)}`;
   };
   const MM = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-  const allYm = [...new Set([...Object.keys(realized), ...Object.keys(robMap)])].filter((ym) => ym >= "2026");
+  const allYm = [...new Set([...Object.keys(realized), ...Object.keys(snaps), ...Object.keys(robMap)])].filter((ym) => ym >= "2026");
   const years = [...new Set(allYm.map((ym) => ym.slice(0, 4)))].sort();
   const maxAbs = Math.max(1e-9, ...allYm.map(valObj).filter(Boolean).map((o) => Math.abs(o.v)));
   const heat = (v) => v == null ? "" : `background:hsl(${v >= 0 ? 142 : 0} 65% 45% / ${(0.08 + Math.min(Math.abs(v) / maxAbs, 1) * 0.42).toFixed(2)})`;
