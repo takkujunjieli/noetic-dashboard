@@ -69,17 +69,45 @@ function rpSchedule() {
   rLSset(RISK_POLICY_DIRTY_KEY, true);
   rpStatus(getPat() ? "↑ 有未同步改动 · 点击同步" : "⚠ 有未同步改动 · 需 PAT", getPat() ? "" : "down");
 }
+function mergeImmutableRecords(authoritative, incoming) {
+  const out = [], seen = new Set();
+  for (const row of [...(authoritative || []), ...(incoming || [])]) {
+    if (!row || typeof row !== "object") continue;
+    const key = row.id || JSON.stringify(row);
+    if (seen.has(key)) continue;                  // 已存在 ID 永远保留 authoritative 版本，不允许改写
+    seen.add(key); out.push(row);
+  }
+  return out.sort((a, b) => String(b.completed_at || b.ts || "").localeCompare(String(a.completed_at || a.ts || "")));
+}
 async function syncPrivateJSON(path, key, msg) {
-  if (getPat()) await putPrivate(path, rLS(key, []), msg);
+  if (!getPat()) return { ok: false, msg: "未设 PAT；已仅保存在本机" };
+  return appendPrivateRecords(path, rLS(key, []), msg);
 }
 
 async function loadLocalArray(key, path) {
-  let v = rLS(key, null);
-  if (!Array.isArray(v)) {
-    v = (await loadJSON(path)) || [];
-    rLSset(key, v);
-  }
+  const local = rLS(key, null);
+  const file = (await loadJSON(path)) || [];
+  // 归档与事件都是 append-only 审计记录：文件记录优先，同 ID 的 localStorage 不得覆盖。
+  const v = mergeImmutableRecords(Array.isArray(file) ? file : [], Array.isArray(local) ? local : []);
+  rLSset(key, v);
   return v;
+}
+
+async function fetchPrivateRecords(path) {
+  const pat = getPat();
+  if (!pat) return { ok: false, records: [], msg: "未设 PAT" };
+  const url = `https://api.github.com/repos/${PRIV_REPO}/contents/${path}`;
+  try {
+    const r = await fetch(url + "?ref=main&t=" + Date.now(), { headers: ghHeaders(pat), cache: "no-store" });
+    if (!r.ok) return { ok: false, records: [], msg: `GET ${r.status}` };
+    const j = await r.json();
+    const parsed = JSON.parse(decodeURIComponent(escape(atob((j.content || "").replace(/\s/g, "")))));
+    return Array.isArray(parsed)
+      ? { ok: true, records: parsed }
+      : { ok: false, records: [], msg: "远端记录不是数组" };
+  } catch (e) {
+    return { ok: false, records: [], msg: String(e) };
+  }
 }
 
 function posSnapshotFor(sym, pf) {
@@ -110,6 +138,8 @@ async function archiveCurrentThesis(name, policy) {
   const archive = await loadLocalArray(ARCHIVE_KEY, "data/completed_theses.json");
   archive.unshift({
     id: `${Date.now()}-${name}`,
+    immutable: true,
+    record_version: 1,
     name,
     completed_at: at,
     thesis: JSON.parse(JSON.stringify((policy.bundles && policy.bundles[name]) || {})),
@@ -133,13 +163,20 @@ async function archiveCurrentThesis(name, policy) {
 
 async function ensureThesisBaselines(assignments, pf) {
   const currentSyms = new Set(((pf && pf.positions) || []).map((p) => p.sym));
-  const events = await loadLocalArray(THESIS_EVENTS_KEY, "data/thesis_events.json");
+  const cached = await loadLocalArray(THESIS_EVENTS_KEY, "data/thesis_events.json");
+  // baseline 是一次性审计事件。必须先成功读取远端历史；否则新设备的空缓存会重建整套 baseline。
+  const remote = await fetchPrivateRecords("thesis_events.json");
+  if (!remote.ok) return;
+  const events = mergeImmutableRecords(remote.records, cached);
+  rLSset(THESIS_EVENTS_KEY, events);
   const seen = new Set(events.filter((e) => e.type === "enter").map((e) => `${e.sym}|${e.thesis}`));
   const at = new Date().toISOString();
   let changed = false;
   for (const [sym, thesis] of Object.entries(assignments || {})) {
     if (!currentSyms.has(sym) || !thesis || seen.has(`${sym}|${thesis}`)) continue;
-    events.unshift({ id: `${Date.now()}-${sym}-baseline-enter`, ts: at, type: "enter", reason: "baseline_existing_assignment", thesis, sym, positions: posSnapshotFor(sym, pf) });
+    // 确定性 ID 让并发设备即使同时初始化，也会在 append-only 合并时去重成同一条。
+    const id = `baseline:${encodeURIComponent(sym)}:${encodeURIComponent(thesis)}`;
+    events.unshift({ id, ts: at, type: "enter", reason: "baseline_existing_assignment", thesis, sym, positions: posSnapshotFor(sym, pf) });
     seen.add(`${sym}|${thesis}`);
     changed = true;
   }
@@ -191,8 +228,8 @@ export async function renderRiskControl() {
       <label>单笔风险 %<input id="rk-risk" type="number" min="0.01" required step="0.05" style="width:88px" title="必填:用于按 ATR 反推默认单笔仓位上限"></label>
       <label>总风险 %<input id="rk-totrisk" type="number" min="0.01" required step="0.5" style="width:88px" title="必填:该 thesis 所有持仓在险之和上限"></label>
       <label>ATR 倍数<input id="rk-mult" type="number" min="0.01" required step="0.1" style="width:76px"></label>
-      <label>单笔仓位上限 %<input id="rk-cap" type="number" min="0.01" step="1" style="width:112px" placeholder="自动(风险÷ATR)" title="可选覆盖;留空时按 单笔风险% ÷ (ATR倍数×ATR/现价) 自动反推"></label>
-      <label>总仓位上限 %<input id="rk-totcap" type="number" min="0.01" step="1" style="width:118px" placeholder="自动(总风险反推)" title="可选覆盖;留空时按 典型单笔仓位上限 × 总风险/单笔风险 反推"></label>
+      <label>单笔仓位上限 %<input id="rk-cap" class="rk-auto-placeholder" type="number" min="0.01" step="1" style="width:112px" placeholder="自动(待持仓/ATR)" title="可选覆盖;留空时按 单笔风险% ÷ (ATR倍数×ATR/现价) 自动反推"></label>
+      <label>总仓位上限 %<input id="rk-totcap" class="rk-auto-placeholder" type="number" min="0.01" step="1" style="width:118px" placeholder="自动(待持仓/ATR)" title="可选覆盖;留空时按 典型单笔仓位上限 × 总风险/单笔风险 反推"></label>
       <label>Target Profit %<input id="rk-goal" type="number" step="1" style="width:96px" placeholder="optional"></label>
       <label>Shelf life<input id="rk-shelf" type="date" style="width:150px" title="thesis 有效期(可选);过期未走出=复盘/离场"></label>
     </div>
@@ -436,7 +473,8 @@ export async function renderRiskExposure() {
   if (!(equity > 0)) { equity = positions.reduce((s, p) => s + Math.abs(p.mkt_value || 0), 0) || 1; eqSrc = "持仓市值合计"; }
 
   // 先算每仓风险,再汇总 thesis;「距目标」须基于完整 thesis 总量统一分摊,不能让每只票各自承担全部超额。
-  const rows = []; let totalHeat = 0; const heatByBundle = {}, posByBundle = {}, derivedCapsByBundle = {};
+  const rows = []; let totalHeat = 0;
+  const heatByBundle = {}, posByBundle = {}, derivedCapsByBundle = {}, autoCapsByBundle = {};
   for (const p of positions) {
     const sym = p.sym, qty = p.qty || 0; if (!qty) continue;
     const isOpt = p.kind !== "equity", long = qty > 0;
@@ -462,6 +500,7 @@ export async function renderRiskExposure() {
     const manualCap = positiveNum(b.max_position_pct) ? +b.max_position_pct : null;
     const derivedCap = !isOpt && riskParam != null && perShare > 0 && price > 0 ? riskParam * price / perShare : null;
     const effectiveCap = manualCap ?? derivedCap;
+    if (!isOpt && derivedCap != null) (autoCapsByBundle[bundleName] ||= {})[sym] = derivedCap;
     if (!isOpt && effectiveCap != null) (derivedCapsByBundle[bundleName] ||= {})[sym] = effectiveCap;
     // 浮盈%:股票用现价算,做空取反(价跌为盈);期权回退 portfolio.json 的 pnl_pct
     const pnlPct = (!isOpt && p.avg_cost && price != null)
@@ -484,6 +523,15 @@ export async function renderRiskExposure() {
       ? typical * (+b.total_risk_pct / +b.risk_pct) : null);
   }
   for (const r of rows) r.totalPositionPct = totalCapByBundle[r.bundleName];
+
+  // 空白输入框以半透明 placeholder 展示当前 thesis 的实时推导值；手工值存在时浏览器自动隐藏 placeholder。
+  const selectedThesis = $("rk-bundle")?.value;
+  const capInput = $("rk-cap"), totalCapInput = $("rk-totcap");
+  const autoCaps = Object.values(autoCapsByBundle[selectedThesis] || {});
+  const autoSingleCap = autoCaps.length ? autoCaps.reduce((sum, v) => sum + v, 0) / autoCaps.length : null;
+  if (capInput) capInput.placeholder = autoSingleCap != null ? `${autoSingleCap.toFixed(1)}（自动）` : "自动(待持仓/ATR)";
+  const autoTotalCap = selectedThesis ? totalCapByBundle[selectedThesis] : null;
+  if (totalCapInput) totalCapInput.placeholder = autoTotalCap != null ? `${autoTotalCap.toFixed(1)}（自动）` : "自动(待持仓/ATR)";
 
   // thesis 超总风险/总仓位时,所有股票按当前仓位同比例缩减;单票预算/上限仍可要求进一步减仓。
   for (const r of rows) {
@@ -680,20 +728,32 @@ function drawRobust(win) {
     + `<b>α 的 95%CI 跨 0(标 ≈0)= 选股超额与运气不可区分,别当 skill</b>;净/毛≈1=净多头。⚠ 小样本 CI 很宽 = 数据不足,勿过度解读。</div>`;
 }
 
-/* 交易复盘:计划(事前登记 edge+计划价+thesis)→ 归因(平仓后只判流程/守没守计划,不看结果)。
-   本机 localStorage(私有),导出 JSON 可给 agent。process>outcome:好交易=守计划,不管盈亏。 */
+/* 交易复盘:计划(事前登记 edge+计划价+thesis)→ 归因。归档是 append-only 不可变审计记录：
+   可读取/导出，不可在 UI 编辑；跨机器同步只追加新 ID，绝不覆盖已有 ID。 */
 const PRIV_REPO = "takkujunjieli/stock-dashboard-private";   // 私有库:持仓/复盘/止损等本地数据(换机器 clone 即在)
-async function putPrivate(path, obj, msg) {   // PAT PUT 到私有库(PAT 需含私有库写权限);merge sha + 409 重试
+async function appendPrivateRecords(path, incoming, msg) {   // 远端为权威；只追加未见 ID，409 后重新合并
   const pat = getPat();
   if (!pat) return { ok: false, msg: "需 PAT(含私有库写权限)" };
   const url = `https://api.github.com/repos/${PRIV_REPO}/contents/${path}`;
   async function once() {
-    let sha;
-    try { const c = await fetch(url + "?ref=main&t=" + Date.now(), { headers: ghHeaders(pat), cache: "no-store" }); if (c.ok) sha = (await c.json()).sha; } catch { /* 新建 */ }
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(obj, null, 2) + "\n")));
+    let sha, remote = [];
+    try {
+      const c = await fetch(url + "?ref=main&t=" + Date.now(), { headers: ghHeaders(pat), cache: "no-store" });
+      if (c.ok) {
+        const j = await c.json(); sha = j.sha;
+        remote = JSON.parse(decodeURIComponent(escape(atob((j.content || "").replace(/\s/g, "")))));
+      } else if (c.status !== 404) return { direct: { ok: false, msg: "GET " + c.status } };
+    } catch (e) { return { direct: { ok: false, msg: "GET " + String(e) } }; }
+    const merged = mergeImmutableRecords(Array.isArray(remote) ? remote : [], incoming);
+    if (merged.length === (Array.isArray(remote) ? remote.length : 0)) return { direct: { ok: true, unchanged: true } };
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(merged, null, 2) + "\n")));
     return fetch(url, { method: "PUT", headers: ghHeaders(pat), body: JSON.stringify({ message: msg, content, sha, branch: "main" }) });
   }
-  try { let r = await once(); if (r.status === 409) r = await once(); return r.ok ? { ok: true } : { ok: false, msg: "PUT " + r.status }; }
+  try {
+    let r = await once(); if (r.direct) return r.direct;
+    if (r.status === 409) { r = await once(); if (r.direct) return r.direct; }
+    return r.ok ? { ok: true } : { ok: false, msg: "PUT " + r.status };
+  }
   catch (e) { return { ok: false, msg: String(e) }; }
 }
 
@@ -722,7 +782,7 @@ export async function renderJournal() {   // portfolio.js import 调用(交易�
   host.innerHTML = `
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
       <label>已归档 Thesis <select id="j-archive">${opts}</select></label>
-      <span id="j-msg" class="muted small">共 ${archives.length} 个归档 · ${(cur.tickers || []).length} 个 ticker</span>
+      <span id="j-msg" class="muted small">只读归档 · 共 ${archives.length} 个 · ${(cur.tickers || []).length} 个 ticker</span>
     </div>
     <div class="wb-statbar">
       ${kv("完成时间", (cur.completed_at || "").slice(0, 19).replace("T", " "))}
@@ -741,20 +801,11 @@ export async function renderJournal() {   // portfolio.js import 调用(交易�
     <div class="sc-wrap" style="margin-top:12px"><table class="sc-table">
       <tr><th>标的</th><th>进入该 thesis 时</th><th>离开/归档时</th></tr>${rows || `<tr><td colspan="3" class="muted">没有记录到属于该 thesis 的 ticker。</td></tr>`}
     </table></div>
-    <label style="display:block;margin-top:12px">Note<textarea id="j-note" style="width:100%;min-height:110px;background:var(--card-hover);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text)">${esc(cur.notes || "")}</textarea></label>
+    <label style="display:block;margin-top:12px">Note（归档快照，只读）<textarea readonly style="width:100%;min-height:110px;background:var(--card-hover);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--muted)">${esc(cur.notes || "")}</textarea></label>
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px">
-      <button id="j-save-note" class="mini-btn">保存 note</button>
       <button id="j-export" class="mini-btn">导出归档 JSON</button>
     </div>`;
   $("j-archive").addEventListener("change", (ev) => { localStorage.setItem("reviewThesisId", ev.target.value); renderJournal(); });
-  $("j-save-note").addEventListener("click", async () => {
-    const note = $("j-note").value;
-    const next = archives.map((a) => a.id === cur.id ? { ...a, notes: note, notes_updated_at: new Date().toISOString() } : a);
-    rLSset(ARCHIVE_KEY, next);
-    const m = $("j-msg"); m.textContent = "保存 note 中…";
-    const r = getPat() ? await putPrivate("completed_theses.json", next, "chore: update thesis review note") : { ok: true };
-    m.textContent = r.ok ? "✓ note 已保存" : "✗ " + r.msg;
-  });
   $("j-export").addEventListener("click", () => {
     const blob = new Blob([JSON.stringify(archives, null, 2)], { type: "application/json" });
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "completed_theses.json"; a.click();
