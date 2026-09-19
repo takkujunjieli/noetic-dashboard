@@ -1,0 +1,22 @@
+{
+ "updated_at": "2026-09-18T23:22:44+00:00",
+ "filers": {
+  "0001067983": "Berkshire Hathaway",
+  "0001037389": "Renaissance Technologies",
+  "0001423053": "Citadel Advisors",
+  "0001179392": "Two Sigma",
+  "0001350694": "Bridgewater Associates",
+  "0001603466": "Point72",
+  "0001167483": "Tiger Global",
+  "0001135730": "Coatue Management",
+  "0001273087": "Millennium Management",
+  "0001009207": "D.E. Shaw",
+  "0000102909": "Vanguard Group",
+  "0001364742": "BlackRock",
+  "0000093751": "State Street"
+ },
+ "tickers": {},
+ "errors": [
+  "watchlist 公司名全拿不到,无法匹配"
+ ]
+}
