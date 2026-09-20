@@ -34,7 +34,8 @@
     "AVGO",
     "MSTR",
     "PURR",
-    "AXTI"
+    "AXTI",
+    "ASST"
   ],
   "deep": [
     "AMD",
@@ -70,6 +71,7 @@
     "AVGO",
     "MSTR",
     "PURR",
-    "AXTI"
+    "AXTI",
+    "ASST"
   ]
 }
