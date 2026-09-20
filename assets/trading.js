@@ -1098,7 +1098,25 @@ function buildHist(trades) {
     axis(min) + axis(0) + axis(max) + `</svg>`;
 }
 
-/* 盈亏诊断块:窗口切换(YTD/3M/1M)+ 量化指标 tiles + 收益分布。仅对有完整历史数据的账户显示。 */
+/* 当前账户/窗口内单笔已实现 P&L 极值:最大盈利与最大亏损各 5 笔。 */
+function buildExtremeTrades(trades) {
+  const wins = trades.filter((t) => t.p > 0).sort((a, b) => b.p - a.p).slice(0, 5);
+  const losses = trades.filter((t) => t.p < 0).sort((a, b) => a.p - b.p).slice(0, 5);
+  if (!wins.length && !losses.length) return "";
+  const cells = (t, cls) => t
+    ? `<td>${esc(t.d)}</td><td><b>${esc(t.s || "—")}</b></td><td class="${cls}">${usd(t.p)}</td>`
+    : `<td colspan="3" class="muted">—</td>`;
+  const rows = Array.from({ length: 5 }, (_, i) =>
+    `<tr><td class="pf-ext-rank">${i + 1}</td>${cells(wins[i], "up")}<td class="pf-ext-rank pf-ext-split">${i + 1}</td>${cells(losses[i], "down")}</tr>`
+  ).join("");
+  return `<div class="pf-extreme"><div class="pf-extreme-head"><b>单笔最大盈亏</b><span class="muted small">跟随账户与 ${pfPnlWin.toUpperCase()} 窗口</span></div>
+    <div class="pf-extreme-wrap"><table class="bt-table pf-extreme-tbl"><thead>
+      <tr><th colspan="4" class="pf-ext-win">最大盈利 5 笔</th><th colspan="4" class="pf-ext-loss">最大亏损 5 笔</th></tr>
+      <tr><th>#</th><th>日期</th><th>标的</th><th>P&L</th><th class="pf-ext-split">#</th><th>日期</th><th>标的</th><th>P&L</th></tr>
+    </thead><tbody>${rows}</tbody></table></div></div>`;
+}
+
+/* 盈亏诊断块:窗口切换(YTD/3M/1M)+ 量化指标 tiles + 收益分布 + 单笔极值。仅对有完整历史数据的账户显示。 */
 function buildPnlPanel() {
   if (!PNL || !PNL.accounts) return "";
   const aid = pfAccount
@@ -1127,6 +1145,7 @@ function buildPnlPanel() {
       <div class="pf-pnl-bar"><div class="chips seg" id="pf-pw">${toggle}</div><span class="muted small">无风险收益为 ${(((PNL && PNL.risk_free_annual) || 0) * 100).toFixed(0)}%</span></div>
       <div class="opt-grid">${tiles}</div>
       <div class="pf-hist">${buildHist(trades)}</div>
+      ${buildExtremeTrades(trades)}
       ${buildMonthlyCalendar()}</details>`;
 }
 

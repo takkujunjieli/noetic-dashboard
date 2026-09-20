@@ -327,6 +327,21 @@ footer { margin-top: 50px; text-align: center; }
 .pf-pnl-bar { display: flex; align-items: center; gap: 12px; margin: 8px 0; flex-wrap: wrap; }
 .pf-pnl .chips.seg button[data-pw] { padding: 3px 12px; font-size: 12px; }
 .pf-hist { margin-top: 6px; max-width: 520px; }
+.pf-extreme { margin-top: 14px; }
+.pf-extreme-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+.pf-extreme-wrap { overflow-x: auto; }
+.pf-extreme-tbl { min-width: 640px; white-space: nowrap; }
+.pf-extreme-tbl th, .pf-extreme-tbl td { text-align: right; padding: 5px 8px; }
+.pf-extreme-tbl th:nth-child(2), .pf-extreme-tbl th:nth-child(3),
+.pf-extreme-tbl th:nth-child(6), .pf-extreme-tbl th:nth-child(7),
+.pf-extreme-tbl td:nth-child(2), .pf-extreme-tbl td:nth-child(3),
+.pf-extreme-tbl td:nth-child(6), .pf-extreme-tbl td:nth-child(7) { text-align: left; }
+.pf-extreme-tbl .pf-ext-win { color: var(--up); text-align: center; }
+.pf-extreme-tbl .pf-ext-loss { color: var(--down); text-align: center; border-left: 2px solid var(--border); }
+.pf-extreme-tbl .pf-ext-rank { color: var(--muted); text-align: center; width: 1%; }
+.pf-extreme-tbl .pf-ext-split { border-left: 2px solid var(--border); }
+.pf-extreme-tbl td.up { color: var(--up); font-weight: 600; }
+.pf-extreme-tbl td.down { color: var(--down); font-weight: 600; }
 #gex-exp button.bucket-empty { opacity: .38; text-decoration: line-through; }  /* 该到期桶当前无合约 */
 .wb-overlays { gap: 8px; }
 .wb-overlays .chips button { font-size: 11px; padding: 3px 9px; }
