@@ -478,15 +478,55 @@ async function renderRetailflow() {
   // ① 当前信号表(可在日历日间任选;默认最新)。只列有数据的日子。
   const validIdx = d.map((_, i) => i).filter((i) => tks.some((tk) => D[tk].netbuy[i] != null));
   let nowIdx = validIdx.length ? validIdx[validIdx.length - 1] : d.length - 1;
-  const rowsAt = (idx) => tks.map((tk) => {
-    const o = D[tk], nb = o.netbuy[idx], it = o.intensity[idx],
-      at = o.attention ? o.attention[idx] : null, sg = o.signal[idx];
-    return `<tr><td>${esc(tk)}</td>
-      <td class="${sgncls(nb)}">${nb == null ? "—" : (nb > 0 ? "+" : "") + (nb * 100).toFixed(1) + "%"}</td>
-      <td>${it == null ? "—" : (it * 100).toFixed(1) + "%"}</td>
-      <td>${at == null ? "—" : at.toFixed(0)}</td>
-      <td class="${sgncls(sg)}">${sg == null ? "—" : (sg > 0 ? "+" : "") + sg.toFixed(2)}</td></tr>`;
-  }).join("");
+  let nowSortKey = null, nowSortDir = -1;
+  const histStat = (series, idx) => {
+    const vals = (series || []).slice(Math.max(0, idx - 20), idx).filter((v) => v != null);
+    if (vals.length < 5) return { mean: null, z: null };
+    const mean = vals.reduce((s, v) => s + v, 0) / vals.length;
+    const variance = vals.reduce((s, v) => s + (v - mean) ** 2, 0) / (vals.length - 1);
+    const value = series?.[idx], sd = Math.sqrt(variance);
+    return { mean, z: value != null && sd > 0 ? (value - mean) / sd : null };
+  };
+  const rowsAt = (idx) => {
+    const rows = tks.map((tk) => {
+      const o = D[tk];
+      const nbHist = histStat(o.netbuy, idx), itHist = histStat(o.intensity, idx);
+      return {
+        tk,
+        nb: o.netbuy[idx],
+        nbMean: nbHist.mean,
+        nbZ: nbHist.z,
+        it: o.intensity[idx],
+        itMean: itHist.mean,
+        itZ: itHist.z,
+        at: o.attention ? o.attention[idx] : null,
+        sg: o.signal[idx],
+      };
+    });
+    if (nowSortKey) rows.sort((a, b) => {
+      const av = a[nowSortKey], bv = b[nowSortKey];
+      if (av == null && bv == null) return a.tk.localeCompare(b.tk);
+      if (av == null) return 1;
+      if (bv == null) return -1;
+      return (av - bv) * nowSortDir || a.tk.localeCompare(b.tk);
+    });
+    return rows.map(({ tk, nb, nbMean, nbZ, it, itMean, itZ, at, sg }) => {
+      return `<tr><td>${esc(tk)}</td>
+        <td class="${sgncls(nb)}">${nb == null ? "—" : (nb > 0 ? "+" : "") + (nb * 100).toFixed(1) + "%"}</td>
+        <td class="${sgncls(nbMean)}">${nbMean == null ? "—" : (nbMean > 0 ? "+" : "") + (nbMean * 100).toFixed(1) + "%"}</td>
+        <td class="${sgncls(nbZ)}">${nbZ == null ? "—" : (nbZ > 0 ? "+" : "") + nbZ.toFixed(2)}</td>
+        <td>${it == null ? "—" : (it * 100).toFixed(1) + "%"}</td>
+        <td>${itMean == null ? "—" : (itMean * 100).toFixed(1) + "%"}</td>
+        <td class="${sgncls(itZ)}">${itZ == null ? "—" : (itZ > 0 ? "+" : "") + itZ.toFixed(2)}</td>
+        <td>${at == null ? "—" : at.toFixed(0)}</td>
+        <td class="${sgncls(sg)}">${sg == null ? "—" : (sg > 0 ? "+" : "") + sg.toFixed(2)}</td></tr>`;
+    }).join("");
+  };
+  const sortButton = (key, label) => {
+    const mark = nowSortKey === key ? (nowSortDir < 0 ? "↓" : "↑") : "↕";
+    return `<button class="rf-sort-btn" data-rf-sort="${key}" title="点击切换升降序">${label}<span>${mark}</span></button>`;
+  };
+  const sortHead = (key, label) => `<th>${sortButton(key, label)}</th>`;
   // 日历选择:范围从 2026-01 起(便于日后 backfill),只有有数据的日子可点,其余(周末/未回填)灰不可选。
   const idxByDate = {};
   validIdx.forEach((i) => { idxByDate[d[i]] = i; });
@@ -524,8 +564,13 @@ async function renderRetailflow() {
         <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px">${wk}${cells}</div>
       </div>
       <div class="muted small" style="margin-bottom:6px">选中:<b>${d[nowIdx] || "—"}</b>${nowIdx === latestI ? "(最新)" : ""} · 灰色=无数据(周末/未回填)</div>
-      <table class="bt-table"><tr><th>票</th><th>sentiment</th><th>activity</th><th>Google Trends</th><th>已冻结 PIT 复合</th></tr>${rowsAt(nowIdx)}</table>
-      <div class="muted small">所选原始数据日。sentiment=估计的散户买卖不平衡（报价规则+tick rule）；activity=估计散户量/总量。Google Trends仅展示，不参与主信号。复合列仅显示实际冻结的两项z分数之积，历史未冻结显示—；对应可交易时点见下方研究。</div>`);
+      <div class="rf-now-table-wrap"><table class="bt-table rf-now-table"><thead>
+        <tr><th rowspan="2">票</th><th colspan="3">sentiment</th><th colspan="3">activity</th>
+          <th rowspan="2">${sortButton("at", "Google Trends")}</th><th rowspan="2">${sortButton("sg", "已冻结 PIT 复合")}</th></tr>
+        <tr>${sortHead("nb", "当前")}${sortHead("nbMean", "前20日均值")}${sortHead("nbZ", "z-score")}
+          ${sortHead("it", "当前")}${sortHead("itMean", "前20日均值")}${sortHead("itZ", "z-score")}</tr>
+      </thead><tbody>${rowsAt(nowIdx)}</tbody></table></div>
+      <div class="muted small">所选原始数据日。sentiment=估计的散户买卖不平衡（报价规则+tick rule）；activity=估计散户量/总量。“前20日均值”和 z-score 均只使用本票当前日之前最多20个交易日、至少5个有效观测，z-score 使用样本标准差。Google Trends仅展示，不参与主信号。复合列仅显示实际冻结的两项z分数之积，历史未冻结显示—；对应可交易时点见下方研究。</div>`);
     const prev = $("rf-cal-prev"), next = $("rf-cal-next");
     if (prev) prev.onclick = () => { if (canPrev()) { if (--calM < 1) { calM = 12; calY--; } drawNow(); } };
     if (next) next.onclick = () => { if (canNext()) { if (++calM > 12) { calM = 1; calY++; } drawNow(); } };
@@ -538,6 +583,13 @@ async function renderRetailflow() {
     };
     if (ysel) ysel.onchange = jump;
     if (msel) msel.onchange = jump;
+    document.querySelectorAll("#rf-now [data-rf-sort]").forEach((el) =>
+      el.addEventListener("click", () => {
+        const key = el.dataset.rfSort;
+        if (nowSortKey === key) nowSortDir *= -1;
+        else { nowSortKey = key; nowSortDir = -1; }
+        drawNow();
+      }));
     document.querySelectorAll("#rf-now .rf-cal-d").forEach((el) =>
       el.addEventListener("click", () => { nowIdx = +el.dataset.idx; drawNow(); }));
   };

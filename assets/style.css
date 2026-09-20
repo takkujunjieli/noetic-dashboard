@@ -290,6 +290,14 @@ footer { margin-top: 50px; text-align: center; }
 .bt-table { width: 100%; border-collapse: collapse; font-size: 12px; }
 .bt-table th, .bt-table td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
 .bt-table th { color: var(--muted); font-weight: 500; }
+.rf-sort-btn { appearance: none; border: 0; background: none; color: inherit; font: inherit; padding: 0; cursor: pointer; white-space: nowrap; }
+.rf-sort-btn:hover { color: var(--text); }
+.rf-sort-btn span { color: var(--accent); margin-left: 4px; }
+.rf-sort-btn:focus-visible { outline: 1px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+.rf-now-table-wrap { overflow-x: auto; margin-bottom: 5px; }
+.rf-now-table { min-width: 960px; white-space: nowrap; }
+.rf-now-table thead tr:first-child th { text-align: center; border-bottom-color: transparent; }
+.rf-now-table thead tr:last-child th { font-size: 11px; }
 #ladder { display: block; }
 /* Portfolio 饼图 + 图例 */
 .pf-donut { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin: 12px 0; }

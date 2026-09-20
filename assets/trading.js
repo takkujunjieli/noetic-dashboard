@@ -815,7 +815,8 @@ function volProfileFragment(W, H, dy = 0) {
 const isDeep = (s) => CFG.deep.includes(s);
 
 function renderMiniCards() {
-  const syms = CFG.watchlist.length ? CFG.watchlist : Object.keys(RESEARCH?.tickers || {});
+  const syms = (CFG.watchlist.length ? [...CFG.watchlist] : Object.keys(RESEARCH?.tickers || {}))
+    .sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
   const deepSyms = syms.filter(isDeep);
   if (!SYM || !syms.includes(SYM)) SYM = deepSyms[0] || syms[0] || null;
   // 日均成交额水位:20日均量(EWMA,股)× 现价 ≈ 日均 $ 成交额,√相对当前列表最大值缩放(小票也可辨)
