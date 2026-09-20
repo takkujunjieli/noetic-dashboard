@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-09-19T23:09:43+00:00",
+ "updated_at": "2026-09-20T23:16:15+00:00",
  "watchlist": [
   "AMD",
   "CCL",
@@ -27,13 +27,16 @@
   "IREN",
   "IGV",
   "COHR",
-  "ABNB",
   "PANW",
   "SNOW",
   "ASTS",
   "MRVL",
   "AVGO",
-  "MSTR"
+  "MSTR",
+  "PURR",
+  "AXTI",
+  "ASST",
+  "DELL"
  ],
  "quotes": {
   "AMD": {
@@ -296,16 +299,6 @@
    "pc": 295.98,
    "t": 1789761600
   },
-  "ABNB": {
-   "c": 166.22,
-   "d": 0.29,
-   "dp": 0.1748,
-   "h": 167.34,
-   "l": 164.795,
-   "o": 165.465,
-   "pc": 165.93,
-   "t": 1789761600
-  },
   "PANW": {
    "c": 363.58,
    "d": -11.48,
@@ -364,6 +357,46 @@
    "l": 136.18,
    "o": 136.58,
    "pc": 132.25,
+   "t": 1789761600
+  },
+  "PURR": {
+   "c": 14.09,
+   "d": 1.26,
+   "dp": 9.8207,
+   "h": 14.47,
+   "l": 13.23,
+   "o": 13.82,
+   "pc": 12.83,
+   "t": 1789761600
+  },
+  "AXTI": {
+   "c": 70.03,
+   "d": 2.28,
+   "dp": 3.3653,
+   "h": 71.31,
+   "l": 67.67,
+   "o": 69.72,
+   "pc": 67.75,
+   "t": 1789761600
+  },
+  "ASST": {
+   "c": 30.09,
+   "d": 1.81,
+   "dp": 6.4003,
+   "h": 30.38,
+   "l": 29.33,
+   "o": 29.54,
+   "pc": 28.28,
+   "t": 1789761600
+  },
+  "DELL": {
+   "c": 568.06,
+   "d": -20.34,
+   "dp": -3.4568,
+   "h": 595.51,
+   "l": 568.06,
+   "o": 593.15,
+   "pc": 588.4,
    "t": 1789761600
   }
  },
@@ -1372,48 +1405,6 @@
     "quarter": 1
    }
   ],
-  "ABNB": [
-   {
-    "symbol": "ABNB",
-    "estimate": 1.2769,
-    "actual": 1.37,
-    "period": "2026-06-30",
-    "surprise": 0.0931,
-    "surprisePercent": 7.2911,
-    "year": 2026,
-    "quarter": 2
-   },
-   {
-    "symbol": "ABNB",
-    "estimate": 0.2951,
-    "actual": 0.26,
-    "period": "2026-03-31",
-    "surprise": -0.0351,
-    "surprisePercent": -11.8943,
-    "year": 2026,
-    "quarter": 1
-   },
-   {
-    "symbol": "ABNB",
-    "estimate": 0.6702,
-    "actual": 0.56,
-    "period": "2025-12-31",
-    "surprise": -0.1102,
-    "surprisePercent": -16.4429,
-    "year": 2025,
-    "quarter": 4
-   },
-   {
-    "symbol": "ABNB",
-    "estimate": 2.3883,
-    "actual": 2.21,
-    "period": "2025-09-30",
-    "surprise": -0.1783,
-    "surprisePercent": -7.4656,
-    "year": 2025,
-    "quarter": 3
-   }
-  ],
   "PANW": [
    {
     "symbol": "PANW",
@@ -1663,6 +1654,134 @@
     "surprise": 0.1056,
     "surprisePercent": 1.2701,
     "year": 2025,
+    "quarter": 3
+   }
+  ],
+  "PURR": [
+   {
+    "symbol": "PURR",
+    "estimate": 0.799,
+    "actual": -1.91,
+    "period": "2026-06-30",
+    "surprise": -2.709,
+    "surprisePercent": -339.0488,
+    "year": 2026,
+    "quarter": 4
+   },
+   {
+    "symbol": "PURR",
+    "estimate": 0,
+    "actual": 1.01,
+    "period": "2026-03-31",
+    "surprise": 1.01,
+    "surprisePercent": null,
+    "year": 2026,
+    "quarter": 3
+   }
+  ],
+  "AXTI": [
+   {
+    "symbol": "AXTI",
+    "estimate": 0.0751,
+    "actual": 0.19,
+    "period": "2026-06-30",
+    "surprise": 0.1149,
+    "surprisePercent": 152.996,
+    "year": 2026,
+    "quarter": 2
+   },
+   {
+    "symbol": "AXTI",
+    "estimate": -0.0469,
+    "actual": -0.01,
+    "period": "2026-03-31",
+    "surprise": 0.0369,
+    "surprisePercent": 78.678,
+    "year": 2026,
+    "quarter": 1
+   },
+   {
+    "symbol": "AXTI",
+    "estimate": -0.0585,
+    "actual": -0.05,
+    "period": "2025-12-31",
+    "surprise": 0.0085,
+    "surprisePercent": 14.5299,
+    "year": 2025,
+    "quarter": 4
+   },
+   {
+    "symbol": "AXTI",
+    "estimate": -0.121,
+    "actual": -0.03,
+    "period": "2025-09-30",
+    "surprise": 0.091,
+    "surprisePercent": 75.2066,
+    "year": 2025,
+    "quarter": 3
+   }
+  ],
+  "ASST": [
+   {
+    "symbol": "ASST",
+    "estimate": 1.9856,
+    "actual": -3.65,
+    "period": "2026-06-30",
+    "surprise": -5.6356,
+    "surprisePercent": -283.8235,
+    "year": 2026,
+    "quarter": 2
+   },
+   {
+    "symbol": "ASST",
+    "estimate": -2.6163,
+    "actual": -5.19,
+    "period": "2026-03-31",
+    "surprise": -2.5737,
+    "surprisePercent": -98.3717,
+    "year": 2026,
+    "quarter": 1
+   }
+  ],
+  "DELL": [
+   {
+    "symbol": "DELL",
+    "estimate": 5.0105,
+    "actual": 7.04,
+    "period": "2026-09-30",
+    "surprise": 2.0295,
+    "surprisePercent": 40.5049,
+    "year": 2027,
+    "quarter": 2
+   },
+   {
+    "symbol": "DELL",
+    "estimate": 2.9985,
+    "actual": 4.86,
+    "period": "2026-06-30",
+    "surprise": 1.8615,
+    "surprisePercent": 62.081,
+    "year": 2027,
+    "quarter": 1
+   },
+   {
+    "symbol": "DELL",
+    "estimate": 3.5982,
+    "actual": 3.89,
+    "period": "2026-03-31",
+    "surprise": 0.2918,
+    "surprisePercent": 8.1096,
+    "year": 2026,
+    "quarter": 4
+   },
+   {
+    "symbol": "DELL",
+    "estimate": 2.5215,
+    "actual": 2.59,
+    "period": "2025-12-31",
+    "surprise": 0.0685,
+    "surprisePercent": 2.7166,
+    "year": 2026,
     "quarter": 3
    }
   ]
@@ -2573,44 +2692,6 @@
     "strongSell": 0
    }
   ],
-  "ABNB": [
-   {
-    "symbol": "ABNB",
-    "period": "2026-09-01",
-    "strongBuy": 10,
-    "buy": 20,
-    "hold": 19,
-    "sell": 2,
-    "strongSell": 0
-   },
-   {
-    "symbol": "ABNB",
-    "period": "2026-08-01",
-    "strongBuy": 9,
-    "buy": 19,
-    "hold": 20,
-    "sell": 2,
-    "strongSell": 0
-   },
-   {
-    "symbol": "ABNB",
-    "period": "2026-07-01",
-    "strongBuy": 9,
-    "buy": 19,
-    "hold": 20,
-    "sell": 2,
-    "strongSell": 0
-   },
-   {
-    "symbol": "ABNB",
-    "period": "2026-06-01",
-    "strongBuy": 9,
-    "buy": 18,
-    "hold": 20,
-    "sell": 2,
-    "strongSell": 0
-   }
-  ],
   "PANW": [
    {
     "symbol": "PANW",
@@ -2838,10 +2919,228 @@
     "sell": 0,
     "strongSell": 0
    }
+  ],
+  "PURR": [
+   {
+    "symbol": "PURR",
+    "period": "2026-09-01",
+    "strongBuy": 2,
+    "buy": 6,
+    "hold": 1,
+    "sell": 0,
+    "strongSell": 0
+   },
+   {
+    "symbol": "PURR",
+    "period": "2026-08-01",
+    "strongBuy": 2,
+    "buy": 6,
+    "hold": 1,
+    "sell": 0,
+    "strongSell": 0
+   },
+   {
+    "symbol": "PURR",
+    "period": "2026-07-01",
+    "strongBuy": 2,
+    "buy": 6,
+    "hold": 1,
+    "sell": 0,
+    "strongSell": 0
+   },
+   {
+    "symbol": "PURR",
+    "period": "2026-06-01",
+    "strongBuy": 2,
+    "buy": 6,
+    "hold": 1,
+    "sell": 0,
+    "strongSell": 0
+   }
+  ],
+  "AXTI": [
+   {
+    "symbol": "AXTI",
+    "period": "2026-09-01",
+    "strongBuy": 3,
+    "buy": 6,
+    "hold": 2,
+    "sell": 0,
+    "strongSell": 0
+   },
+   {
+    "symbol": "AXTI",
+    "period": "2026-08-01",
+    "strongBuy": 3,
+    "buy": 6,
+    "hold": 2,
+    "sell": 0,
+    "strongSell": 0
+   },
+   {
+    "symbol": "AXTI",
+    "period": "2026-07-01",
+    "strongBuy": 3,
+    "buy": 5,
+    "hold": 3,
+    "sell": 0,
+    "strongSell": 0
+   },
+   {
+    "symbol": "AXTI",
+    "period": "2026-06-01",
+    "strongBuy": 3,
+    "buy": 5,
+    "hold": 3,
+    "sell": 0,
+    "strongSell": 0
+   }
+  ],
+  "ASST": [
+   {
+    "symbol": "ASST",
+    "period": "2026-09-01",
+    "strongBuy": 2,
+    "buy": 8,
+    "hold": 1,
+    "sell": 0,
+    "strongSell": 0
+   },
+   {
+    "symbol": "ASST",
+    "period": "2026-08-01",
+    "strongBuy": 2,
+    "buy": 8,
+    "hold": 1,
+    "sell": 0,
+    "strongSell": 0
+   },
+   {
+    "symbol": "ASST",
+    "period": "2026-07-01",
+    "strongBuy": 2,
+    "buy": 8,
+    "hold": 1,
+    "sell": 0,
+    "strongSell": 0
+   },
+   {
+    "symbol": "ASST",
+    "period": "2026-06-01",
+    "strongBuy": 2,
+    "buy": 7,
+    "hold": 1,
+    "sell": 0,
+    "strongSell": 0
+   }
+  ],
+  "DELL": [
+   {
+    "symbol": "DELL",
+    "period": "2026-09-01",
+    "strongBuy": 8,
+    "buy": 17,
+    "hold": 10,
+    "sell": 0,
+    "strongSell": 0
+   },
+   {
+    "symbol": "DELL",
+    "period": "2026-08-01",
+    "strongBuy": 8,
+    "buy": 17,
+    "hold": 9,
+    "sell": 0,
+    "strongSell": 0
+   },
+   {
+    "symbol": "DELL",
+    "period": "2026-07-01",
+    "strongBuy": 8,
+    "buy": 17,
+    "hold": 9,
+    "sell": 0,
+    "strongSell": 0
+   },
+   {
+    "symbol": "DELL",
+    "period": "2026-06-01",
+    "strongBuy": 8,
+    "buy": 17,
+    "hold": 8,
+    "sell": 1,
+    "strongSell": 0
+   }
   ]
  },
  "company_news": {
   "AMD": [
+   {
+    "category": "company",
+    "datetime": 1789932508,
+    "headline": "Better Artificial Intelligence Stock: Advanced Micro Devices vs. SK Hynix",
+    "id": 142290346,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "AMD",
+    "source": "Yahoo",
+    "summary": "SK Hynix boasts a 44% net margin and trades at 5.8x forward P/E, while AMD commands a 63x multiple despite stronger growth.",
+    "url": "https://finnhub.io/api/news?id=c84e22fbe0e254393a24aaf0db3be974c990125346d29df5bca046dd5d66207b"
+   },
+   {
+    "category": "company",
+    "datetime": 1789923875,
+    "headline": "Dow Jones Futures Due: Can The Market Take Flight? Robinhood, Sandisk, AMD, Moderna Surge Into Buy Areas",
+    "id": 142289587,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "AMD",
+    "source": "Yahoo",
+    "summary": "The stock market showed choppy, mixed weekly action. But Robinhood, Sandisk, AMD and Moderna rallied into buy areas.",
+    "url": "https://finnhub.io/api/news?id=9fc5fb076abfbc84d736a947b24f02cfd53069df4ba5a11f3ee8f9ebc605882e"
+   },
+   {
+    "category": "company",
+    "datetime": 1789917224,
+    "headline": "3 AI Hardware Stocks Linked To Nvidia And US China Trade Talks",
+    "id": 142288939,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "AMD",
+    "source": "Yahoo",
+    "summary": "AI hardware went from tech niche to geopolitical bargaining chip almost overnight, as Nvidia CEO Jensen Huang now shapes how President Trump talks about regulation, export fees, and China trade. That power shift creates real ripple effects for companies exposed to these talks. Read on to see how three US listed hardware stocks tied to AI chips and datacenter gear are plugged into this story, and why those links could matter for your portfolio. The stocks covered below are just a small slice...",
+    "url": "https://finnhub.io/api/news?id=ebe5949ad0e96af93bd3c674af590ee606aa88f53a3a3ef1a1d2b011add649f2"
+   },
+   {
+    "category": "company",
+    "datetime": 1789894392,
+    "headline": "Broadcom: 5 Reasons To Buy This Dip",
+    "id": 142287276,
+    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2209596910/image_2209596910.jpg?io=getty-c-w1536",
+    "related": "AMD",
+    "source": "SeekingAlpha",
+    "summary": "Broadcom AI chip growth is accelerating, but TPU competition and margin pressures loom. Click for more on AVGO stock.",
+    "url": "https://finnhub.io/api/news?id=e626abd251e326fcb3191f5308cdd521d8161410b30c4b9c2d9de411fc7c1e5f"
+   },
+   {
+    "category": "company",
+    "datetime": 1789875180,
+    "headline": "Jim Cramer sends a blunt message to AMD stock investors",
+    "id": 142277306,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "AMD",
+    "source": "Yahoo",
+    "summary": "Jim Cramer has plenty to say about stocks, but his latest comments on AMD took a notably different tone.",
+    "url": "https://finnhub.io/api/news?id=47b4a991f26b331d6968e81cd37ab0db450e168925d8c0c128048106024d114b"
+   },
+   {
+    "category": "company",
+    "datetime": 1789860360,
+    "headline": "Unpacking the Stock Market's Coiled Spring Set Up",
+    "id": 142275791,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "AMD",
+    "source": "Yahoo",
+    "summary": "Surging corporate earnings, a robust GDP, and widespread pessimism are the perfect cocktail for an explosive upside move in equities.",
+    "url": "https://finnhub.io/api/news?id=2eb6fc54dc727e045212a7c95be3d3466da0e1d08eb014cd4c0f58ce20e4aa70"
+   },
    {
     "category": "company",
     "datetime": 1789849500,
@@ -2885,72 +3184,6 @@
     "source": "Yahoo",
     "summary": "Is Arm still an under-the-radar AI winner? Wall Street is catching on fast.",
     "url": "https://finnhub.io/api/news?id=c2d93f6fb9f59283664d404a56f946de9f98e383522f57f627b707c4fc87fccf"
-   },
-   {
-    "category": "company",
-    "datetime": 1789823791,
-    "headline": "Dow Jones Futures: Will The Market Rally Take Flight? Robinhood, Sandisk, AMD, Moderna Surge Into Buy Areas",
-    "id": 142270881,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "AMD",
-    "source": "Yahoo",
-    "summary": "The stock market showed choppy, mixed weekly action. But Robinhood, Sandisk, AMD and Moderna rallied into buy areas.",
-    "url": "https://finnhub.io/api/news?id=663dca3359b5a23356b87b834359c91722ef989686d8d0df814764738b5d4078"
-   },
-   {
-    "category": "company",
-    "datetime": 1789781789,
-    "headline": "Dow Jones Futures: Nasdaq, S&P 500 Hold; Robinhood, Sandisk, AMD, Moderna Surge Into Buy Areas",
-    "id": 142265965,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "AMD",
-    "source": "Yahoo",
-    "summary": "The stock market showed choppy, mixed weekly action. But Robinhood, Sandisk, AMD and Moderna rallied into buy areas.",
-    "url": "https://finnhub.io/api/news?id=3379762e61113911bd83a45f64f2ace3edf2e69b357479060fd6d958a4c5cd0e"
-   },
-   {
-    "category": "company",
-    "datetime": 1789767510,
-    "headline": "The ARK Trade Watch: Cathie Wood Cuts Crypto Exposure, Then Reverses Course On CoreWeave",
-    "id": 142261563,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "AMD",
-    "source": "Yahoo",
-    "summary": "Cathie Wood's ARK Invest funds made a broad move out of crypto-linked assets during the week, led by the sale of more than 1.5 million shares of the ARK 21Shares Bitcoin ETF.",
-    "url": "https://finnhub.io/api/news?id=16d351dd26ced889084d4ef0584e7d0bece3548bebaa64a84fe6b8ff05044c7e"
-   },
-   {
-    "category": "company",
-    "datetime": 1789765998,
-    "headline": "AMD (AMD) Stock Looks Cheap After Its Huge 3 Year Run",
-    "id": 142261593,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "AMD",
-    "source": "Yahoo",
-    "summary": "Advanced Micro Devices has ridden a powerful AI story in recent years, and the question now is whether the current share price is still grounded in the cash the business can realistically generate. For anyone watching AMD today, the focus has shifted from headline momentum to the harder question of what its cash flows are actually worth. Over the past 3 years, AMD has delivered a share price return of about 467%, which puts a lot of weight on the idea that future cash flows can justify such...",
-    "url": "https://finnhub.io/api/news?id=408fb4f0d407fe1bad815b8994dfed83cca7b777aabc64224a48f2a267175517"
-   },
-   {
-    "category": "company",
-    "datetime": 1789765041,
-    "headline": "Stock Market Today: Nasdaq, S&P Reverse Slightly Higher; Sandisk, Lumentum Lead This Tech Rally (Live Coverage)",
-    "id": 142261558,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "AMD",
-    "source": "Yahoo",
-    "summary": "Stock Market Today: The Dow Jones index falls Friday as oil prices reverse higher. Apple, AMD, Micron and Sandisk are key movers.",
-    "url": "https://finnhub.io/api/news?id=e3af098458f9a0beaa2b04ff4e097daf7d06b8abd21453f00b28e2d75b4ae1b5"
-   },
-   {
-    "category": "company",
-    "datetime": 1789763882,
-    "headline": "Dow Jones Futures: Market Still Choppy; Robinhood, Sandisk, AMD, Moderna Surge Into Buy Areas",
-    "id": 142261595,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "AMD",
-    "source": "Yahoo",
-    "summary": "The stock market showed choppy, mixed weekly action. But Robinhood, Sandisk, AMD and Moderna rallied into buy areas.",
-    "url": "https://finnhub.io/api/news?id=8a0623a1e8c2027b18aca33c4b8d5fb13a715110fada03f9582196d986963b76"
    }
   ],
   "CCL": [
@@ -3019,53 +3252,75 @@
     "source": "Yahoo",
     "summary": "Carnival faces mounting cost concerns as fuel prices climb, while retail sentiment stays neutral ahead of its Sept. 29 earnings report.",
     "url": "https://finnhub.io/api/news?id=4debef94d95bac9a35253857d7a31f28b1d3d75c8d308c8a1f110269df4d00e1"
-   },
-   {
-    "category": "company",
-    "datetime": 1789582733,
-    "headline": "Airlines and Cruise Stocks Face New Oil Shock",
-    "id": 142231601,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "CCL",
-    "source": "Yahoo",
-    "summary": "Fuel costs are quickly separating winners from losers",
-    "url": "https://finnhub.io/api/news?id=9db77a77877ae94b5f3669e363eb4675305675a34b42b13399c310bd4b7fa4b2"
-   },
-   {
-    "category": "company",
-    "datetime": 1789580941,
-    "headline": "Carnival selloff overdone, a buying opportunity into earnings: Stifel",
-    "id": 142198466,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "CCL",
-    "source": "Yahoo",
-    "summary": "Investing.com -- Stifel has told investors to buy Carnival shares ahead of the cruise operator's third-quarter results on Sept. 29, arguing a recent selloff has gone too far.",
-    "url": "https://finnhub.io/api/news?id=f943ffef51468d5368caf3dcdc604f198b17ce238893c1a84d084a6258b24325"
-   },
-   {
-    "category": "company",
-    "datetime": 1789566565,
-    "headline": "Stifel Maintains Buy on Carnival, Lowers Price Target to $35",
-    "id": 142226439,
-    "image": "",
-    "related": "CCL",
-    "source": "Benzinga",
-    "summary": "Stifel  analyst Steven Wieczynski   maintains Carnival (NYSE:CCL) with a Buy and lowers the price target from $37 to $35.",
-    "url": "https://finnhub.io/api/news?id=094f3bef4b2854c0b9599f80ccf477dcc8b49a1ef272ee160a4cb92ff9108794"
-   },
-   {
-    "category": "company",
-    "datetime": 1789549818,
-    "headline": "Rapport Therapeutics To Rally Around 76%? Here Are 10 Top Analyst Forecasts For Wednesday",
-    "id": 142194797,
-    "image": "https://cdn.benzinga.com/files/images/story/2026/09/16/Crypto-Trader-Investor-Broker-Using-Smar.jpg?width=2048&height=1536",
-    "related": "CCL",
-    "source": "Benzinga",
-    "summary": "Analysts raised targets for RAPP, ALLR, UNP and ALVO; cut targets for NU, CLLS and JBHT, with several rating upgrades and downgrades.",
-    "url": "https://finnhub.io/api/news?id=262760f490b82bacdb25acb24dc2f4f16b3b49f7ec9afa8c22b1e8190fd61178"
    }
   ],
   "SNDK": [
+   {
+    "category": "company",
+    "datetime": 1789938840,
+    "headline": "3 Bullish Setups for the Week Ahead",
+    "id": 142291325,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "SNDK",
+    "source": "Yahoo",
+    "summary": "As the bulls reassert their power, leading stocks like SanDisk, Coinbase, and Moderna are setting up in constructive base structures.",
+    "url": "https://finnhub.io/api/news?id=072ee7d50404bcc04383e2c7b77bfe3f5db84e29f64eecc110fe3f38be2da508"
+   },
+   {
+    "category": "company",
+    "datetime": 1789923875,
+    "headline": "Dow Jones Futures Due: Can The Market Take Flight? Robinhood, Sandisk, AMD, Moderna Surge Into Buy Areas",
+    "id": 142289587,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "SNDK",
+    "source": "Yahoo",
+    "summary": "The stock market showed choppy, mixed weekly action. But Robinhood, Sandisk, AMD and Moderna rallied into buy areas.",
+    "url": "https://finnhub.io/api/news?id=9fc5fb076abfbc84d736a947b24f02cfd53069df4ba5a11f3ee8f9ebc605882e"
+   },
+   {
+    "category": "company",
+    "datetime": 1789894980,
+    "headline": "GMIF 2026 Speakers Unveiled: Samsung, Sandisk, Solidigm and More on the Lineup",
+    "id": 142285853,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "SNDK",
+    "source": "Yahoo",
+    "summary": "On September 23, the 5th Global Memory Innovation Forum (GMIF2026) will be held in Shenzhen, China, at the Renaissance Shenzhen Bay Hotel. Co-hosted by the Shenzhen Memory Industry Association and School of Integrated Circuits at Peking University, GMIF2026, themed \"The Future Built on AI Memory and Storage,\" will offer a comprehensive perspective on the memory and storage value chain through the lens of the token economy. The event brings together leading enterprises, distinguished technical ex",
+    "url": "https://finnhub.io/api/news?id=5a41829ff129eeefa74af4ac85e670b82d81294a4367482420d8787e606e7284"
+   },
+   {
+    "category": "company",
+    "datetime": 1789884855,
+    "headline": "3 AI Infrastructure Stocks Riding The White House Push Into Data Centers",
+    "id": 142282162,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "SNDK",
+    "source": "Yahoo",
+    "summary": "A new White House “AI tsar,” an AI Force, and a clear pledge to avoid rules that could slow artificial intelligence have pushed this theme from niche talking point to front-page story for anyone watching US tech. Policy tailwinds can reshape expectations quickly. This piece walks through three stocks from our US AI Hyperscalers & Semiconductor Leaders screener that appear most exposed to this shift and explains what that might mean for your watchlist. The three stocks below are just a starter...",
+    "url": "https://finnhub.io/api/news?id=00521fcbc7738600f80ebe35b238d50125670b96c44c3554dd42ca43a7d3466e"
+   },
+   {
+    "category": "company",
+    "datetime": 1789878526,
+    "headline": "SanDisk Stock Jumped 11% on S&P 100 News. Here’s What the Street Says.",
+    "id": 142278020,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "SNDK",
+    "source": "Yahoo",
+    "summary": "Key TakeawaysIndex Bid: SanDisk stock jumped 11% on Thursday after joining the S&P 100. Street Split: TIKR tracks 25 analysts on SanDisk stock, splitting 16 buys, 4 outperforms, 3 holds, 1 underperform and 1 sell, while the $2,125 mean target sits 19% above Thursday’s $1,792 close.",
+    "url": "https://finnhub.io/api/news?id=75772e5b5caed6c6fd566d93edf557c6729054bbc247e50b142636dc9d16e33e"
+   },
+   {
+    "category": "company",
+    "datetime": 1789860360,
+    "headline": "Unpacking the Stock Market's Coiled Spring Set Up",
+    "id": 142275791,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "SNDK",
+    "source": "Yahoo",
+    "summary": "Surging corporate earnings, a robust GDP, and widespread pessimism are the perfect cocktail for an explosive upside move in equities.",
+    "url": "https://finnhub.io/api/news?id=2eb6fc54dc727e045212a7c95be3d3466da0e1d08eb014cd4c0f58ce20e4aa70"
+   },
    {
     "category": "company",
     "datetime": 1789835691,
@@ -3109,187 +3364,154 @@
     "source": "Yahoo",
     "summary": "The stock market showed choppy, mixed weekly action. But Robinhood, Sandisk, AMD and Moderna rallied into buy areas.",
     "url": "https://finnhub.io/api/news?id=3379762e61113911bd83a45f64f2ace3edf2e69b357479060fd6d958a4c5cd0e"
-   },
-   {
-    "category": "company",
-    "datetime": 1789765041,
-    "headline": "Stock Market Today: Nasdaq, S&P Reverse Slightly Higher; Sandisk, Lumentum Lead This Tech Rally (Live Coverage)",
-    "id": 142261558,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "SNDK",
-    "source": "Yahoo",
-    "summary": "Stock Market Today: The Dow Jones index falls Friday as oil prices reverse higher. Apple, AMD, Micron and Sandisk are key movers.",
-    "url": "https://finnhub.io/api/news?id=e3af098458f9a0beaa2b04ff4e097daf7d06b8abd21453f00b28e2d75b4ae1b5"
-   },
-   {
-    "category": "company",
-    "datetime": 1789763882,
-    "headline": "Dow Jones Futures: Market Still Choppy; Robinhood, Sandisk, AMD, Moderna Surge Into Buy Areas",
-    "id": 142261595,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "SNDK",
-    "source": "Yahoo",
-    "summary": "The stock market showed choppy, mixed weekly action. But Robinhood, Sandisk, AMD and Moderna rallied into buy areas.",
-    "url": "https://finnhub.io/api/news?id=8a0623a1e8c2027b18aca33c4b8d5fb13a715110fada03f9582196d986963b76"
-   },
-   {
-    "category": "company",
-    "datetime": 1789758301,
-    "headline": "Top S&P500 movers in Friday's session",
-    "id": 142258937,
-    "image": "https://www.chartmill.com/images/uploads/CM_Top_Movers_Small_free_2b4ff2fc22.webp",
-    "related": "SNDK",
-    "source": "ChartMill",
-    "summary": "Stay updated with the movement of S&P500 stocks in today's session. Discover which S&P500 stocks are making waves on Friday.",
-    "url": "https://finnhub.io/api/news?id=b7ea6a974dc337bd7072dda8652931218ae47ddf84df8fe300d09059b9142676"
-   },
-   {
-    "category": "company",
-    "datetime": 1789754701,
-    "headline": "Credo Technology Group vs. Sandisk: Which Technology Stock Is a Better Buy in 2026?",
-    "id": 142259310,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "SNDK",
-    "source": "Yahoo",
-    "summary": "One company is growing at a pace that is almost impossible to find in semiconductors. The other has reinvented itself as a contracted AI infrastructure play with billions in guaranteed revenue.",
-    "url": "https://finnhub.io/api/news?id=e8e9fac1d80b74936414db318e860c0175d718dbb4f04665e39aab7df49be971"
-   },
-   {
-    "category": "company",
-    "datetime": 1789752960,
-    "headline": "Micron Faces Growing China Threat. It’s a Bigger Problem for Memory-Chip Rivals.",
-    "id": 142254255,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "SNDK",
-    "source": "Yahoo",
-    "summary": "CXMT—which is a specialist in dynamic random-access memory (DRAM)— intends to establish a NAND flash memory research-and-development production line at a new factory in Beijing, Reuters reported Friday, citing people familiar with the matter.  DRAM is short-term working memory that computers and AI hardware use to manage active data and running processes.  NAND flash memory is used for longer-term storage.",
-    "url": "https://finnhub.io/api/news?id=385e1077e14a46d90899eaeb872d9d2ee0d5d8508b995cb2885844db7ced8c4e"
-   },
-   {
-    "category": "company",
-    "datetime": 1789751565,
-    "headline": "Is Sandisk (SNDK) Stock At Risk As New NAND Competition Targets AI Memory?",
-    "id": 142259692,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "SNDK",
-    "source": "Yahoo",
-    "summary": "Sandisk (NasdaqGS:SNDK) faces fresh competition as China's CXMT Corp. moves to enter the NAND flash memory market. CXMT, known for DRAM, is setting up a dedicated NAND R&D line to build out its flash memory capabilities. The Chinese semiconductor firm has started early discussions with potential NAND customers, including at least one AI startup focused on memory needs. The CXMT push into NAND and AI memory is important, but it should be considered alongside other factors in Sandisk's story...",
-    "url": "https://finnhub.io/api/news?id=2da5e72e6ea4b1dd6630c5b4566479738151a996d5d257a0ac78db97cadb0538"
    }
   ],
   "TSLA": [
    {
     "category": "company",
-    "datetime": 1789853100,
-    "headline": "Cathie Wood Never Sold Ark's Core Stake in Tesla Despite the Stock Trailing Every Other Magnificent Seven Name in 2026. Here's Why Her Multi-Year Conviction Hasn't Wavered.",
-    "id": 142274966,
+    "datetime": 1789940608,
+    "headline": "Tesla (TSLA)’s Autopilot Software Wins Over a Sixth European Country",
+    "id": 142291289,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "TSLA",
     "source": "Yahoo",
-    "summary": "Cathie Wood remains very bullish on Tesla stock.",
-    "url": "https://finnhub.io/api/news?id=f7f592d30f5a57fd96f1a0e8a799c26aeeb8c2a1a3b50a11b64db46fb753ac4c"
+    "summary": "On September 8, 2026, Reuters reported that Slovenia approved Tesla, Inc. (NASDAQ:TSLA)’s FSD Supervised driver-assistance system for its roads. Slovenia became the sixth European country to clear the software ahead of a potential European Union-wide vote that Tesla expects as early as October 6. The Netherlands was the first EU country to provisionally approve FSD […]",
+    "url": "https://finnhub.io/api/news?id=6c299577a2ac39f67b3715b8d606807addf2a810825d8aca229c67abe51c2f64"
    },
    {
     "category": "company",
-    "datetime": 1789849831,
-    "headline": "Tesla Killed Its Solar Roof. Now Elon Musk Wants 100 GW of Solar",
-    "id": 142274975,
+    "datetime": 1789912803,
+    "headline": "Dear Tesla Stock Fans, Mark Your Calendars for September 30",
+    "id": 142291290,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "TSLA",
     "source": "Yahoo",
-    "summary": "Tesla Inc’s solar strategy is getting a much bigger test in Texas. Just a day before Elon Musk declared that \"solar is so obviously the future,\" a Houston-area school board was preparing to vote on Tesla’s proposed $10.1 billion Project...",
-    "url": "https://finnhub.io/api/news?id=d6339b7dc7aa1eb186ead7dc57355265d0e116f9c41c84c82fffd89e0e0fe9da"
+    "summary": "Tesla’s Cybercab-related deadline could provide investors with a key update on the regulatory path for its ambitious Robotaxi strategy.",
+    "url": "https://finnhub.io/api/news?id=8aa2e37d90ac8fac480dd1d66a0cb311a4ccb724e3d4eeff78397d14702972a9"
    },
    {
     "category": "company",
-    "datetime": 1789843800,
-    "headline": "Forget Buying All Seven: The \"Magnificent Seven\" Stock Most Likely to Double by 2028",
-    "id": 142273787,
+    "datetime": 1789912800,
+    "headline": "Tesla's new Cybercab has no steering wheel, pedals or sensors — and NHTSA wants answers by Sept. 30",
+    "id": 142288950,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "TSLA",
     "source": "Yahoo",
-    "summary": "I believe investors are underrating the potential of this compounding machine.",
-    "url": "https://finnhub.io/api/news?id=e7c88893e45fbbc500a296482ce0c87e9709b092bc2dcd956c578f26ddcad785"
+    "summary": "Would you get into a car that’s under federal investigation for having no visible controls?",
+    "url": "https://finnhub.io/api/news?id=97c6744910e050c98336c06d74302c916448bc7a0086528f4d431d9c03311006"
    },
    {
     "category": "company",
-    "datetime": 1789838083,
-    "headline": "Delivery Outlook Shows Tesla (TSLA)’s Core Business Under Pressure. Its Next Growth Engine Must Deliver",
-    "id": 142272959,
+    "datetime": 1789905600,
+    "headline": "3 notable business takes that flew under the radar this week",
+    "id": 142286373,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "TSLA",
     "source": "Yahoo",
-    "summary": "Goldman Sachs has cut its delivery forecast for Tesla, Inc. (NASDAQ:TSLA) while citing weaker sales trends across the company’s most important markets. The investment bank slashed its Q3 delivery forecast to 435,000 vehicles from 490,000. It also lowered its Q4 delivery forecast to 475,000 vehicles from 515,000. The question now is whether Tesla’s demand weakness […]",
-    "url": "https://finnhub.io/api/news?id=c78592ceb9c64dbea34fb176a24453197025e68b2424b4fcf29bde8eda01569e"
+    "summary": "Inside the latest chatter from important business leaders.",
+    "url": "https://finnhub.io/api/news?id=26a36355c60b7b42160db535add1587f66efc1373c85577a48a75567b87fbbb0"
    },
    {
     "category": "company",
-    "datetime": 1789830671,
-    "headline": "Coinbase Files With CFTC To List US Single-Stock Perpetual Futures, Including AAPL And TSLA Contracts",
-    "id": 142272114,
+    "datetime": 1789904100,
+    "headline": "‘High on Coke’: Elon Musk stunned by Berkshire’s dividend payout. Learn how to build your own passive income stream now",
+    "id": 142286337,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "TSLA",
     "source": "Yahoo",
-    "summary": "Coinbase’s filing used an Apple contract as its model, which is cash-settled, has no fixed expiration, and would trade from Sunday to Friday.",
-    "url": "https://finnhub.io/api/news?id=fbf822b1a1edb9f93faaedea12bfb16fa622ace06cadfefe458bcad49a850766"
+    "summary": "How investing in Buffett's favorite drink paid dividends.",
+    "url": "https://finnhub.io/api/news?id=67cd02ae1663279c74ef77423218cb637adad379afc32febe601761a406f8a8d"
    },
    {
     "category": "company",
-    "datetime": 1789830300,
-    "headline": "The Stock Market's Biggest Companies Are Losing Their Grip. Here's the ETF I'd Buy If History Repeats.",
-    "id": 142272106,
+    "datetime": 1789902000,
+    "headline": "Borderlands Mexico: Tesla plans massive Texas distribution center",
+    "id": 142286336,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "TSLA",
     "source": "Yahoo",
-    "summary": "As the market rotates away from large-cap stocks, new opportunities have emerged in their place.",
-    "url": "https://finnhub.io/api/news?id=4d81a180e6f8e18c98e7f7f44ee77306e9a702930d559d9446b189a7f8237f78"
+    "summary": "This week in Borderlands Mexico: Tesla plans massive distribution center near Austin and Danfoss launches new production line in Mexico for North American market. The post Borderlands Mexico: Tesla plans massive Texas distribution center appeared first on FreightWaves.",
+    "url": "https://finnhub.io/api/news?id=f9a38d9fffd0d1c4d7fad898743cd2960cb7c7d93e3c98b4d2a95c385d6c68a5"
    },
    {
     "category": "company",
-    "datetime": 1789808439,
-    "headline": "This Week in TSLA: Elon Musk Touts Roadster Debut, Fuels SpaceX Merger  Talks and More",
-    "id": 142270769,
-    "image": "https://cdn.benzinga.com/files/images/story/2026/09/19/Elon-Musk-Silhouette-With-Tesla-Logo-In-.jpg?width=2048&height=1536",
+    "datetime": 1789896621,
+    "headline": "EXCLUSIVE: Tesla Vehicles Maintain Nearly 19% Junk Title Rate Across Age Groups, VIN Analysis Shows",
+    "id": 142288680,
+    "image": "https://cdn.benzinga.com/files/images/story/2026/09/20/Tesla-EV-electric-vehicle-Service-Center.jpg?width=2048&height=1536",
     "related": "TSLA",
     "source": "Benzinga",
-    "summary": "From the Terafab lawsuit, to a lower Q3 delivery forecast by a major investment bank, here are some of Tesla&#39;s top stories for the week.",
-    "url": "https://finnhub.io/api/news?id=a4e04271b0588e222363c4a9fafd550679ffe85e0be1c22556593d677085f366"
+    "summary": "EpicVIN data shows Tesla has the highest EV junk-title rate at 18.5%, versus 1%-9.5% for leading legacy automaker EVs.",
+    "url": "https://finnhub.io/api/news?id=eae097a43c89929061ffb1d44100fd97458fbc15b6e0a8db12c6e487f193b538"
    },
    {
     "category": "company",
-    "datetime": 1789808400,
-    "headline": "The S&P 500 Has Returned About 11% Annually Since 1958. Here's the ETF I'd Trust for the Next 30 Years.",
-    "id": 142269641,
+    "datetime": 1789895443,
+    "headline": "A Florida Car Dealer Family Spent $60 Million on a Paris Wedding. Here’s How Dealerships Make That Kind of Money",
+    "id": 142285821,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "TSLA",
     "source": "Yahoo",
-    "summary": "Investors need something that evolves with a changing economy.",
-    "url": "https://finnhub.io/api/news?id=13f780888e8f80a1dd6391f3566fca74c418354f968b1de73cb4854818c0ee6f"
+    "summary": "A Florida car dealer family just threw a $60 million Paris wedding, and the fortune behind it traces back to a legal structure most Americans have never heard of that quietly turns local car lots into generational wealth machines.",
+    "url": "https://finnhub.io/api/news?id=fdb383936a5e40bac16fc2a8e8b1e1fe1467bed1505e5f801976c530563e6731"
    },
    {
     "category": "company",
-    "datetime": 1789805621,
-    "headline": "Intel Corporation (INTC)’s Terafab Partnership Could Give Its AI Foundry Ambitions a Major Boost",
-    "id": 142269668,
+    "datetime": 1789894800,
+    "headline": "Elon Musk totaled a $1 million McLaren with Peter Thiel riding shotgun — and hadn't bought insurance",
+    "id": 142285822,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "TSLA",
     "source": "Yahoo",
-    "summary": "Intel Corporation (NASDAQ:INTC) is targeting a potentially significant opportunity through its strategic Terafab partnership with companies associated with Elon Musk, including SpaceX, Tesla, and xAI. The initiative is part of an ambitious semiconductor manufacturing project focused on producing advanced chips for artificial intelligence (AI), robotics, autonomous vehicles, and other compute-intensive applications. On September 15, Tigress […]",
-    "url": "https://finnhub.io/api/news?id=31b8bc9cbfe8fd4a71619ae7750a1be016fb0b76edce5c04b1f5f122884ecfd5"
+    "summary": "His last words before sending it: \"Watch this.\"",
+    "url": "https://finnhub.io/api/news?id=31d42c195df32c60f699b98c9ffc915778bb554d8302e15080922263c449865f"
    },
    {
     "category": "company",
-    "datetime": 1789804844,
-    "headline": "Benzinga Bulls and Bears: Generac, Salesforce, Netflix",
-    "id": 142270809,
-    "image": "https://cdn.benzinga.com/files/images/story/2026/09/19/Bulls-and-Bears-1.jpg?width=2048&height=1536",
+    "datetime": 1789891208,
+    "headline": "Brace For Fuel Hike, Tesla Faces NHTSA Scrutiny and More: This Week in Mobility",
+    "id": 142288714,
+    "image": "https://cdn.benzinga.com/files/images/story/2026/09/20/Tesla-EV-electric-vehicle-Service-Center.jpg?width=2048&height=1536",
     "related": "TSLA",
     "source": "Benzinga",
-    "summary": "Benzinga examined the prospects for many investors’ favorite stocks over the last week — here’s a look at some of our top stories.",
-    "url": "https://finnhub.io/api/news?id=ce1fc99bca590981c08cdf185fe9d30136b9782d65e049a92e4edac55ff98ee9"
+    "summary": "Airlines, Tesla, Waymo and China’s automakers dominated business headlines this week amid rising fuel costs and more.",
+    "url": "https://finnhub.io/api/news?id=d6427cd5621ec9be19442523629638740a6446ae3ec204f96ba49db5fa6a02be"
    }
   ],
   "HOOD": [
+   {
+    "category": "company",
+    "datetime": 1789938696,
+    "headline": "Higher Rates Keep Robinhood Stock And Cash Sweep Platforms In Focus",
+    "id": 142291342,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "HOOD",
+    "source": "Yahoo",
+    "summary": "Interest rates are higher again, inflation is stuck at 3.4%, and the Federal Reserve is openly comfortable keeping borrowing costs elevated for longer. That mix hurts some areas of the market and can support others, especially where cash balances and idle dollars matter. This article walks through three US brokerage and cash-sweep platform stocks exposed to this rate backdrop and explains how the current setup could help or hurt investors who own them. The three broker and platform stocks...",
+    "url": "https://finnhub.io/api/news?id=70a1c41b30d20939e1d168bd23cedc0c697dc31dd29eff432da4d25c595956b3"
+   },
+   {
+    "category": "company",
+    "datetime": 1789923875,
+    "headline": "Dow Jones Futures Due: Can The Market Take Flight? Robinhood, Sandisk, AMD, Moderna Surge Into Buy Areas",
+    "id": 142289587,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "HOOD",
+    "source": "Yahoo",
+    "summary": "The stock market showed choppy, mixed weekly action. But Robinhood, Sandisk, AMD and Moderna rallied into buy areas.",
+    "url": "https://finnhub.io/api/news?id=9fc5fb076abfbc84d736a947b24f02cfd53069df4ba5a11f3ee8f9ebc605882e"
+   },
+   {
+    "category": "company",
+    "datetime": 1789913477,
+    "headline": "Robinhood CEO Says Civil Liability May Not Be Enough To Contain Biggest AI Risks",
+    "id": 142288999,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "HOOD",
+    "source": "Yahoo",
+    "summary": "AI is not so fashionable, in part, because most labs are privately owned, Vlad Tenev said. So that leaves regular investors with no “skin in the game,” he said.",
+    "url": "https://finnhub.io/api/news?id=b76c67390d864a40a9877199ddec337a7411a032137e1d45176af25ea1656a90"
+   },
    {
     "category": "company",
     "datetime": 1789835691,
@@ -3300,6 +3522,17 @@
     "source": "Yahoo",
     "summary": "The stock market showed choppy, mixed weekly action. But Robinhood, Sandisk, AMD and Moderna rallied into buy areas.",
     "url": "https://finnhub.io/api/news?id=2e2d1fd99d1fd47ea7baf528221087254e59ed5b5f7a5aef2d2b18224b08ebfa"
+   },
+   {
+    "category": "company",
+    "datetime": 1789827370,
+    "headline": "Hyperliquid, Uniswap Tokens Surge as SEC Amends Tokenized Stock Trading Rules",
+    "id": 142288679,
+    "image": "https://cdn.benzinga.com/files/images/story/2026/09/19/Hyperliquid-Hype-Crypto-Tokens-Lying-On-.jpg?width=2048&height=1536",
+    "related": "HOOD",
+    "source": "Benzinga",
+    "summary": "Top DeFi protocols like Hyperliquid (HYPE) and Uniswap (UNI) are soaring today after the SEC amended tokenized stock trading rules",
+    "url": "https://finnhub.io/api/news?id=130ef11de483316d9a2c2481ebca80de5dc7ff6e3bca5a5ff1adcb9ff8210827"
    },
    {
     "category": "company",
@@ -3325,6 +3558,28 @@
    },
    {
     "category": "company",
+    "datetime": 1789818300,
+    "headline": "Not Just Banks: 3 Trading Stocks to Watch After the Fed Rate Hike",
+    "id": 142286396,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "HOOD",
+    "source": "Yahoo",
+    "summary": "The Fed raised rates 25 basis points on Sept. 16, and brokers and exchanges like Interactive Brokers, Robinhood, and CME Group stand to benefit from the new hiking cycle.",
+    "url": "https://finnhub.io/api/news?id=89304aea955e45a8b12a0de78a88547e6b1ff17d88a8cf72718c08005dd28a5e"
+   },
+   {
+    "category": "company",
+    "datetime": 1789810132,
+    "headline": "MARA Stock Rose 14% Friday. JPMorgan and Morgan Stanley Still Don’t Agree.",
+    "id": 142279060,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "HOOD",
+    "source": "Yahoo",
+    "summary": "Key TakeawaysBitcoin Rebound: MARA stock jumped 14% Friday as bitcoin surged near $81,000. Split Verdict: Six buys, two outperforms, four holds, one underperform and one sell make up the 14 analysts TIKR tracks on MARA stock, whose mean target of $18 sits 39% above Friday’s close.",
+    "url": "https://finnhub.io/api/news?id=44d3060b6bbbd4a6253f4e9541cfdfe92108ded11a2c766415c2b6888c3c461c"
+   },
+   {
+    "category": "company",
     "datetime": 1789808985,
     "headline": "Coinbase Stock Jumped 12% Yesterday. Bitcoin’s Breakout Wasn’t the Whole Story.",
     "id": 142269712,
@@ -3333,187 +3588,132 @@
     "source": "Yahoo",
     "summary": "Key TakeawaysBitcoin Breakout: Coinbase stock jumped 12% on Friday, September 18, closing at $194, as bitcoin cleared $80,941 and new CFTC and SEC rulemaking reignited the regulatory tailwind Congress couldn’t deliver. Buy Wall: TIKR tracks 18 buys, 3 outperforms, and 11 holds on Coinbase stock.",
     "url": "https://finnhub.io/api/news?id=70cd8290f78ddea356bdf103b66a3ab6ed8103f3d47af87e2309f2df95e8a091"
-   },
-   {
-    "category": "company",
-    "datetime": 1789804861,
-    "headline": "Prediction: Robinhood Will Pass $500 Billion in Customer Assets in 2027",
-    "id": 142269640,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "HOOD",
-    "source": "Yahoo",
-    "summary": "Customers keep moving billions onto the platform every month. Reaching the milestone needs less help from the market than you might think.",
-    "url": "https://finnhub.io/api/news?id=7bfffba85a6944138b100b32cf5a5ee0097daaf2b282c993d021955ca69134c1"
-   },
-   {
-    "category": "company",
-    "datetime": 1789804844,
-    "headline": "Benzinga Bulls and Bears: Generac, Salesforce, Netflix",
-    "id": 142270809,
-    "image": "https://cdn.benzinga.com/files/images/story/2026/09/19/Bulls-and-Bears-1.jpg?width=2048&height=1536",
-    "related": "HOOD",
-    "source": "Benzinga",
-    "summary": "Benzinga examined the prospects for many investors’ favorite stocks over the last week — here’s a look at some of our top stories.",
-    "url": "https://finnhub.io/api/news?id=ce1fc99bca590981c08cdf185fe9d30136b9782d65e049a92e4edac55ff98ee9"
-   },
-   {
-    "category": "company",
-    "datetime": 1789781789,
-    "headline": "Dow Jones Futures: Nasdaq, S&P 500 Hold; Robinhood, Sandisk, AMD, Moderna Surge Into Buy Areas",
-    "id": 142265965,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "HOOD",
-    "source": "Yahoo",
-    "summary": "The stock market showed choppy, mixed weekly action. But Robinhood, Sandisk, AMD and Moderna rallied into buy areas.",
-    "url": "https://finnhub.io/api/news?id=3379762e61113911bd83a45f64f2ace3edf2e69b357479060fd6d958a4c5cd0e"
-   },
-   {
-    "category": "company",
-    "datetime": 1789774210,
-    "headline": "Bitwise CIO Matt Hougan Adjusts His Crypto Outlook After the Senate Vote. Here’s What He Changed",
-    "id": 142263151,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "HOOD",
-    "source": "Yahoo",
-    "summary": "Bitwise CIO Matt Hougan reversed a months-long warning about the CLARITY Act within 24 hours of its Senate defeat, and the market celebrated his pivot. But three quiet caveats buried in his memo tell a different story about what he actually believes.",
-    "url": "https://finnhub.io/api/news?id=8184d93ac231f196245d68309956ddde4a6b61b209e5a50821a0b38a9fb77c14"
-   },
-   {
-    "category": "company",
-    "datetime": 1789772200,
-    "headline": "Robinhood and Coinbase Shares Skyrocket, What You Need To Know",
-    "id": 142263145,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "HOOD",
-    "source": "Yahoo",
-    "summary": "A number of stocks jumped in the afternoon session after the SEC announced a five-year conditional Innovation Exemption allowing eligible platforms to trade tokenized U.S. equities without standard exchange registration.",
-    "url": "https://finnhub.io/api/news?id=ae6adc9c905843e0e16f98e52eb868bce7c678ab035b608251d74af0d641f6c1"
-   },
-   {
-    "category": "company",
-    "datetime": 1789769101,
-    "headline": "Robinhood CFO Shiv Verma Sells 11,472 Shares for $1.3 Million",
-    "id": 142266125,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "HOOD",
-    "source": "Yahoo",
-    "summary": "The disposal was executed under a pre-established Rule 10b5-1 trading plan adopted in August 2025, reducing the insider's direct stake to 56,858 shares.",
-    "url": "https://finnhub.io/api/news?id=92c6111f37abd0c61c0fe10a00307bf34c3cc6b810789fc18767698e7ef1f378"
    }
   ],
   "MU": [
    {
     "category": "company",
-    "datetime": 1789837912,
-    "headline": "Micron (MU) Unveils Breakthrough Memory Product. It Says Much About the Memory Market",
-    "id": 142272958,
+    "datetime": 1789925821,
+    "headline": "Prediction: Micron Will Earn More Profit Than Microsoft in Fiscal 2027",
+    "id": 142289564,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "MU",
     "source": "Yahoo",
-    "summary": "In a major milestone in memory innovation, Micron Technology, Inc. (NASDAQ:MU) on September 15 announced the successful demonstration of a 512GB DDR5 RDIMM memory module for servers. This module is the first of its kind in the world, according to the company. The module can reach speeds of up to 9,200 MT/s. It can also […]",
-    "url": "https://finnhub.io/api/news?id=614e45d9849558640ddb19c822d0e296fcf6612b1eb370969da0b8307230e775"
+    "summary": "Four quarters at the memory maker's guided pace would surpass what the software giant earned in its record fiscal 2026. Whether the pace holds hinges on memory prices.",
+    "url": "https://finnhub.io/api/news?id=d6c3fe4f5b1cb419b67da8b90b79791eefc56ca85cd70a9df0f7efa6a393b907"
    },
    {
     "category": "company",
-    "datetime": 1789833000,
-    "headline": "Better Artificial Intelligence (AI) Stock Pick for 2027: Nvidia versus Micron",
-    "id": 142272105,
+    "datetime": 1789909320,
+    "headline": "Billionaire David Tepper Has 40% of His Fund in Just 3 AI Stocks. Are They Still Buys?",
+    "id": 142288105,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "MU",
     "source": "Yahoo",
-    "summary": "Nvidia and Micron are both great options for next year.",
-    "url": "https://finnhub.io/api/news?id=4ee5d8f73b7bcfc2f2111ad1c3df3c392ea4da661144196a049ad018f0f14e71"
+    "summary": "Amazon, Micron, and TSMC are Tepper's top holdings.",
+    "url": "https://finnhub.io/api/news?id=45ef144ad4453ff673a80a712dcdf71f76575d05190c1e1d0ba08e0b42b1287c"
    },
    {
     "category": "company",
-    "datetime": 1789822500,
-    "headline": "Is Micron's 9% Dip a Warning Sign or Buying Opportunity?",
-    "id": 142270864,
+    "datetime": 1789904101,
+    "headline": "If a Stock Market Crash Is Coming, History Says This Is the Smartest Move You Can Make.",
+    "id": 142286318,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "MU",
     "source": "Yahoo",
-    "summary": "Industrywide concerns about AI development affected Micron this week.",
-    "url": "https://finnhub.io/api/news?id=de871eb56c11cedf3fed5474c18e5d9ee806b2a1543fcdcece2e07346214f100"
+    "summary": "Market crashes happen. But you still can score an investing win.",
+    "url": "https://finnhub.io/api/news?id=29a237eb283330d6dd2ed1e7672f6b83c28a4dfac8832d2bff31a28339729cb2"
    },
    {
     "category": "company",
-    "datetime": 1789810621,
-    "headline": "Semiconductor Stocks to Buy and Hold Through 2030",
-    "id": 142269634,
+    "datetime": 1789897800,
+    "headline": "Should You Buy Micron Stock Before Its Next Earnings Report?",
+    "id": 142285805,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "MU",
     "source": "Yahoo",
-    "summary": "These chipmakers trade anywhere from 6 to 33 times their expected earnings for this fiscal year or next -- and the cheapest one is the one I'd be most careful buying.",
-    "url": "https://finnhub.io/api/news?id=5feec912090c2af6467eed38678b666cfe0e33c669bf48c80710d7d893dc0e73"
+    "summary": "Micron reports fiscal fourth-quarter earnings on Sept. 30.",
+    "url": "https://finnhub.io/api/news?id=540c21b47b0aa9bfdb2cae0fbefe9fafcffe63b088c71ac7620d0b8de8f80812"
    },
    {
     "category": "company",
-    "datetime": 1789808400,
-    "headline": "GPIX: Still Bullish As The Fed Starts Hiking Again",
-    "id": 142270566,
-    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2199578213/image_2199578213.jpg?io=getty-c-w1536",
+    "datetime": 1789896600,
+    "headline": "Micron: Likely Dead Money From Here",
+    "id": 142287841,
+    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2222120644/image_2222120644.jpg?io=getty-c-w1536",
     "related": "MU",
     "source": "SeekingAlpha",
-    "summary": "Goldman Sachs S&P 500 Premium Income ETF gets a Buy rating despite the Fedâs rate hike and shifting macro backdrop. Click for more on the GPIX.",
-    "url": "https://finnhub.io/api/news?id=d052f4855be0cfb79c246fcead3aeb618863cddc046a3ac2fa8994df00c155a6"
+    "summary": "Micron sees record AI-driven memory results, but peak margins and ASPs may normalize. Click for more on MU stock.",
+    "url": "https://finnhub.io/api/news?id=92be3863496b289e0fb5184356d01a65dc282d1cce20ac63d47228775ce555b6"
    },
    {
     "category": "company",
-    "datetime": 1789793149,
-    "headline": "UBS now expects AI capex to reach nearly $1tn this year and around $1.4tn by 2027",
-    "id": 142267642,
+    "datetime": 1789892400,
+    "headline": "3 Stocks Bound to Ignore The September Effect",
+    "id": 142285803,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "MU",
     "source": "Yahoo",
-    "summary": "Investing.com -- UBS now expects artificial intelligence capital expenditure to reach nearly $1 trillion in 2026 before climbing to around $1.4 trillion in 2027, with surging memory costs accounting for most of the increase.",
-    "url": "https://finnhub.io/api/news?id=617ffa5e59136687325e5728fe4fa820a8e1071ee61527ac70a48ec2f8230141"
+    "summary": "The September Effect can sink stocks, but likely not these three.",
+    "url": "https://finnhub.io/api/news?id=3f61594c26c246cdb16b626c0e3de08688856f38ef0ede6bed6cb9bcf3fa6d22"
    },
    {
     "category": "company",
-    "datetime": 1789780620,
-    "headline": "Nvidia, SK Hynix send strong signal to Micron investors",
-    "id": 142266042,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "datetime": 1789891200,
+    "headline": "ADX Vs. GPIX: Old School Equity Fund Outperforms Newfangled Covered Call ETF",
+    "id": 142286511,
+    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/1282848765/image_1282848765.jpg?io=getty-c-w1536",
     "related": "MU",
-    "source": "Yahoo",
-    "summary": "With Micron’s earnings report looming, competitors have weighed in on the same pressure they’re all feeling.",
-    "url": "https://finnhub.io/api/news?id=7976e8ba49f89356fc754520850d718e800d4ecc339790a9e9e341a1378a2311"
+    "source": "SeekingAlpha",
+    "summary": "ADX vs. GPIX: compare total returns, 8% yields, expenses, and covered-call income. Learn which fund fits your goalsâgrowth or monthly income. Click for more.",
+    "url": "https://finnhub.io/api/news?id=efe72fef466e8920aebc9b9c17a08ce958b086dfad5ae8d5f9c42ed737b2396b"
    },
    {
     "category": "company",
-    "datetime": 1789777155,
-    "headline": "What Does Micron Technology (MU) Warning Of Shortages Through 2027 Mean?",
-    "id": 142265030,
+    "datetime": 1789884855,
+    "headline": "3 AI Infrastructure Stocks Riding The White House Push Into Data Centers",
+    "id": 142282162,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "MU",
     "source": "Yahoo",
-    "summary": "Micron Technology (NasdaqGS: MU) and Intel CEOs cautioned that memory chip shortages and higher prices could persist through 2027. Micron's leadership indicated on a recent call that supply constraints may only start to ease meaningfully from 2028 onward. Intel's CEO echoed the outlook for extended tightness in DRAM and NAND availability, pointing to heavy AI and data center demand. This warning from Micron and Intel about multi year memory shortages and rising prices is important context...",
-    "url": "https://finnhub.io/api/news?id=505c80b23075b5b1a1c59c9bfb85f59dceeb2a56b0196a7534af9b289bc94f7b"
+    "summary": "A new White House “AI tsar,” an AI Force, and a clear pledge to avoid rules that could slow artificial intelligence have pushed this theme from niche talking point to front-page story for anyone watching US tech. Policy tailwinds can reshape expectations quickly. This piece walks through three stocks from our US AI Hyperscalers & Semiconductor Leaders screener that appear most exposed to this shift and explains what that might mean for your watchlist. The three stocks below are just a starter...",
+    "url": "https://finnhub.io/api/news?id=00521fcbc7738600f80ebe35b238d50125670b96c44c3554dd42ca43a7d3466e"
    },
    {
     "category": "company",
-    "datetime": 1789771020,
-    "headline": "Q3 Earnings Season Preview: What Can Investors Expect?",
-    "id": 142265044,
+    "datetime": 1789884301,
+    "headline": "Prediction: These 3 Stocks Will 10x in the Next 10 Years",
+    "id": 142283146,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "MU",
     "source": "Yahoo",
-    "summary": "S&P 500 earnings in Q3 are expected to increase by +24% from the same period last year, reflecting the 8th consecutive quarter of double-digit earnings growth for the index. Earnings revisions have been positive, sustaining the favorable trend in place for almost a year now.",
-    "url": "https://finnhub.io/api/news?id=d8f0c153542deee249550d439c5d144d2e66bd54587607498e19ca48ad80a7ff"
+    "summary": "The market might seem bloated, but these stocks still have a long runway for growth.",
+    "url": "https://finnhub.io/api/news?id=06412f268f7847a077959471b88f108be2a35d18c546da5ed14d98fa3a5a22fa"
    },
    {
     "category": "company",
-    "datetime": 1789768261,
-    "headline": "Micron Turned $10,000 Into About $130,000 in 5 Years. Most of It Came in the Past 12 Months.",
-    "id": 142261538,
+    "datetime": 1789860360,
+    "headline": "Unpacking the Stock Market's Coiled Spring Set Up",
+    "id": 142275791,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "MU",
     "source": "Yahoo",
-    "summary": "Nearly all of the gain arrived in the past 12 months. What was behind it is the same factor that cost the memory producer $5.8 billion three years ago.",
-    "url": "https://finnhub.io/api/news?id=cb149a1b9c53bb6aa2904326b09ad9f277e28f169bcf6f363ca6c719e2e90e0e"
+    "summary": "Surging corporate earnings, a robust GDP, and widespread pessimism are the perfect cocktail for an explosive upside move in equities.",
+    "url": "https://finnhub.io/api/news?id=2eb6fc54dc727e045212a7c95be3d3466da0e1d08eb014cd4c0f58ce20e4aa70"
    }
   ],
   "RKLB": [
+   {
+    "category": "company",
+    "datetime": 1789815600,
+    "headline": "MarketBeat Week in Review – 09/14 - 09/18",
+    "id": 142286329,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "RKLB",
+    "source": "Yahoo",
+    "summary": "A volatile week saw AI regulation fears hit chip stocks before a recovery, with MarketBeat writers covering Micron, Nike, Tesla, Rocket Lab, Adobe, SpaceX and other stocks ahead of key inflation and jobs data.",
+    "url": "https://finnhub.io/api/news?id=904750d2e043356ea12a4afb85fdf82a865d94b0a3b19739cc572b4f999707a8"
+   },
    {
     "category": "company",
     "datetime": 1789793520,
@@ -3612,20 +3812,108 @@
     "source": "Yahoo",
     "summary": "Stocks that outperform the market usually share key traits such as rising sales, expanding margins, and increasing returns on capital. The select few that can do all three for many years are often the ones that make you life-changing money.",
     "url": "https://finnhub.io/api/news?id=812cdf1d121ec34d600389c8a13df366cf03dd186a1277b7a8e2bdbae0ab2487"
-   },
-   {
-    "category": "company",
-    "datetime": 1789713878,
-    "headline": "RKLB, ASTS, VOYG, LUNR Steal SpaceX’s Thunder — Here’s What Lit Up Space Stocks This Week",
-    "id": 142240128,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "RKLB",
-    "source": "Yahoo",
-    "summary": "Rocket Lab raised $1.944 billion for its $8 billion Iridium acquisition, while advancing Neutron hardware testing in Virginia.",
-    "url": "https://finnhub.io/api/news?id=f185401e0863c31bfb6a900f278d17b7b5db5ccb60e32cc8d389a89f2c1c01ab"
    }
   ],
   "COIN": [
+   {
+    "category": "company",
+    "datetime": 1789938840,
+    "headline": "3 Bullish Setups for the Week Ahead",
+    "id": 142291325,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "COIN",
+    "source": "Yahoo",
+    "summary": "As the bulls reassert their power, leading stocks like SanDisk, Coinbase, and Moderna are setting up in constructive base structures.",
+    "url": "https://finnhub.io/api/news?id=072ee7d50404bcc04383e2c7b77bfe3f5db84e29f64eecc110fe3f38be2da508"
+   },
+   {
+    "category": "company",
+    "datetime": 1789923875,
+    "headline": "Dow Jones Futures Due: Can The Market Take Flight? Robinhood, Sandisk, AMD, Moderna Surge Into Buy Areas",
+    "id": 142289587,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "COIN",
+    "source": "Yahoo",
+    "summary": "The stock market showed choppy, mixed weekly action. But Robinhood, Sandisk, AMD and Moderna rallied into buy areas.",
+    "url": "https://finnhub.io/api/news?id=9fc5fb076abfbc84d736a947b24f02cfd53069df4ba5a11f3ee8f9ebc605882e"
+   },
+   {
+    "category": "company",
+    "datetime": 1789923439,
+    "headline": "Brian Armstrong Says Coinbase May Benefit After CLARITY Act Fails, Banks Face More Competition",
+    "id": 142289671,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "COIN",
+    "source": "Yahoo",
+    "summary": "Coinbase's CEO said that SEC and CFTC standards may be more lenient than the bill.",
+    "url": "https://finnhub.io/api/news?id=5a226a67c2cc1bbf9499ce67767af9d396d726eb6b88296ffa5124c11a0848d7"
+   },
+   {
+    "category": "company",
+    "datetime": 1789878196,
+    "headline": "Anthony Scaramucci Defends COIN CEO Brian Armstrong After CLARITY Act Stalls: ‘No One Worked Harder’",
+    "id": 142288700,
+    "image": "https://cdn.benzinga.com/files/images/story/2026/09/20/Washington--Dcusa---April-26--2018-Antho.jpg?width=2048&height=1536",
+    "related": "COIN",
+    "source": "Benzinga",
+    "summary": "Anthony Scaramucci defends Coinbase CEO Brian Armstrong after the CLARITY Act crypto bill fails again in the Senate.",
+    "url": "https://finnhub.io/api/news?id=e5ec88220ce3766520c6a6a1341b1f70711a07805563871ab8ef7645a039abfc"
+   },
+   {
+    "category": "company",
+    "datetime": 1789877912,
+    "headline": "Coinbase (COIN) Says Custom AI Agents Drove Most Trading Activity Last Week",
+    "id": 142279221,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "COIN",
+    "source": "Yahoo",
+    "summary": "Coinbase Global (NasdaqGS:COIN) reported that its agentic trading stack powered most crypto transaction flows over the past week. Management highlighted Grok as a leading AI agent on the platform, driving a large share of AI agent-driven trading volumes. Developer-built custom interfaces using Coinbase for Agents and the x402 payment protocol accounted for the majority of notional market activity. The rise of Coinbase’s agent-driven trading workflows, led by Grok and custom agents, needs to...",
+    "url": "https://finnhub.io/api/news?id=25c87820a2435948393e3847ec404428246890aec9ffe1d8f005bf3c51c58b83"
+   },
+   {
+    "category": "company",
+    "datetime": 1789868064,
+    "headline": "Fairshake Has $193 Million for the Midterms. Which Coin Stands to Gain the Most on November 3?",
+    "id": 142276949,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "COIN",
+    "source": "Yahoo",
+    "summary": "Fairshake is sitting on $193 million to shape the midterms, but one crypto donor contributed for reasons far more personal than the others, betting the entire future of its business on what happens November 3.",
+    "url": "https://finnhub.io/api/news?id=0ecc89c18379122474a624a78c4c6c19684ca37bd727149f7ec269f35990c15b"
+   },
+   {
+    "category": "company",
+    "datetime": 1789866895,
+    "headline": "Hyperliquid Surges 18% to New High as Bitcoin Sees 5% Gain. What’s Behind the Divergence?",
+    "id": 142276950,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "COIN",
+    "source": "Yahoo",
+    "summary": "Hyperliquid just shattered its all-time high while Bitcoin barely budged, and the gap between them traces back to a single announcement that carries a $46 million price tag for anyone who wants in.",
+    "url": "https://finnhub.io/api/news?id=21ef8d461594f201b75da8844f609ff4ffcc77cada65cdac455e7a367963f61b"
+   },
+   {
+    "category": "company",
+    "datetime": 1789862534,
+    "headline": "Brian Armstrong Predicts $400,000 Bitcoin Price by 2030. The Forecast Requires 51% Growth Annually: Can It Hold?",
+    "id": 142276951,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "COIN",
+    "source": "Yahoo",
+    "summary": "Coinbase CEO Brian Armstrong quietly slashed his Bitcoin price target by 60% while keeping his 2030 deadline intact, and the math behind his new number reveals just how narrow the path to getting there actually is.",
+    "url": "https://finnhub.io/api/news?id=c8f62c2e9f011c257b2eb9efc833a5280f67110a47cccceccb12edfde36f2957"
+   },
+   {
+    "category": "company",
+    "datetime": 1789857395,
+    "headline": "XRP ETFs Have Been Frozen at $1.71 Billion. When Will Inflows Reach $2 Billion?",
+    "id": 142275896,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "COIN",
+    "source": "Yahoo",
+    "summary": "XRP ETFs have stalled well short of a key milestone, and three straight weeks of slowing inflows raise a pointed question: was August the peak, or can something still shake fund investors back into action?",
+    "url": "https://finnhub.io/api/news?id=b205643664752e343a41bdf9a2da6a5456587166fc4f6f4629a18ca93c8da6fb"
+   },
    {
     "category": "company",
     "datetime": 1789839181,
@@ -3636,120 +3924,9 @@
     "source": "Yahoo",
     "summary": "Blue Macellari of asset manager T. Rowe Price said agency rulemaking could replace the CLARITY Act and move faster.",
     "url": "https://finnhub.io/api/news?id=1c251cdca7f5c1259e7521c13eea1af304d448e876db0c21c2c5152127dcff7e"
-   },
-   {
-    "category": "company",
-    "datetime": 1789835691,
-    "headline": "Dow Jones Futures: Can The Market Rally Take Flight? Robinhood, Sandisk, AMD, Moderna Surge Into Buy Areas",
-    "id": 142272964,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "COIN",
-    "source": "Yahoo",
-    "summary": "The stock market showed choppy, mixed weekly action. But Robinhood, Sandisk, AMD and Moderna rallied into buy areas.",
-    "url": "https://finnhub.io/api/news?id=2e2d1fd99d1fd47ea7baf528221087254e59ed5b5f7a5aef2d2b18224b08ebfa"
-   },
-   {
-    "category": "company",
-    "datetime": 1789830671,
-    "headline": "Coinbase Files With CFTC To List US Single-Stock Perpetual Futures, Including AAPL And TSLA Contracts",
-    "id": 142272114,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "COIN",
-    "source": "Yahoo",
-    "summary": "Coinbase’s filing used an Apple contract as its model, which is cash-settled, has no fixed expiration, and would trade from Sunday to Friday.",
-    "url": "https://finnhub.io/api/news?id=fbf822b1a1edb9f93faaedea12bfb16fa622ace06cadfefe458bcad49a850766"
-   },
-   {
-    "category": "company",
-    "datetime": 1789823791,
-    "headline": "Dow Jones Futures: Will The Market Rally Take Flight? Robinhood, Sandisk, AMD, Moderna Surge Into Buy Areas",
-    "id": 142270881,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "COIN",
-    "source": "Yahoo",
-    "summary": "The stock market showed choppy, mixed weekly action. But Robinhood, Sandisk, AMD and Moderna rallied into buy areas.",
-    "url": "https://finnhub.io/api/news?id=663dca3359b5a23356b87b834359c91722ef989686d8d0df814764738b5d4078"
-   },
-   {
-    "category": "company",
-    "datetime": 1789821364,
-    "headline": "Bitcoin-Linked Stocks Rally, but Weak Relative Strength and Uneven Profits Keep Recovery Selective",
-    "id": 142270461,
-    "image": "https://www.chartmill.com/images/uploads/bitcoin_theme_e026b81095.webp",
-    "related": "COIN",
-    "source": "ChartMill",
-    "summary": "Bitcoin stocks rebound selectively as short-term gains mask weak one-year returns; investors favor momentum and stronger setups over broad crypto beta.",
-    "url": "https://finnhub.io/api/news?id=b72a83064dc6b79856a9f4943b5d9d67f15b433657d341d5a0d8c76f9205cbb2"
-   },
-   {
-    "category": "company",
-    "datetime": 1789808985,
-    "headline": "Coinbase Stock Jumped 12% Yesterday. Bitcoin’s Breakout Wasn’t the Whole Story.",
-    "id": 142269712,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "COIN",
-    "source": "Yahoo",
-    "summary": "Key TakeawaysBitcoin Breakout: Coinbase stock jumped 12% on Friday, September 18, closing at $194, as bitcoin cleared $80,941 and new CFTC and SEC rulemaking reignited the regulatory tailwind Congress couldn’t deliver. Buy Wall: TIKR tracks 18 buys, 3 outperforms, and 11 holds on Coinbase stock.",
-    "url": "https://finnhub.io/api/news?id=70cd8290f78ddea356bdf103b66a3ab6ed8103f3d47af87e2309f2df95e8a091"
-   },
-   {
-    "category": "company",
-    "datetime": 1789800247,
-    "headline": "What Moved Markets This Week",
-    "id": 142269870,
-    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2149954800/image_2149954800.jpg?io=getty-c-w1536",
-    "related": "COIN",
-    "source": "SeekingAlpha",
-    "summary": "U.S. stocks closed the week mixed as Treasury yields rose amid a Fed rate hike, and fears of AI development grew. Read more about this week's top events on Wall Street.",
-    "url": "https://finnhub.io/api/news?id=97da2091fb37a98868cc4df2c623e9c31db2fd3283341dda1e7fd6b0739faf09"
-   },
-   {
-    "category": "company",
-    "datetime": 1789781789,
-    "headline": "Dow Jones Futures: Nasdaq, S&P 500 Hold; Robinhood, Sandisk, AMD, Moderna Surge Into Buy Areas",
-    "id": 142265965,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "COIN",
-    "source": "Yahoo",
-    "summary": "The stock market showed choppy, mixed weekly action. But Robinhood, Sandisk, AMD and Moderna rallied into buy areas.",
-    "url": "https://finnhub.io/api/news?id=3379762e61113911bd83a45f64f2ace3edf2e69b357479060fd6d958a4c5cd0e"
-   },
-   {
-    "category": "company",
-    "datetime": 1789774210,
-    "headline": "Bitwise CIO Matt Hougan Adjusts His Crypto Outlook After the Senate Vote. Here’s What He Changed",
-    "id": 142263151,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "COIN",
-    "source": "Yahoo",
-    "summary": "Bitwise CIO Matt Hougan reversed a months-long warning about the CLARITY Act within 24 hours of its Senate defeat, and the market celebrated his pivot. But three quiet caveats buried in his memo tell a different story about what he actually believes.",
-    "url": "https://finnhub.io/api/news?id=8184d93ac231f196245d68309956ddde4a6b61b209e5a50821a0b38a9fb77c14"
-   },
-   {
-    "category": "company",
-    "datetime": 1789773049,
-    "headline": "What Is a Stablecoin Reward, and Why Did the CLARITY Act’s Failure Keep It Alive?",
-    "id": 142263137,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "COIN",
-    "source": "Yahoo",
-    "summary": "Millions of people collect stablecoin rewards without knowing who actually funds them, and the Senate's failure to pass landmark crypto legislation left that question more complicated than ever.",
-    "url": "https://finnhub.io/api/news?id=92e07cb4bdcfcbcbe91924ebd28cdab9e9888f121167ef52cd0c01ba8f970333"
    }
   ],
-  "FIG": [
-   {
-    "category": "company",
-    "datetime": 1789588577,
-    "headline": "Salesforce vs. Figma: Evaluating the Better High-Growth Software Stock to Buy in 2026",
-    "id": 142201902,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "FIG",
-    "source": "Yahoo",
-    "summary": "Salesforce boasts an 18% net margin and $14.4 billion in free cash flow, while Figma races towards profitability at 41% revenue growth, a classic clash of proven cash generation versus explosive expansion.",
-    "url": "https://finnhub.io/api/news?id=64c1d960abb185fc1c48f98f17a645dadade4d6fb34c9657b133d40bbd78598d"
-   }
-  ],
+  "FIG": [],
   "AAOI": [
    {
     "category": "company",
@@ -3805,162 +3982,118 @@
     "source": "Benzinga",
     "summary": "Modern AI data centers operate as distributed compute systems, where performance depends not only on accelerators, but also on the high-speed interconnects that move data between them. As AI systems scale, moving data",
     "url": "https://finnhub.io/api/news?id=82f85dedfb64aa46e2ddc20757e356809f6bda170de8260e400f17545c8932f3"
-   },
-   {
-    "category": "company",
-    "datetime": 1789596860,
-    "headline": "Applied Optoelectronics (AAOI) Pulled Back Sharply, Is It Still Above Fair Value?",
-    "id": 142204258,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "AAOI",
-    "source": "Yahoo",
-    "summary": "Applied Optoelectronics (AAOI) has drawn fresh attention after a sharp pullback, with the share price down about 37% over the past month and about 43% over the past 3 months. Short term momentum has clearly faded, with Applied Optoelectronics recording a 7 day share price return of down 14.6% and a 30 day share price return of down 36.6%. However, the year to date share price return is still up 140.6% and the 1 year total shareholder return is up 229.4%. Scan how Applied Optoelectronics...",
-    "url": "https://finnhub.io/api/news?id=33aa2c3e69a3b962f246e2bd45ca00d029a20b2815d727ca7a1c73630015ace5"
-   },
-   {
-    "category": "company",
-    "datetime": 1789586253,
-    "headline": "CIEN Targets 30% Revenue Growth Through 2029 — Peers COHR, GLW And AAOI Rally After Guidance",
-    "id": 142200866,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "AAOI",
-    "source": "Yahoo",
-    "summary": "The networking company also expects adjusted operating margins of 32% to 35% and free cash flow margins of about 20% by fiscal 2029.",
-    "url": "https://finnhub.io/api/news?id=631f7fade29f95dfc76ce44ccaa4c73ba9a11fd4b252188b6feaf111dbdb9cd7"
-   },
-   {
-    "category": "company",
-    "datetime": 1789569975,
-    "headline": "Optics Stocks Rally as Oversold Bounce Takes Hold: Coherent Jumps 6%, Lumentum Climbs 5%, Applied Optoelectronics Advances 3%",
-    "id": 142197263,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "AAOI",
-    "source": "Yahoo",
-    "summary": "Coherent, Lumentum, and Applied Optoelectronics are surging together this morning with no shared headline, no analyst upgrade, and no product news to explain it, and the reason behind the correlated pop reveals something more telling than a simple good day for optics stocks.",
-    "url": "https://finnhub.io/api/news?id=89ba1fc92e48270cbd2d0e8b36308c53992dc7798c97682a2695ffa4a99caf17"
-   },
-   {
-    "category": "company",
-    "datetime": 1789564537,
-    "headline": "Applied Optoelectronics's Next Run Could Be Bigger",
-    "id": 142197843,
-    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2266840152/image_2266840152.jpg?io=getty-c-w1536",
-    "related": "AAOI",
-    "source": "SeekingAlpha",
-    "summary": "Applied Optoelectronics targets 650,000 monthly units by year-end 2026, as 800G and 1.6T demand exceeds available capacity. Read more on AAOI stock here.",
-    "url": "https://finnhub.io/api/news?id=e42b1218a5d0a21d1d6628d29b3141610825e5c663fadc5b60d0f1c7c55d85eb"
    }
   ],
   "SPCX": [
    {
     "category": "company",
-    "datetime": 1789847821,
-    "headline": "SpaceX Stock Has Gone Nowhere Since Its First Day of Trading",
-    "id": 142273979,
+    "datetime": 1789939200,
+    "headline": "Should You Buy SpaceX Stock Before Its Next Earnings Report?",
+    "id": 142291269,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "SPCX",
     "source": "Yahoo",
-    "summary": "The stock sits below where it closed on day one, even though revenue nearly doubled last quarter.",
-    "url": "https://finnhub.io/api/news?id=7bdf66924c48ffa5dcf43524251d55a4617f1eec5bedb35a05676a8b352a8a4d"
+    "summary": "SpaceX stock has rebounded nicely since its prior sell-off, but can the momentum last until its next earnings report?",
+    "url": "https://finnhub.io/api/news?id=f0e87b629eedcb1caf02c55d5d95f4d32b5a8e8aa63e82883d5633edbf39fb3b"
    },
    {
     "category": "company",
-    "datetime": 1789846018,
-    "headline": "SpaceX Nasdaq 100 weight to jump to 2.82% in quarterly rebalance -Bloomberg",
-    "id": 142273980,
+    "datetime": 1789921208,
+    "headline": "Musk Says NVIDIA (NVDA) AI Chips Are Headed to Space With SpaceX (SPCX) Next Year",
+    "id": 142289556,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "SPCX",
     "source": "Yahoo",
-    "summary": "Investing.com - SpaceX’s weighting in the Nasdaq 100 Index will more than double to 2.82% when the benchmark's quarterly rebalance takes effect on Monday, Bloomberg reported, citing data from the index provider.",
-    "url": "https://finnhub.io/api/news?id=7cd10617b18eb20ad43211a9b352953d1cf4ea160d674afeca0e0b6063d62294"
+    "summary": "Elon Musk has never shied away from ambitious timelines, and his most recent one connects two companies directly together. In a post on X dated September 13, Musk stated that he is “highly confident” that Space Exploration Technologies Corp. (NASDAQ:SPCX) will transport NVIDIA Corporation (NASDAQ:NVDA) Vera Rubin NVL72 AI computers into orbit next year, repeating […]",
+    "url": "https://finnhub.io/api/news?id=a3d42b6d7a8a55a22f4a742bc78ec2f0ae380123806a80c56d5336fedf296aec"
    },
    {
     "category": "company",
-    "datetime": 1789840121,
-    "headline": "Anthropic Reportedly Delays IPO; OpenAI Expects Massive Cash Burn",
-    "id": 142272944,
+    "datetime": 1789920817,
+    "headline": "Howmet Aerospace (HWM) Stock Sees Modest Fair Value Lift As Analysts Raise Targets",
+    "id": 142289607,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "SPCX",
     "source": "Yahoo",
-    "summary": "The Anthropic IPO will be delayed until November, the WSJ reported. OpenAI forecast massive negative cash flow, the FT reported.",
-    "url": "https://finnhub.io/api/news?id=64c3fcfede22ae8b72a9013fa1b9c9a9eae9a0ce0f9501bbdae5097ea16640a9"
+    "summary": "The fair value price target for Howmet Aerospace has shifted from US$325.93 to US$337.74 per share, based on updated modeling of the company. Recent analyst research, including new initiations and higher targets in the US$320 to US$375 range, links these changes to fresh views on execution, demand, and competitive developments tied to SpaceX and GE Aerospace. Read on to see how this evolving narrative might shape your own view of Howmet Aerospace over time. Stay updated as the Fair Value for...",
+    "url": "https://finnhub.io/api/news?id=14117241c53326ff50e0775540b39af2e603555cd0c9b235206d2be1c37c45c2"
    },
    {
     "category": "company",
-    "datetime": 1789831800,
-    "headline": "Anthropic IPO: 1 Key Lesson Investors Can Learn From SpaceX",
-    "id": 142272107,
+    "datetime": 1789919951,
+    "headline": "Elon Musk Predicts Starlink Satellites Could Rewrite the Rules of Global Connectivity",
+    "id": 142289027,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "SPCX",
     "source": "Yahoo",
-    "summary": "Blockbuster IPOs rarely live up to the hype.",
-    "url": "https://finnhub.io/api/news?id=5ee050994689d2d6797e3fee2466cb0a65c8c13ea630e13060da0e3ee1a4933b"
+    "summary": "On the August 4, 2026 earnings call, SpaceX (NASDAQ:SPCX) chief executive Elon Musk predicted Starlink could carry the bulk of global internet traffic within 10 years, driven by a next-generation satellite that multiplies delivered bandwidth dramatically. This morning, in a post on X, he expanded on just how big that could be: “Connectivity per sat […]",
+    "url": "https://finnhub.io/api/news?id=cb9119c7aaf71b3849ea87db1a0aa7633af27ceb9a71f280a51983b858e5991b"
    },
    {
     "category": "company",
-    "datetime": 1789827421,
-    "headline": "SpaceX’s Nasdaq 100 Weight Is Confirmed at 2.82% in Rebalance",
-    "id": 142273981,
+    "datetime": 1789918020,
+    "headline": "This Analyst Has a $450 Price Target on SpaceX Stock. Does That Make it a Buy?",
+    "id": 142288937,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "SPCX",
     "source": "Yahoo",
-    "summary": "SpaceX will make up 2.82% of the Nasdaq 100 when the index’s quarterly rebalance takes effect Monday, according to data obtained by Bloomberg, locking in a sharp increase from its current weighting of about 1.28%.",
-    "url": "https://finnhub.io/api/news?id=6661ae96d10145dab69c5fefb1821c104c5e35f826fcfdfb729bc2be84f1d42f"
+    "summary": "Significant optimism is already baked into SpaceX stock.",
+    "url": "https://finnhub.io/api/news?id=7aef7767a263167ade93e96de95e4a55e04b2e8b6ed0f76605d530f0b6a588b1"
    },
    {
     "category": "company",
-    "datetime": 1789826700,
-    "headline": "Anthropic's IPO Is Coming. Here's What That Means for S&P 500 Investors.",
-    "id": 142272113,
+    "datetime": 1789910580,
+    "headline": "Could $5,000 Invested in SpaceX Help You Retire a Millionaire?",
+    "id": 142288093,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "SPCX",
     "source": "Yahoo",
-    "summary": "The market will be highly affected by this IPO, even if the stock isn't included in the index right away.",
-    "url": "https://finnhub.io/api/news?id=b98c4069e196428e52f07a5e5e44b49dadd868c7358d80b9aef3332c96dae252"
+    "summary": "A $5,000 investment if SpaceX would need to climb 200 times to reach $1 million.",
+    "url": "https://finnhub.io/api/news?id=53622bf700d7dc363d849edaf3c584fde3ebbbf919a222504b3cf5b21ce15cdb"
    },
    {
     "category": "company",
-    "datetime": 1789819239,
-    "headline": "Robinhood Soars, SpaceX Orbits Entry: Five Stocks Near Buy Points",
-    "id": 142270936,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "SPCX",
-    "source": "Yahoo",
-    "summary": "Robinhood stock surged in an end-of-week crypto rally. SpaceX is testing an aggressive entry. They lead five stocks near buy points.",
-    "url": "https://finnhub.io/api/news?id=64ab13c25410463853c539597d8b85ea92d766443816efe08bdfb20887bc0cba"
-   },
-   {
-    "category": "company",
-    "datetime": 1789818300,
-    "headline": "The Next Big Theme: September 2026",
-    "id": 142272069,
-    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2286751578/image_2286751578.jpg?io=getty-c-w1536",
+    "datetime": 1789909500,
+    "headline": "Wall Street Brunch: U.S.-China Summit In Spotlight",
+    "id": 142289286,
+    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2197866303/image_2197866303.jpg?io=getty-c-w1536",
     "related": "SPCX",
     "source": "SeekingAlpha",
-    "summary": "Data center construction spending increased nearly 60% YoY in July 2026 to surpass a $75 billion annualized pace as AI translates into a major U.S. construction cycle. Read more here.",
-    "url": "https://finnhub.io/api/news?id=53c6f69c8b75743ec9a691d1785a5f12386a78695e4bdc7ac4051ab5516225cc"
+    "summary": "Trump and Xi meet with trade, tariffs and AI on deck. Trump pitches an AI Force while Google reveals a Gemini breach. Costco earnings put its sky-high valuation back in focus.",
+    "url": "https://finnhub.io/api/news?id=e2972381010a8ed6329d7047e94f453e8c0e4121e4497cf8ad3a417c76f42666"
    },
    {
     "category": "company",
-    "datetime": 1789816800,
-    "headline": "Could Anthropic's IPO Be Bigger Than SpaceX's?",
-    "id": 142270181,
+    "datetime": 1789905600,
+    "headline": "3 notable business takes that flew under the radar this week",
+    "id": 142286373,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "SPCX",
     "source": "Yahoo",
-    "summary": "SpaceX completed the largest IPO in history in June.",
-    "url": "https://finnhub.io/api/news?id=87f8532011937e670dc645383226d7b7a602b2dbe05826f731a096ac418eb3ad"
+    "summary": "Inside the latest chatter from important business leaders.",
+    "url": "https://finnhub.io/api/news?id=26a36355c60b7b42160db535add1587f66efc1373c85577a48a75567b87fbbb0"
    },
    {
     "category": "company",
-    "datetime": 1789813140,
-    "headline": "SpaceX Is Becoming An AI Giant",
-    "id": 142271440,
-    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2254175142/image_2254175142.jpg?io=getty-c-w1536",
+    "datetime": 1789904100,
+    "headline": "‘High on Coke’: Elon Musk stunned by Berkshire’s dividend payout. Learn how to build your own passive income stream now",
+    "id": 142286337,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "SPCX",
-    "source": "SeekingAlpha",
-    "summary": "SpaceX targets 5-10 GW of compute capacity in 2027, potentially making AI its largest long-term revenue engine. Learn why SPCX stock is a buy.",
-    "url": "https://finnhub.io/api/news?id=90bce5d36a6cc18482143215956f47cd3cd3b1f62ba2e0ad5c76554040d8d377"
+    "source": "Yahoo",
+    "summary": "How investing in Buffett's favorite drink paid dividends.",
+    "url": "https://finnhub.io/api/news?id=67cd02ae1663279c74ef77423218cb637adad379afc32febe601761a406f8a8d"
+   },
+   {
+    "category": "company",
+    "datetime": 1789903200,
+    "headline": "SpaceX Stock: 3 Things to Watch Before the December Lock-Up Cliff",
+    "id": 142286503,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "SPCX",
+    "source": "Yahoo",
+    "summary": "SpaceX has been volatile since its IPO three months ago. That likely won't change anytime soon.",
+    "url": "https://finnhub.io/api/news?id=46f749fef4b3501356dabd2f52b9a2930b5e27fad7a8f93f7261c6eb17a0a4cb"
    }
   ],
   "LITE": [
@@ -4078,6 +4211,28 @@
   "INTC": [
    {
     "category": "company",
+    "datetime": 1789932360,
+    "headline": "Why I'm Avoiding This Popular AI Stock Despite Its Growth Story",
+    "id": 142290338,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "INTC",
+    "source": "Yahoo",
+    "summary": "There are much better AI stocks to invest in right now.",
+    "url": "https://finnhub.io/api/news?id=e3a1f19c16252d001d0079cc1f77c4aa8fd60a8a21cb2b8ee7a488d0578c48e7"
+   },
+   {
+    "category": "company",
+    "datetime": 1789855261,
+    "headline": "Intel Can Supply Only About Half of What Its Customers Want. That's a Better Problem Than It Sounds.",
+    "id": 142275789,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "INTC",
+    "source": "Yahoo",
+    "summary": "A CEO apologizing for a chip shortage sounds like bad news -- unless fuller factories are a big part of the profit story.",
+    "url": "https://finnhub.io/api/news?id=5d9149c2ca039a4461b529ed6c75a559df3b538d6518dbf5986fcf34f40503ee"
+   },
+   {
+    "category": "company",
     "datetime": 1789837912,
     "headline": "Micron (MU) Unveils Breakthrough Memory Product. It Says Much About the Memory Market",
     "id": 142272958,
@@ -4086,6 +4241,17 @@
     "source": "Yahoo",
     "summary": "In a major milestone in memory innovation, Micron Technology, Inc. (NASDAQ:MU) on September 15 announced the successful demonstration of a 512GB DDR5 RDIMM memory module for servers. This module is the first of its kind in the world, according to the company. The module can reach speeds of up to 9,200 MT/s. It can also […]",
     "url": "https://finnhub.io/api/news?id=614e45d9849558640ddb19c822d0e296fcf6612b1eb370969da0b8307230e775"
+   },
+   {
+    "category": "company",
+    "datetime": 1789815600,
+    "headline": "MarketBeat Week in Review – 09/14 - 09/18",
+    "id": 142286329,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "INTC",
+    "source": "Yahoo",
+    "summary": "A volatile week saw AI regulation fears hit chip stocks before a recovery, with MarketBeat writers covering Micron, Nike, Tesla, Rocket Lab, Adobe, SpaceX and other stocks ahead of key inflation and jobs data.",
+    "url": "https://finnhub.io/api/news?id=904750d2e043356ea12a4afb85fdf82a865d94b0a3b19739cc572b4f999707a8"
    },
    {
     "category": "company",
@@ -4152,42 +4318,20 @@
     "source": "Yahoo",
     "summary": "Investing.com -- UBS now expects artificial intelligence capital expenditure to reach nearly $1 trillion in 2026 before climbing to around $1.4 trillion in 2027, with surging memory costs accounting for most of the increase.",
     "url": "https://finnhub.io/api/news?id=617ffa5e59136687325e5728fe4fa820a8e1071ee61527ac70a48ec2f8230141"
-   },
-   {
-    "category": "company",
-    "datetime": 1789777155,
-    "headline": "What Does Micron Technology (MU) Warning Of Shortages Through 2027 Mean?",
-    "id": 142265030,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "INTC",
-    "source": "Yahoo",
-    "summary": "Micron Technology (NasdaqGS: MU) and Intel CEOs cautioned that memory chip shortages and higher prices could persist through 2027. Micron's leadership indicated on a recent call that supply constraints may only start to ease meaningfully from 2028 onward. Intel's CEO echoed the outlook for extended tightness in DRAM and NAND availability, pointing to heavy AI and data center demand. This warning from Micron and Intel about multi year memory shortages and rising prices is important context...",
-    "url": "https://finnhub.io/api/news?id=505c80b23075b5b1a1c59c9bfb85f59dceeb2a56b0196a7534af9b289bc94f7b"
-   },
-   {
-    "category": "company",
-    "datetime": 1789772632,
-    "headline": "NVIDIA Vs Intel Corporation (NASDAQ:INTC): Here’s The One Jim Cramer Likes",
-    "id": 142266045,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "INTC",
-    "source": "Yahoo",
-    "summary": "Chip maker Intel Corporation (NASDAQ:INTC) has become one of the hottest stocks in today’s market with year-to-date gains and valuation both being richer than AI GPU giant NVIDIA. The shares are up by more than 170% year-to-date while the forward P/E ratio of 54.64 is also higher than NVIDIA’s 23.58. In his morning appearance on […]",
-    "url": "https://finnhub.io/api/news?id=d7c05e7b0777edd1a79bc80646d2e83c3b5327f7c9790244993d9de1a906600e"
-   },
-   {
-    "category": "company",
-    "datetime": 1789770780,
-    "headline": "Top analyst sets outrageous Intel stock target ahead of earnings",
-    "id": 142266341,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "INTC",
-    "source": "Yahoo",
-    "summary": "A veteran tech analyst thinks Intel stock could gain seriously in two years if its foundry plan gets the right customers.",
-    "url": "https://finnhub.io/api/news?id=b8457811a4da8c2a73c287963b87e1ae7ca1013bbc069d7046338325e1de17f8"
    }
   ],
   "SOXX": [
+   {
+    "category": "company",
+    "datetime": 1789894800,
+    "headline": "Semis: Market Has Completely Misunderstood The Potential AI Slowdown",
+    "id": 142287414,
+    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2260260651/image_2260260651.jpg?io=getty-c-w1536",
+    "related": "SOXX",
+    "source": "SeekingAlpha",
+    "summary": "Reallocate into semiconductors now: Nvidia and Broadcom lead AI chip demand as valuations hit multi-year lows and compute capacity surgesâread the case.",
+    "url": "https://finnhub.io/api/news?id=e5f2ea56408c6c3b9318e1143e1d66c8a4e1547f4f50cadb3945ab5cad1bf104"
+   },
    {
     "category": "company",
     "datetime": 1789813645,
@@ -4286,20 +4430,20 @@
     "source": "Yahoo",
     "summary": "A brand-new ETF promises to carve pure Korean semiconductor exposure out of a market where most funds bury Samsung and SK Hynix under banks and automakers, but with three days of trading history and a fee premium over established rivals, the real question is whether the precision is worth the price.",
     "url": "https://finnhub.io/api/news?id=419c3f2625b4889aa84d882feb6448216de68c7d7c4f855b9f92fabcabba71d7"
-   },
-   {
-    "category": "company",
-    "datetime": 1789738680,
-    "headline": "BofA Sees Global Chip Market Nearly Doubling: Semiconductor ETFs to Buy",
-    "id": 142255688,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "SOXX",
-    "source": "Yahoo",
-    "summary": "BofA expects the global semiconductor market to nearly double by 2030. Here are a few semiconductor ETFs to consider.",
-    "url": "https://finnhub.io/api/news?id=ca17bc2a5ed2f355f582a7cb769df041a294ebbb9d912d7f914c855036f76fbd"
    }
   ],
   "GLW": [
+   {
+    "category": "company",
+    "datetime": 1789843379,
+    "headline": "Corning Stock Has Fallen 41% From Its Peak. Does the Springboard Plan Still Make GLW Worth Owning?",
+    "id": 142288990,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "GLW",
+    "source": "Yahoo",
+    "summary": "Key Stats for Corning Incorporated 52-Week Range: $77. 05 to $271.",
+    "url": "https://finnhub.io/api/news?id=02b5c16adc35e7333efef8bb310d3f3717e92e126b9d715ca6aad57fb9a61259"
+   },
    {
     "category": "company",
     "datetime": 1789800247,
@@ -4398,20 +4542,64 @@
     "source": "Yahoo",
     "summary": "Corning (NYSE: GLW) and industry partners completed the SDM4 Multicore Fiber Multi-Source Agreement, releasing a shared technical specification for AI data centers. The SDM4 spec targets high-density, multi-vendor optical fiber links that can support growing AI data center and campus network traffic. The group intends the SDM4 document to serve as a reference point for future international standardization of multicore fiber connectivity. The SDM4 Multicore Fiber Multi-Source Agreement...",
     "url": "https://finnhub.io/api/news?id=4433cdce04d1cfa07af53b67fb9156c63b7896772c5e2b6ecdef9999ce85173d"
-   },
-   {
-    "category": "company",
-    "datetime": 1789669380,
-    "headline": "Ciena Stock Rises as These Numbers Leave Wall Street Pleasantly Surprised",
-    "id": 142231883,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "GLW",
-    "source": "Yahoo",
-    "summary": "It’s been a difficult week for the performance of shares of optical networking companies as existential artificial-intelligence fears hit the stock market.  Ciena stock rose 3% to $350.85 on Thursday.  Ciena was at least partially responsible for the stock performances on Thursday as the company’s financial guidance pointed to little to no slowdown in AI demand for networking products.",
-    "url": "https://finnhub.io/api/news?id=d67b2293cfa5fc398d8f051c1a4f54ba4c152073bb54e470cd6d1c96149764bd"
    }
   ],
   "CRWD": [
+   {
+    "category": "company",
+    "datetime": 1789939391,
+    "headline": "The AI Slowdown Trade Has Some Winners: CrowdStrike and Palo Alto Rally While Chips Fall",
+    "id": 142291314,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "CRWD",
+    "source": "Yahoo",
+    "summary": "When Anthropic CEO Dario Amodei wrote an essay advocating that the AI sector should purposefully restrict its rate of progress, the initial market reaction appeared to be a simple risk-off move in chip stocks. By September 14, a more intriguing pattern had emerged: money wasn’t just leaving AI infrastructure names, it was also moving into […]",
+    "url": "https://finnhub.io/api/news?id=36ccd7c7b39359f222379065cc488d37e21c8d47d29516c2f7cdb2e82b962eac"
+   },
+   {
+    "category": "company",
+    "datetime": 1789939211,
+    "headline": "Why CrowdStrike, Palo Alto Networks, SentinelOne, and Other Cybersecurity Stocks Surged This Week",
+    "id": 142291266,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "CRWD",
+    "source": "Yahoo",
+    "summary": "Investors are growing increasingly concerned about AI-powered threats.",
+    "url": "https://finnhub.io/api/news?id=6ac758b08867c75879bc3b16a15b96bdc03508f044b058fe73dbd2593f239c0b"
+   },
+   {
+    "category": "company",
+    "datetime": 1789912920,
+    "headline": "Piper Sandler Flags Weakening Market Breadth as S&P 500 Declines 0.48%",
+    "id": 142288972,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "CRWD",
+    "source": "Yahoo",
+    "summary": "Piper Sandler has advised caution on increasing equity exposure, citing deteriorating intermediate-term market breadth and momentum despite gains in selected sectors of the US stock market. In a note released Wednesday, the firm highlighted differences in performance across major indices and sectors.",
+    "url": "https://finnhub.io/api/news?id=f4674f691c40651c2906831fc95a0409a5f15642ad7dfbc92a59d44d80b63852"
+   },
+   {
+    "category": "company",
+    "datetime": 1789889141,
+    "headline": "SentinelOne: Strong ARR Growth Is A Catalyst For A Rerating",
+    "id": 142286185,
+    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2283773175/image_2283773175.jpg?io=getty-c-w1536",
+    "related": "CRWD",
+    "source": "SeekingAlpha",
+    "summary": "SentinelOne Q2 earnings: 21% revenue growth, 22% ARR, and raised FY guidance. Click for more on S stock.",
+    "url": "https://finnhub.io/api/news?id=22c983cfbe7bc2899d95433b2b797badc719a6d68be28520b4a07a7fd9267d9c"
+   },
+   {
+    "category": "company",
+    "datetime": 1789882689,
+    "headline": "Wall Street Week Ahead",
+    "id": 142285768,
+    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2264327466/image_2264327466.jpg?io=getty-c-w1536",
+    "related": "CRWD",
+    "source": "SeekingAlpha",
+    "summary": "Wall Street week ahead: Trump-Xi talks, key earnings (Costco, Meta) and Oracle AI outlook.",
+    "url": "https://finnhub.io/api/news?id=00dc59f2d15e7063f150a732f956e96a9c09f9948c85e259f9733eaed6ecfe10"
+   },
    {
     "category": "company",
     "datetime": 1789842900,
@@ -4436,6 +4624,17 @@
    },
    {
     "category": "company",
+    "datetime": 1789821300,
+    "headline": "These 3 Agentic AI Stocks Have More Than Hype Behind Their Growth Stories",
+    "id": 142287339,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "CRWD",
+    "source": "Yahoo",
+    "summary": "ServiceNow, UiPath, and Palo Alto Networks show real agentic AI traction through earnings growth, enterprise adoption, and partnerships, making their fundamentals worth watching amid market volatility.",
+    "url": "https://finnhub.io/api/news?id=ed8a87e3f4e7ec627ade545aa5fe85d1807154d3f839df7e5abd429b392ccb34"
+   },
+   {
+    "category": "company",
     "datetime": 1789800247,
     "headline": "What Moved Markets This Week",
     "id": 142269870,
@@ -4455,75 +4654,20 @@
     "source": "Yahoo",
     "summary": "A number of stocks fell in the afternoon session after markets remained volatile during the last trading session of the week, reflecting growing uncertainty, with the broad market retreat erasing the sector's gains from the previous day.",
     "url": "https://finnhub.io/api/news?id=a7ccc620760612409664501ed50ca07929b9df4574e45d800a2274dbcb314634"
-   },
-   {
-    "category": "company",
-    "datetime": 1789773762,
-    "headline": "Jim Cramer Shared What CrowdStrike Holdings, Inc. (NASDAQ:CRWD)’s CEO Told Him About AI “Doomsaying”",
-    "id": 142264647,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "CRWD",
-    "source": "Yahoo",
-    "summary": "Cybersecurity provider CrowdStrike Holdings, Inc. (NASDAQ:CRWD)’s shares are up by more than 100% year to date. With AI continuing to dominate the market narrative, the firm has found itself at the center of the industry’s concerns about cybersecurity. While some, such as Anthropic’s Dario Amodei, have claimed that their AI software is sufficient for cybersecurity […]",
-    "url": "https://finnhub.io/api/news?id=628a63ca22beae14dd6320b8db62181e9fa4a51e9590cf4b54275d32b8b89e2a"
-   },
-   {
-    "category": "company",
-    "datetime": 1789771754,
-    "headline": "CRWD Stock Keeps Climbing. Should You Climb On?",
-    "id": 142262941,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "CRWD",
-    "source": "Yahoo",
-    "summary": "This cybersecurity stock is on a historic run fueled by the AI boom, forcing investors to evaluate whether the growth engine has enough fuel left to justify its expanding multiple.",
-    "url": "https://finnhub.io/api/news?id=ecc596db335e208f542456e6857870320883a3415affd25ce4bbef1607784773"
-   },
-   {
-    "category": "company",
-    "datetime": 1789759484,
-    "headline": "Cybersecurity Stock Fortinet Forms Rare Pattern, Flirts With Buy Point",
-    "id": 142259628,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "CRWD",
-    "source": "Yahoo",
-    "summary": "Fortinet stock is trading just below a buy point after a strong week for cybersecurity stocks. Shares are attempting to break above resistance around 170.",
-    "url": "https://finnhub.io/api/news?id=503507d7e889916fbc0cb5474d72e2286601d5bb8ab197040800715610ba5ba3"
-   },
-   {
-    "category": "company",
-    "datetime": 1789754338,
-    "headline": "ZS, CRWD, PANW Stock In Focus — Cybersecurity Firms Lead Weekly Nasdaq 100 Gains As AI Security Debate Intensifies",
-    "id": 142259625,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "CRWD",
-    "source": "Yahoo",
-    "summary": "Growing anxieties about autonomous AI vulnerabilities and cyber threats have pushed cybersecurity shares to the top of the Nasdaq 100 this week.",
-    "url": "https://finnhub.io/api/news?id=52a062d78b9ffaae1f418c9b43659044376445dbd9c5f627da55a0d65f2a9207"
-   },
-   {
-    "category": "company",
-    "datetime": 1789751107,
-    "headline": "Cybersecurity Rally Hits a Valuation Reality Check. These ETFs Face the Fallout",
-    "id": 142270829,
-    "image": "https://cdn.benzinga.com/files/images/story/2026/09/18/Endpoint-Security---Endpoint-Protection-.jpg?width=2048&height=1536",
-    "related": "CRWD",
-    "source": "Benzinga",
-    "summary": "Cybersecurity ETFs are sliding as CrowdStrike, Palo Alto Networks and Okta face valuation concerns after a rally. Here’s what it means for the AI-driven trade.",
-    "url": "https://finnhub.io/api/news?id=50e192a9aad7a78f23fc5dc9d864c3eaf313a3b4972b42ad1d0adb6ffd5ea2f1"
-   },
-   {
-    "category": "company",
-    "datetime": 1789747909,
-    "headline": "Fed Raises Rates, Yields Hit 2007 Highs as Fuel Costs Set Records: This Week On Wall Street",
-    "id": 142270772,
-    "image": "https://cdn.benzinga.com/files/images/story/2026/09/18/Diesel-Prices-Cross-6.jpg?width=2048&height=1536",
-    "related": "CRWD",
-    "source": "Benzinga",
-    "summary": "The Fed hiked for the first time since 2023; the 10-year yield touched 5.04%, and record diesel prices hit truckers and automakers.",
-    "url": "https://finnhub.io/api/news?id=2fbac1a765a47bf212e99e40ad93c0b49a5ff423030f1a4db735d13f67e98fb2"
    }
   ],
   "NOW": [
+   {
+    "category": "company",
+    "datetime": 1789821300,
+    "headline": "These 3 Agentic AI Stocks Have More Than Hype Behind Their Growth Stories",
+    "id": 142287339,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "NOW",
+    "source": "Yahoo",
+    "summary": "ServiceNow, UiPath, and Palo Alto Networks show real agentic AI traction through earnings growth, enterprise adoption, and partnerships, making their fundamentals worth watching amid market volatility.",
+    "url": "https://finnhub.io/api/news?id=ed8a87e3f4e7ec627ade545aa5fe85d1807154d3f839df7e5abd429b392ccb34"
+   },
    {
     "category": "company",
     "datetime": 1789818747,
@@ -4622,20 +4766,31 @@
     "source": "Yahoo",
     "summary": "Fortune today announced an initial group of confirmed speakers and programming themes for the 2026 Fortune Most Powerful Women Summit, taking place Oct.12–14 at the Ritz Carlton Bacara, which has been reserved exclusively for the MPW audience, in Santa Barbara, California.",
     "url": "https://finnhub.io/api/news?id=41c121e2e9e95c633a8a15403234024728649140eed0c3c5762be40ffc679926"
-   },
-   {
-    "category": "company",
-    "datetime": 1789657221,
-    "headline": "The Palantir Question Nobody Can Answer Yet: How Big Can This Get?",
-    "id": 142231645,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "NOW",
-    "source": "Yahoo",
-    "summary": "Palantir is posting growth numbers that make every enterprise software peer look slow, yet the stock has gone nowhere for a year. Understanding why reveals something uncomfortable about what fair value actually means for a company this unusual.",
-    "url": "https://finnhub.io/api/news?id=743725ff9494c387ef8a1d3a2da01c22bdba87fb747e091e14c1a5046c6afa1c"
    }
   ],
   "NBIS": [
+   {
+    "category": "company",
+    "datetime": 1789914129,
+    "headline": "Nebius’s Price Hike Suggests Michael Burry Made a Mistake and Is Shorting the Best Neocloud Stock",
+    "id": 142291322,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "NBIS",
+    "source": "Yahoo",
+    "summary": "After closing his short position against CoreWeave, the question is whether Burry is still bearish on Nebius, or just waiting for a better exit point.",
+    "url": "https://finnhub.io/api/news?id=ea644d8742003ab2a40a0c332b9141fa97d9463dddf7cb8594a55b15d74e04cb"
+   },
+   {
+    "category": "company",
+    "datetime": 1789894800,
+    "headline": "Semis: Market Has Completely Misunderstood The Potential AI Slowdown",
+    "id": 142287414,
+    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2260260651/image_2260260651.jpg?io=getty-c-w1536",
+    "related": "NBIS",
+    "source": "SeekingAlpha",
+    "summary": "Reallocate into semiconductors now: Nvidia and Broadcom lead AI chip demand as valuations hit multi-year lows and compute capacity surgesâread the case.",
+    "url": "https://finnhub.io/api/news?id=e5f2ea56408c6c3b9318e1143e1d66c8a4e1547f4f50cadb3945ab5cad1bf104"
+   },
    {
     "category": "company",
     "datetime": 1789806624,
@@ -4723,31 +4878,20 @@
     "source": "Yahoo",
     "summary": "Palantir Technologies (PLTR) is back in focus after a cluster of AI focused partnerships with Method Security, NVIDIA and Nebius, raising fresh questions about how these deals might influence the stock’s long term narrative. Recent trading reflects that story taking hold. Palantir Technologies has a 7 day share price return of 6.22% and a 90 day share price return of 37.14%. However, the 1 year total shareholder return is slightly down at 0.45%, while the 3 year total shareholder return is...",
     "url": "https://finnhub.io/api/news?id=7bdd763c77ab5c55aca0ff665b3a5c4e07575aa00d82684230aa9a6ef236102b"
-   },
-   {
-    "category": "company",
-    "datetime": 1789687269,
-    "headline": "Nebius Group (NBIS) Raises AI Cloud Prices As Compute Demand Tests Customer Costs",
-    "id": 142231736,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "NBIS",
-    "source": "Yahoo",
-    "summary": "Nebius Group (NasdaqGS:NBIS) has raised prices for its Nvidia GPU and AMD CPU cloud services in response to strong AI demand. The company cites surging enterprise interest in large-scale AI training and inference workloads as a key driver of the new pricing. Higher rates apply to both Nvidia GPU instances and AMD CPU based compute bundles across Nebius Group's AI focused cloud offerings. The decision to lift Nvidia GPU and AMD CPU cloud pricing reshapes Nebius Group's AI compute economics...",
-    "url": "https://finnhub.io/api/news?id=0dc7f0dc29761c471dbcf8c0d3cb10dc33492b8a5eb144714b4abbe75c804b76"
-   },
-   {
-    "category": "company",
-    "datetime": 1789680772,
-    "headline": "Stock Market Today, Sept. 17: CoreWeave Falls on Convertible Debt and Share Sale Announcement",
-    "id": 142234467,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "NBIS",
-    "source": "Yahoo",
-    "summary": "Today, Sept. 17, 2026, the GPU infrastructure provider's stock dropped 4.16% after announcing a $3 billion convertible offering and equity program.",
-    "url": "https://finnhub.io/api/news?id=bda24430a6f3e2b40539b7a481087676f95e57d0fece9c395bd60d96c507639e"
    }
   ],
   "ALAB": [
+   {
+    "category": "company",
+    "datetime": 1789930619,
+    "headline": "Astera Labs vs. Qualcomm: Which Semiconductor Stock Is a Better Buy in 2026?",
+    "id": 142290381,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "ALAB",
+    "source": "Yahoo",
+    "summary": "One company is riding explosive AI connectivity demand with triple-digit growth. The other is navigating smartphone headwinds while building promising new businesses in automotive and data centers.",
+    "url": "https://finnhub.io/api/news?id=bb252cce86b60708e3c8f54e552b7430e7ceabf8b308a96fe94807ba19dc72a7"
+   },
    {
     "category": "company",
     "datetime": 1789763618,
@@ -4824,39 +4968,6 @@
     "source": "Benzinga",
     "summary": "",
     "url": "https://finnhub.io/api/news?id=3d3d29ab837e6a87f9b3507c0a87ffbde778a29404a9b367b705575f2c6ed999"
-   },
-   {
-    "category": "company",
-    "datetime": 1789573320,
-    "headline": "ALAB Broadens Leo Portfolio: Can It Stay Ahead of MRVL & CRDO?",
-    "id": 142197146,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "ALAB",
-    "source": "Yahoo",
-    "summary": "Astera Labs expands its Leo CXL memory controller lineup as hyperscaler design wins and new products strengthen its AI infrastructure connectivity position.",
-    "url": "https://finnhub.io/api/news?id=59d0cd047f2a4e021cf0a8d25329d08c1ecbe077fa4d74151000afc8c57e2cbf"
-   },
-   {
-    "category": "company",
-    "datetime": 1789573200,
-    "headline": "Grab to Gain From Majority Stake Buyout in Atome Financial: Here's How",
-    "id": 142197385,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "ALAB",
-    "source": "Yahoo",
-    "summary": "GRAB's $1.49B Atome stake buyout is set to expand its Southeast Asia lending reach and lift Financial Services adjusted EBITDA to $500M by 2028.",
-    "url": "https://finnhub.io/api/news?id=30f9bb0428165d58d43f5007f06ebb6a7193c91f6f0478ae1f691786f085ed93"
-   },
-   {
-    "category": "company",
-    "datetime": 1789567680,
-    "headline": "Credo Powers AI Networks With New 1.6T ZeroFlap Optics Launch",
-    "id": 142197148,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "ALAB",
-    "source": "Yahoo",
-    "summary": "CRDO's new 1.6T ZeroFlap optical transceivers combine 224G DSPs and SiPho PICs to target faster, denser AI networks.",
-    "url": "https://finnhub.io/api/news?id=25d62579eccdf740a4247f833641fe8b438f2b03097c2d1e2df4960bd7abb381"
    }
   ],
   "SMCI": [
@@ -4974,116 +5085,149 @@
   "NVDA": [
    {
     "category": "company",
-    "datetime": 1789854600,
-    "headline": "If a Stock Market Crash Is Coming, I'm Buying This 1 Vanguard ETF Without Hesitation",
-    "id": 142274969,
+    "datetime": 1789940641,
+    "headline": "The Stock Market's Best Quarter of the Year Is About to Start. The S&P 500 Has Risen in 34 of the Last 41.",
+    "id": 142291267,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "NVDA",
     "source": "Yahoo",
-    "summary": "This ETF provides the kind of growth and income profile that could do really well.",
-    "url": "https://finnhub.io/api/news?id=e6c75e1916d2fb7088dc968ab940f002a113dc17ce54df6acc445121648294f1"
+    "summary": "The index has climbed in 34 of the last 41 fourth quarters. The seven misses are the part worth studying.",
+    "url": "https://finnhub.io/api/news?id=b644f3ed60bfc1bc146976a61d462d0a5f8067c093075c8c1cd98fafe0881bb7"
    },
    {
     "category": "company",
-    "datetime": 1789853100,
-    "headline": "Cathie Wood Never Sold Ark's Core Stake in Tesla Despite the Stock Trailing Every Other Magnificent Seven Name in 2026. Here's Why Her Multi-Year Conviction Hasn't Wavered.",
-    "id": 142274966,
+    "datetime": 1789940100,
+    "headline": "The Ultimate Dividend Growth stock to Buy With $1,000 Right Now.",
+    "id": 142291268,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "NVDA",
     "source": "Yahoo",
-    "summary": "Cathie Wood remains very bullish on Tesla stock.",
-    "url": "https://finnhub.io/api/news?id=f7f592d30f5a57fd96f1a0e8a799c26aeeb8c2a1a3b50a11b64db46fb753ac4c"
+    "summary": "Coca-Cola isn't cheap, but it is executing well in a difficult market and has an incredible dividend history.",
+    "url": "https://finnhub.io/api/news?id=877160de7e7ec1fd614c09b3f0c6826bd3186e7c21f2c350c78bf542c516578c"
    },
    {
     "category": "company",
-    "datetime": 1789851000,
-    "headline": "How to Earn $600 a Month From the Pipeline Stocks Powering AI Data Centers",
-    "id": 142274965,
+    "datetime": 1789939906,
+    "headline": "AI Bubble Fears Grow, But Nvidia CEO Gives Bulls a New Argument Anyway",
+    "id": 142291265,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "NVDA",
     "source": "Yahoo",
-    "summary": "These pipeline companies are cashing in on the AI data center power boom.",
-    "url": "https://finnhub.io/api/news?id=d8b39f62afbc065d7f14b5cfdf0a76117d0931a57cfe6ce16c9e154033593806"
+    "summary": "Nvidia CEO Jensen Huang says AI has entered a high production ramp, giving bulls a new argument as bubble fears grow.",
+    "url": "https://finnhub.io/api/news?id=41996a5858355b87711a83155df6ddc625644823c734dfbf2f3216b729bd8331"
    },
    {
     "category": "company",
-    "datetime": 1789849800,
-    "headline": "The S&P 500 Yields Just 1.1% While 10-Year Treasury Yields Have Surged to 5%. This Dividend Stock Provides a Middle Ground for Long-Term Investors.",
-    "id": 142274970,
+    "datetime": 1789939211,
+    "headline": "Why CrowdStrike, Palo Alto Networks, SentinelOne, and Other Cybersecurity Stocks Surged This Week",
+    "id": 142291266,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "NVDA",
     "source": "Yahoo",
-    "summary": "Coca-Cola may be a Goldilocks investment in a high-bond-yield/low-equity-yield world.",
-    "url": "https://finnhub.io/api/news?id=61bc2cf886e16f9f9b36b98d0fe6fb21621d62f25763d10888506c0e6a0b40a7"
+    "summary": "Investors are growing increasingly concerned about AI-powered threats.",
+    "url": "https://finnhub.io/api/news?id=6ac758b08867c75879bc3b16a15b96bdc03508f044b058fe73dbd2593f239c0b"
    },
    {
     "category": "company",
-    "datetime": 1789848540,
-    "headline": "If You'd Invested $1,000 in VGT 10 Years Ago, Here's How Much You'd Have Today",
-    "id": 142274967,
+    "datetime": 1789939200,
+    "headline": "Pfizer Says Its Biggest Headwinds Are Finally Easing. Does That Change the Story for This Ultra-High-Yield Dividend Stock?",
+    "id": 142291270,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "NVDA",
     "source": "Yahoo",
-    "summary": "Tech stocks delivered huge returns over the past decade, but there's a catch.",
-    "url": "https://finnhub.io/api/news?id=d7692f66278f9185dc58b9fae80f7d14d61bbe2c5de78b33b45c36784accfe9f"
+    "summary": "Pfizer's rebound is well underway.",
+    "url": "https://finnhub.io/api/news?id=2ff3e23f3dfbd2e05f3d480a501283b086ba520c75421b6124b4c5f04e6b99bd"
    },
    {
     "category": "company",
-    "datetime": 1789847821,
-    "headline": "SpaceX Stock Has Gone Nowhere Since Its First Day of Trading",
-    "id": 142273979,
+    "datetime": 1789939200,
+    "headline": "Should You Buy SpaceX Stock Before Its Next Earnings Report?",
+    "id": 142291269,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "NVDA",
     "source": "Yahoo",
-    "summary": "The stock sits below where it closed on day one, even though revenue nearly doubled last quarter.",
-    "url": "https://finnhub.io/api/news?id=7bdf66924c48ffa5dcf43524251d55a4617f1eec5bedb35a05676a8b352a8a4d"
+    "summary": "SpaceX stock has rebounded nicely since its prior sell-off, but can the momentum last until its next earnings report?",
+    "url": "https://finnhub.io/api/news?id=f0e87b629eedcb1caf02c55d5d95f4d32b5a8e8aa63e82883d5633edbf39fb3b"
    },
    {
     "category": "company",
-    "datetime": 1789845600,
-    "headline": "AbbVie's Migraine Franchise Scored a Big Win. Is This Dividend King a No-Brainer Buy Right Now?",
-    "id": 142273788,
+    "datetime": 1789938083,
+    "headline": "10 Years Later: 5 Low-Risk Stocks for the Next Year",
+    "id": 142291273,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "NVDA",
     "source": "Yahoo",
-    "summary": "AbbVie's market-beating days don't seem to be over yet.",
-    "url": "https://finnhub.io/api/news?id=c284610a5b27eddceeb756fc9ce25466241e30b9bea78f8ef94b433e8d75c2b3"
+    "summary": "Looking back at how five stocks picked specifically to beat the market over just the next year have now fared 10 years later.",
+    "url": "https://finnhub.io/api/news?id=d238cf149199dfb297c5c7a7ac8373648dcde4c35ada6fa278c7873e72806c98"
    },
    {
     "category": "company",
-    "datetime": 1789843800,
-    "headline": "Forget Buying All Seven: The \"Magnificent Seven\" Stock Most Likely to Double by 2028",
-    "id": 142273787,
+    "datetime": 1789938061,
+    "headline": "Interactive Brokers Stock Turned $10,000 Into About $110,000 in a Decade. The Customer Base Grew Even Faster.",
+    "id": 142291276,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "NVDA",
     "source": "Yahoo",
-    "summary": "I believe investors are underrating the potential of this compounding machine.",
-    "url": "https://finnhub.io/api/news?id=e7c88893e45fbbc500a296482ce0c87e9709b092bc2dcd956c578f26ddcad785"
+    "summary": "The business multiplied over the decade. The stock's price-to-earnings multiple mostly didn't.",
+    "url": "https://finnhub.io/api/news?id=26640cccba210873971e7d11dfa6bf4123d332bd6dc76d4355850d16283ab9ee"
    },
    {
     "category": "company",
-    "datetime": 1789842300,
-    "headline": "Boeing Isn't Perfect -- but It's Still a Compelling Value Buy Right Now",
-    "id": 142273789,
+    "datetime": 1789937820,
+    "headline": "2 Superior AI Infrastructure Stocks to Buy and Hold for 10 Years",
+    "id": 142291274,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "NVDA",
     "source": "Yahoo",
-    "summary": "Boeing's slow progress is not being recognized yet by the market.",
-    "url": "https://finnhub.io/api/news?id=d7e56d2a3c270701e559def49dd593db7b276dda9549807d118980f9c667f30f"
+    "summary": "Arista Networks and Vertiv Holdings give investors two long-term ways to play the AI boom beyond the crowded chip trade.",
+    "url": "https://finnhub.io/api/news?id=d9cbf991e1775fff3bdd3edb3e6c4ab2635f1d36cf3dad19b25ce5316de2f1d5"
    },
    {
     "category": "company",
-    "datetime": 1789840980,
-    "headline": "Prediction: Iamgold Will Start Paying a Dividend Before the End of 2027. Here's Why That Would Change Everything.",
-    "id": 142273790,
+    "datetime": 1789936080,
+    "headline": "2 Monster Stocks to Buy and Hold for at Least the Next 5 Years",
+    "id": 142291271,
     "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
     "related": "NVDA",
     "source": "Yahoo",
-    "summary": "Iamgold is buying back stock and has reduced its debt. A dividend might be next.",
-    "url": "https://finnhub.io/api/news?id=7826a9d54568719c62477bf99ba71a3a9d13a765010bd043816537cecc92736a"
+    "summary": "DoorDash and Viking are leaders in delivery and cruises, offering investors growth at a reasonable price.",
+    "url": "https://finnhub.io/api/news?id=54170e9ae2eb6b9c08a528ac77259610fcbc720c7938577f845182ea47a2b94b"
    }
   ],
   "CRWV": [
+   {
+    "category": "company",
+    "datetime": 1789914129,
+    "headline": "Nebius’s Price Hike Suggests Michael Burry Made a Mistake and Is Shorting the Best Neocloud Stock",
+    "id": 142291322,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "CRWV",
+    "source": "Yahoo",
+    "summary": "After closing his short position against CoreWeave, the question is whether Burry is still bearish on Nebius, or just waiting for a better exit point.",
+    "url": "https://finnhub.io/api/news?id=ea644d8742003ab2a40a0c332b9141fa97d9463dddf7cb8594a55b15d74e04cb"
+   },
+   {
+    "category": "company",
+    "datetime": 1789910708,
+    "headline": "The AI Boom Has A New Problem: The Cost Of Capital",
+    "id": 142289389,
+    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2202499891/image_2202499891.jpg?io=getty-c-w1536",
+    "related": "CRWV",
+    "source": "SeekingAlpha",
+    "summary": "Oracleâs AI capex surge is driving negative free cash flow and higher credit risk.",
+    "url": "https://finnhub.io/api/news?id=fb7a8df50ed1e4718e83343cfa071364fd1ca69d459004f31f22fc1a24e51616"
+   },
+   {
+    "category": "company",
+    "datetime": 1789894800,
+    "headline": "Semis: Market Has Completely Misunderstood The Potential AI Slowdown",
+    "id": 142287414,
+    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2260260651/image_2260260651.jpg?io=getty-c-w1536",
+    "related": "CRWV",
+    "source": "SeekingAlpha",
+    "summary": "Reallocate into semiconductors now: Nvidia and Broadcom lead AI chip demand as valuations hit multi-year lows and compute capacity surgesâread the case.",
+    "url": "https://finnhub.io/api/news?id=e5f2ea56408c6c3b9318e1143e1d66c8a4e1547f4f50cadb3945ab5cad1bf104"
+   },
    {
     "category": "company",
     "datetime": 1789846372,
@@ -5160,42 +5304,20 @@
     "source": "Yahoo",
     "summary": "On September 16, a caller asked if CoreWeave, Inc. (NASDAQ:CRWV) is going to break out anytime soon, and Mad Money host Jim Cramer replied: Okay, so CoreWeave’s got a yin and yang here. It’s borrowing a lot of money and that’s going to be harder now if the Fed starts raising rates, but it’s smack […]",
     "url": "https://finnhub.io/api/news?id=7dd56577ce51c003cfb59eb99f2f1a200cd73b40dbf9046b2a97bf2a9dae7eba"
-   },
-   {
-    "category": "company",
-    "datetime": 1789748376,
-    "headline": "Nebius Offers Fresh Clue About AI's Spending Boom",
-    "id": 142259481,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "CRWV",
-    "source": "Yahoo",
-    "summary": "Pricing power may be holding up better than feared",
-    "url": "https://finnhub.io/api/news?id=fd120d1f9a8a623867545abbe53532f3868d5b9bc747850d4c2f6e80713a55ef"
-   },
-   {
-    "category": "company",
-    "datetime": 1789744367,
-    "headline": "Is CoreWeave (CRWV) Fully Valued After Its US$3.7b Convertible Note Offering?",
-    "id": 142260512,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "CRWV",
-    "source": "Yahoo",
-    "summary": "CoreWeave (CRWV) has just priced and upsized a US$3.7b convertible note offering due 2033, a funding move that immediately puts questions around leverage, dilution, and future capital needs in sharper focus for shareholders. CoreWeave’s fresh funding news lands after a tough run for the ticker, with the share price down 32.28% over 90 days and 14.26% over 30 days, and a 1-year total shareholder return that has declined 34.20% despite a basically flat year to date share price return near...",
-    "url": "https://finnhub.io/api/news?id=992d4431b4bce4633009a7057ee80ec49907dba4db842f6a0ec923fc0986e86c"
-   },
-   {
-    "category": "company",
-    "datetime": 1789739688,
-    "headline": "CoreWeave's $104 billion backlog comes with a costly catch",
-    "id": 142260507,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "CRWV",
-    "source": "Yahoo",
-    "summary": "The AI cloud company is opening multiple financing channels as its infrastructure commitments keep growing.",
-    "url": "https://finnhub.io/api/news?id=e1e2e6b31b5e3d33972f941455104dcd44f20c50bafd85e4e0c93592286d2502"
    }
   ],
   "NET": [
+   {
+    "category": "company",
+    "datetime": 1789812609,
+    "headline": "Cloudflare’s Insiders Just Sold $44 Million Into the Rally. Here’s What Every Investors Need to Know.",
+    "id": 142281158,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "NET",
+    "source": "Yahoo",
+    "summary": "Key TakeawaysCloudflare’s Q2 beat and reaccelerating growth (36% revenue growth, 120% net dollar retention, record large customer adds) pushed NET stock to new highs, but the market has already paid up: NTM EV/Revenue sits at 35. 17x, just below its all-time high of 36.",
+    "url": "https://finnhub.io/api/news?id=dc9330b52d5d256e9717e98d837357250be995c828740ee0b106595f1cfcee91"
+   },
    {
     "category": "company",
     "datetime": 1789776040,
@@ -5294,20 +5416,42 @@
     "source": "Benzinga",
     "summary": "Bernstein  analyst Peter Weed   maintains Cloudflare (NYSE:NET) with a Market Perform and raises the price target from $164 to $181.",
     "url": "https://finnhub.io/api/news?id=87b0a4bc437da468f2b1bcd4be695c4d67a8bea3804093147deeedd8155f8e9d"
-   },
-   {
-    "category": "company",
-    "datetime": 1789596209,
-    "headline": "Cloudflare: Time To Take Profits - Renewed Growth Prospects At Hefty Premiums",
-    "id": 142206041,
-    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/1271085883/image_1271085883.jpg?io=getty-c-w1536",
-    "related": "NET",
-    "source": "SeekingAlpha",
-    "summary": "Cloudflare (NET) downgraded to Sell as AI-driven gains face pricey valuation, insider selling & overbought risks. Read here for a detailed analysis.",
-    "url": "https://finnhub.io/api/news?id=13b6455ff9afbb710d40527d3345f46b4cfd002a3e27e9c21782e49a73d4e12f"
    }
   ],
   "IREN": [
+   {
+    "category": "company",
+    "datetime": 1789840020,
+    "headline": "The Unexpected Rival Threatening to Shake Up CoreWeave's Market",
+    "id": 142272949,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "IREN",
+    "source": "Yahoo",
+    "summary": "The timing is right for this Bitcoin miner turned AI cloud provider.",
+    "url": "https://finnhub.io/api/news?id=8ce7ad7f92362626804d7cfd9346154469c9470f9c0bf8c901c3213700379fc5"
+   },
+   {
+    "category": "company",
+    "datetime": 1789828054,
+    "headline": "1 Year Into the Microsoft Deal, IREN Is Delivering and a Rally May Follow Soon",
+    "id": 142274972,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "IREN",
+    "source": "Yahoo",
+    "summary": "One year on from the $9.7 billion Microsoft deal, the company is finally delivering.",
+    "url": "https://finnhub.io/api/news?id=c1baba00348242f866a38d57a26c206a6041303f1db6836a8f8523e7295e0ab2"
+   },
+   {
+    "category": "company",
+    "datetime": 1789774189,
+    "headline": "JPMorgan, Goldman Sachs issue bullish stock price targets for IREN, Cipher Digital",
+    "id": 142287779,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "IREN",
+    "source": "Yahoo",
+    "summary": "Wall Street analysts are turning more bullish on AI infrastructure names after the summer selloff, with IREN and Cipher Digital receiving higher price targets tied to contract growth, power availability…",
+    "url": "https://finnhub.io/api/news?id=3804243029cd1609cc8d31021cff032ff9e644128447d273480877033fa204c6"
+   },
    {
     "category": "company",
     "datetime": 1789766042,
@@ -5384,39 +5528,6 @@
     "source": "Yahoo",
     "summary": "Cigna downgraded, Humana upgraded: Wall Street's top analyst calls",
     "url": "https://finnhub.io/api/news?id=6f4bbc4cbca9cc62280b6903206f04f2bf232f60d1782338320410ff400289f0"
-   },
-   {
-    "category": "company",
-    "datetime": 1789736461,
-    "headline": "Northland Capital Markets Initiates Coverage On IREN with Outperform Rating, Announces Price Target of $99",
-    "id": 142271037,
-    "image": "",
-    "related": "IREN",
-    "source": "Benzinga",
-    "summary": "Northland Capital Markets  analyst Nehal Chokshi   initiates coverage on IREN (NASDAQ:IREN) with a Outperform rating and announces Price Target of $99.",
-    "url": "https://finnhub.io/api/news?id=a6dd207655a14d12f4bdf7ae640003c14d39ebae093572a79545bd8b71aee16d"
-   },
-   {
-    "category": "company",
-    "datetime": 1789723841,
-    "headline": "What's Going On With IREN Stock Friday?",
-    "id": 142256092,
-    "image": "https://cdn.benzinga.com/files/images/story/2026/09/18/IREN-Limited.jpg?width=2048&height=1536",
-    "related": "IREN",
-    "source": "Benzinga",
-    "summary": "IREN stock targets technical recovery as JPMorgan double-upgrades to Overweight. Read the chart breakdown &amp; price forecast.",
-    "url": "https://finnhub.io/api/news?id=dc95c0016cc2f8dab71b93ae3c5d5f004b9cf7c788fe407c0559e29f63f365bb"
-   },
-   {
-    "category": "company",
-    "datetime": 1789680772,
-    "headline": "Stock Market Today, Sept. 17: CoreWeave Falls on Convertible Debt and Share Sale Announcement",
-    "id": 142234467,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "IREN",
-    "source": "Yahoo",
-    "summary": "Today, Sept. 17, 2026, the GPU infrastructure provider's stock dropped 4.16% after announcing a $3 billion convertible offering and equity program.",
-    "url": "https://finnhub.io/api/news?id=bda24430a6f3e2b40539b7a481087676f95e57d0fece9c395bd60d96c507639e"
    }
   ],
   "IGV": [
@@ -5518,20 +5629,20 @@
     "source": "Benzinga",
     "summary": "Salesforce (CRM) dips 3% despite raising FY27 revenue outlook. Analysts remain bullish, citing strong AI growth.",
     "url": "https://finnhub.io/api/news?id=7cb9ae9975ccf15758938c2e46bebedba173fb44534a83c027ed51a3e25c5e1c"
-   },
-   {
-    "category": "company",
-    "datetime": 1789577775,
-    "headline": "SoundHound AI Drops 4% as Selling Concentrates in Speculative Software Names; UiPath Falls 3%, C3.ai Dips",
-    "id": 142198405,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "IGV",
-    "source": "Yahoo",
-    "summary": "Concentrated selling is hammering a thin slice of speculative software names even as the broader market climbs higher, and the divergence raises a pointed question about how much real support sits underneath these stocks when no news is doing the work.",
-    "url": "https://finnhub.io/api/news?id=6192dad4e115794471ea44183b86741c4665578482a7ec7e1842b6877f45c142"
    }
   ],
   "COHR": [
+   {
+    "category": "company",
+    "datetime": 1789934700,
+    "headline": "Coherent Showcases Optical Innovations to Scale AI Infrastructure at ECOC 2026",
+    "id": 142291347,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "COHR",
+    "source": "Yahoo",
+    "summary": "SAXONBURG, Pa., Sept. 20, 2026 (GLOBE NEWSWIRE) -- Coherent Corp. (NYSE: COHR), the global leader in photonics, today announced new optical technologies and live demonstrations designed to help customers scale AI infrastructure at the European Conference on Optical Communication (ECOC) 2026 in Málaga, Spain. At Stand 2100, Hall 2, Coherent will showcase innovations spanning AI datacenter connectivity, co-packaged optics (CPO) and near-packaged optics (NPO), next-generation pluggable transceivers",
+    "url": "https://finnhub.io/api/news?id=67909d5c1f1f0166c739dfba8ac2236a4bc591897bdefb7b3ae51898f0f6fcbc"
+   },
    {
     "category": "company",
     "datetime": 1789821308,
@@ -5630,121 +5741,31 @@
     "source": "Yahoo",
     "summary": "Due to Coherent’s outperformance relative to the S&P 500 Index over the past year, analysts are bullish about the stock’s prospects.",
     "url": "https://finnhub.io/api/news?id=6aeed342d4cb5fc67f412546123264a326e190469f81e69bb81a970838edb624"
-   },
-   {
-    "category": "company",
-    "datetime": 1789740099,
-    "headline": "Lumentum Climbs 3% as Optics Buying Extends; Coherent Rises 5%, Corning Jumps 3%",
-    "id": 142259785,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "COHR",
-    "source": "Yahoo",
-    "summary": "Optics stocks are surging again while the broader market slides, and no earnings release or analyst upgrade explains the buying. Something else is pulling capital into this group, and the answer matters for anyone holding names that are already up triple digits this year.",
-    "url": "https://finnhub.io/api/news?id=6dc6d80cca088b4b8ff28a0db74746be3148fbde95447c48bf5bdaf8267f2706"
-   }
-  ],
-  "ABNB": [
-   {
-    "category": "company",
-    "datetime": 1789722855,
-    "headline": "Citizens Maintains Market Outperform on Airbnb, Raises Price Target to $200",
-    "id": 142257269,
-    "image": "",
-    "related": "ABNB",
-    "source": "Benzinga",
-    "summary": "Citizens  analyst Matthew Condon   maintains Airbnb (NASDAQ:ABNB) with a Market Outperform and raises the price target from $190 to $200.",
-    "url": "https://finnhub.io/api/news?id=32a41cbbb6f4318e858f058a4ccf61d32bfced3d73cb81a6a22b3af08bcba7f7"
-   },
-   {
-    "category": "company",
-    "datetime": 1789659603,
-    "headline": "LTH or ABNB: Which Is the Better Value Stock Right Now?",
-    "id": 142234019,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "ABNB",
-    "source": "Yahoo",
-    "summary": "LTH vs. ABNB: Which Stock Is the Better Value Option?",
-    "url": "https://finnhub.io/api/news?id=a4423ac506919331f3a80638065e2635496bba31d6246d386ba4211ea52423af"
-   },
-   {
-    "category": "company",
-    "datetime": 1789655640,
-    "headline": "Pre-Markets Up on Lower Oil Prices, Strong Data",
-    "id": 142232413,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "ABNB",
-    "source": "Yahoo",
-    "summary": "This morning, the Dow is roaring back +626 points, the Nasdaq +468 and the S&P 500 +95 points.",
-    "url": "https://finnhub.io/api/news?id=cdaf90f739f193e5c2e2d0d10dfc0a3ddcc874ff65ad31478364a1b18bd23b53"
-   },
-   {
-    "category": "company",
-    "datetime": 1789651817,
-    "headline": "Q2 Earnings Outperformers: Airbnb (NASDAQ:ABNB) And The Rest Of The Consumer Internet Stocks",
-    "id": 142234318,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "ABNB",
-    "source": "Yahoo",
-    "summary": "The end of an earnings season can be a great time to discover new stocks and assess how companies are handling the current business environment. Let’s take a look at how Airbnb (NASDAQ:ABNB) and the rest of the consumer internet stocks fared in Q2.",
-    "url": "https://finnhub.io/api/news?id=4887a975959f91af109ed0667e0a8ad17ff1d7e71ad605883e7a73cd56433746"
-   },
-   {
-    "category": "company",
-    "datetime": 1789591466,
-    "headline": "This Analyst Just Downgraded Expedia Stock. Here's Why.",
-    "id": 142207058,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "ABNB",
-    "source": "Yahoo",
-    "summary": "Expedia stock sinks on a bearish Morgan Stanley research note. Here’s why analyst Brian Nowak recommends caution in playing EXPE shares.",
-    "url": "https://finnhub.io/api/news?id=8c9ab70d07a2eeb3e4e5e4e593094ad8a5bbec5ee1c26aea67ca42a7cfdfb3f0"
-   },
-   {
-    "category": "company",
-    "datetime": 1789560455,
-    "headline": "Here Are Wednesday’s Top Wall Street Analyst Research Calls: Airbnb, Booking Holdings, Credicorp, Dutch Bros, Expedia, Hartford Financial Services, Group, Meritage Homes, Patchex, Yum! Brands, and More",
-    "id": 142194347,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "ABNB",
-    "source": "Yahoo",
-    "summary": "Pre-Market Stock Futures: Futures are trading higher as the Federal Reserve’s reckoning day has arrived. Interest rate futures tracked by CME FedWatch show a 92% chance of a 25-basis-point increase in the Fed funds rate today. That will push the funds rate to 3.75% to 4%. In addition, market watchers expect two more rate hikes […]",
-    "url": "https://finnhub.io/api/news?id=bcb8507ff21e2e488bac771a931bcb760ed0d96c9744c97d4ffe631a96a23eab"
-   },
-   {
-    "category": "company",
-    "datetime": 1789558223,
-    "headline": "This stock is Morgan Stanley’s preferred online travel pick in new sector coverage",
-    "id": 142194179,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "ABNB",
-    "source": "Yahoo",
-    "summary": "Investing.com -- Morgan Stanley assumed coverage of online travel agencies (OTAs) Booking Holdings, Airbnb and Expedia, rating them Overweight, Equal-weight, and Underweight, respectively, favoring companies with unique inventory and strong direct traffic as AI reshapes travel search.",
-    "url": "https://finnhub.io/api/news?id=3ccd842e137a368dc5337fd734d333f99a1cde44a549f3428cf9201aa043f75c"
-   },
-   {
-    "category": "company",
-    "datetime": 1789555936,
-    "headline": "Expedia Shares Fall 2.7% After Morgan Stanley Initiates Coverage at Underweight",
-    "id": 142194180,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "ABNB",
-    "source": "Yahoo",
-    "summary": "Expedia Group (NASDAQ:EXPE) shares declined 2. 7% in premarket trading after Morgan Stanley initiated coverage of the online travel company with an Underweight rating and a $235 price target.",
-    "url": "https://finnhub.io/api/news?id=f558143a86883e173f540f16cc16d9470ec517e477fb155434da9e3f27fbac30"
-   },
-   {
-    "category": "company",
-    "datetime": 1789553448,
-    "headline": "Morgan Stanley Assumes Airbnb at Equal-Weight, Announces Price Target of $170",
-    "id": 142227163,
-    "image": "",
-    "related": "ABNB",
-    "source": "Benzinga",
-    "summary": "Morgan Stanley  analyst Matthew Cost   assumes Airbnb (NASDAQ:ABNB) with a Equal-Weight rating and announces Price Target of $170.",
-    "url": "https://finnhub.io/api/news?id=d031f38732d5024c0013505055cd8f3f5b6dc3ee9519e6c692cc3900c692bbed"
    }
   ],
   "PANW": [
+   {
+    "category": "company",
+    "datetime": 1789939391,
+    "headline": "The AI Slowdown Trade Has Some Winners: CrowdStrike and Palo Alto Rally While Chips Fall",
+    "id": 142291314,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "PANW",
+    "source": "Yahoo",
+    "summary": "When Anthropic CEO Dario Amodei wrote an essay advocating that the AI sector should purposefully restrict its rate of progress, the initial market reaction appeared to be a simple risk-off move in chip stocks. By September 14, a more intriguing pattern had emerged: money wasn’t just leaving AI infrastructure names, it was also moving into […]",
+    "url": "https://finnhub.io/api/news?id=36ccd7c7b39359f222379065cc488d37e21c8d47d29516c2f7cdb2e82b962eac"
+   },
+   {
+    "category": "company",
+    "datetime": 1789939211,
+    "headline": "Why CrowdStrike, Palo Alto Networks, SentinelOne, and Other Cybersecurity Stocks Surged This Week",
+    "id": 142291266,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "PANW",
+    "source": "Yahoo",
+    "summary": "Investors are growing increasingly concerned about AI-powered threats.",
+    "url": "https://finnhub.io/api/news?id=6ac758b08867c75879bc3b16a15b96bdc03508f044b058fe73dbd2593f239c0b"
+   },
    {
     "category": "company",
     "datetime": 1789842900,
@@ -5755,6 +5776,17 @@
     "source": "Yahoo",
     "summary": "CrowdStrike CEO George Kurtz says slowing AI won’t erase security risks, sending CRWD stock to a record close.",
     "url": "https://finnhub.io/api/news?id=660709c0abea217b3fae48feee6d0f6813953a63d22efd42fb09b0ad8ae2a212"
+   },
+   {
+    "category": "company",
+    "datetime": 1789821300,
+    "headline": "These 3 Agentic AI Stocks Have More Than Hype Behind Their Growth Stories",
+    "id": 142287339,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "PANW",
+    "source": "Yahoo",
+    "summary": "ServiceNow, UiPath, and Palo Alto Networks show real agentic AI traction through earnings growth, enterprise adoption, and partnerships, making their fundamentals worth watching amid market volatility.",
+    "url": "https://finnhub.io/api/news?id=ed8a87e3f4e7ec627ade545aa5fe85d1807154d3f839df7e5abd429b392ccb34"
    },
    {
     "category": "company",
@@ -5821,42 +5853,20 @@
     "source": "Yahoo",
     "summary": "Fortinet stock is trading just below a buy point after a strong week for cybersecurity stocks. Shares are attempting to break above resistance around 170.",
     "url": "https://finnhub.io/api/news?id=503507d7e889916fbc0cb5474d72e2286601d5bb8ab197040800715610ba5ba3"
-   },
-   {
-    "category": "company",
-    "datetime": 1789754338,
-    "headline": "ZS, CRWD, PANW Stock In Focus — Cybersecurity Firms Lead Weekly Nasdaq 100 Gains As AI Security Debate Intensifies",
-    "id": 142259625,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "PANW",
-    "source": "Yahoo",
-    "summary": "Growing anxieties about autonomous AI vulnerabilities and cyber threats have pushed cybersecurity shares to the top of the Nasdaq 100 this week.",
-    "url": "https://finnhub.io/api/news?id=52a062d78b9ffaae1f418c9b43659044376445dbd9c5f627da55a0d65f2a9207"
-   },
-   {
-    "category": "company",
-    "datetime": 1789751107,
-    "headline": "Cybersecurity Rally Hits a Valuation Reality Check. These ETFs Face the Fallout",
-    "id": 142270829,
-    "image": "https://cdn.benzinga.com/files/images/story/2026/09/18/Endpoint-Security---Endpoint-Protection-.jpg?width=2048&height=1536",
-    "related": "PANW",
-    "source": "Benzinga",
-    "summary": "Cybersecurity ETFs are sliding as CrowdStrike, Palo Alto Networks and Okta face valuation concerns after a rally. Here’s what it means for the AI-driven trade.",
-    "url": "https://finnhub.io/api/news?id=50e192a9aad7a78f23fc5dc9d864c3eaf313a3b4972b42ad1d0adb6ffd5ea2f1"
-   },
-   {
-    "category": "company",
-    "datetime": 1789749301,
-    "headline": "Discover which S&P500 stocks are making waves on Friday.",
-    "id": 142257812,
-    "image": "https://www.chartmill.com/images/uploads/CM_Top_Movers_Small_free_2b4ff2fc22.webp",
-    "related": "PANW",
-    "source": "ChartMill",
-    "summary": "Wondering what's happening in today's session for the S&P500 index? Stay informed with the top movers within the S&P500 index on Friday.",
-    "url": "https://finnhub.io/api/news?id=9fdb3c27ac169cdd6b58e3629306e42ff535174dae598cf9c8d5f8e1750d3a19"
    }
   ],
   "SNOW": [
+   {
+    "category": "company",
+    "datetime": 1789882689,
+    "headline": "Wall Street Week Ahead",
+    "id": 142285768,
+    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2264327466/image_2264327466.jpg?io=getty-c-w1536",
+    "related": "SNOW",
+    "source": "SeekingAlpha",
+    "summary": "Wall Street week ahead: Trump-Xi talks, key earnings (Costco, Meta) and Oracle AI outlook.",
+    "url": "https://finnhub.io/api/news?id=00dc59f2d15e7063f150a732f956e96a9c09f9948c85e259f9733eaed6ecfe10"
+   },
    {
     "category": "company",
     "datetime": 1789761433,
@@ -5903,6 +5913,17 @@
    },
    {
     "category": "company",
+    "datetime": 1789741200,
+    "headline": "Braze Beat Expectations—Now 2 SaaS Peers Are in Focus",
+    "id": 142276288,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "SNOW",
+    "source": "Yahoo",
+    "summary": "Braze posted strong fiscal Q2 growth and retention metrics, while peers Klaviyo and Similarweb show similar AI-driven momentum despite differing stock performance and customer engagement strategies.",
+    "url": "https://finnhub.io/api/news?id=69f794d4bacd36e2b43c9eb2a59b88bf21b8e85a45aaf212e8765ffe0274126e"
+   },
+   {
+    "category": "company",
     "datetime": 1789738178,
     "headline": "Dan Ives Says AI Leaders Can't 'Stop The Elevator' With Meta In The 'Ferrari Left Lane' As AI Race Accelerates",
     "id": 142259547,
@@ -5944,28 +5965,6 @@
     "source": "Yahoo",
     "summary": "On September 2, 2026, Snowflake Inc. (NYSE:SNOW) reported second-quarter fiscal 2027 results for the period ended July 31, 2026. Revenue rose 35% to $1.55 billion against a $1.48 billion consensus, product revenue grew 37% to $1.49 billion, and adjusted earnings came in at $0.62 per share versus the $0.45 analysts expected. Management raised full-year product […]",
     "url": "https://finnhub.io/api/news?id=ba65d6802654acd0c07063ce541166cfc5535fd830d74af70236a52fb85dbf96"
-   },
-   {
-    "category": "company",
-    "datetime": 1789678217,
-    "headline": "Snowflake, F5, onsemi, Impinj, and Power Integrations Shares Are Soaring, What You Need To Know",
-    "id": 142231643,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "SNOW",
-    "source": "Yahoo",
-    "summary": "A number of stocks jumped in the afternoon session after Treasury yields retreated below 5% and oil prices declined, sparking a recovery across growth-oriented equities following the Federal Reserve's interest rate increase.",
-    "url": "https://finnhub.io/api/news?id=4e2c75f0a6f0f53214fd61b8deab8114b4e3b18bca90471befcf3a8537e8d37f"
-   },
-   {
-    "category": "company",
-    "datetime": 1789673403,
-    "headline": "Exclusive: OpenAI poaches Brian McCarthy from SpaceX to be its VP of worldwide sales",
-    "id": 142231639,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "SNOW",
-    "source": "Yahoo",
-    "summary": "McCarthy is the first major hire by Dali Rajic, OpenAI's new CRO who joined less than a month ago.",
-    "url": "https://finnhub.io/api/news?id=67fea41a5c3fee7b466b072d31f01c37672dc51d5cdfb30f0027aa7ca8117bd2"
    }
   ],
   "ASTS": [
@@ -6045,42 +6044,42 @@
     "source": "Yahoo",
     "summary": "AST SpaceMobile has not formally delayed BlueBirds 14-16, but it has yet to announce their shipment, Cape Canaveral arrival, or launch date.",
     "url": "https://finnhub.io/api/news?id=c35e5e82d7773331a35c5292d915241d58ab3b3f5c0cf0f699979af3528c56fb"
-   },
-   {
-    "category": "company",
-    "datetime": 1789577680,
-    "headline": "Federal Communications Chair Carr Says Wireless Spectrum Auctions Over Next Couple Of Years Could Easily Generate More Than $100B",
-    "id": 142225735,
-    "image": "",
-    "related": "ASTS",
-    "source": "Benzinga",
-    "summary": "- Reuters",
-    "url": "https://finnhub.io/api/news?id=c743e06cd36ee2d17e534620ab212785c7a1b54d18a978fd4806e0c9808d0563"
-   },
-   {
-    "category": "company",
-    "datetime": 1789570035,
-    "headline": "SpaceX Is Scaling Faster Than Valuation Can Breathe",
-    "id": 142198718,
-    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2226386484/image_2226386484.jpg?io=getty-c-w1536",
-    "related": "ASTS",
-    "source": "SeekingAlpha",
-    "summary": "Space Exploration Technologies Corp., aka SpaceX, Q2 revenue is +92% to $7.81B as Starlink and AI surge, but valuation raises execution risk. Click for more on SPCX stock.",
-    "url": "https://finnhub.io/api/news?id=7130c425098bdcf42b58b2de58333973a4455ae312b76a8c859cf9908b6c4171"
-   },
-   {
-    "category": "company",
-    "datetime": 1789569378,
-    "headline": "SpaceX Rises 5% as Starship’s First Orbital Attempt Gets Launch Date; Rocket Lab and AST SpaceMobile Hold Steady",
-    "id": 142197377,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "ASTS",
-    "source": "Yahoo",
-    "summary": "SpaceX stock is surging on a firm date for Starship's most ambitious test yet, but whether the milestone justifies the valuation depends on a single high-stakes question the vehicle has never answered.",
-    "url": "https://finnhub.io/api/news?id=bd7a6e5dfd921bcd325a9634cf2f89e5ddba9b2494802ab430bf34d52500b675"
    }
   ],
   "MRVL": [
+   {
+    "category": "company",
+    "datetime": 1789917224,
+    "headline": "3 AI Hardware Stocks Linked To Nvidia And US China Trade Talks",
+    "id": 142288939,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "MRVL",
+    "source": "Yahoo",
+    "summary": "AI hardware went from tech niche to geopolitical bargaining chip almost overnight, as Nvidia CEO Jensen Huang now shapes how President Trump talks about regulation, export fees, and China trade. That power shift creates real ripple effects for companies exposed to these talks. Read on to see how three US listed hardware stocks tied to AI chips and datacenter gear are plugged into this story, and why those links could matter for your portfolio. The stocks covered below are just a small slice...",
+    "url": "https://finnhub.io/api/news?id=ebe5949ad0e96af93bd3c674af590ee606aa88f53a3a3ef1a1d2b011add649f2"
+   },
+   {
+    "category": "company",
+    "datetime": 1789894392,
+    "headline": "Broadcom: 5 Reasons To Buy This Dip",
+    "id": 142287276,
+    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2209596910/image_2209596910.jpg?io=getty-c-w1536",
+    "related": "MRVL",
+    "source": "SeekingAlpha",
+    "summary": "Broadcom AI chip growth is accelerating, but TPU competition and margin pressures loom. Click for more on AVGO stock.",
+    "url": "https://finnhub.io/api/news?id=e626abd251e326fcb3191f5308cdd521d8161410b30c4b9c2d9de411fc7c1e5f"
+   },
+   {
+    "category": "company",
+    "datetime": 1789884802,
+    "headline": "How Expanded GlobalFoundries SiGe Capacity for AI Optics Will Impact Marvell Technology (MRVL) Investors",
+    "id": 142283197,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "MRVL",
+    "source": "Yahoo",
+    "summary": "Earlier this month, GlobalFoundries and Marvell Technology expanded a multi-year agreement to boost silicon germanium chip capacity at GlobalFoundries’ Vermont fab, targeting next-generation optical transceivers and advanced data center connectivity used in AI and cloud infrastructure. This capacity expansion, responding to oversubscribed demand for high-performance optical networking, underlines how central Marvell’s components have become in scaling modern data centers. We’ll now examine...",
+    "url": "https://finnhub.io/api/news?id=faa0d1a692d407fe68793da595e59fc310b4b444569a1f2b68a1055ed29b5fa7"
+   },
    {
     "category": "company",
     "datetime": 1789837500,
@@ -6102,6 +6101,17 @@
     "source": "Yahoo",
     "summary": "On September 17, shares of Marvell Technology, Inc. (NASDAQ:MRVL) and GLOBALFOUNDRIES Inc. (NASDAQ:GFS) moved sharply higher, with Marvell Technology, Inc. (NASDAQ:MRVL) gaining more than 4% and GLOBALFOUNDRIES Inc. (NASDAQ:GFS) rising more than 6% by the end of the trading session. Reuters reported that the two companies have expanded their agreement to increase production capacity for […]",
     "url": "https://finnhub.io/api/news?id=bd7157353fdb6153355593f2905ba696f397e0297fc1ab3319340c9ab1ce2ed4"
+   },
+   {
+    "category": "company",
+    "datetime": 1789831459,
+    "headline": "Inside the 200-Basis-Point Margin Gap Marvell Isn’t Talking About on Earnings Calls",
+    "id": 142278948,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "MRVL",
+    "source": "Yahoo",
+    "summary": "Key TakeawaysMarvell Technology (MRVL) closed at $244. 25 on September 18, a fresh high that fully erases the more than 8% drop the stock took the day after its August 27 earnings call, even though nothing about the underlying numbers has changed since then.",
+    "url": "https://finnhub.io/api/news?id=b6b00cb8a582ccc89b50879849045d1669def610202ab4ea86cf4ca18acfc4cd"
    },
    {
     "category": "company",
@@ -6146,53 +6156,86 @@
     "source": "Yahoo",
     "summary": "Photonics is emerging as a key AI infrastructure technology, with surging investments and growth projections fueling interest in ETFs.",
     "url": "https://finnhub.io/api/news?id=1fc1b7efc14480ca25c73b2f91afca3e6595ce98053607a3c3844da0ac003836"
-   },
-   {
-    "category": "company",
-    "datetime": 1789751640,
-    "headline": "APH's AI Datacom Strength Grows: Can It Challenge TEL & MRVL?",
-    "id": 142259742,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "MRVL",
-    "source": "Yahoo",
-    "summary": "Amphenol's AI datacom strength, broad interconnect portfolio and CommScope deal bolster its position against TE Connectivity and Marvell Technology.",
-    "url": "https://finnhub.io/api/news?id=90ee24e82d577b2a878ff4bea79b7f243ca73036c62ad3c4624a522ebec98eb9"
-   },
-   {
-    "category": "company",
-    "datetime": 1789749795,
-    "headline": "GlobalFoundries Jumps 7% on an Expanded Marvell Agreement",
-    "id": 142259740,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "MRVL",
-    "source": "Yahoo",
-    "summary": "The multi-year agreement covers silicon germanium production in Burlington",
-    "url": "https://finnhub.io/api/news?id=a1fe141b13c2a608257d5a6acb65bbc1efbb82bcfe3e8339fbd55d463065099b"
-   },
-   {
-    "category": "company",
-    "datetime": 1789749636,
-    "headline": "Why Does NVDA Stock Carry The Lowest Clean Multiple In Its Peer Group?",
-    "id": 142259361,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "MRVL",
-    "source": "Yahoo",
-    "summary": "NVIDIA (NVDA) is the strongest business in its peer group, and it is priced below every rival you can compare it with fairly, at 27.5 times earnings. Yet over the past twelve months NVDA returned 25.7% while AMD returned 239.7%. The best business in the group is one of its weakest stocks, and not because anyone doubts the demand.",
-    "url": "https://finnhub.io/api/news?id=910aaab2e37c5c865e418bf6ab96878db241210b320b80b96ec35c8568a164c5"
-   },
-   {
-    "category": "company",
-    "datetime": 1789744740,
-    "headline": "Can GFS' Marvell Deal for SiGe Capacity Expansion Accelerate Growth?",
-    "id": 142259741,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "MRVL",
-    "source": "Yahoo",
-    "summary": "GlobalFoundries is boosting SiGe capacity for MRVL as AI and cloud data centers drive demand for high-speed optical connectivity.",
-    "url": "https://finnhub.io/api/news?id=08f6bba9a024e234c555dad2f5ee47f1ced5e09e793f759cd05183f70ae20f25"
    }
   ],
   "AVGO": [
+   {
+    "category": "company",
+    "datetime": 1789926420,
+    "headline": "Jim Cramer shares a strong verdict on Broadcom stock for investors",
+    "id": 142289574,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "AVGO",
+    "source": "Yahoo",
+    "summary": "Jim Cramer watched what happened to Broadcom stock on September 14 and came to Mad Money that evening with a very specific read on the selloff.",
+    "url": "https://finnhub.io/api/news?id=e96d74cb7dc6af96be08af57e4d036b3adb38d8c7f7127e31b87796e6857e1aa"
+   },
+   {
+    "category": "company",
+    "datetime": 1789909500,
+    "headline": "Wall Street Brunch: U.S.-China Summit In Spotlight",
+    "id": 142289286,
+    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2197866303/image_2197866303.jpg?io=getty-c-w1536",
+    "related": "AVGO",
+    "source": "SeekingAlpha",
+    "summary": "Trump and Xi meet with trade, tariffs and AI on deck. Trump pitches an AI Force while Google reveals a Gemini breach. Costco earnings put its sky-high valuation back in focus.",
+    "url": "https://finnhub.io/api/news?id=e2972381010a8ed6329d7047e94f453e8c0e4121e4497cf8ad3a417c76f42666"
+   },
+   {
+    "category": "company",
+    "datetime": 1789894800,
+    "headline": "Semis: Market Has Completely Misunderstood The Potential AI Slowdown",
+    "id": 142287414,
+    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2260260651/image_2260260651.jpg?io=getty-c-w1536",
+    "related": "AVGO",
+    "source": "SeekingAlpha",
+    "summary": "Reallocate into semiconductors now: Nvidia and Broadcom lead AI chip demand as valuations hit multi-year lows and compute capacity surgesâread the case.",
+    "url": "https://finnhub.io/api/news?id=e5f2ea56408c6c3b9318e1143e1d66c8a4e1547f4f50cadb3945ab5cad1bf104"
+   },
+   {
+    "category": "company",
+    "datetime": 1789894392,
+    "headline": "Broadcom: 5 Reasons To Buy This Dip",
+    "id": 142287276,
+    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/2209596910/image_2209596910.jpg?io=getty-c-w1536",
+    "related": "AVGO",
+    "source": "SeekingAlpha",
+    "summary": "Broadcom AI chip growth is accelerating, but TPU competition and margin pressures loom. Click for more on AVGO stock.",
+    "url": "https://finnhub.io/api/news?id=e626abd251e326fcb3191f5308cdd521d8161410b30c4b9c2d9de411fc7c1e5f"
+   },
+   {
+    "category": "company",
+    "datetime": 1789892400,
+    "headline": "3 Stocks Bound to Ignore The September Effect",
+    "id": 142285803,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "AVGO",
+    "source": "Yahoo",
+    "summary": "The September Effect can sink stocks, but likely not these three.",
+    "url": "https://finnhub.io/api/news?id=3f61594c26c246cdb16b626c0e3de08688856f38ef0ede6bed6cb9bcf3fa6d22"
+   },
+   {
+    "category": "company",
+    "datetime": 1789870309,
+    "headline": "Nvidia Stock And 2 US AI Infrastructure Plays Tied To Federal Defense Spending",
+    "id": 142277304,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "AVGO",
+    "source": "Yahoo",
+    "summary": "Washington just put AI and defense infrastructure back under a spotlight, with plans for an \"AI Force\" and an AI tsar signaling fresh attention on chips, cloud capacity and contractors that can plug into federal demand. That shift could reshape where capital flows next and it creates both openings and risks for investors watching AI-related equities. This article unpacks 3 US-listed large caps exposed to this policy theme and explains how each stock connects to the AI and defense spending...",
+    "url": "https://finnhub.io/api/news?id=39bb53931fd7092c3d8fc56e9285c0d91c36e95eccb8b9e6bf5858d1857ff12c"
+   },
+   {
+    "category": "company",
+    "datetime": 1789815600,
+    "headline": "MarketBeat Week in Review – 09/14 - 09/18",
+    "id": 142286329,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "AVGO",
+    "source": "Yahoo",
+    "summary": "A volatile week saw AI regulation fears hit chip stocks before a recovery, with MarketBeat writers covering Micron, Nike, Tesla, Rocket Lab, Adobe, SpaceX and other stocks ahead of key inflation and jobs data.",
+    "url": "https://finnhub.io/api/news?id=904750d2e043356ea12a4afb85fdf82a865d94b0a3b19739cc572b4f999707a8"
+   },
    {
     "category": "company",
     "datetime": 1789815600,
@@ -6225,86 +6268,42 @@
     "source": "Yahoo",
     "summary": "Broadcom's revenue has more than doubled in two years while Applied Materials posted modest gains.",
     "url": "https://finnhub.io/api/news?id=51a8e022fb9fe0e4a0bcaf112c83f055b1ca3af0a54ff42cfdb31661ab1550a1"
-   },
-   {
-    "category": "company",
-    "datetime": 1789777800,
-    "headline": "Investors Look Beyond AI As Market Signals Blur",
-    "id": 142267453,
-    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/1169722388/image_1169722388.jpg?io=getty-c-w1536",
-    "related": "AVGO",
-    "source": "SeekingAlpha",
-    "summary": "The AI trade has helped drive markets higher, but there are signs its momentum may be fading. Read more here.",
-    "url": "https://finnhub.io/api/news?id=7c1428615e53491a696b7edf944bae6b1b264a1d8d6772edb1c9a6094324f30a"
-   },
-   {
-    "category": "company",
-    "datetime": 1789773714,
-    "headline": "Jim Cramer Said This AI Firm Has More Orders Than “Almost Anybody” Other Than NVIDIA",
-    "id": 142264908,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "AVGO",
-    "source": "Yahoo",
-    "summary": "For custom chip designer Broadcom Inc. (NASDAQ:AVGO), the debate is all about whether the demand for AI products will sustain and grow. It is among the few firms capable of designing custom AI chips that big technology firms rely on to supplement NVIDIA’s high-power and expensive AI chips. Anthropic CEO Dario Amodei’s latest remarks about […]",
-    "url": "https://finnhub.io/api/news?id=ad29d60c2dff48278b88758a1a4c02812b6c1b4473cb53bd873a38937c7995b2"
-   },
-   {
-    "category": "company",
-    "datetime": 1789753620,
-    "headline": "This Little-Known Chip Stock Has Doubled. Wall Street Is Getting Bullish.",
-    "id": 142259358,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "AVGO",
-    "source": "Yahoo",
-    "summary": "MACOM Technology Solutions stock has more than doubled over the past year. BMO is the latest Wall Street firm to turn bullish on the chip maker.",
-    "url": "https://finnhub.io/api/news?id=30a8b1e4bdd7b64d1f60ed9c883a5a74ebb2b0c7066eacda8ab0268bd4d767f7"
-   },
-   {
-    "category": "company",
-    "datetime": 1789752340,
-    "headline": "Why XLK’s Next Rebalance Won’t Fix Its Massive Concentration Problem",
-    "id": 142259359,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "AVGO",
-    "source": "Yahoo",
-    "summary": "XLK markets itself as diversified large-cap tech exposure, but a closer look at the holdings reveals a chip bet so large that even a quarterly rebalance may do nothing to shrink it.",
-    "url": "https://finnhub.io/api/news?id=4c46bb5bb25a9a305053016c76c3c821e7ee9c57c5f56549ae6ea9248f2eade4"
-   },
-   {
-    "category": "company",
-    "datetime": 1789750500,
-    "headline": "Cisco Drops 8% in 3 Months: Should You Buy the Stock on the Dip?",
-    "id": 142259356,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "AVGO",
-    "source": "Yahoo",
-    "summary": "CSCO's 8% three-month drop reflects margin and recurring-growth concerns, but surging AI demand and networking refresh opportunities support its outlook.",
-    "url": "https://finnhub.io/api/news?id=2228853bbeb59258666739eb1c3f0f0b2a70a6b963eb625d9585b7a45b7b1903"
-   },
-   {
-    "category": "company",
-    "datetime": 1789750202,
-    "headline": "Will Micron Follow Nvidia and Give Investors a Huge Dividend Hike?",
-    "id": 142258119,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "AVGO",
-    "source": "Yahoo",
-    "summary": "Nvidia just raised its dividend by 2,400%. Is Micron next?",
-    "url": "https://finnhub.io/api/news?id=8a8c36f9bb9a15fa5985ba1000f48c3449de536968b4b8807768b2cc89e81869"
-   },
-   {
-    "category": "company",
-    "datetime": 1789749749,
-    "headline": "Nvidia’s Not Going to Be King for Life, So I Buy This Now",
-    "id": 142259357,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "AVGO",
-    "source": "Yahoo",
-    "summary": "Every AI boom crowns a new king, and betting on the current one at peak valuation is how investors get caught holding the bag when the throne shifts. There is a quieter company already collecting royalties from every challenger lining up to take that crown.",
-    "url": "https://finnhub.io/api/news?id=e3f9d1da4b703d11810a0b90167b2fac9108381d9498ffe29942029c49e56384"
    }
   ],
   "MSTR": [
+   {
+    "category": "company",
+    "datetime": 1789932187,
+    "headline": "Michael Saylor Hints at More MicroStrategy Bitcoin Buys After “Dead Cat Bounce” Debate",
+    "id": 142290437,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "MSTR",
+    "source": "Yahoo",
+    "summary": "Saylor hints at more Bitcoin buys after filings show Strategy skipped two weeks. Monday's update settles it.",
+    "url": "https://finnhub.io/api/news?id=464e75110d5dcffc2c2e0de1b25110672571db623840d367d9427ebc9e193dc1"
+   },
+   {
+    "category": "company",
+    "datetime": 1789901400,
+    "headline": "Strategy Is Up 53% in the Past Month. Here's the Bull and Bear Case for One of Wall Street's Most Polarizing Stocks.",
+    "id": 142286319,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "MSTR",
+    "source": "Yahoo",
+    "summary": "It's worth taking the time to understand how this business model works.",
+    "url": "https://finnhub.io/api/news?id=ff4487eff605d03265939302454de141cee1e3f0d0c7d4ffa6fcf1576d0c2daa"
+   },
+   {
+    "category": "company",
+    "datetime": 1789897348,
+    "headline": "Michael Saylor Calls CLARITY Act Rejection A ‘Positive Inflection Point’ For Crypto Industry",
+    "id": 142285869,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "MSTR",
+    "source": "Yahoo",
+    "summary": "Michael Saylor argued mass adoption was the industry's real protection against a hostile administration.",
+    "url": "https://finnhub.io/api/news?id=9c01e2287b4150716b34381a043f472bc616fe1b9c03029b86904fe3638b2289"
+   },
    {
     "category": "company",
     "datetime": 1789827826,
@@ -6326,6 +6325,17 @@
     "source": "ChartMill",
     "summary": "Bitcoin stocks rebound selectively as short-term gains mask weak one-year returns; investors favor momentum and stronger setups over broad crypto beta.",
     "url": "https://finnhub.io/api/news?id=b72a83064dc6b79856a9f4943b5d9d67f15b433657d341d5a0d8c76f9205cbb2"
+   },
+   {
+    "category": "company",
+    "datetime": 1789810132,
+    "headline": "MARA Stock Rose 14% Friday. JPMorgan and Morgan Stanley Still Don’t Agree.",
+    "id": 142279060,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "MSTR",
+    "source": "Yahoo",
+    "summary": "Key TakeawaysBitcoin Rebound: MARA stock jumped 14% Friday as bitcoin surged near $81,000. Split Verdict: Six buys, two outperforms, four holds, one underperform and one sell make up the 14 analysts TIKR tracks on MARA stock, whose mean target of $18 sits 39% above Friday’s close.",
+    "url": "https://finnhub.io/api/news?id=44d3060b6bbbd4a6253f4e9541cfdfe92108ded11a2c766415c2b6888c3c461c"
    },
    {
     "category": "company",
@@ -6370,50 +6380,278 @@
     "source": "Yahoo",
     "summary": "The price of Bitcoin (CRYPTO: $BTC) and other cryptocurrencies strengthened heading into the weekend after a volati...",
     "url": "https://finnhub.io/api/news?id=dbe09cdc049e94d98e9503cbcbc4ca0b56745523792147158db7b08053f99ed4"
-   },
+   }
+  ],
+  "PURR": [
    {
     "category": "company",
-    "datetime": 1789756320,
-    "headline": "Bitcoin Is Rallying and Coinbase Is Today’s Best Stock in the S&P 500 Against All the Odds",
-    "id": 142261691,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "MSTR",
-    "source": "Yahoo",
-    "summary": "The collapse of the Clarity Act and a Federal Reserve interest-rate hike ought to have been a toxic combination for  Bitcoin  but the world’s largest cryptocurrency was showing its resilience on Friday.  The token has risen 5.7% to $80,884 over the past 24 hours, according to CoinDesk.  Shares of Bitcoin investor  Strategy  rose 15% on Friday.",
-    "url": "https://finnhub.io/api/news?id=3ec065c6cd8f2407218fbd323e3cbfad4d82eb4b1253a13e078a2ffb15f46911"
-   },
-   {
-    "category": "company",
-    "datetime": 1789756122,
-    "headline": "Investing.com’s stocks of the week",
-    "id": 142259568,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "MSTR",
-    "source": "Yahoo",
-    "summary": "Investing.com -- A mixed week saw crypto-linked names rally despite a legislative setback, while profit warnings and a cautious outlook from one of the largest U.S. banks weighed elsewhere.",
-    "url": "https://finnhub.io/api/news?id=1ca214ee91c7f6e8474ad3fbd5f8226324bcf7c68129d746f8afe3ca6f857b2a"
-   },
-   {
-    "category": "company",
-    "datetime": 1789748785,
-    "headline": "Strategy, Circle, and Coinbase Lead Crypto Stock Rally on Tokenized Stock Approval",
-    "id": 142260017,
-    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
-    "related": "MSTR",
-    "source": "Yahoo",
-    "summary": "Wall Street Meets Blockchain as SEC Lifts Crypto Stocks",
-    "url": "https://finnhub.io/api/news?id=e1624ddb6c5196a413e5f7a6f73d5db6e3e4d66639313679825013e15b588547"
-   },
-   {
-    "category": "company",
-    "datetime": 1789747909,
-    "headline": "Fed Raises Rates, Yields Hit 2007 Highs as Fuel Costs Set Records: This Week On Wall Street",
-    "id": 142270772,
-    "image": "https://cdn.benzinga.com/files/images/story/2026/09/18/Diesel-Prices-Cross-6.jpg?width=2048&height=1536",
-    "related": "MSTR",
+    "datetime": 1789810290,
+    "headline": "Bitcoin, Zcash, Hyperliquid in Focus as Industry Expert Sees Crypto Nearing a 'Major Turning Point'",
+    "id": 142271318,
+    "image": "https://cdn.benzinga.com/files/images/story/2026/09/19/Crypto-Trader-Investor-Analyst-Looking-A.jpg?width=2048&height=1536",
+    "related": "PURR",
     "source": "Benzinga",
-    "summary": "The Fed hiked for the first time since 2023; the 10-year yield touched 5.04%, and record diesel prices hit truckers and automakers.",
-    "url": "https://finnhub.io/api/news?id=2fbac1a765a47bf212e99e40ad93c0b49a5ff423030f1a4db735d13f67e98fb2"
+    "summary": "Crypto may be nearing a cyclical bottom as volumes slump; analysts favor Bitcoin, Ethereum and Dogecoin, while privacy coin Zcash gains attention.",
+    "url": "https://finnhub.io/api/news?id=005c245fd3d5332f6d9e2d9def9bfcf15ce140ce5d9478bf5fffe4db526004e6"
+   },
+   {
+    "category": "company",
+    "datetime": 1789733368,
+    "headline": "Dow Falls Over 200 Points; Xenon Pharmaceuticals Shares Plunge",
+    "id": 142271035,
+    "image": "https://cdn.benzinga.com/files/images/story/2026/09/18/Tallinn--Estonia---August-4th-2023---Scr.jpg?width=2048&height=1536",
+    "related": "PURR",
+    "source": "Benzinga",
+    "summary": "U.S. stocks fell Friday as weak industrial data weighed; Dow slid 0.45%, materials lagged, energy rose, and European shares declined.",
+    "url": "https://finnhub.io/api/news?id=e7bd119c2757e10fd4b0a1bd2f2457519fffd5dea1d1e4ff66683adefac37929"
+   },
+   {
+    "category": "company",
+    "datetime": 1789725715,
+    "headline": "Mistras Group, Strategy, Hyperliquid Strategies And Other Big Stocks Moving Higher On Friday",
+    "id": 142255894,
+    "image": "https://cdn.benzinga.com/files/images/story/2026/09/18/Display-Of-Stock-Market-Quotes.jpg?width=2048&height=1536",
+    "related": "PURR",
+    "source": "Benzinga",
+    "summary": "U.S. stocks were mixed as the Dow fell 150 points; Mistras surged on a $20.35/share buyout deal, while crypto and tech stocks gained.",
+    "url": "https://finnhub.io/api/news?id=6d163a6383cb9a8b8c3291d8e9856ae9c861320804c16deba53f28d5eea33832"
+   },
+   {
+    "category": "company",
+    "datetime": 1789716024,
+    "headline": "'Failure of Clarity Act Turns Crypto Industry Focus to Federal Regulators' - WSJ Exclusive",
+    "id": 142256156,
+    "image": "",
+    "related": "PURR",
+    "source": "Benzinga",
+    "summary": "https://www.wsj.com/politics/policy/failure-of-clarity-act-turns-crypto-industry-focus-to-federal-regulators-135914cc",
+    "url": "https://finnhub.io/api/news?id=2ae35b1016b2da3415977d6392e5b9056db04deb5699ae66cbfa5e77f7fe009e"
+   },
+   {
+    "category": "company",
+    "datetime": 1789712726,
+    "headline": "Why Is Hyperliquid Stock Surging On Friday?",
+    "id": 142255317,
+    "image": "https://cdn.benzinga.com/files/images/story/2026/09/18/Hyperliquid-Logo-And-Coins--3d-Render.jpg?width=2048&height=1536",
+    "related": "PURR",
+    "source": "Benzinga",
+    "summary": "Hyperliquid Strategies shares rise almost 8% premarket after the SEC issued an Innovation Exemption covering tokenized U.S. stock trading on public blockchains.",
+    "url": "https://finnhub.io/api/news?id=58a1a4f15cefc0ffe8d691897f9d0247a7af32c17db4f11fc7ff5882e90111e8"
+   },
+   {
+    "category": "company",
+    "datetime": 1789642513,
+    "headline": "PURR Jumps 8% as SEC Approves 'Innovation Exemption' for Tokenized Stock Trading",
+    "id": 142256158,
+    "image": "https://cdn.benzinga.com/files/images/story/2026/09/17/Hyperliquid-Logo-And-Coins--3d-Render.jpg?width=2048&height=1536",
+    "related": "PURR",
+    "source": "Benzinga",
+    "summary": "Hyperliquid Strategies stock jumps 8% after the SEC’s Innovation Exemption clears tokenized US stock trading on public blockchains.",
+    "url": "https://finnhub.io/api/news?id=745df19f36afe49766eac1dcc6b48f37877a06e789fb3d1c36c4e5084a1d5a4a"
+   },
+   {
+    "category": "company",
+    "datetime": 1789635883,
+    "headline": "SEC Approves Five-Year Exemption Letting Crypto Venues Trade Tokenized U.S. Stocks Onchain, Subject To Symbol And Volume Limits; Seeks Public Comment",
+    "id": 142225760,
+    "image": "",
+    "related": "PURR",
+    "source": "Benzinga",
+    "summary": "https://www.sec.gov/newsroom/press-releases/2026-90-sec-issues-innovation-exemption-facilitate-trading-tokenized-nms-stock-request-comment",
+    "url": "https://finnhub.io/api/news?id=3452ec446aa0683c7b12b285b43901671a4a18bb0c8d38c037d72ce39f193eca"
+   }
+  ],
+  "AXTI": [
+   {
+    "category": "company",
+    "datetime": 1789723200,
+    "headline": "Bull of the Day: AXT (AXTI)",
+    "id": 142253184,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "AXTI",
+    "source": "Yahoo",
+    "summary": "Gateway for \"secret semiconductor substrate\" InP (indium phosphide) is blowing minds with triple-digit growth",
+    "url": "https://finnhub.io/api/news?id=fb829c1672a872c166611821381d4d4ec8b243f073ee1e3c07989d5d8d48bef7"
+   },
+   {
+    "category": "company",
+    "datetime": 1789647028,
+    "headline": "AXT (AXTI) Jumped, So What Is Driving Attention Now?",
+    "id": 142223846,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "AXTI",
+    "source": "Yahoo",
+    "summary": "AXT (AXTI) has drawn fresh attention after a sharp one day gain of 11.4%, even as the share price remains down over the past month and past 3 months. That sharp one-day share price gain sits against a tougher recent stretch for AXT, with the 7-day share price return down 6.7% and the 30-day share price return down 33%, even after a very large year-to-date share price return of 283.7% and a multi-year total shareholder return that is many times higher than the starting point. Scan how AXT’s...",
+    "url": "https://finnhub.io/api/news?id=ff89fa3306c58cfe0440d4c370d848e6b55a7c1f57a3b2ce2cad58fdbf81e29a"
+   },
+   {
+    "category": "company",
+    "datetime": 1789628491,
+    "headline": "AXTI Stock Jumped 11% Yesterday. The Index Nod Wasn’t the Whole Story.",
+    "id": 142231556,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "AXTI",
+    "source": "Yahoo",
+    "summary": "Key TakeawaysIndex Inclusion: AXT stock jumped 11% to $64 on Thursday, September 16, after S&P Dow Jones Indices added the company to the S&P SmallCap 600, effective September 21. Street Split: Five analysts split AXTI stock 3 buys, 1 outperform, 1 hold.",
+    "url": "https://finnhub.io/api/news?id=58661925ad6cca817e7ea969316d667c5f70efc746b37c59c3e5222a67c5eee0"
+   },
+   {
+    "category": "company",
+    "datetime": 1789614863,
+    "headline": "AXT (AXTI) Stock Could Be Fully Priced Despite Its Huge 3 Year Run",
+    "id": 142214246,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "AXTI",
+    "source": "Yahoo",
+    "summary": "AXT has delivered an extraordinary share price run in recent years, which naturally puts the focus on whether the current US$64.30 level can be squared with the revenue it generates. With that kind of move in the rear-view mirror, the central puzzle for you now is how the stock lines up against its sales base. Over the past 3 years, AXT has returned 2,671.6%, which puts a lot of pressure on its sales to support the reshaped valuation story. The business depends on converting its specialty...",
+    "url": "https://finnhub.io/api/news?id=f2bc70ee6a2df2cd7a3dc16cf106cb9f58935794df1ce0f6a86e13c7bfee2b68"
+   },
+   {
+    "category": "company",
+    "datetime": 1789606972,
+    "headline": "AXT Inc. (AXTI) Draws Bullish Analyst Attention — Here’s Why",
+    "id": 142214247,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "AXTI",
+    "source": "Yahoo",
+    "summary": "AXT Inc. (NASDAQ:AXTI) saw its share price climb by 11.49 percent on Wednesday to close at $64.30 apiece after it was named as one of the five semiconductor beneficiaries in the accelerating co-packaged optics sector. Following a five-day visit to Semicon Taiwan 2026, investment firm Needham & Company underscored the huge role of co-packaged optics […]",
+    "url": "https://finnhub.io/api/news?id=6776f4f63e26b62a31dcd3664b3885872e024c188c6512c162314a86dac7d99c"
+   }
+  ],
+  "ASST": [
+   {
+    "category": "company",
+    "datetime": 1789672400,
+    "headline": "Strive (ASST) Heads To Investor Conference On A Rally That Looks Near Fair Value",
+    "id": 142232620,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "ASST",
+    "source": "Yahoo",
+    "summary": "Strive (ASST) heads into the H.C. Wainwright 28th Annual Global Investment Conference on September 15, 2026, with investors watching CFO and director Benjamin Bartley Pham for fresh clues on the asset manager’s direction. Strive’s recent trading tells a mixed story, with a 30-day share price return of 107.65% and a 90-day gain of 84.58% pointing to strong short-term momentum, while the 1-year total shareholder return has declined 62.76% and the 3-year total shareholder return is down...",
+    "url": "https://finnhub.io/api/news?id=def87ffb48d8c87f6c1500a46ddfc15727df618cc5ba459c07cb751b9b554a1b"
+   },
+   {
+    "category": "company",
+    "datetime": 1789660212,
+    "headline": "Shares of crypto-related companies are trading higher amid a rise in Bitcoin. Investor optimism that a U.S.-Iran deal to resolve the conflict is fueling the digital currency's rally.",
+    "id": 139936188,
+    "image": "",
+    "related": "ASST",
+    "source": "Benzinga",
+    "summary": "",
+    "url": "https://finnhub.io/api/news?id=1e9be34ba74179ce65286e655984d4c778dc94ebdc09a1cc185c95ffb4ecdb07"
+   }
+  ],
+  "DELL": [
+   {
+    "category": "company",
+    "datetime": 1789828054,
+    "headline": "1 Year Into the Microsoft Deal, IREN Is Delivering and a Rally May Follow Soon",
+    "id": 142274972,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "DELL",
+    "source": "Yahoo",
+    "summary": "One year on from the $9.7 billion Microsoft deal, the company is finally delivering.",
+    "url": "https://finnhub.io/api/news?id=c1baba00348242f866a38d57a26c206a6041303f1db6836a8f8523e7295e0ab2"
+   },
+   {
+    "category": "company",
+    "datetime": 1789824300,
+    "headline": "Priced for a Pullback or More Gains? These 3 Stocks Are Testing the Limits",
+    "id": 142288202,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "DELL",
+    "source": "Yahoo",
+    "summary": "Dell, HP and Phillips 66 are rallying on AI server, AI-PC, and refining-margin catalysts, though all three now trade well above their consensus analyst price targets.",
+    "url": "https://finnhub.io/api/news?id=e0f44d9c7ee5077ea5cdbc56110aabc01e779fe58d9aba1855b62df9a1358648"
+   },
+   {
+    "category": "company",
+    "datetime": 1789805100,
+    "headline": "Our Top 10 High Growth Dividend Stocks - September 2026",
+    "id": 142270311,
+    "image": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/1177165160/image_1177165160.jpg?io=getty-c-w1536",
+    "related": "DELL",
+    "source": "SeekingAlpha",
+    "summary": "Learn how to pick high-growth dividend stocks using sustainability, quality scores, momentum, and sector diversity. Read this month's top 10 picks here.",
+    "url": "https://finnhub.io/api/news?id=d3bbb0d85ad9160ed7db41856a07ec07da2429cf7cc33ecc5e62151ee3c1ebea"
+   },
+   {
+    "category": "company",
+    "datetime": 1789794781,
+    "headline": "Sandisk Joins the S&P 100 on Monday -- the Same Day Nike Leaves It",
+    "id": 142267945,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "DELL",
+    "source": "Yahoo",
+    "summary": "Index funds will need to buy the flash-memory specialist's stock ahead of Monday -- though maybe not much of it.",
+    "url": "https://finnhub.io/api/news?id=ab62623ca7a7f13acaf64cee85657ae5fd891c1b22d2b95ca84d5ed7f613c8b1"
+   },
+   {
+    "category": "company",
+    "datetime": 1789794746,
+    "headline": "Nvidia-backed Nscale Wants to Ride the AI Infrastructure Boom to Wall Street: Files for NYSE IPO",
+    "id": 142270977,
+    "image": "https://cdn.benzinga.com/files/images/story/2026/09/19/Ipo---Acronym-From-Wooden-Blocks-With-Le.jpg?width=2048&height=1536",
+    "related": "DELL",
+    "source": "Benzinga",
+    "summary": "London cloud company Nscale, backed by Microsoft and Nvidia, has filed to sell shares publicly on the New York Stock Exchange.",
+    "url": "https://finnhub.io/api/news?id=b601e0618b377bbd981a211a648501cf3450ded5e5e0546fc0f704f9b211789e"
+   },
+   {
+    "category": "company",
+    "datetime": 1789772793,
+    "headline": "Jim Stock Used This Stock As An Indicator Of Investor Sentiment Towards AI",
+    "id": 142263033,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "DELL",
+    "source": "Yahoo",
+    "summary": "Dell Technologies Inc. (NYSE:DELL)’s shares closed 1.7% higher on September 15th, the day Cramer made these remarks. The day was important for AI stocks as investors were still digesting comments made by Anthropic’s Dario Amodei. Cramer weighed in on the movement and used the stock as an example to point out that sentiment about AI […]",
+    "url": "https://finnhub.io/api/news?id=4d2c34adce609ca13c6d52818da4949aa615b5ec7ff89a1f5cf75ce9e54f844b"
+   },
+   {
+    "category": "company",
+    "datetime": 1789772782,
+    "headline": "Jim Cramer Said The Strength In Oracle (ORCL)’s Shares Was A “Positive Sign”",
+    "id": 142263036,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "DELL",
+    "source": "Yahoo",
+    "summary": "Oracle Corporation (NYSE:ORCL) is quite important when it comes to the AI buildout. The shares are down by more than 20% year-to-date. Cramer mentioned Oracle Corporation (NYSE:ORCL) in a tweet made close to midday on the 17th. The shares closed 5% higher that day: “Strength in Oracle is a very positive sign…” What Cramer meant […]",
+    "url": "https://finnhub.io/api/news?id=88747e4c1a8975aadb770f627d80518d9e5ac0c3701ee513b6ad9cd0877e16db"
+   },
+   {
+    "category": "company",
+    "datetime": 1789761206,
+    "headline": "Should You Buy NetApp Stock For The Shares It Keeps Retiring?",
+    "id": 142261561,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "DELL",
+    "source": "Yahoo",
+    "summary": "NetApp (NTAP) has spent years quietly retiring its own stock while the attention went to its flash arrays and AI deals. The stock is not quiet now: it has gained about 92% over the trailing six months and sits roughly 5% below its 52-week high. Fewer shares mean each one carries more of the profit. The question is what that is worth at this price.",
+    "url": "https://finnhub.io/api/news?id=e715a695b6206d359899cfb3cedf9e970f17c24d4ba177387fb5a8d630a32b96"
+   },
+   {
+    "category": "company",
+    "datetime": 1789759477,
+    "headline": "Where AAPL Stock's $510 Billion Of Shareholder Cash Came From",
+    "id": 142259281,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "DELL",
+    "source": "Yahoo",
+    "summary": "One of the world’s largest companies has become a cash-return machine of historic scale, but its engine is now facing a serious test.",
+    "url": "https://finnhub.io/api/news?id=d619fe748ffe6a8da06b527c53226697c45a0fcaeed9b1a21108d818d1ebe057"
+   },
+   {
+    "category": "company",
+    "datetime": 1789758918,
+    "headline": "Did SMCI Stock Just Rise For The Wrong Reason?",
+    "id": 142259537,
+    "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png",
+    "related": "DELL",
+    "source": "Yahoo",
+    "summary": "Super Micro Computer (SMCI) stock rose 9.5% on Thursday, September 17, closing just over $40. The move followed a bullish call on how big the market for AI servers gets. That call may well be right. But it answers a question Super Micro's own results never raised. That is why one big session tells you less than it looks like it does.",
+    "url": "https://finnhub.io/api/news?id=1ddbe1794d959d4cbc94272ab5ffd6339df2b9286962c9df355273abb22d769c"
    }
   ]
  },
