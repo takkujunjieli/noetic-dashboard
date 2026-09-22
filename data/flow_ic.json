@@ -1,10 +1,10 @@
 {
- "generated": "2026-09-20T23:31:14+00:00",
+ "generated": "2026-09-22T00:18:27+00:00",
  "source": "gex_daily.json",
- "n_dates": 66,
+ "n_dates": 67,
  "date_range": [
   "2026-07-14",
-  "2026-09-20"
+  "2026-09-22"
  ],
  "horizons": [
   1,
@@ -19,32 +19,32 @@
    "desc": "净签名期权流 / |dealer gamma|(方向)",
    "ic": {
     "1": {
-     "n_days": 54,
-     "n_eff": 54.0,
+     "n_days": 55,
+     "n_eff": 55.0,
      "status": "ok",
-     "mean_ic": -0.0231,
-     "ir": -0.11,
+     "mean_ic": -0.0217,
+     "ir": -0.104,
      "ci": [
-      -0.0631,
-      0.0273
+      -0.065,
+      0.0274
      ],
      "sig": false
     },
     "5": {
-     "n_days": 59,
-     "n_eff": 11.8,
+     "n_days": 60,
+     "n_eff": 12.0,
      "status": "ok",
-     "mean_ic": -0.0956,
-     "ir": -0.456,
+     "mean_ic": -0.093,
+     "ir": -0.445,
      "ci": [
-      -0.1774,
-      -0.0283
+      -0.1733,
+      -0.0296
      ],
      "sig": true
     },
     "21": {
-     "n_days": 43,
-     "n_eff": 2.0,
+     "n_days": 44,
+     "n_eff": 2.1,
      "status": "insufficient"
     }
    },
@@ -57,73 +57,73 @@
       "mean_ic": 0.063,
       "ir": 0.234,
       "ci": [
-       -0.0124,
-       0.1486
+       -0.0102,
+       0.1518
       ],
       "sig": false
      },
      "5": {
-      "n_days": 40,
-      "n_eff": 8.0,
+      "n_days": 41,
+      "n_eff": 8.2,
       "status": "ok",
-      "mean_ic": -0.0193,
-      "ir": -0.07,
+      "mean_ic": -0.0129,
+      "ir": -0.047,
       "ci": [
-       -0.0935,
-       0.0463
+       -0.0915,
+       0.0513
       ],
       "sig": false
      },
      "21": {
-      "n_days": 25,
+      "n_days": 26,
       "n_eff": 1.2,
       "status": "insufficient"
      }
     },
     "long": {
      "1": {
-      "n_days": 49,
-      "n_eff": 49.0,
+      "n_days": 50,
+      "n_eff": 50.0,
       "status": "ok",
-      "mean_ic": -0.0128,
-      "ir": -0.057,
+      "mean_ic": -0.0085,
+      "ir": -0.038,
       "ci": [
-       -0.0516,
-       0.0317
+       -0.0533,
+       0.0286
       ],
       "sig": false
      },
      "5": {
-      "n_days": 50,
-      "n_eff": 10.0,
+      "n_days": 51,
+      "n_eff": 10.2,
       "status": "ok",
-      "mean_ic": -0.0337,
-      "ir": -0.127,
+      "mean_ic": -0.0347,
+      "ir": -0.132,
       "ci": [
-       -0.1454,
-       0.0496
+       -0.1366,
+       0.0517
       ],
       "sig": false
      },
      "21": {
-      "n_days": 34,
-      "n_eff": 1.6,
+      "n_days": 35,
+      "n_eff": 1.7,
       "status": "insufficient"
      }
     }
    },
    "ls_quintile_h1": {
     "status": "ok",
-    "n": 62,
+    "n": 63,
     "cost_bps": 3.0,
     "quintile": 6,
     "gross": {
-     "ann_pct": -89.8,
-     "sharpe": -2.3
+     "ann_pct": -98.2,
+     "sharpe": -2.52
     },
     "net": {
-     "ann_pct": -120.1,
-     "sharpe": -3.07
+     "ann_pct": -128.5,
+     "sharpe": -3.29
     },
     "curve_net_pct": [
      [
@@ -373,6 +373,10 @@
      [
       "2026-09-17",
       -27.01
+     ],
+     [
+      "2026-09-19",
+      -28.89
      ]
     ]
    }
@@ -382,32 +386,32 @@
    "desc": "方差风险溢价 IV−RV(保护贵→均值回归)",
    "ic": {
     "1": {
-     "n_days": 55,
-     "n_eff": 55.0,
+     "n_days": 56,
+     "n_eff": 56.0,
      "status": "ok",
-     "mean_ic": 0.0218,
-     "ir": 0.078,
+     "mean_ic": 0.0222,
+     "ir": 0.08,
      "ci": [
-      -0.0474,
-      0.0757
+      -0.0504,
+      0.0779
      ],
      "sig": false
     },
     "5": {
-     "n_days": 59,
-     "n_eff": 11.8,
+     "n_days": 60,
+     "n_eff": 12.0,
      "status": "ok",
-     "mean_ic": 0.0279,
-     "ir": 0.095,
+     "mean_ic": 0.0261,
+     "ir": 0.09,
      "ci": [
-      -0.0875,
-      0.1427
+      -0.0969,
+      0.1411
      ],
      "sig": false
     },
     "21": {
-     "n_days": 43,
-     "n_eff": 2.0,
+     "n_days": 44,
+     "n_eff": 2.1,
      "status": "insufficient"
     }
    }
@@ -417,32 +421,32 @@
    "desc": "风险反转 call−put IV(偏多定价)",
    "ic": {
     "1": {
-     "n_days": 55,
-     "n_eff": 55.0,
+     "n_days": 56,
+     "n_eff": 56.0,
      "status": "ok",
-     "mean_ic": -0.0019,
-     "ir": -0.006,
+     "mean_ic": -0.0023,
+     "ir": -0.008,
      "ci": [
-      -0.0934,
-      0.0642
+      -0.0827,
+      0.0767
      ],
      "sig": false
     },
     "5": {
-     "n_days": 59,
-     "n_eff": 11.8,
+     "n_days": 60,
+     "n_eff": 12.0,
      "status": "ok",
-     "mean_ic": -0.0818,
-     "ir": -0.259,
+     "mean_ic": -0.0834,
+     "ir": -0.267,
      "ci": [
-      -0.1897,
-      0.0394
+      -0.1843,
+      0.0334
      ],
      "sig": false
     },
     "21": {
-     "n_days": 43,
-     "n_eff": 2.0,
+     "n_days": 44,
+     "n_eff": 2.1,
      "status": "insufficient"
     }
    }
