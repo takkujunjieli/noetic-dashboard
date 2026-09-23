@@ -36,7 +36,8 @@
     "PURR",
     "AXTI",
     "ASST",
-    "DELL"
+    "DELL",
+    "RCL"
   ],
   "deep": [
     "AMD",
@@ -74,6 +75,7 @@
     "PURR",
     "AXTI",
     "ASST",
-    "DELL"
+    "DELL",
+    "RCL"
   ]
 }
