@@ -217,6 +217,7 @@ footer { margin-top: 50px; text-align: center; }
   padding: 4px 8px; font-size: 12px; line-height: 1.5; white-space: nowrap;
 }
 #gex-sub { height: 110px; }
+#macd-sub { height: 120px; }
 #ind-sub { height: 120px; }
 .sub-title { padding: 6px 0 2px; }
 .wb-ladder { width: 260px; flex: 0 0 260px; }

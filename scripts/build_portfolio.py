@@ -60,7 +60,9 @@ def _pos(p: dict) -> dict:
     pct = _num(p.get("pnl_pct"))
     if pct is None and pnl is not None and cost and qty and cost * qty:
         pct = pnl / abs(cost * qty)   # abs:做空 qty<0,否则盈亏百分比符号会反
-    return {"sym": p.get("sym"), "qty": qty, "avg_cost": cost, "price": price,
+    # Preserve identity and quote provenance for downstream read-only position linking.
+    metadata = {k: p[k] for k in ("instrument_id", "price_as_of", "price_source", "multiplier") if p.get(k) is not None}
+    return {**metadata, "sym": p.get("sym"), "qty": qty, "avg_cost": cost, "price": price,
             "kind": p.get("kind") or "equity",
             "mkt_value": round(mv, 2) if mv is not None else None,
             "pnl": round(pnl, 2) if pnl is not None else None,

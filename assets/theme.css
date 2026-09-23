@@ -1,0 +1,88 @@
+/* Shared visual language. Loaded after each page's layout styles.
+   Data-series colors and gain/loss semantics remain page-owned. */
+:root {
+  color-scheme: dark;
+  --bg: #0e1420;
+  --card: #151e2d;
+  --surface: #151e2d;
+  --card-hover: #1b2738;
+  --raised: #1b2738;
+  --border: #2b384a;
+  --text: #e5edf6;
+  --muted: #9baac0;
+  --accent: #9ae8cd;
+  --mint: #9ae8cd;
+}
+body, body.trading {
+  max-width: 1600px;
+  padding: 0 28px 50px;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.pagenav, .wf-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 24px;
+  overflow-x: auto;
+  margin: 0;
+  padding: 17px 0;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.pagenav a, .wf-nav a {
+  padding: 0;
+  border-radius: 0;
+  color: var(--muted);
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.pagenav a.active, .wf-nav a.active,
+.pagenav a:hover, .wf-nav a:hover {
+  color: var(--mint);
+  background: transparent;
+  font-weight: 500;
+  text-decoration: none;
+}
+body.trading > header { padding: 28px 0 22px; }
+h1 { font-size: 28px; letter-spacing: -.5px; }
+h1, h2, h3 { color: var(--mint); font-weight: 500; }
+h2 { font-size: 17px; }
+h2 > .muted { font-weight: 400; }
+a { color: var(--mint); }
+nav:not(.pagenav):not(.wf-nav) { top: 57px; }
+nav .tab { border-radius: 8px; }
+nav .tab.active, .chips button.active, .chips.seg button.active {
+  color: var(--mint);
+  background: var(--raised);
+  border-color: var(--border);
+  font-weight: 500;
+}
+button, input, select, textarea { font-family: inherit; }
+button { transition: background-color .12s, border-color .12s; }
+button:focus-visible, a:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 3px;
+}
+.chips:not(.seg) button { border-radius: 8px; }
+.card { border-radius: 12px; }
+.mini-card.active { background: rgba(155, 170, 192, .10); }
+.mc-water { background: rgba(155, 170, 192, .16); border-top-color: rgba(155, 170, 192, .32); }
+.mc-vol { color: var(--muted); }
+.today-row { background: rgba(154, 232, 205, .06); }
+.sc-head > b, .pf-cal-head > b, .pf-pnl > summary { color: var(--mint); font-weight: 500; }
+[hidden] { display: none !important; }
+@media (max-width: 700px) {
+  body, body.trading { padding: 0 14px 35px; }
+  .pagenav, .wf-nav { gap: 20px; }
+  body.trading > header { padding: 22px 0 18px; }
+}
+@media (prefers-reduced-motion: reduce) { button { transition: none; } }

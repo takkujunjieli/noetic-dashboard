@@ -5,40 +5,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Research · 研究台</title>
 <link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/theme.css">
 </head>
 <body class="trading">
 <nav class="pagenav">
-  <a href="portfolio.html">💼 Portfolio</a>
-  <a href="trading.html">⚡ Trading</a>
-  <a href="research.html" class="active">🔬 Research</a>
-  <a href="strategy.html">🧪 Strategy</a>
+  <a href="workflow.html">Workflow</a>
+  <a href="portfolio.html">Portfolio</a>
+  <a href="trading.html">Trading</a>
+  <a href="research.html" class="active">Research</a>
+  <a href="strategy.html">Strategy</a>
 </nav>
 <header>
-  <h1>🔬 Research</h1>
+  <h1>Research</h1>
 </header>
 
 <!-- Topic 导航(每个 topic 是自成一体的研究模块) -->
 <nav>
-  <span class="tab active" data-topic="bearbull">🐻 熊市预测</span>
-  <span class="tab" data-topic="retailflow">📊 散户订单流</span>
-  <span class="tab" data-topic="rates">🏦 国债vs股市</span>
-  <span class="tab" data-topic="gexvol">🌀 GEX→波动</span>
-  <span class="tab" data-topic="flowdir">🧲 期权流→方向</span>
-  <span class="tab" data-topic="positioning">🧭 仓位情报</span>
-  <span class="tab" data-topic="stocks">📊 个股分析</span>
+  <span class="tab active" data-topic="bearbull">熊市预测</span>
+  <span class="tab" data-topic="retailflow">散户订单流</span>
+  <span class="tab" data-topic="rates">国债vs股市</span>
+  <span class="tab" data-topic="gexvol">GEX→波动</span>
+  <span class="tab" data-topic="flowdir">期权流→方向</span>
+  <span class="tab" data-topic="positioning">仓位情报</span>
+  <span class="tab" data-topic="stocks">个股分析</span>
 </nav>
 
 <div id="r-status" class="muted small" style="padding:8px 0"></div>
 
 <!-- ========== Topic 1:熊市预测(v1 熊侧) ========== -->
 <section data-topic-panel="bearbull">
-  <h2>② 预警概率 vs 历史熊市</h2>
+  <h2>预警概率 vs 历史熊市</h2>
   <div id="bb-chart" class="card"><span class="muted small">计算中…</span></div>
 
-  <h2>③ 逐熊市记分卡(leave-one-bear-out)</h2>
+  <h2>逐熊市记分卡(leave-one-bear-out)</h2>
   <div id="bb-score" class="card"><span class="muted small">计算中…</span></div>
 
-  <h2>⑦ 模型系数(标准化)</h2>
+  <h2>模型系数(标准化)</h2>
   <div id="bb-coef" class="card"><span class="muted small">计算中…</span></div>
 </section>
 
@@ -46,25 +48,25 @@
 <section data-topic-panel="retailflow" hidden>
   <div id="rf-picker" class="card" style="margin-bottom:12px"><span class="muted small">加载跑批标的…</span></div>
 
-  <h2>① 当前信号(每票)</h2>
+  <h2>当前信号(每票)</h2>
   <div id="rf-now" class="card"><span class="muted small">计算中…</span></div>
 
-  <h2>② Investment usefulness · PIT 前瞻收益与分位多空</h2>
+  <h2>Investment usefulness · PIT 前瞻收益与分位多空</h2>
   <div id="rf-scatter" class="card"><span class="muted small">计算中…</span></div>
 
-  <h2>③ 每日横截面 IC · ICIR</h2>
+  <h2>每日横截面 IC · ICIR</h2>
   <div id="rf-ic" class="card"><span class="muted small">计算中…</span></div>
 
-  <h2>④ 散户净买入热力图</h2>
+  <h2>散户净买入热力图</h2>
   <div id="rf-series" class="card"><span class="muted small">计算中…</span></div>
 
-  <h2>⑤ 采样验证 <span class="muted small">每日轮一票额外跑全量,对比 全量 / naive / 精确 —— 看采样是否可信</span></h2>
+  <h2>采样验证 <span class="muted small">每日轮一票额外跑全量,对比 全量 / naive / 精确 —— 看采样是否可信</span></h2>
   <div id="rf-valid" class="card"><span class="muted small">计算中…</span></div>
 </section>
 
 <!-- ========== Topic 3:收益率×市场(债券收益率对市场的影响) ========== -->
 <section data-topic-panel="rates" hidden>
-  <h2>🏦 国债 vs 股市 <span class="muted small">左轴:SPY/QQQ/IWM 归一100 · 右轴(虚线):US 10/30Y 收益率% · 点击图例开关曲线</span></h2>
+  <h2>国债 vs 股市 <span class="muted small">左轴:SPY/QQQ/IWM 归一100 · 右轴(虚线):US 10/30Y 收益率% · 点击图例开关曲线</span></h2>
   <div id="rates-legend" class="rt-legend"></div>
   <div class="chart-wrap">
     <div id="rates-chart" style="height:380px"></div>
@@ -72,31 +74,31 @@
   </div>
   <div class="muted small" style="margin-top:8px">研究国债收益率对股市的影响:利率(10/30Y)上行区间,成长(QQQ)相对小盘(IWM)/大盘(SPY)的相对表现。点击图例开关任意曲线;鼠标悬停显示该日所有已展示曲线的值。数据 FRED + Yahoo,近 5 年。</div>
 
-  <h2 style="margin-top:18px">📊 收益率 × 股市 · 当日相关性 <span class="muted small">(只算 |Δ收益率|≥阈值 的交易日;负相关=收益率↑股市↓=压制)</span></h2>
+  <h2 style="margin-top:18px">收益率 × 股市 · 当日相关性 <span class="muted small">(只算 |Δ收益率|≥阈值 的交易日;负相关=收益率↑股市↓=压制)</span></h2>
   <div id="rates-corr" class="card"><span class="muted small">计算中…</span></div>
 </section>
 
 <!-- ========== Topic 4:净 GEX → 次日已实现波动(自 strategy 页迁入) ========== -->
 <section data-topic-panel="gexvol" hidden>
-  <h2>🌀 净 GEX → 次日已实现波动 <span class="muted small" id="gx-sub"></span></h2>
+  <h2>净 GEX → 次日已实现波动 <span class="muted small" id="gx-sub"></span></h2>
   <div id="gx-study" class="card"><span class="muted small">计算中…</span></div>
 </section>
 
 <!-- ========== Topic 4.5:期权流 → 方向(逐票 rank-IC) ========== -->
 <section data-topic-panel="flowdir" hidden>
-  <h2>🧲 期权流 → 方向 <span class="muted small">逐票期权变量的横截面 rank-IC · entry_lag=1 无前视 · 用秩不拟合</span></h2>
+  <h2>期权流 → 方向 <span class="muted small">逐票期权变量的横截面 rank-IC · entry_lag=1 无前视 · 用秩不拟合</span></h2>
   <div id="fd-caveat" class="card" style="border-color:#a3620d"><span class="muted small">计算中…</span></div>
-  <h2>① IC 表 <span class="muted small">预测变量 × horizon(1/5/21 交易日)· 绿正红负 · ★=block-bootstrap CI 不含 0</span></h2>
+  <h2>IC 表 <span class="muted small">预测变量 × horizon(1/5/21 交易日)· 绿正红负 · ★=block-bootstrap CI 不含 0</span></h2>
   <div id="fd-ic" class="card"></div>
-  <h2>② net_flow 分 dealer gamma 状态 <span class="muted small">空γ 追涨→动量 / 多γ 抑制;两组差异=免费聚合数据给不了的信号</span></h2>
+  <h2>net_flow 分 dealer gamma 状态 <span class="muted small">空γ 追涨→动量 / 多γ 抑制;两组差异=免费聚合数据给不了的信号</span></h2>
   <div id="fd-gamma" class="card"></div>
-  <h2>③ 扣成本 L/S 五档回测 <span class="muted small">net_flow · H=1 日频全换手 · 展示「可预测≠可盈利」</span></h2>
+  <h2>扣成本 L/S 五档回测 <span class="muted small">net_flow · H=1 日频全换手 · 展示「可预测≠可盈利」</span></h2>
   <div id="fd-ls" class="card"></div>
 </section>
 
 <!-- ========== Topic 5:仓位情报(免费版 JPM Positioning Intelligence) ========== -->
 <section data-topic-panel="positioning" hidden>
-  <h2>🧭 仓位情报 <span class="muted small">免费版 JPM Positioning Intelligence · 各 cohort 分位 + 潜在买卖盘(COT/CTA/散户)</span></h2>
+  <h2>仓位情报 <span class="muted small">免费版 JPM Positioning Intelligence · 各 cohort 分位 + 潜在买卖盘(COT/CTA/散户)</span></h2>
   <div id="pos-gauge" class="card"><span class="muted small">计算中…</span></div>
 
   <div style="margin:12px 0 4px">

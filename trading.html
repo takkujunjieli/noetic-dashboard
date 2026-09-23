@@ -5,16 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Short-Term Research Desk · Trading</title>
 <link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/theme.css">
 </head>
 <body class="trading">
 <nav class="pagenav">
-  <a href="portfolio.html">💼 Portfolio</a>
-  <a href="trading.html" class="active">⚡ Trading</a>
-  <a href="research.html">🔬 Research</a>
-  <a href="strategy.html">🧪 Strategy</a>
+  <a href="workflow.html">Workflow</a>
+  <a href="portfolio.html">Portfolio</a>
+  <a href="trading.html" class="active">Trading</a>
+  <a href="research.html">Research</a>
+  <a href="strategy.html">Strategy</a>
 </nav>
 <header>
-  <h1>⚡ Trading Desk</h1>
+  <h1>Trading Desk</h1>
   <div class="hdr-right">
     <span id="poll-status" class="muted small"></span>
     <button id="refresh-btn" class="mini-btn">🔄 Refresh</button>
@@ -27,7 +29,7 @@
 
 <!-- ================= Price & GEX panel (underlying trading + risk) ================= -->
 <section>
-  <h2>📈 Price &amp; GEX</h2>
+  <h2>Price &amp; GEX</h2>
 
 <!-- Toolbar: each group is a labeled segmented toggle -->
 <div class="wb-toolbar">
@@ -93,6 +95,8 @@
       <div id="chart"></div>
       <div id="chart-legend"></div>
     </div>
+    <div class="sub-title muted small" id="macd-sub-title" style="display:none"></div>
+    <div id="macd-sub" style="display:none"></div>
     <div class="sub-title muted small" id="ind-sub-title" style="display:none"></div>
     <div id="ind-sub" style="display:none"></div>
     <div class="sub-title muted small" id="gex-sub-title">Intraday net GEX trend (accumulates per collection)</div>
@@ -108,7 +112,7 @@
 
 <!-- Options panel -->
 <section>
-  <h2>🎯 Options Panel <span class="muted" id="opt-src"></span></h2>
+  <h2>Options Panel <span class="muted" id="opt-src"></span></h2>
   <div id="opt-panel"></div>
 </section>
 
@@ -116,7 +120,7 @@
 
 <!-- Collection control -->
 <section>
-  <h2>🎛️ Collection <span class="muted">(auto rolling collection on trading days ET 9:30-16:00; manual trigger here)</span></h2>
+  <h2>Collection <span class="muted">(auto rolling collection on trading days ET 9:30-16:00; manual trigger here)</span></h2>
   <div class="card gex-controls">
     <div class="ctl-row">
       <input type="password" id="gex-pat" placeholder="GitHub PAT (repo Actions scope only, stored in this browser; enables 60s auto-refresh)">

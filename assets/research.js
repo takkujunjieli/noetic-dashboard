@@ -2,6 +2,7 @@
    模型在浏览器里跑(approach A):L2 正则 logistic(IRLS)+ leave-one-bear-out。
    数据 data/research_bearbull.json(topic/方向/实体三层可扩展)。 */
 import { $, esc, loadJSON, loadFreshJSON, getPat, ghHeaders, REPO } from "./shared.js";
+import { loadRetailData } from "./retail-data.mjs";
 import { initScorecards } from "./trading.js";   // 个股分析 tab 复用交易台的 Scorecards 渲染(trading.js 自启动已守卫)
 
 const LAM = 10;            // L2 强度(与 factorlab/model.py 默认一致)
@@ -346,7 +347,7 @@ async function renderBearbull() {
   const res = runModel(A, LAM);
   const res3 = runModel(assembleFeats(J, LEADING3, "bear", "market"), LAM);   // 3 变量领先基准
   const series = [
-    { name: "预警概率·23特征", prob: res.probAll, color: "var(--accent)", w: 1.8 },
+    { name: "预警概率·23特征", prob: res.probAll, color: "#f472b6", w: 1.8 },
     { name: "预警概率·3变量", prob: res3.probAll, color: "#c084fc", w: 1.5, dash: "5 3" },
   ];
   probBearsChart($("bb-chart"), J, "bear", series, J.benchmarks || {});
@@ -440,7 +441,7 @@ async function renderPicker() {
   const [cfg, rs] = await Promise.all([loadJSON("config/tickers.json"), loadFreshJSON("config/retail_syms.json")]);
   const wl = (cfg && cfg.watchlist) || [];
   const sel = new Set(((rs && rs.symbols) || []).map((s) => s.toUpperCase()));
-  const label = (arr) => `⚙️ 跑批标的:${arr.length ? arr.join(", ") : "（无）"} (${arr.length}) — 点开选择`;
+  const label = (arr) => `跑批标的:${arr.length ? arr.join(", ") : "（无）"} (${arr.length}) — 点开选择`;
   const chips = wl.map((t) => `<label class="rf-chip" style="display:inline-flex;align-items:center;gap:4px;font-size:12px">
       <input type="checkbox" value="${esc(t)}"${sel.has(t.toUpperCase()) ? " checked" : ""}> ${esc(t)}</label>`).join("");
   el.innerHTML = `<details>
@@ -465,7 +466,7 @@ async function renderPicker() {
 
 async function renderRetailflow() {
   renderPicker();
-  const J = await loadJSON("data/retailflow.json");
+  const { data: J, source } = await loadRetailData(loadJSON);
   const set = (id, html) => { const el = $(id); if (el) el.innerHTML = html; };
   if (!J) {
     $("r-status").textContent = "Topic: 散户订单流 · 缺 data/retailflow.json(在 Actions 跑 retailflow 工作流生成)";
@@ -473,7 +474,7 @@ async function renderRetailflow() {
     return;
   }
   const d = J.dates, tks = J.tickers, D = J.data;
-  $("r-status").textContent = `Topic: 散户订单流 · ${d[0]}→${d[d.length - 1]} · ${tks.length} 票 × ${d.length} 天(${J.window_days || 30}d 滚动)· 更新 ${(J.updated || "").slice(0, 16)}`;
+  $("r-status").textContent = `Topic: 散户订单流 · ${d[0]}→${d[d.length - 1]} · ${tks.length} 票 × ${d.length} 天(${J.window_days || 30}d 滚动)· 更新 ${(J.updated || "").slice(0, 16)}${source ? ` · ${source}` : ""}`;
 
   // ① 当前信号表(可在日历日间任选;默认最新)。只列有数据的日子。
   const validIdx = d.map((_, i) => i).filter((i) => tks.some((tk) => D[tk].netbuy[i] != null));

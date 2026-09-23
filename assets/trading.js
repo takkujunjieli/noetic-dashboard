@@ -35,8 +35,9 @@ function expLabel(exp, dte) {
 }
 let chart, candles, volume, turnover, ema9L, ema21L, vwapL, bbU, bbL, vsU, vsL, subChart, gexLine;
 let indSub, atrL, pdiL, mdiL, adxL;  // 指标副图(ATR / DMI-ADX,与价格不同量纲,单独一栏)
+let macdSub, macdL, macdSignalL, macdHist;  // MACD 独立副图,避免与 ATR/ADX 量纲混用
 let overlayOn = JSON.parse(localStorage.getItem("wbOverlays") || "null")
-  || { ema9: true, ema21: true, vwap: true, bb: false, vsig: false, atr: false, adx: false };  // 默认只开 EMA/VWAP,其余按需勾
+  || { ema9: true, ema21: true, vwap: true, bb: false, vsig: false, macd: true, atr: false, adx: false };  // EMA 看趋势速度,MACD 看动量变化
 // AVWAP:手动多锚(点击图上任意 bar 从那时刻起算),按时间戳存、跨周期一致、可留多条确认点位
 let avwapLines = [];   // 每锚一条线 [{series, ts, color}]
 let avwapCtx = null;   // 当前 {bars, t},供点击锚定映射
@@ -114,6 +115,24 @@ function ema(closes, n) {
     out.push(i < n - 1 ? null : prev);
   });
   return out;
+}
+
+/* MACD(12,26,9):快慢 EMA 差=趋势动量,柱状图=该动量相对信号线的变化。 */
+function macd(closes, fast = 12, slow = 26, signalN = 9) {
+  const f = ema(closes, fast), s = ema(closes, slow);
+  const main = f.map((v, i) => v == null || s[i] == null ? null : v - s[i]);
+  const signal = new Array(main.length).fill(null), hist = new Array(main.length).fill(null);
+  const k = 2 / (signalN + 1);
+  let prev = null, count = 0;
+  for (let i = 0; i < main.length; i++) {
+    if (main[i] == null) continue;
+    prev = prev == null ? main[i] : main[i] * k + prev * (1 - k);
+    if (++count >= signalN) {
+      signal[i] = prev;
+      hist[i] = main[i] - prev;
+    }
+  }
+  return { main, signal, hist };
 }
 
 function vwapPerDay(bars) {
@@ -395,6 +414,7 @@ const OVERLAYS = [
   { key: "vwap", label: "VWAP", get: () => [vwapL] },
   { key: "bb", label: "BB(20,2)", get: () => [bbU, bbL] },
   { key: "vsig", label: "VWAP±σ", get: () => [vsU, vsL] },
+  { key: "macd", label: "MACD", ind: true, get: () => [macdL, macdSignalL, macdHist] },
   { key: "adx", label: "ADX/DMI", ind: true, get: () => [pdiL, mdiL, adxL] },
   { key: "atr", label: "ATR", ind: true, get: () => [atrL] },
 ];
@@ -405,6 +425,7 @@ function applyOverlayVis() {
     o.get().forEach((s) => s && s.applyOptions({ visible: on }));
   }
   renderIndSub();  // 指标副图:按开关显隐整栏 + 填数据
+  renderMacdSub(); // MACD 使用独立零轴副图,不与 ATR/ADX 共用比例尺
 }
 
 function renderOverlayChips() {
@@ -507,6 +528,7 @@ function renderChart() {
   chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, bars.length - visible), to: bars.length + 3 });
   renderLadder();  // 内含 VP 叠加;setVisibleLogicalRange 也会触发 subscribe 兜底
   renderIndSub();  // ATR / ADX 指标副图(与主图同源 bars)
+  renderMacdSub(); // MACD 动量副图
 }
 
 /* ---------- 指标副图(ATR / DMI-ADX;与价格不同量纲,单独一栏)---------- */
@@ -543,13 +565,68 @@ function renderIndSub() {
   requestAnimationFrame(syncSubs);  // 显示/换数据后按主图时间范围对齐
 }
 
-// 两个副图(ADX/DMI、净GEX)按主图"可见时间范围"对齐。副图数据网格与主图不同(GEX 稀疏、
+/* ---------- MACD 副图(独立零轴;MACD线=动量,柱=动量变化) ---------- */
+function ensureMacdSub() {
+  if (macdSub) return;
+  macdSub = LWC.createChart($("macd-sub"), { ...chartTheme, timeScale: { ...chartTheme.timeScale, timeVisible: true } });
+  macdHist = macdSub.addHistogramSeries({ priceLineVisible: false, lastValueVisible: false, base: 0 });
+  macdL = macdSub.addLineSeries({ color: "#60a5fa", lineWidth: 2, priceLineVisible: false, lastValueVisible: false });
+  macdSignalL = macdSub.addLineSeries({ color: "#f59e0b", lineWidth: 1, priceLineVisible: false, lastValueVisible: false });
+  macdL.createPriceLine({ price: 0, color: "#64748b88", lineWidth: 1, lineStyle: LWC.LineStyle.Dotted, axisLabelVisible: false });
+  const r = chart.timeScale().getVisibleLogicalRange();
+  if (r) macdSub.timeScale().setVisibleLogicalRange(r);
+}
+
+function renderMacdSub() {
+  const el = $("macd-sub"), tt = $("macd-sub-title");
+  if (!el) return;
+  const paneOn = overlayOn.macd !== false;
+  el.style.display = paneOn ? "" : "none";
+  if (tt) tt.style.display = paneOn ? "" : "none";
+  if (!paneOn) {
+    if (macdSub) { macdL.setMarkers([]); macdL.setData([]); macdSignalL.setData([]); macdHist.setData([]); }
+    return;
+  }
+  ensureMacdSub();
+  let bars = barsFor(SYM, TF);
+  const daily = TF === "1d";
+  if (!daily && !showETH) bars = bars.filter((b) => isRTH(b[0]));
+  const t = (b) => daily ? etDay(b[0]) : tconv(b[0]);
+  const line = (vals) => vals.map((v, i) => v == null ? null : ({ time: t(bars[i]), value: v })).filter(Boolean);
+  const values = macd(bars.map((b) => b[4]), 12, 26, 9);
+  macdL.setData(line(values.main));
+  macdSignalL.setData(line(values.signal));
+  macdHist.setData(values.hist.map((v, i) => v == null ? null : ({
+    time: t(bars[i]), value: v, color: v >= 0 ? "#34d39999" : "#f8717199",
+  })).filter(Boolean));
+  const markers = [];
+  for (let i = 1; i < values.main.length; i++) {
+    const prevMain = values.main[i - 1], prevSignal = values.signal[i - 1];
+    const currMain = values.main[i], currSignal = values.signal[i];
+    if ([prevMain, prevSignal, currMain, currSignal].some((v) => v == null)) continue;
+    if (prevMain <= prevSignal && currMain > currSignal) {
+      markers.push({ time: t(bars[i]), position: "belowBar", color: "#22c55e", shape: "arrowUp" });
+    } else if (prevMain >= prevSignal && currMain < currSignal) {
+      markers.push({ time: t(bars[i]), position: "aboveBar", color: "#ef4444", shape: "arrowDown" });
+    }
+  }
+  macdL.setMarkers(markers);
+  let last = values.hist.length - 1;
+  while (last >= 0 && values.hist[last] == null) last--;
+  if (tt) tt.textContent = last >= 0
+    ? `MACD(12,26,9) · 动量 ${values.main[last].toFixed(2)} · Signal ${values.signal[last].toFixed(2)} · 变化 ${values.hist[last].toFixed(2)} · ↑ 金叉买入 / ↓ 死叉卖出`
+    : "MACD(12,26,9) · MACD线=趋势动量 · 柱=动量变化 · ↑ 金叉买入 / ↓ 死叉卖出";
+  requestAnimationFrame(syncSubs);
+}
+
+// 三类副图(MACD、ADX/DMI、净GEX)按主图"可见时间范围"对齐。副图数据网格与主图不同(GEX 稀疏、
 // 指标有 warmup 偏移),故用时间范围而非逻辑索引,平移/缩放主图时都能对齐。
 function syncSubs() {
   const tr = chart && chart.timeScale().getVisibleRange();
   if (!tr) return;
   try { if (subChart) subChart.timeScale().setVisibleRange(tr); } catch { /* 数据未就绪 */ }
   try { if (indSub && $("ind-sub").style.display !== "none") indSub.timeScale().setVisibleRange(tr); } catch { /* 容器刚显示 */ }
+  try { if (macdSub && $("macd-sub").style.display !== "none") macdSub.timeScale().setVisibleRange(tr); } catch { /* 容器刚显示 */ }
 }
 
 /* ---------- 盘中净 GEX 副图(按所选到期桶) ---------- */
@@ -1142,7 +1219,7 @@ function buildPnlPanel() {
     tile("Sortino", m.sortino != null ? m.sortino.toFixed(2) : "—", "年化·仅下行", (m.sortino ?? 0) >= 1 ? "up" : "", "同 Sharpe(MAR=15%年化门槛),但分母只用低于门槛的下行波动"),
     tile("最大回撤", m.max_dd != null ? usd(m.max_dd) : "—", "已实现累计峰谷", (m.max_dd ?? 0) < 0 ? "down" : "", "已实现盈亏累计曲线从峰值的最大回落(美元)"),
   ].join("");
-  return `<details open class="pf-pnl"><summary class="muted small">📊 盈亏诊断</summary>
+  return `<details open class="pf-pnl"><summary class="muted small">盈亏诊断</summary>
       <div class="pf-pnl-bar"><div class="chips seg" id="pf-pw">${toggle}</div><span class="muted small">无风险收益为 ${(((PNL && PNL.risk_free_annual) || 0) * 100).toFixed(0)}%</span></div>
       <div class="opt-grid">${tiles}</div>
       <div class="pf-hist">${buildHist(trades)}</div>
@@ -1258,7 +1335,7 @@ function buildMonthlyCalendar() {
   if (!MODES[mode]) mode = "realized";
   const kind = MODES[mode].kind;
   const modeChips = Object.entries(MODES).map(([k, m]) => `<button data-cal="${k}"${k === mode ? ' class="active"' : ""}>${m.label}</button>`).join("");
-  const head = `<div class="pf-cal-head"><b>📅 月历</b> <span class="muted small">Realized P&L=券商精确(仅已实现);P&L=相邻月末 Net Liq 差−净入金,缺则回退「(估)」M2M;未记录 net_flow 的入出金会计入净值变化;log P&L=ln(1 + P&L %)</span>`
+  const head = `<div class="pf-cal-head"><b>月历</b> <span class="muted small">Realized P&L=券商精确(仅已实现);P&L=相邻月末 Net Liq 差−净入金,缺则回退「(估)」M2M;未记录 net_flow 的入出金会计入净值变化;log P&L=ln(1 + P&L %)</span>`
     + `<div class="chips seg" id="pf-calmode" style="margin-left:auto">${modeChips}</div></div>`;
   const prevYm = (ym) => { let [y, mm] = ym.split("-").map(Number); mm--; if (mm < 1) { mm = 12; y--; } return `${y}-${String(mm).padStart(2, "0")}`; };
   const finite = (v) => v != null && v !== "" && Number.isFinite(+v);
@@ -1511,7 +1588,7 @@ function renderScorecards() {
       + SCORE_COLS.map((i) => { const p = parse(r[i]); return cell(p.s, p.why); }).join("")
       + `</tr>`;
   }).join("");
-  el.innerHTML = `<div class="card"><div class="sc-head"><b>📊 Scorecards</b> `
+  el.innerHTML = `<div class="card"><div class="sc-head"><b>Scorecards</b> `
     + `<span class="muted small">本地 · 3 维单分(-5~+5,0=中性/正好负差),理由直显。经营/管理层/外部=质量维度。多头看高、空头看低;★需数据校准 ⚠身份存疑</span></div>`
     + `<div class="sc-wrap"><table class="bt-table sc-table"><thead><tr>${th}</tr></thead><tbody>${body}</tbody></table></div></div>`;
 }
