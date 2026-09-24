@@ -60,7 +60,6 @@
     "IREN",
     "COHR",
     "PANW",
-    "SNOW",
     "ASTS",
     "MRVL",
     "AVGO",
@@ -69,7 +68,8 @@
     "DELL",
     "RCL",
     "NET",
-    "SNDK"
+    "SNDK",
+    "SNOW"
   ],
   "uncertain": [],
   "neutral": [
