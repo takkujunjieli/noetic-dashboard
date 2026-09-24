@@ -50,8 +50,7 @@
     "NVDA",
     "CRWV",
     "DELL",
-    "SNDK",
-    "BE"
+    "SNDK"
   ],
   "uncertain": [
     "SMCI",
@@ -82,6 +81,7 @@
     "RCL",
     "SNOW",
     "IREN",
-    "ASTS"
+    "ASTS",
+    "BE"
   ]
 }
