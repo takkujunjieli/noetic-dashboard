@@ -45,7 +45,6 @@
     "AMD",
     "MU",
     "RKLB",
-    "COIN",
     "FIG",
     "HOOD",
     "NVDA",
@@ -63,7 +62,8 @@
     "MRVL",
     "LITE",
     "INTC",
-    "CCL"
+    "CCL",
+    "COIN"
   ],
   "neutral": [
     "AAOI",
