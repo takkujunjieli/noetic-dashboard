@@ -37,7 +37,8 @@
     "AXTI",
     "ASST",
     "DELL",
-    "RCL"
+    "RCL",
+    "STRL"
   ],
   "deep": [
     "AMD",
@@ -76,6 +77,7 @@
     "AXTI",
     "ASST",
     "DELL",
-    "RCL"
+    "RCL",
+    "STRL"
   ]
 }
