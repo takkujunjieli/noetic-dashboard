@@ -189,8 +189,9 @@ async function ensureThesisBaselines(assignments, pf) {
   }
 }
 
-export async function renderRiskControl() {
-  return mountLegacyRiskControl($("risk-control"), {
+export async function renderRiskControl(host = $("risk-control"), options = {}) {
+  return mountLegacyRiskControl(host, {
+    ...options,
     rLS, rLSset, rpStatus, rpSchedule, rpSyncNow, loadLocalArray, archiveCurrentThesis,
     renderRiskExposure, getAssignments: () => ASSIGN,
     ARCHIVE_KEY, THESIS_EVENTS_KEY, RISK_POLICY_DIRTY_KEY,

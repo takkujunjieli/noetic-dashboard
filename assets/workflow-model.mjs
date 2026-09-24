@@ -1,3 +1,4 @@
+import {returnInputError,captureReturnBasis,validateReturnBasis,numeric} from './expected-return.mjs';
 import {structureDraft,structureError,ticker,structureExposure} from './trade-structure.mjs';
 import { validateAttributionEvidence } from './attribution-link.mjs';
 import { validatePositionLink, validateBindingsAcrossCases } from "./position-link.mjs";
@@ -34,7 +35,7 @@ export function createCase({title,symbol='',horizon='',rationale='',demo=false})
  for(const [key,node] of Object.entries(NODES)) c.nodes[key]={state:node.initial,data:{}};
  Object.assign(c.nodes.hypothesis.data,{expectation:'',rationale,verification:'',invalidation:''});
  Object.assign(c.nodes.signal.data,{indicator:'MACD 金叉',condition:'',expires:'',evidence:''});
- Object.assign(c.nodes.returns.data,{spot:'',down:-10,base:0,up:10,pDown:'',pBase:'',pUp:'',probabilityBasis:'',cost:0,notes:''});
+ Object.assign(c.nodes.returns.data,{expectedNet:'',capital:'',averageLoss:'',expectedDate:'',spot:'',down:-10,base:0,up:10,pDown:'',pBase:'',pUp:'',probabilityBasis:'',cost:0,notes:''});
  Object.assign(c.nodes.construction.data,{structureVersion:1,template:'custom',evaluationDate:horizon,legs:[]});
  Object.assign(c.nodes.risk.data,{lossBudget:'',deltaBudget:'',existingDelta:'',context:'',notes:''});
  Object.assign(c.nodes.positions.data,{source:'manual',asOf:'',positions:[],action:'',exitRules:'',notes:''});
@@ -110,11 +111,14 @@ export function transition(c,key,to){
 export function archiveCase(c){
  if(c.archived)throw Error('归档实例只读');
  if(c.nodes.positions.data.positions.length||c.nodes.positions.data.binding?.rules.some(r=>!r.closed))throw Error('请先核对并结束实际持仓归属后再归档');
+ captureReturnBasis(c,now());
+ if(c.returnBasis&&numeric(c.nodes.attribution.data.realized))c.performance={basis:clone(c.returnBasis),actualNet:Number(c.nodes.attribution.data.realized),completedAt:now()};
  c.archived=true;record(c,'归档实例','attribution','保存完整工作流与复盘快照');
 }
 export function saveNode(c,key,data,reason='更新节点内容'){
  if(c.archived)throw Error('归档实例只读');
 
+ if(key==='returns'){const error=returnInputError(data);if(error)throw Error(error);}
  if(key==='positions')validatePositionLink(data);
  if(['construction','positions'].includes(key)){const error=key==='construction'&&data.structureVersion===1?structureError(data):legError(data[key==='construction'?'legs':'positions'],key==='positions');if(error)throw Error(error);}
  if(JSON.stringify(c.nodes[key].data)===JSON.stringify(data))return false;
@@ -123,11 +127,12 @@ export function saveNode(c,key,data,reason='更新节点内容'){
   if(!c.design?.plans.length)initializePlans(c);
   const plan=c.design?.plans.find(p=>p.id===c.design.selectedId);if(plan)plan[key]=clone(data);
  }
+ if(key==='returns')captureReturnBasis(c,now());
  record(c,'更新内容',key,reason);return true;
 }
 const DESIGN_KEYS=['construction','returns','risk'];
 export function emptyDesign(horizon=''){
- return {construction:{structureVersion:1,template:'custom',evaluationDate:horizon,legs:[]},returns:{spot:'',down:-10,base:0,up:10,pDown:'',pBase:'',pUp:'',probabilityBasis:'',cost:0,notes:''},risk:{lossBudget:'',deltaBudget:'',existingDelta:'',context:'',notes:''}};
+ return {construction:{structureVersion:1,template:'custom',evaluationDate:horizon,legs:[]},returns:{expectedNet:'',capital:'',averageLoss:'',expectedDate:'',spot:'',down:-10,base:0,up:10,pDown:'',pBase:'',pUp:'',probabilityBasis:'',cost:0,notes:''},risk:{lossBudget:'',deltaBudget:'',existingDelta:'',context:'',notes:''}};
 }
 export function initializePlans(c){
  const id='legacy-'+c.id,plan={id,name:'现有方案',...Object.fromEntries(DESIGN_KEYS.map(k=>[k,clone(c.nodes[k].data)]))};
@@ -145,7 +150,7 @@ export function savePlan(c,id,name,construction){
  record(c,id?'更新方案':'添加方案','construction',name);return p.id;
 }
 export function selectPlan(c,id){writable(c);if(!c.design.plans.some(p=>p.id===id))throw Error('方案不存在');if(c.design.selectedId===id)return;projectPlan(c,id);record(c,'切换查看方案','construction',c.design.plans.find(p=>p.id===id).name);}
-export function setActivePlan(c,id){writable(c);if(id&&!c.design.plans.some(p=>p.id===id))throw Error('方案不存在');c.design.activeId=id;record(c,'设置 In Action','construction',id?c.design.plans.find(p=>p.id===id).name:'取消 In Action');}
+export function setActivePlan(c,id){writable(c);if(id&&!c.design.plans.some(p=>p.id===id))throw Error('方案不存在');c.design.activeId=id;captureReturnBasis(c,now());record(c,'设置 In Action','construction',id?c.design.plans.find(p=>p.id===id).name:'取消 In Action');}
 export function deletePlan(c,id){writable(c);const p=c.design.plans.find(p=>p.id===id);if(!p)throw Error('方案不存在');c.design.plans=c.design.plans.filter(p=>p.id!==id);if(c.design.activeId===id)c.design.activeId='';if(c.design.selectedId===id)projectPlan(c,c.design.plans[0]?.id||'');record(c,'删除方案','construction',p.name+'；历史快照保留');}
 export function planView(c,id){const copy=clone(c),p=c.design?.plans.find(p=>p.id===id);if(p)for(const key of DESIGN_KEYS)copy.nodes[key].data=clone(p[key]);return copy;}
 export function demoCase(){const horizon=new Date(Date.now()+30*86400000).toISOString().slice(0,10),c=createCase({title:'A 股票 · 一个月上涨 10%',symbol:'A',horizon,demo:true,rationale:'模拟：产品催化与盈利预期上修。所有价格、概率、Greeks 都是假设值。'});
@@ -161,6 +166,8 @@ export function validateStore(store){
  const ids=new Set();
  function body(c){
   if(!c||typeof c.id!=='string'||typeof c.title!=='string'||typeof c.symbol!=='string'||typeof c.horizon!=='string'||typeof c.archived!=='boolean'||!Number.isInteger(c.revision)||c.revision<1)throw Error('实例内容不完整');
+  if(c.linkedSymbols!=null&&(!Array.isArray(c.linkedSymbols)||c.linkedSymbols.some(x=>typeof x!=='string')))throw Error('关联标的格式无效');
+  if(c.sourceLink!=null&&(c.sourceLink.kind!=='risk-policy'||typeof c.sourceLink.name!=='string'||!Array.isArray(c.sourceLink.warnings)||c.sourceLink.warnings.some(x=>typeof x!=='string')))throw Error('数据来源关联格式无效');
   for(const [key,def] of Object.entries(NODES)){const n=c.nodes?.[key];if(!n||!Object.hasOwn(c.stateVersion===2?def.states:LEGACY_NODES[key].states,n.state)||!n.data||typeof n.data!=='object'||Array.isArray(n.data))throw Error('节点状态无效');for(const [field,value] of Object.entries(n.data))if(!['legs','positions','sizing','accountSnapshot','binding','sync','evidence'].includes(field)&&!['string','number'].includes(typeof value))throw Error('节点字段格式无效');}
   if(c.stateVersion===2&&['expectation','rationale','verification','invalidation'].some(k=>typeof c.nodes.hypothesis.data[k]!=='string'))throw Error('论点字段格式无效');
   if(c.stateVersion!=null&&c.stateVersion!==2)throw Error('节点版本不支持');
@@ -174,6 +181,9 @@ export function validateStore(store){
    if(typeof a!=='object'||Array.isArray(a)||Object.values(a).some(v=>v!==null&&!['string','number','boolean'].includes(typeof v)))throw Error('账户快照格式无效');
    if(typeof a.scope!=='string'||typeof a.available!=='boolean'||!Number.isInteger(a.unknown)||a.unknown<0)throw Error('账户快照缺少口径');
   }
+  const returnError=returnInputError(c.nodes.returns.data);if(returnError)throw Error(returnError);
+  if(c.returnBasis)validateReturnBasis(c.returnBasis);
+  if(c.performance){validateReturnBasis(c.performance.basis);if(!c.archived||!numeric(c.performance.actualNet)||!Number.isFinite(Date.parse(c.performance.completedAt)))throw Error('实际收益快照格式无效');}
   validateAttributionEvidence(c.nodes.attribution.data.evidence);
   validatePositionLink(c.nodes.positions.data);
   if(c.designFrozen!=null&&typeof c.designFrozen!=='boolean')throw Error('方案冻结标记无效');
@@ -191,9 +201,9 @@ export function validateStore(store){
   if((c.nodes.construction.data.structureVersion===1?structureError(c.nodes.construction.data):legError(c.nodes.construction.data.legs))||legError(c.nodes.positions.data.positions,true))throw Error('组合腿格式无效');
   if(c.stateVersion!==2&&c.archived!==(c.nodes.attribution.state==='archived'))throw Error('归档状态不一致');
  }
- for(const c of store.cases){body(c);if(ids.has(c.id))throw Error('实例 ID 重复');ids.add(c.id);if(!Array.isArray(c.events)||!c.events.length)throw Error('缺少历史记录');let last=0;
+ for(const c of store.cases){body(c);if(ids.has(c.id))throw Error('实例 ID 重复');ids.add(c.id);if(!Array.isArray(c.events)||(!c.events.length&&!(c.historyClearedRevision===c.revision&&Number.isFinite(Date.parse(c.historyClearedAt)))))throw Error('缺少历史记录');let last=0;
   for(const e of c.events){if(typeof e.id!=='string'||typeof e.type!=='string'||typeof e.reason!=='string'||!Object.hasOwn(NODES,e.node)||!Number.isFinite(Date.parse(e.at))||!Number.isInteger(e.revision)||e.revision<=last)throw Error('历史记录格式无效');body(e.snapshot);if(e.snapshot.id!==c.id||e.snapshot.revision!==e.revision)throw Error('快照不匹配');last=e.revision;}
-  if(last!==c.revision||JSON.stringify(c.events.at(-1).snapshot)!==JSON.stringify(snapshot(c)))throw Error('最新快照与实例不一致');
+  if(c.events.length&&(last!==c.revision||JSON.stringify(c.events.at(-1).snapshot)!==JSON.stringify(snapshot(c))))throw Error('最新快照与实例不一致');
  }
  validateBindingsAcrossCases(store.cases);
  // Preserve original snapshots verbatim; migration creates one new current revision.
@@ -208,3 +218,9 @@ export function validateStore(store){
  return result;
 }
 
+
+export function clearWorkflowHistory(store){
+ const next=clone(store);next.cases=next.cases.filter(c=>!c.demo);
+ for(const c of next.cases){c.events=[];c.historyClearedAt=new Date().toISOString();c.historyClearedRevision=c.revision;}
+ return validateStore(next);
+}

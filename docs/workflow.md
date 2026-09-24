@@ -1,3 +1,27 @@
+## 关联现有数据（2026-09-23）
+
+Workflow 顶部「关联现有数据」读取 risk_policy（含浏览器覆盖和 riskGroups）及 portfolio 快照，预览现有活跃 Thesis。逐项关联，仅写 Workflow 本地存储；按来源名称防止重复导入。原页面无布局或流程修改。
+
+Edge → Hypothesis 论点依据，Invalidation → 证伪条件，Shelf life → 目标日期。多标的分组保留 linkedSymbols，匹配持仓经成本、源时间、现有归属检查后整仓关联；跳过项保留提示。Risk Budget 打开对应来源 Thesis，但打开动作不更改共享默认值。导入风险参数保留快照；论点不是双向同步，后续人工编辑不会被源数据覆盖。Position Management 沿用刷新机制；Attribution 沿用完整合约归属对账。既有归档保留在原页面，尚未导入；不从现有持仓推断方案、收益预测或实际净收益。
+
+## Risk Budget：直接复用账户风险控制（2026-09-23）
+
+Risk Budget 使用 Portfolio 的同一组件、字段、仓位计算及 Thesis 管理操作，共用 riskPolicy 本地设置和原有手动远端同步。移除该节点额外的方案选择器、Delta/损失预算字段及情景表，不要求先创建交易方案。账户设置不再按候选方案隔离。
+
+「保存节点快照」将组件参数和计算器输入保存在实例 accountRiskSnapshot 中，并记录事件；与候选方案切换无关。历史及归档只读，不读取当前账户设置替代旧值；没有记录过此快照的旧版本显示缺失说明。快照不包含 PAT。pending/running 保持原有手动流转。
+
+## Expected Return: chart-based workspace
+
+Each candidate plan has compact manual fields for expected net P&L, allocated capital, an optional expected completion date (defaults to structure evaluation date), and optional average net loss for the matrix. Expected return is expected net P&L / positive allocated capital; zeros are valid profits while missing data remains unknown. No probability or expectancy is inferred from Greeks.
+
+1. Payoff small multiples group all stock and option legs by normalized underlying ticker. Curves show one unit combination's gross terminal dollar P&L, with correctly signed stock/option quantities and the standard 100 option multiplier. Each group includes zero-P&L and available reference-price lines, exact piecewise-linear breakevens including zero intervals, tooltips and optional individual-leg overlays. Each group's options must expire on the evaluation date; otherwise that group displays a pricing-model requirement. Other supported groups still render. No IV/time value, fees, dividends, borrow or early exercise are fabricated. A purchase price is never labeled a current quote.
+2. The shared scatter uses return percentage on X and completion/expected completion date increasing upward on Y. Background dots are archived actual outcomes, plus at most one translucent prediction for the currently inspected candidate. Archived current theses show their original captured forecast and highlighted actual outcome, connected by a line. Demo cases are separated from real cases. Missing capital/profit omits the actual dot with a count, rather than implying zero. During snapshot replay, the shared history is reconstructed only through that snapshot's time.
+3. The matrix uses win rates 30–90% in 10-point steps and average profit/loss ratios 0.5, 1, 1.5, 2, 3, 4. Without average loss it shows R multiples. With average net loss, it shows dollar expectancy or return percentage and highlights cells meeting the manually entered target. It uses E = L[pb − (1 − p)], not maximum profit / maximum loss, and makes no claim that displayed win rates are measured strategy probabilities.
+
+The first eligible In Action forecast automatically captures `returnBasis`: plan identity, expected net P&L, allocated capital, rate, optional forecast date and timestamp. It may be captured when selecting In Action or when saving the first complete inputs for an already-active plan. Subsequent edits remain working predictions and do not rewrite that original denominator. On archive, `performance` snapshots the basis, Attribution's manual actual net P&L, and completion timestamp. Actual return uses the captured capital, never net premium or a subsequently changed budget. Attribution also shows these rates. No new freeze button, broker call or Position Management backward refresh was introduced. Existing historical snapshots remain unchanged; old archives without a captured capital basis stay explicitly unplotted.
+
+Validation: 38 unit tests and six isolated browser suites, including grouping stock + spread legs, mixed expiry rejection, breakevens, a single live prediction, actual-history filtering, manual-input persistence and validation, matrix arithmetic, fixed-denominator archive returns and mobile layout.
+
 ## Plan-table interaction
 
 Click a plan row or its keyboard-focusable name to open its leg editor. The last column has a blank heading and contains only a ⋯ button. Its native popover contains Set/Unset In Action and Delete Plan; menu clicks do not open the editor. Native popover behavior supports Escape and outside-click dismissal and avoids clipping in the scrollable table. There is no adoption column. Current UI and new event labels use “In Action”; historical “In Action Policy” event records remain compatible and are displayed with the shortened label. The selected policy retains red row text.

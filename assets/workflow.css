@@ -11,3 +11,42 @@
 .plan-table td{white-space:normal;min-width:90px}.plan-table td:nth-child(3){min-width:200px}.plan-table .toolbar{gap:6px}.plan-table button{font-size:11px;padding:5px 8px}.plan-table tr.in-action-policy,.plan-table tr.in-action-policy td,.plan-table tr.in-action-policy strong,.plan-table tr.in-action-policy small,.plan-table tr.in-action-policy button{color:#ff767f}.plan-editor{margin-top:20px;padding-top:18px;border-top:1px solid var(--border)}
 .workbench,.inspector{min-width:0}.plan-table td:nth-child(4){min-width:160px}.plan-editor .section-heading{flex-wrap:wrap}
 .plan-table [data-plan-row]{cursor:pointer}.plan-table [data-plan-row]:hover{background:var(--raised)}.plan-table .plan-name-button{padding:0;border:0;background:none;text-align:left;justify-content:flex-start;font-size:12px;font-weight:600;color:inherit}.plan-table td:last-child{min-width:42px;width:42px}.plan-table .plan-menu-trigger{font-size:22px;line-height:1;padding:3px 9px;border-color:transparent;background:transparent;color:var(--muted)}.plan-menu{position:fixed;inset:auto;margin:0;padding:5px;width:190px;border:1px solid var(--border);border-radius:9px;background:var(--surface);box-shadow:0 8px 28px #0006;color:var(--text)}.plan-menu button{display:block;width:100%;text-align:left;padding:9px 10px;border:0;border-radius:5px;background:transparent;color:var(--text)}.plan-menu button:hover{background:var(--raised)}.plan-menu .plan-delete{color:var(--bad)}
+
+.expected-return-inspector .return-inputs{margin-top:18px}.expected-return-inspector #live-summary{border-bottom:0;margin-bottom:0}.return-chart-section{margin-top:26px;padding-top:18px;border-top:1px solid var(--border)}.payoff-card{padding:12px;margin:14px 0;border:1px solid var(--border);border-radius:8px;background:var(--bg)}.payoff-card h4{margin:0;font-weight:500}.return-svg{width:100%;height:auto;display:block;overflow:visible}.return-svg text{font-size:11px;fill:var(--muted)}.chart-grid{stroke:var(--border);stroke-width:.65}.chart-zero{stroke:var(--muted);stroke-width:1;stroke-dasharray:4 3}.chart-reference{stroke:var(--blue);stroke-width:1;stroke-dasharray:3 4}.payoff-total{stroke:var(--mint);stroke-width:2.5;fill:none}.leg-curve{display:none;fill:none;stroke-width:1.2;stroke-dasharray:5 3;opacity:.7}.show-legs .leg-curve{display:block}.leg-color-0{stroke:#8ebaff}.leg-color-1{stroke:#f0c784}.leg-color-2{stroke:#d6adff}.payoff-zero{fill:var(--bg);stroke:var(--mint);stroke-width:2}.chart-hit{fill:transparent;stroke:none}.chart-toggle{display:flex;align-items:center;gap:6px;white-space:nowrap;margin:0}.chart-toggle input{display:inline-block;width:14px;height:14px;margin:0}.chart-empty{padding:25px 12px;color:var(--muted);font-size:12px;background:var(--bg);border-radius:8px}.actual-point{fill:var(--mint);stroke:var(--surface);stroke-width:1.5}.current-actual{fill:#ff767f;stroke:var(--text)}.predicted-point{fill:var(--blue);fill-opacity:.4;stroke:var(--blue);stroke-width:2}.forecast-connection{stroke:var(--blue);stroke-width:1;stroke-dasharray:4 4}.expectancy-matrix th,.expectancy-matrix td{font-size:11px;padding:8px 5px;text-align:center}.expectancy-matrix .matrix-positive{background:#9ae8cd16}.expectancy-matrix .matrix-negative{background:#ff767f16}.expectancy-matrix .matrix-meets{box-shadow:inset 0 0 0 1px var(--mint);color:var(--mint)}.expected-return-inspector{min-width:0}
+
+/* Shared Portfolio risk editor, scoped to Workflow. */
+.workflow-legacy-risk { --card-hover:var(--raised,#161e20); --card:var(--surface,#101819); --up:#84c7a3; --down:#ed8e9e; margin:18px 0;
+.risk-form, .risk-bundles { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: flex-end; }
+/* thesis ⋯ 操作菜单 */
+.rk-menu-wrap { position: relative; display: inline-block; }
+.rk-menu { position: absolute; top: calc(100% + 4px); left: 0; z-index: 20; min-width: 150px;
+  background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 4px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.35); display: flex; flex-direction: column; gap: 2px; }
+.rk-menu[hidden] { display: none; }   /* 让 hidden 属性真正生效(否则上面的 display:flex 盖过默认 [hidden]) */
+.rk-menu-item { text-align: left; background: transparent; border: 0; color: var(--text);
+  padding: 7px 10px; border-radius: 6px; font-size: 13px; cursor: pointer; white-space: nowrap; }
+.rk-menu-item:hover { background: var(--card-hover); }
+.rk-menu-item.rk-danger { color: var(--down); }
+.rk-menu-item.rk-armed { background: hsl(0 70% 50% / .22); color: var(--down); font-weight: 600; }
+.rk-menu-item.rk-armed[data-act="complete"] { background: hsl(152 55% 45% / .22); color: var(--up); }
+.risk-bundles { padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.risk-form label, .risk-bundles label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
+.risk-form input, .risk-form select, .risk-bundles input, .risk-bundles select {
+  background: var(--card-hover); border: 1px solid var(--border); border-radius: 6px;
+  padding: 5px 8px; color: var(--text); font-size: 13px; font-variant-numeric: tabular-nums; width: 130px;
+}
+.mini-btn { background: var(--card-hover); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; color: var(--text); font-size: 12px; cursor: pointer; }
+.mini-btn:hover { border-color: var(--accent); }
+.opt-tile { background: var(--card-hover); border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px; }
+.opt-k { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+.opt-v { font-size: 15px; font-weight: 700; color: var(--text); }
+.opt-v.up { color: var(--up); }
+.opt-v.down { color: var(--down); }
+.opt-sub { font-size: 11px; font-weight: 400; color: var(--muted); }
+.wb-statbar {display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;}
+.small {font-size:12px;}
+.muted {color:var(--muted);}
+}
+
+#source-dialog {width:min(900px,94vw);max-height:85vh;overflow:auto;}
+.workbench > div {min-width:0;}

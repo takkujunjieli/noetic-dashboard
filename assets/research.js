@@ -409,7 +409,7 @@ function netbuyHeatmap(J) {
     <div class="muted small" style="margin-top:6px">每格=某票某日散户净买入(<span class="up">绿=净买</span>/<span class="down">红=净卖</span>,深浅随 |值|,饱和于 0.3)。</div>`;
 }
 
-/* 散户流跑批标的多选器:写回 config/retail_syms.json(独立于 D/Q)。下次跑批生效。 */
+/* 散户流跑批标的多选器:写回 config/retail_syms.json(独立于交易台 ticker 状态)。下次跑批生效。 */
 async function saveRetailSyms(symbols) {
   const pat = getPat();
   if (!pat) return { ok: false, msg: "需要 fine-grained PAT(Contents 读写;在交易台采集面板输入,存本机)" };
@@ -424,7 +424,7 @@ async function saveRetailSyms(symbols) {
       return { ok: false, msg: `读 sha ${cur.status}: ${j.message || "(PAT 需 Contents 读写)"}` };
     }
   } catch (e) { return { ok: false, msg: "读 sha 异常 " + e }; }
-  const body = { _note: "散户订单流引擎跑哪些票(独立于 D/Q;research 页多选下拉编辑)。逐笔成本 ~2-15min/票。", symbols };
+  const body = { _note: "散户订单流引擎跑哪些票(独立于交易台 ticker 状态;research 页多选下拉编辑)。逐笔成本 ~2-15min/票。", symbols };
   const content = btoa(unescape(encodeURIComponent(JSON.stringify(body, null, 2) + "\n")));
   try {
     const r = await fetch(url, { method: "PUT", headers: ghHeaders(pat),

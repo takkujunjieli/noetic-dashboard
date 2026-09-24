@@ -52,7 +52,7 @@ export function bindingFromSelection(c,cases,source,selection) {
   const row=source.rows.find(r=>r.key===choice.key);if(!row)throw Error('选择的持仓已变化，请刷新列表');
   const oldRule=c.nodes.positions.data.binding?.rules.find(r=>r.key===row.key);
   if(oldRule&&Date.parse(row.sourceAt)<Date.parse(oldRule.sourceAt))throw Error('快照早于已保存持仓，不能确认归属');
-  if(row.underlying!==c.symbol.toUpperCase())throw Error('持仓标的与当前 thesis 不匹配');
+  if(c.linkedSymbols?.length ? !c.linkedSymbols.includes(row.underlying) : c.symbol && row.underlying!==c.symbol.toUpperCase())throw Error('持仓标的与当前 thesis 不匹配');
   if(row.entry==='')throw Error(`${row.symbol} 缺少有效成本，不能生成实际持仓快照`);
   if(!row.sourceAt)throw Error(`${row.symbol} 缺少券商源时间，请先更新 Portfolio 数据`);
   const others=liveClaims(cases,row.key,c.id),mode=choice.mode;

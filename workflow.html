@@ -9,10 +9,11 @@
 </head>
 <body>
 <nav class="wf-nav" aria-label="页面导航"><a class="active" href="workflow.html">Workflow</a><a href="portfolio.html">Portfolio</a><a href="trading.html">Trading</a><a href="research.html">Research</a><a href="strategy.html">Strategy</a></nav>
-<header class="page-heading"><div><p class="eyebrow">THESIS WORKSPACE</p><h1>从观点，到归因。</h1><p class="subtle">四层工作流 · 一个完整的交易论点生命周期</p></div><div class="toolbar"><button id="export">导出备份</button><button id="import-trigger">导入备份</button><input hidden id="import" type="file" accept="application/json,.json"><button class="primary" id="new">＋ 新建 Thesis</button></div></header>
+<header class="page-heading"><div><p class="eyebrow">THESIS WORKSPACE</p><h1>从观点，到归因。</h1><p class="subtle">四层工作流 · 一个完整的交易论点生命周期</p></div><div class="toolbar"><button id="link-existing">关联现有数据</button><button id="export">导出备份</button><button id="import-trigger">导入备份</button><input hidden id="import" type="file" accept="application/json,.json"><button class="primary" id="new">＋ 新建 Thesis</button></div></header>
 <div id="notice" role="status" aria-live="polite"></div>
 <div class="workspace"><aside class="library"><div class="section-heading"><h2>Thesis Library</h2><span id="count" class="badge"></span></div><div class="segmented" role="group" aria-label="实例列表"><button data-filter="active" aria-pressed="true">Active</button><button data-filter="archived" aria-pressed="false">Archive</button></div><div id="cases"></div><button id="demo" class="quiet wide">＋ 加载模拟案例</button><p class="storage-note">仅保存在此浏览器、此站点。定期导出备份；风控与 Portfolio 共用账户参数；券商 MCP 未连接。</p></aside><main id="main"></main></div>
 <dialog id="new-dialog"><form id="new-form"><p class="eyebrow">NEW THESIS</p><h2>定义一个可检验的观点</h2><label>论点标题<input name="title" required maxlength="140" placeholder="例如：A 股票未来一个月上涨 10%"></label><div class="fields"><label>参考标的 · 可留空<input name="symbol" maxlength="24" placeholder="例如：A"></label><label>目标日期 · 可留空<input name="horizon" type="date"></label></div><label>初始依据<textarea name="rationale" rows="3" placeholder="是什么因素让你形成这个判断？"></textarea></label><div class="toolbar end"><button type="button" id="cancel-new">取消</button><button class="primary">创建实例</button></div></form></dialog>
+<dialog id="source-dialog"><div class="section-heading"><h2>关联现有数据</h2><button id="close-source">关闭</button></div><p class="hint">读取当前 Thesis 分组与 Portfolio 快照，只在 Workflow 创建关联实例。已有页面和源文件保持不变。</p><div id="source-content"></div></dialog>
 <script type="module" src="assets/workflow.js"></script>
 </body>
 </html>

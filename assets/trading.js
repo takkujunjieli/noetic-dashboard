@@ -13,7 +13,7 @@ let pfFilter = null;          // Portfolio 饼图选中的 sym → 控制饼图�
 let pfAccount = null;         // Portfolio 选中的账户 id(null=全部账户)
 let pfPnlWin = "ytd";         // Portfolio 盈亏诊断窗口:ytd / 3m / 1m
 const PF_MIN_VALUE = 1000;    // 饼图只显示市值 ≥ 此的持仓
-let CFG = { watchlist: [], deep: [] };  // 标的分组,来自 config/tickers.json,卡片开关就地编辑
+let CFG = { watchlist: [], deep: [], uncertain: [], neutral: [] };  // 👍 deep / 👎 quotes-only / ? uncertain / − neutral
 let SYM = localStorage.getItem("wbSym") || null;
 let TF = localStorage.getItem("wbTf") || "5m";
 let ladderMode = "gex";
@@ -566,21 +566,52 @@ function renderIndSub() {
 }
 
 /* ---------- MACD 副图(独立零轴;MACD线=动量,柱=动量变化) ---------- */
+const MACD_HIST_VISUAL_SCALE = 2; // 仅放大柱形绘图,计算与读数保留原值
 function ensureMacdSub() {
   if (macdSub) return;
-  macdSub = LWC.createChart($("macd-sub"), { ...chartTheme, timeScale: { ...chartTheme.timeScale, timeVisible: true } });
+  macdSub = LWC.createChart($("macd-sub"), {
+    ...chartTheme,
+    handleScale: false, // 禁用滚轮、捏合和坐标轴缩放,只跟随主图
+    handleScroll: false,
+    rightPriceScale: {
+      ...chartTheme.rightPriceScale,
+      autoScale: true,
+      scaleMargins: { top: 0.05, bottom: 0.05 }, // 按可见数据适配,减少留白以用满副图高度
+    },
+    timeScale: { ...chartTheme.timeScale, timeVisible: true },
+  });
   macdHist = macdSub.addHistogramSeries({ priceLineVisible: false, lastValueVisible: false, base: 0 });
   macdL = macdSub.addLineSeries({ color: "#60a5fa", lineWidth: 2, priceLineVisible: false, lastValueVisible: false });
   macdSignalL = macdSub.addLineSeries({ color: "#f59e0b", lineWidth: 1, priceLineVisible: false, lastValueVisible: false });
   macdL.createPriceLine({ price: 0, color: "#64748b88", lineWidth: 1, lineStyle: LWC.LineStyle.Dotted, axisLabelVisible: false });
+  macdSub.subscribeCrosshairMove(renderMacdHover);
   const r = chart.timeScale().getVisibleLogicalRange();
   if (r) macdSub.timeScale().setVisibleLogicalRange(r);
+}
+
+function renderMacdHover(param) {
+  const title = $("macd-sub-title");
+  if (!title) return;
+  if (param.time == null || !param.point) {
+    title.textContent = title.dataset.summary || "";
+    return;
+  }
+  const time = param.time;
+  const date = typeof time === "string" ? time
+    : typeof time === "number" ? new Date(time * 1000).toISOString().slice(0, 10)
+    : `${time.year}-${String(time.month).padStart(2, "0")}-${String(time.day).padStart(2, "0")}`;
+  const value = (series) => {
+    const v = param.seriesData.get(series)?.value;
+    const raw = series === macdHist ? v / MACD_HIST_VISUAL_SCALE : v;
+    return Number.isFinite(raw) ? raw.toFixed(4) : "—";
+  };
+  title.textContent = `${date} · MACD ${value(macdL)} · Signal ${value(macdSignalL)} · 柱状图 ${value(macdHist)}`;
 }
 
 function renderMacdSub() {
   const el = $("macd-sub"), tt = $("macd-sub-title");
   if (!el) return;
-  const paneOn = overlayOn.macd !== false;
+  const paneOn = TF === "1d" && overlayOn.macd !== false;
   el.style.display = paneOn ? "" : "none";
   if (tt) tt.style.display = paneOn ? "" : "none";
   if (!paneOn) {
@@ -597,7 +628,7 @@ function renderMacdSub() {
   macdL.setData(line(values.main));
   macdSignalL.setData(line(values.signal));
   macdHist.setData(values.hist.map((v, i) => v == null ? null : ({
-    time: t(bars[i]), value: v, color: v >= 0 ? "#34d39999" : "#f8717199",
+    time: t(bars[i]), value: v * MACD_HIST_VISUAL_SCALE, color: v >= 0 ? "#34d39999" : "#f8717199",
   })).filter(Boolean));
   const markers = [];
   for (let i = 1; i < values.main.length; i++) {
@@ -616,6 +647,7 @@ function renderMacdSub() {
   if (tt) tt.textContent = last >= 0
     ? `MACD(12,26,9) · 动量 ${values.main[last].toFixed(2)} · Signal ${values.signal[last].toFixed(2)} · 变化 ${values.hist[last].toFixed(2)} · ↑ 金叉买入 / ↓ 死叉卖出`
     : "MACD(12,26,9) · MACD线=趋势动量 · 柱=动量变化 · ↑ 金叉买入 / ↓ 死叉卖出";
+  if (tt) tt.dataset.summary = tt.textContent;
   requestAnimationFrame(syncSubs);
 }
 
@@ -890,6 +922,21 @@ function volProfileFragment(W, H, dy = 0) {
 
 /* ---------- 迷你行情卡(切票器 + 分组开关 + 增删) ---------- */
 const isDeep = (s) => CFG.deep.includes(s);
+const isUncertain = (s) => CFG.uncertain.includes(s);
+const isNeutral = (s) => CFG.neutral.includes(s);
+
+// Heroicons/Lucide-style monochrome outlines. Inline SVG keeps the controls sharp,
+// theme-aware and dependency-free at every zoom level.
+const tickerStateIcon = (kind) => {
+  const paths = {
+    up: '<path d="M7 10v12"/><path d="M15 5.9 14 10h5.8a2 2 0 0 1 1.9 2.6l-2.3 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h3a2 2 0 0 0 1.8-1.1L12 2h0a3.1 3.1 0 0 1 3 3.9Z"/>',
+    down: '<path d="M17 14V2"/><path d="m9 18.1 1-4.1H4.2a2 2 0 0 1-1.9-2.6l2.3-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-3a2 2 0 0 0-1.8 1.1L12 22h0a3.1 3.1 0 0 1-3-3.9Z"/>',
+    help: '<circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 1 1 5.8 1c0 2-3 2-3 4"/><path d="M12 18h.01"/>',
+    minus: '<path d="M5 12h14"/>',
+    x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  };
+  return `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${paths[kind]}</svg>`;
+};
 
 function renderMiniCards() {
   const syms = (CFG.watchlist.length ? [...CFG.watchlist] : Object.keys(RESEARCH?.tickers || {}))
@@ -906,11 +953,14 @@ function renderMiniCards() {
     const price = snap.price ?? lastClose(s);
     const pct = snap.chg_pct;
     const deep = isDeep(s);
+    const uncertain = isUncertain(s);
+    const neutral = isNeutral(s);
     const dv = dvOf(s);
     const fill = dv ? Math.round(Math.sqrt(dv / maxDV) * 100) : 0;
     const volLbl = dv ? fmtDV(dv) : "—";
-    return `<div class="mini-card ${s === SYM ? "active" : ""} ${deep ? "" : "wl-only"}" data-act="pick" data-sym="${esc(s)}">
+    return `<div class="mini-card ${s === SYM ? "active" : ""} ${neutral ? "neutral wl-only" : !deep && !uncertain ? "disliked" : ""}" data-act="pick" data-sym="${esc(s)}">
       ${dv ? `<div class="mc-water" style="height:${fill}%"></div>` : ""}
+      <button type="button" class="mc-del" data-act="del" data-sym="${esc(s)}" title="Remove ticker" aria-label="Remove ${esc(s)}">${tickerStateIcon("x")}</button>
       <div class="mc-main">
         <div class="sym">${esc(s)}</div>
         <div class="price">${price != null ? Number(price).toFixed(2) : "—"}</div>
@@ -918,11 +968,12 @@ function renderMiniCards() {
         <div class="mc-vol" title="日均成交额 ≈ 20日均量(EWMA)× 现价;水位=√相对列表最大值">${volLbl}</div>
       </div>
       <div class="mc-side">
-        <div class="mc-grp">
-          <button class="${deep ? "on" : ""}" data-act="deep" data-sym="${esc(s)}" title="Deep: candles/options/GEX/indicators">D</button>
-          <button class="${deep ? "" : "on"}" data-act="wl" data-sym="${esc(s)}" title="Quotes/news only">Q</button>
+        <div class="mc-grp" role="group" aria-label="${esc(s)} ticker status">
+          <button type="button" class="${deep ? "on" : ""}" data-act="deep" data-sym="${esc(s)}" title="Like · Deep data" aria-label="Like · Deep data" aria-pressed="${deep}">${tickerStateIcon("up")}</button>
+          <button type="button" class="${!deep && !uncertain && !neutral ? "on" : ""}" data-act="wl" data-sym="${esc(s)}" title="Dislike · Quotes only" aria-label="Dislike · Quotes only" aria-pressed="${!deep && !uncertain && !neutral}">${tickerStateIcon("down")}</button>
+          <button type="button" class="${uncertain ? "on" : ""}" data-act="uncertain" data-sym="${esc(s)}" title="Uncertain · decide later" aria-label="Uncertain · decide later" aria-pressed="${uncertain}">${tickerStateIcon("help")}</button>
+          <button type="button" class="${neutral ? "on" : ""}" data-act="neutral" data-sym="${esc(s)}" title="Neutral · no preference" aria-label="Neutral · no preference" aria-pressed="${neutral}">${tickerStateIcon("minus")}</button>
         </div>
-        <button class="mc-del" data-act="del" data-sym="${esc(s)}" title="Remove from list">✕</button>
       </div>
     </div>`;
   }).join("");
@@ -943,7 +994,8 @@ function tile(k, v, sub = "", cls = "", title = "") {
 function renderStats() {
   renderExpChips();  // 到期选择器随票/口径/数据动态刷新
   if (SYM && CFG.watchlist.length && !isDeep(SYM)) {
-    $("wb-stats").innerHTML = `<span class="muted">${esc(SYM)} is in the "Quotes only" group — no deep data. Click "D" on its card to add to Deep.</span>`;
+    const state = isUncertain(SYM) ? "Uncertain" : isNeutral(SYM) ? "Neutral" : "Quotes only";
+    $("wb-stats").innerHTML = `<span class="muted">${esc(SYM)} is ${state} — no deep data. Click the thumbs-up on its card to add it to Deep.</span>`;
     return;
   }
   const d = researchOf(SYM);
@@ -1419,13 +1471,17 @@ async function loadCfg() {
   const local = JSON.parse(localStorage.getItem("wbCfgPending") || "null");
   const wl = local?.watchlist?.length ? local.watchlist : [...(cfg.watchlist || [])];
   const dp = local?.deep || cfg.deep || cfg.watchlist || [];
+  const uncertain = local?.uncertain || cfg.uncertain || [];
+  const neutral = local?.neutral || cfg.neutral || [];
   CFG.watchlist = wl;
   CFG.deep = dp.filter((t) => wl.includes(t));
+  CFG.uncertain = uncertain.filter((t) => wl.includes(t) && !CFG.deep.includes(t));
+  CFG.neutral = neutral.filter((t) => wl.includes(t) && !CFG.deep.includes(t) && !CFG.uncertain.includes(t));
 }
 
 function scheduleSave() {
   // 立刻存本机(不依赖 PAT,刷新不丢);再防抖写 repo
-  localStorage.setItem("wbCfgPending", JSON.stringify({ watchlist: CFG.watchlist, deep: CFG.deep }));
+  localStorage.setItem("wbCfgPending", JSON.stringify({ watchlist: CFG.watchlist, deep: CFG.deep, uncertain: CFG.uncertain, neutral: CFG.neutral }));
   cfgStatus = "Pending save…"; updateCfgStatus();
   if (saveTimer) clearTimeout(saveTimer);
   saveTimer = setTimeout(saveCfg, 1500);  // 防抖:连续切换合并成一次提交
@@ -1435,8 +1491,10 @@ async function saveCfg() {
   const pat = getPat() || $("gex-pat").value.trim();
   const watchlist = [...new Set(CFG.watchlist)];
   const deep = [...new Set(CFG.deep)].filter((t) => watchlist.includes(t));
+  const uncertain = [...new Set(CFG.uncertain)].filter((t) => watchlist.includes(t) && !deep.includes(t));
+  const neutral = [...new Set(CFG.neutral)].filter((t) => watchlist.includes(t) && !deep.includes(t) && !uncertain.includes(t));
   if (!pat) { cfgStatus = "⚠️ Saved on THIS device only. To sync (so data actually loads for new tickers), enter a PAT with Contents read/write in the Collection panel below."; updateCfgStatus(); return; }
-  const body = { "_note": "Single source of truth for tickers; edited via the D/Q toggles and add/remove on the trading-desk mini cards.", watchlist, deep };
+  const body = { "_note": "Single source of truth for tickers; edited via the four-state ticker controls on the trading-desk mini cards.", watchlist, deep, uncertain, neutral };
   const content = btoa(unescape(encodeURIComponent(JSON.stringify(body, null, 2) + "\n")));
   cfgStatus = "Saving…"; updateCfgStatus();
   try {
@@ -1676,13 +1734,29 @@ function initToolbar() {
       SYM = sym; localStorage.setItem("wbSym", SYM); ladderDay = null; renderAll();  // 换票回 Live
     } else if (act === "deep") {
       if (!CFG.deep.includes(sym)) CFG.deep.push(sym);
+      CFG.uncertain = CFG.uncertain.filter((x) => x !== sym);
+      CFG.neutral = CFG.neutral.filter((x) => x !== sym);
       scheduleSave(); renderMiniCards(); renderAll();
     } else if (act === "wl") {
       CFG.deep = CFG.deep.filter((x) => x !== sym);
+      CFG.uncertain = CFG.uncertain.filter((x) => x !== sym);
+      CFG.neutral = CFG.neutral.filter((x) => x !== sym);
+      scheduleSave(); renderMiniCards(); renderAll();
+    } else if (act === "uncertain") {
+      CFG.deep = CFG.deep.filter((x) => x !== sym);
+      if (!CFG.uncertain.includes(sym)) CFG.uncertain.push(sym);
+      CFG.neutral = CFG.neutral.filter((x) => x !== sym);
+      scheduleSave(); renderMiniCards(); renderAll();
+    } else if (act === "neutral") {
+      CFG.deep = CFG.deep.filter((x) => x !== sym);
+      CFG.uncertain = CFG.uncertain.filter((x) => x !== sym);
+      if (!CFG.neutral.includes(sym)) CFG.neutral.push(sym);
       scheduleSave(); renderMiniCards(); renderAll();
     } else if (act === "del") {
       CFG.watchlist = CFG.watchlist.filter((x) => x !== sym);
       CFG.deep = CFG.deep.filter((x) => x !== sym);
+      CFG.uncertain = CFG.uncertain.filter((x) => x !== sym);
+      CFG.neutral = CFG.neutral.filter((x) => x !== sym);
       if (SYM === sym) SYM = null;
       scheduleSave(); renderMiniCards(); renderAll();
     }
@@ -1694,6 +1768,8 @@ function initToolbar() {
     if (t && !CFG.watchlist.includes(t)) {
       CFG.watchlist.push(t);
       if (!CFG.deep.includes(t)) CFG.deep.push(t);
+      CFG.uncertain = CFG.uncertain.filter((x) => x !== t);
+      CFG.neutral = CFG.neutral.filter((x) => x !== t);
       SYM = t; localStorage.setItem("wbSym", t);
       scheduleSave(); renderMiniCards(); renderAll();
     }

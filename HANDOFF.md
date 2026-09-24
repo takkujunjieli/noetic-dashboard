@@ -202,7 +202,7 @@ GitHub Pages(deploy.yml 用 workflow 部署 main)
 | 文件 | 作用 |
 |---|---|
 | `watchlist.yml` | 深度数据(K线/GEX/期权)覆盖的标的 |
-| `tickers.json` | ticker 分组(deep / watch),卡片开关就地编辑、防抖写回 |
+| `tickers.json` | ticker 状态(deep / watch / uncertain / neutral),卡片四态控件就地编辑、防抖写回 |
 | `sources.yml` | RSS 源(新闻/YouTube/Reddit/X/雪球) |
 | `risk_policy.json` | 仓位风险标注(如 "3m空头") |
 | `retail_syms.json` | 散户流向标的 |

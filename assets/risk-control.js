@@ -9,7 +9,8 @@ export async function mountLegacyRiskControl(host, services) {
   host._riskCleanup?.();
   const controller = new AbortController();
   host._riskCleanup = () => controller.abort();
-  let POLICY = (await loadJSON("config/risk_policy.json")) || {};
+  const frozen = services.snapshot;
+  let POLICY = frozen ? structuredClone(frozen.policy) : (await loadJSON("config/risk_policy.json")) || {};
   if (controller.signal.aborted) return;
   if (!POLICY.bundles || !Object.keys(POLICY.bundles).length) {
     POLICY = { account_equity: 100000, atr_period: 14, default_bundle: "常规",
@@ -17,7 +18,7 @@ export async function mountLegacyRiskControl(host, services) {
       stop_bases: (POLICY && POLICY.stop_bases) || [] };
   }
   // 本机 localStorage 覆盖(thesis 编辑即时本地持久化,免 PAT;刷新不丢);"保存到 config" 再发布给 agent
-  const loc = rLS("riskPolicy", null);
+  const loc = frozen ? null : rLS("riskPolicy", null);
   if (loc && loc.bundles && Object.keys(loc.bundles).length) {
     POLICY.bundles = loc.bundles;
     if (loc.default_bundle) POLICY.default_bundle = loc.default_bundle;
@@ -26,6 +27,7 @@ export async function mountLegacyRiskControl(host, services) {
   if (loc?.account_equity != null) POLICY.account_equity = loc.account_equity;
   const atrP = POLICY.atr_period ?? 14;
   let cur = (POLICY.default_bundle && POLICY.bundles[POLICY.default_bundle]) ? POLICY.default_bundle : Object.keys(POLICY.bundles)[0];
+  if (!services.readonly && services.initialBundle && Object.hasOwn(POLICY.bundles, services.initialBundle)) cur = services.initialBundle;
   const g = (id) => +$(id).value;
   const persistLocal = () => rLSset("riskPolicy", { ...rLS("riskPolicy", {}), bundles: POLICY.bundles, default_bundle: cur, account_equity: g("rk-eq") });
   const T = (k, v, sb = "", cls = "") => `<div class="opt-tile"><div class="opt-k">${k}</div><div class="opt-v ${cls}">${v}${sb ? ` <span class="opt-sub">${sb}</span>` : ""}</div></div>`;
@@ -43,7 +45,7 @@ export async function mountLegacyRiskControl(host, services) {
           <button class="rk-menu-item" data-act="complete">✅ 完成并归档</button>
           <button class="rk-menu-item rk-danger" data-act="delete">🗑 删除</button>
         </div></span>
-      <input id="rk-pat" type="password" value="${esc(getPat() || "")}" placeholder="粘贴 fine-grained PAT(含私有库写权限)" hidden style="width:230px;background:var(--card-hover);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-size:12px">
+      <input id="rk-pat" type="password" value="${esc(services.readonly ? "" : getPat() || "")}" placeholder="粘贴 fine-grained PAT(含私有库写权限)" hidden style="width:230px;background:var(--card-hover);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-size:12px">
       <button id="rk-sync" class="mini-btn" style="margin-left:auto" title="把本机累计的风险策略改动一次提交到私有库">同步到远端</button>
       <span id="rk-msg" class="muted small"></span>
     </div>
@@ -61,7 +63,7 @@ export async function mountLegacyRiskControl(host, services) {
       <label style="flex:1;min-width:260px">Invalidation (optional)<input id="rk-invalid" style="width:100%" placeholder="什么情况证明 thesis 被推翻=离场,非亏X%…"></label>
     </div>
     <div class="risk-form" style="margin-top:12px;border-top:1px solid var(--border);padding-top:12px">
-      <label>账户净值 $<input id="rk-eq" type="number" step="1000" value="${POLICY.account_equity ?? 100000}"></label>
+      <label>账户净值 $<input id="rk-eq" type="number" step="1000" value="${esc(POLICY.account_equity ?? 100000)}"></label>
       <label>买入价 $<input id="rk-entry" type="number" step="0.01" value="100"></label>
       <label>止损法<select id="rk-mode"><option value="manual">手动止损价</option><option value="atr">ATR 法</option></select></label>
       <label id="rk-stop-wrap">止损价 $<input id="rk-stop" type="number" step="0.01" value="94"></label>
@@ -118,15 +120,26 @@ export async function mountLegacyRiskControl(host, services) {
       + (mode === "atr" ? ` · ATR 止损 = ${entry} − ${mult}×${g("rk-atr")} = ${stop.toFixed(2)}` : "");
   }
 
-  await loadLocalArray(ARCHIVE_KEY, "data/completed_theses.json");
-  await loadLocalArray(THESIS_EVENTS_KEY, "data/thesis_events.json");
+  if (!services.readonly) {
+    await loadLocalArray(ARCHIVE_KEY, "data/completed_theses.json");
+    await loadLocalArray(THESIS_EVENTS_KEY, "data/thesis_events.json");
+  }
 
   if (controller.signal.aborted) return;
-  const renderDone = () => { const done = rLS(ARCHIVE_KEY, []);
+  const renderDone = () => { const done = frozen ? frozen.done || [] : rLS(ARCHIVE_KEY, []);
     $("rk-done").innerHTML = done.length
       ? `<b>已完成 ${done.length}</b>(存档,不计入活跃):` + done.map((d) => `<span class="sc-dir muted" style="margin:2px 3px;display:inline-block">${esc(d.name)}${d.thesis?.target_profit_pct != null ? ` · Target ${d.thesis.target_profit_pct}%` : ""} <span class="muted">${(d.completed_at || "").slice(0, 10)}</span></span>`).join("")
       : ""; };
 
+  host._riskRead = () => ({policy: {...structuredClone(POLICY), default_bundle: cur, account_equity: g("rk-eq")}, calculator: Object.fromEntries(["entry", "mode", "stop", "atr"].map(k => [k, $("rk-" + k).value])), done: structuredClone(frozen ? frozen.done || [] : rLS(ARCHIVE_KEY, []))});
+  if (services.readonly) {
+    loadBundle();
+    for (const key of ["entry", "mode", "stop", "atr"]) if (frozen?.calculator?.[key] != null) $("rk-" + key).value = frozen.calculator[key];
+    compute(); renderDone();
+    host.querySelectorAll("input, select, button").forEach(el => el.disabled = true);
+    $("rk-sync").textContent = "历史快照 · 只读";
+    return;
+  }
   const rebuildSel = () => { $("rk-sel-wrap").innerHTML = `<select id="rk-bundle">${bundleOpts()}</select>`; };
   // ---- 字段编辑:即时落本机并标记待同步;热力图在 change(失焦/回车)时刷新 ----
   const onEdit = (recompute) => () => { syncBundle(); if (recompute) compute(); persistLocal(); rpSchedule(); };
