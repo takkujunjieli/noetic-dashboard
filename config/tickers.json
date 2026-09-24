@@ -53,7 +53,6 @@
     "CCL",
     "HOOD",
     "CRWD",
-    "GLW",
     "NOW",
     "NBIS",
     "SMCI",
@@ -83,6 +82,7 @@
     "TSLA",
     "SPCX",
     "SOXX",
-    "IGV"
+    "IGV",
+    "GLW"
   ]
 }
