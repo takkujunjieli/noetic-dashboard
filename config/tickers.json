@@ -60,9 +60,7 @@
     "MRVL",
     "AVGO",
     "MSTR",
-    "PURR",
     "DELL",
-    "RCL",
     "SNDK",
     "SNOW"
   ],
@@ -81,6 +79,8 @@
     "SPCX",
     "SOXX",
     "IGV",
-    "GLW"
+    "GLW",
+    "PURR",
+    "RCL"
   ]
 }
