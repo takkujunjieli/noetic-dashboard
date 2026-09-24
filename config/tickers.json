@@ -1,5 +1,5 @@
 {
-  "_note": "Single source of truth for tickers; edited via the D/Q toggles and add/remove on the trading-desk mini cards.",
+  "_note": "Single source of truth for tickers; edited via the four-state ticker controls on the trading-desk mini cards.",
   "watchlist": [
     "AMD",
     "CCL",
@@ -48,7 +48,6 @@
     "RKLB",
     "COIN",
     "FIG",
-    "AAOI",
     "SPCX",
     "LITE",
     "INTC",
@@ -81,5 +80,9 @@
     "RCL",
     "STRL",
     "MOD"
+  ],
+  "uncertain": [],
+  "neutral": [
+    "AAOI"
   ]
 }
