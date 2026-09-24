@@ -59,7 +59,6 @@
     "GLW",
     "NOW",
     "NBIS",
-    "ALAB",
     "SMCI",
     "NVDA",
     "CRWV",
@@ -83,6 +82,7 @@
   ],
   "uncertain": [],
   "neutral": [
-    "AAOI"
+    "AAOI",
+    "ALAB"
   ]
 }
