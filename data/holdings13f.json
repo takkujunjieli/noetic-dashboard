@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-09-22T23:39:47+00:00",
+ "updated_at": "2026-09-23T23:47:26+00:00",
  "filers": {
   "0001067983": "Berkshire Hathaway",
   "0001037389": "Renaissance Technologies",
@@ -49,15 +49,8 @@
      "filer": "State Street",
      "cik": "0000093751",
      "period": "2026-06-30",
-     "shares": 7957874,
-     "value": 2126107764
-    },
-    {
-     "filer": "State Street",
-     "cik": "0000093751",
-     "period": "2026-03-31",
-     "shares": 0,
-     "value": 29160560
+     "shares": 15915748,
+     "value": 4204019071
     },
     {
      "filer": "Point72",
@@ -161,13 +154,6 @@
      "value": 1663267118
     },
     {
-     "filer": "State Street",
-     "cik": "0000093751",
-     "period": "2026-03-31",
-     "shares": 16240,
-     "value": 418505
-    },
-    {
      "filer": "Renaissance Technologies",
      "cik": "0001037389",
      "period": "2026-06-30",
@@ -267,13 +253,6 @@
      "period": "2026-06-30",
      "shares": 74361687,
      "value": 43197447595
-    },
-    {
-     "filer": "State Street",
-     "cik": "0000093751",
-     "period": "2026-03-31",
-     "shares": 74771220,
-     "value": 15210709285
     },
     {
      "filer": "Renaissance Technologies",
@@ -394,15 +373,8 @@
      "filer": "State Street",
      "cik": "0000093751",
      "period": "2026-06-30",
-     "shares": 216849675,
-     "value": 30278720120
-    },
-    {
-     "filer": "State Street",
-     "cik": "0000093751",
-     "period": "2026-03-31",
-     "shares": 214321018,
-     "value": 9457986524
+     "shares": 433699350,
+     "value": 60557440240
     },
     {
      "filer": "Renaissance Technologies",
@@ -516,15 +488,8 @@
      "filer": "State Street",
      "cik": "0000093751",
      "period": "2026-06-30",
-     "shares": 2136318,
-     "value": 38645993
-    },
-    {
-     "filer": "State Street",
-     "cik": "0000093751",
-     "period": "2026-03-31",
-     "shares": 30379,
-     "value": 642212
+     "shares": 4272636,
+     "value": 77291986
     },
     {
      "filer": "Renaissance Technologies",
@@ -601,8 +566,8 @@
      "filer": "State Street",
      "cik": "0000093751",
      "period": "2026-06-30",
-     "shares": 1482498,
-     "value": 106858456
+     "shares": 2964996,
+     "value": 213716912
     },
     {
      "filer": "Renaissance Technologies",
@@ -821,13 +786,6 @@
      "value": 5938770334
     },
     {
-     "filer": "State Street",
-     "cik": "0000093751",
-     "period": "2026-03-31",
-     "shares": 14340415,
-     "value": 2353692314
-    },
-    {
      "filer": "Renaissance Technologies",
      "cik": "0001037389",
      "period": "2026-06-30",
@@ -1033,15 +991,8 @@
      "filer": "State Street",
      "cik": "0000093751",
      "period": "2026-06-30",
-     "shares": 1497617,
-     "value": 221890900
-    },
-    {
-     "filer": "State Street",
-     "cik": "0000093751",
-     "period": "2026-03-31",
-     "shares": 1644293,
-     "value": 139090745
+     "shares": 2995234,
+     "value": 443781800
     },
     {
      "filer": "Renaissance Technologies",
@@ -1188,6 +1139,79 @@
     }
    ]
   },
+  "RCL": {
+   "periods": [
+    "2026-06-30",
+    "2025-09-30",
+    "2025-03-31",
+    "2024-06-30"
+   ],
+   "holdings": [
+    {
+     "filer": "Two Sigma",
+     "cik": "0001179392",
+     "period": "2026-06-30",
+     "shares": 26172,
+     "value": 8310395
+    },
+    {
+     "filer": "State Street",
+     "cik": "0000093751",
+     "period": "2026-06-30",
+     "shares": 21378268,
+     "value": 6819941430
+    },
+    {
+     "filer": "Millennium Management",
+     "cik": "0001273087",
+     "period": "2026-06-30",
+     "shares": 267016,
+     "value": 84785590
+    },
+    {
+     "filer": "D.E. Shaw",
+     "cik": "0001009207",
+     "period": "2026-06-30",
+     "shares": 80425,
+     "value": 25537350
+    },
+    {
+     "filer": "Citadel Advisors",
+     "cik": "0001423053",
+     "period": "2026-06-30",
+     "shares": 2283,
+     "value": 724921
+    },
+    {
+     "filer": "Bridgewater Associates",
+     "cik": "0001350694",
+     "period": "2026-06-30",
+     "shares": 1287,
+     "value": 408661
+    },
+    {
+     "filer": "Bridgewater Associates",
+     "cik": "0001350694",
+     "period": "2025-09-30",
+     "shares": 25050,
+     "value": 8105679
+    },
+    {
+     "filer": "Bridgewater Associates",
+     "cik": "0001350694",
+     "period": "2025-03-31",
+     "shares": 23483,
+     "value": 4824348
+    },
+    {
+     "filer": "BlackRock",
+     "cik": "0001364742",
+     "period": "2024-06-30",
+     "shares": 10281,
+     "value": 1639100
+    }
+   ]
+  },
   "GLW": {
    "periods": [
     "2026-06-30",
@@ -1287,15 +1311,8 @@
      "filer": "State Street",
      "cik": "0000093751",
      "period": "2026-06-30",
-     "shares": 8591135,
-     "value": 3388945023
-    },
-    {
-     "filer": "State Street",
-     "cik": "0000093751",
-     "period": "2026-03-31",
-     "shares": 7747916,
-     "value": 1845631070
+     "shares": 17182270,
+     "value": 6777890046
     },
     {
      "filer": "Point72",
