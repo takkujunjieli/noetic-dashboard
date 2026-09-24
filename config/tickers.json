@@ -49,7 +49,6 @@
     "HOOD",
     "NVDA",
     "CRWV",
-    "COHR",
     "ASTS",
     "AVGO",
     "DELL",
@@ -63,7 +62,8 @@
     "LITE",
     "INTC",
     "CCL",
-    "COIN"
+    "COIN",
+    "COHR"
   ],
   "neutral": [
     "AAOI",
