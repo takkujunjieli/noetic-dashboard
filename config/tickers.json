@@ -38,7 +38,8 @@
     "ASST",
     "DELL",
     "RCL",
-    "STRL"
+    "STRL",
+    "MOD"
   ],
   "deep": [
     "AMD",
@@ -78,6 +79,7 @@
     "ASST",
     "DELL",
     "RCL",
-    "STRL"
+    "STRL",
+    "MOD"
   ]
 }
