@@ -52,7 +52,6 @@
     "CCL",
     "HOOD",
     "CRWD",
-    "NBIS",
     "NVDA",
     "CRWV",
     "IREN",
@@ -70,7 +69,8 @@
     "SNOW"
   ],
   "uncertain": [
-    "SMCI"
+    "SMCI",
+    "NBIS"
   ],
   "neutral": [
     "AAOI",
