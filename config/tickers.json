@@ -73,8 +73,6 @@
     "AVGO",
     "MSTR",
     "PURR",
-    "AXTI",
-    "ASST",
     "DELL",
     "RCL",
     "STRL",
@@ -83,6 +81,8 @@
   "uncertain": [],
   "neutral": [
     "AAOI",
-    "ALAB"
+    "ALAB",
+    "ASST",
+    "AXTI"
   ]
 }
