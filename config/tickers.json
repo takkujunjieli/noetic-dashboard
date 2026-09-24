@@ -74,15 +74,15 @@
     "MSTR",
     "PURR",
     "DELL",
-    "RCL",
-    "STRL",
-    "MOD"
+    "RCL"
   ],
   "uncertain": [],
   "neutral": [
     "AAOI",
     "ALAB",
     "ASST",
-    "AXTI"
+    "AXTI",
+    "STRL",
+    "MOD"
   ]
 }
