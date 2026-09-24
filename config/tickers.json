@@ -48,7 +48,6 @@
     "HOOD",
     "NVDA",
     "CRWV",
-    "AVGO",
     "DELL",
     "SNDK"
   ],
@@ -62,7 +61,8 @@
     "CCL",
     "COIN",
     "COHR",
-    "AMD"
+    "AMD",
+    "AVGO"
   ],
   "neutral": [
     "AAOI",
