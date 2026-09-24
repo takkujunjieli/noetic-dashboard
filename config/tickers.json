@@ -49,7 +49,6 @@
     "FIG",
     "LITE",
     "INTC",
-    "SOXX",
     "SNDK",
     "CCL",
     "HOOD",
@@ -83,6 +82,7 @@
     "STRL",
     "MOD",
     "TSLA",
-    "SPCX"
+    "SPCX",
+    "SOXX"
   ]
 }
