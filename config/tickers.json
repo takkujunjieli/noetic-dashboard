@@ -57,7 +57,6 @@
     "IREN",
     "COHR",
     "ASTS",
-    "MRVL",
     "AVGO",
     "DELL",
     "SNDK"
@@ -65,7 +64,8 @@
   "uncertain": [
     "SMCI",
     "NBIS",
-    "MSTR"
+    "MSTR",
+    "MRVL"
   ],
   "neutral": [
     "AAOI",
