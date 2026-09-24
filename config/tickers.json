@@ -59,13 +59,13 @@
     "ASTS",
     "MRVL",
     "AVGO",
-    "MSTR",
     "DELL",
     "SNDK"
   ],
   "uncertain": [
     "SMCI",
-    "NBIS"
+    "NBIS",
+    "MSTR"
   ],
   "neutral": [
     "AAOI",
