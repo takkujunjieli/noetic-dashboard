@@ -43,7 +43,6 @@
   ],
   "deep": [
     "AMD",
-    "TSLA",
     "MU",
     "RKLB",
     "COIN",
@@ -83,6 +82,7 @@
     "ASST",
     "AXTI",
     "STRL",
-    "MOD"
+    "MOD",
+    "TSLA"
   ]
 }
