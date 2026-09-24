@@ -42,7 +42,6 @@
     "MOD"
   ],
   "deep": [
-    "AMD",
     "MU",
     "RKLB",
     "FIG",
@@ -63,7 +62,8 @@
     "INTC",
     "CCL",
     "COIN",
-    "COHR"
+    "COHR",
+    "AMD"
   ],
   "neutral": [
     "AAOI",
