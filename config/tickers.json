@@ -47,7 +47,6 @@
     "RKLB",
     "COIN",
     "FIG",
-    "INTC",
     "CCL",
     "HOOD",
     "CRWD",
@@ -64,7 +63,8 @@
     "NBIS",
     "MSTR",
     "MRVL",
-    "LITE"
+    "LITE",
+    "INTC"
   ],
   "neutral": [
     "AAOI",
