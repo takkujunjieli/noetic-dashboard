@@ -47,7 +47,6 @@
     "RKLB",
     "COIN",
     "FIG",
-    "SPCX",
     "LITE",
     "INTC",
     "SOXX",
@@ -83,6 +82,7 @@
     "AXTI",
     "STRL",
     "MOD",
-    "TSLA"
+    "TSLA",
+    "SPCX"
   ]
 }
