@@ -61,7 +61,6 @@
     "CRWV",
     "NET",
     "IREN",
-    "IGV",
     "COHR",
     "PANW",
     "SNOW",
@@ -83,6 +82,7 @@
     "MOD",
     "TSLA",
     "SPCX",
-    "SOXX"
+    "SOXX",
+    "IGV"
   ]
 }
