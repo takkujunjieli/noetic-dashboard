@@ -40,7 +40,8 @@
     "RCL",
     "STRL",
     "MOD",
-    "BE"
+    "BE",
+    "U"
   ],
   "deep": [
     "MU",
@@ -50,7 +51,8 @@
     "NVDA",
     "CRWV",
     "DELL",
-    "SNDK"
+    "SNDK",
+    "U"
   ],
   "uncertain": [
     "SMCI",
