@@ -109,9 +109,16 @@ STOCKS = {
   (-5, "纯 BTC 价格/加密监管/利率的宏观杠杆敞口、高 beta 顺周期 -2;反身性:体量大、若 BTC 续跌+优先股息逼迫→卖币螺旋 -1;copycat BTC 国库公司(Metaplanet 等)泛滥稀释稀缺 -0;可能被剔除纳指100+监管潜在压力(crypto 法案不通过+公司优先股问题)-2")]),
 }
 
+# 未分析标的：空分数，不视为中性评分，也不进入打分快照。
+PENDING = ["BE", "ASST", "PURR", "MOD", "STRL", "LITE"]
+for ticker in PENDING:
+    STOCKS[ticker] = ("W", [(None, "") for _ in FEATURES])
+
 DIR_FULL = {"L": "Long", "S": "Short", "W": "Watch"}
 ORDER = ["SKHY", "MU", "SNDK", "HOOD", "COHR", "GOOG", "NVDA", "CCL", "RKLB",
          "AMD", "CRWV", "NBIS", "CRWD", "NET", "PANW", "ABNB", "NOW", "COIN", "SNOW", "INTC", "SPCX", "MSTR"]
+
+ORDER += PENDING
 
 summary_rows = []
 snapshot = {}                                                # 本次打分快照(供 IC 研究)
@@ -124,9 +131,11 @@ for tk in ORDER:
         w.writerow(["Feature", "Score", "Rationale"])
         for feat, (score, rat) in zip(FEATURES, items):
             w.writerow([feat, score, rat])
-    cells = [f"{score} ({rat})" for score, rat in items]     # 每维 = "分 (理由)"
+    cells = ["" if score is None else f"{score} ({rat})" for score, rat in items]     # 每维 = "分 (理由)"
     summary_rows.append([tk, DIR_FULL[direction], *cells])
     scores = [s for s, _ in items]
+    if any(score is None for score in scores):
+        continue  # 未完成分析，不生成可用于 IC 的分数
     snapshot[tk] = {"dir": direction,
                     "scores": dict(zip(FEATURES, scores)),
                     "mean": round(sum(scores) / len(scores), 3)}  # 聚合分(等权)= IC 的预测变量

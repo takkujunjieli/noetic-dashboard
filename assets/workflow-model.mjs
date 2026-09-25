@@ -1,7 +1,6 @@
 import {returnInputError,captureReturnBasis,validateReturnBasis,numeric} from './expected-return.mjs';
 import {structureDraft,structureError,ticker,structureExposure} from './trade-structure.mjs';
 import { validateAttributionEvidence } from './attribution-link.mjs';
-import { validatePositionLink, validateBindingsAcrossCases } from "./position-link.mjs";
 import { allocationIssues } from "./risk-budget.mjs";
 // Standalone workflow domain. No dependencies on dashboard data or broker credentials.
 export const VERSION = 1;
@@ -31,14 +30,14 @@ export const clone = value => JSON.parse(JSON.stringify(value));
 const now = () => new Date().toISOString();
 const uid = () => globalThis.crypto.randomUUID();
 export function createCase({title,symbol='',horizon='',rationale='',demo=false}) {
- const c={id:uid(),title:title.trim(),symbol:symbol.trim().toUpperCase(),horizon,demo,createdAt:now(),updatedAt:now(),revision:0,stateVersion:2,archived:false,nodes:{},events:[]};
+ const c={id:uid(),title:title.trim(),symbol:symbol.trim().toUpperCase(),horizon,demo,createdAt:now(),updatedAt:now(),revision:0,stateVersion:2,positionNodeVersion:1,archived:false,nodes:{},events:[]};
  for(const [key,node] of Object.entries(NODES)) c.nodes[key]={state:node.initial,data:{}};
  Object.assign(c.nodes.hypothesis.data,{expectation:'',rationale,verification:'',invalidation:''});
  Object.assign(c.nodes.signal.data,{indicator:'MACD 金叉',condition:'',expires:'',evidence:''});
  Object.assign(c.nodes.returns.data,{expectedNet:'',capital:'',averageLoss:'',expectedDate:'',spot:'',down:-10,base:0,up:10,pDown:'',pBase:'',pUp:'',probabilityBasis:'',cost:0,notes:''});
  Object.assign(c.nodes.construction.data,{structureVersion:1,template:'custom',evaluationDate:horizon,legs:[]});
  Object.assign(c.nodes.risk.data,{lossBudget:'',deltaBudget:'',existingDelta:'',context:'',notes:''});
- Object.assign(c.nodes.positions.data,{source:'manual',asOf:'',positions:[],action:'',exitRules:'',notes:''});
+ c.nodes.positions.data={};
  Object.assign(c.nodes.attribution.data,{realized:'',outcome:'',drivers:'',lesson:'',reconciliation:''});
  c.design={version:1,plans:[],selectedId:'',activeId:''};
  record(c,'创建实例','hypothesis',demo?'模拟案例，不是真实持仓':'创建交易论点');
@@ -110,7 +109,6 @@ export function transition(c,key,to){
 }
 export function archiveCase(c){
  if(c.archived)throw Error('归档实例只读');
- if(c.nodes.positions.data.positions.length||c.nodes.positions.data.binding?.rules.some(r=>!r.closed))throw Error('请先核对并结束实际持仓归属后再归档');
  captureReturnBasis(c,now());
  if(c.returnBasis&&numeric(c.nodes.attribution.data.realized))c.performance={basis:clone(c.returnBasis),actualNet:Number(c.nodes.attribution.data.realized),completedAt:now()};
  c.archived=true;record(c,'归档实例','attribution','保存完整工作流与复盘快照');
@@ -119,8 +117,8 @@ export function saveNode(c,key,data,reason='更新节点内容'){
  if(c.archived)throw Error('归档实例只读');
 
  if(key==='returns'){const error=returnInputError(data);if(error)throw Error(error);}
- if(key==='positions')validatePositionLink(data);
- if(['construction','positions'].includes(key)){const error=key==='construction'&&data.structureVersion===1?structureError(data):legError(data[key==='construction'?'legs':'positions'],key==='positions');if(error)throw Error(error);}
+ if(key==='positions')throw Error('Position Management 当前为空节点，暂不保存字段');
+ if(key==='construction'){const error=data.structureVersion===1?structureError(data):legError(data.legs);if(error)throw Error(error);}
  if(JSON.stringify(c.nodes[key].data)===JSON.stringify(data))return false;
  c.nodes[key].data=clone(data);
  if(['construction','returns','risk'].includes(key)){
@@ -185,7 +183,8 @@ export function validateStore(store){
   if(c.returnBasis)validateReturnBasis(c.returnBasis);
   if(c.performance){validateReturnBasis(c.performance.basis);if(!c.archived||!numeric(c.performance.actualNet)||!Number.isFinite(Date.parse(c.performance.completedAt)))throw Error('实际收益快照格式无效');}
   validateAttributionEvidence(c.nodes.attribution.data.evidence);
-  validatePositionLink(c.nodes.positions.data);
+  if(c.positionNodeVersion!=null&&c.positionNodeVersion!==1)throw Error('Position Management 版本不支持');
+  if(c.positionNodeVersion===1&&Object.keys(c.nodes.positions.data).length)throw Error('Position Management 必须保持为空');
   if(c.designFrozen!=null&&typeof c.designFrozen!=='boolean')throw Error('方案冻结标记无效');
   if(c.design!=null){
    const d=c.design;if(d.version!==1||!Array.isArray(d.plans)||d.plans.length>30||typeof d.selectedId!=='string'||typeof d.activeId!=='string')throw Error('方案列表格式无效');
@@ -198,14 +197,13 @@ export function validateStore(store){
    const selected=d.plans.find(p=>p.id===d.selectedId);if(selected&&DESIGN_KEYS.some(k=>JSON.stringify(selected[k])!==JSON.stringify(c.nodes[k].data)))throw Error('方案与节点数据不一致');
   }
 
-  if((c.nodes.construction.data.structureVersion===1?structureError(c.nodes.construction.data):legError(c.nodes.construction.data.legs))||legError(c.nodes.positions.data.positions,true))throw Error('组合腿格式无效');
+  if(c.nodes.construction.data.structureVersion===1?structureError(c.nodes.construction.data):legError(c.nodes.construction.data.legs))throw Error('组合腿格式无效');
   if(c.stateVersion!==2&&c.archived!==(c.nodes.attribution.state==='archived'))throw Error('归档状态不一致');
  }
  for(const c of store.cases){body(c);if(ids.has(c.id))throw Error('实例 ID 重复');ids.add(c.id);if(!Array.isArray(c.events)||(!c.events.length&&!(c.historyClearedRevision===c.revision&&Number.isFinite(Date.parse(c.historyClearedAt)))))throw Error('缺少历史记录');let last=0;
   for(const e of c.events){if(typeof e.id!=='string'||typeof e.type!=='string'||typeof e.reason!=='string'||!Object.hasOwn(NODES,e.node)||!Number.isFinite(Date.parse(e.at))||!Number.isInteger(e.revision)||e.revision<=last)throw Error('历史记录格式无效');body(e.snapshot);if(e.snapshot.id!==c.id||e.snapshot.revision!==e.revision)throw Error('快照不匹配');last=e.revision;}
   if(c.events.length&&(last!==c.revision||JSON.stringify(c.events.at(-1).snapshot)!==JSON.stringify(snapshot(c))))throw Error('最新快照与实例不一致');
  }
- validateBindingsAcrossCases(store.cases);
  // Preserve original snapshots verbatim; migration creates one new current revision.
  const result=clone(store);
  for(const c of result.cases)if(c.stateVersion!==2){
@@ -215,6 +213,13 @@ export function validateStore(store){
   record(c,'迁移节点状态','hypothesis','统一为 pending / running；旧字段与状态保留在历史快照中');
  }
  for(const c of result.cases)if(!c.design){initializePlans(c);record(c,'迁移方案管理','construction','原有参数转为现有方案；历史快照保持不变');}
+ // Position Management is intentionally reset to an empty reserved node. The explicit reset
+ // also scrubs historical snapshots so replay cannot surface removed fields or bindings.
+ for(const c of result.cases){let changed=c.positionNodeVersion!==1;c.positionNodeVersion=1;
+  for(const e of c.events){const p=e.snapshot.nodes.positions,emptyState=e.snapshot.stateVersion===2?'pending':LEGACY_NODES.positions.initial;if(e.snapshot.positionNodeVersion!==1||Object.keys(p.data||{}).length||p.state!==emptyState){e.snapshot.positionNodeVersion=1;p.data={};p.state=emptyState;changed=true;}}
+  const p=c.nodes.positions;if(Object.keys(p.data||{}).length||p.state!=='pending'){p.data={};p.state='pending';changed=true;}
+  if(changed)record(c,'清空 Position Management','positions','移除全部持仓字段与归属；保留空节点供后续重新设计');
+ }
  return result;
 }
 

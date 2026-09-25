@@ -27,6 +27,7 @@
   <span class="tab" data-topic="gexvol">GEX→波动</span>
   <span class="tab" data-topic="flowdir">期权流→方向</span>
   <span class="tab" data-topic="positioning">仓位情报</span>
+  <span class="tab" data-topic="macd">MACD</span>
   <span class="tab" data-topic="stocks">个股分析</span>
 </nav>
 
@@ -124,7 +125,25 @@
   <div class="muted small" id="pos-caveat" style="margin-top:10px"></div>
 </section>
 
-<!-- ========== Topic 6:个股分析(Scorecards,本地私有) ========== -->
+<!-- ========== Topic 6:MACD 区间完整交易对收益 ========== -->
+<section data-topic-panel="macd" hidden>
+  <h2>MACD return <span class="muted small">Trading Desk 全部 ticker · 日线收盘价 · MACD(12,26,9)</span></h2>
+  <div class="card" style="margin-bottom:12px">
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <span class="muted small">区间</span>
+      <button class="tab" data-macd-period="3m">3M</button>
+      <button class="tab" data-macd-period="6m">6M</button>
+      <button class="tab" data-macd-period="1y">1Y</button>
+      <button class="tab active" data-macd-period="all">ALL</button>
+      <button id="macd-sync" class="tab" style="margin-left:auto">同步所有 tickers</button>
+    </div>
+    <div id="macd-status" class="muted small" style="margin-top:8px">加载中…</div>
+  </div>
+  <div id="macd-table" class="card"><span class="muted small">计算中…</span></div>
+  <div class="muted small" style="margin-top:8px">页面展示上次同步后保存的快照，打开页面或切换区间不会重新计算；只有点击「同步所有 tickers」才读取当时的 Trading Desk 清单与行情，重算四个区间并更新计算日期。Histogram slope：柱体一阶差分由负转正买入、由正转负卖出；zero-line：MACD 主线上穿零轴买入、下穿卖出；crossover：主线上穿 signal 买入、下穿卖出。仅统计所选区间内完整闭合的做多交易对，信号日收盘成交；Total return 为逐笔简单收益之和，不复利、不年化，未计成本与滑点。</div>
+</section>
+
+<!-- ========== Topic 7:个股分析(Scorecards,本地私有) ========== -->
 <section data-topic-panel="stocks" hidden>
   <div id="scorecards"><span class="muted small">加载打分…(本地专用 · 读 research/scorecards/_summary.csv,gitignored;公开站不显示)</span></div>
 </section>

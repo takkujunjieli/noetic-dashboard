@@ -1,6 +1,23 @@
 // Shared, DOM-free calculations. Stop risk is an estimate, not a maximum-loss bound.
 export const positiveNum = v => v !== '' && v != null && Number.isFinite(+v) && +v > 0;
 export const finiteNum = v => v !== '' && v != null && Number.isFinite(+v);
+export function calculateManualSizing({ equity, riskPct, entry, stop, maxPositionPct = '' }) {
+  if (!positiveNum(equity) || !positiveNum(riskPct) || !positiveNum(entry) || !finiteNum(stop)) return { error: '账户净值、单笔风险%、买入价和止损价均须有效' };
+  const perShare = +entry - +stop;
+  if (+stop < 0 || !(perShare > 0)) return { error: '止损价须低于买入价且不得为负' };
+  const budget = +equity * +riskPct / 100;
+  const derivedMaxPositionPct = +riskPct * +entry / perShare;
+  const cap = positiveNum(maxPositionPct) ? +maxPositionPct : derivedMaxPositionPct;
+  let shares = Math.floor(budget / perShare), capped = false;
+  if (shares * +entry / +equity * 100 > cap) {
+    shares = Math.floor(+equity * cap / 100 / +entry);
+    capped = true;
+  }
+  const positionValue = shares * +entry;
+  const positionPct = positionValue / +equity * 100;
+  const actualRisk = shares * perShare;
+  return { budget, perShare, shares, positionValue, positionPct, actualRisk, derivedMaxPositionPct, cap, capped };
+}
 export function calculateSizing({ equity, entry, stop: manualStop, atr, mode = 'manual', side = 'long', ...b }) {
   const riskPct = positiveNum(b.risk_pct) ? +b.risk_pct : null;
   const mult = positiveNum(b.atr_mult) ? +b.atr_mult : null;

@@ -49,15 +49,16 @@ const missingCoreFields = (bundles) => Object.entries(bundles || {}).flatMap(([n
 });
 function rpStatus(txt, cls = "muted", title = "") { const el = document.getElementById("rk-sync"); if (el) el.innerHTML = `<span class="${cls}"${title ? ` title="${esc(title)}"` : ""}>${txt}</span>`; }
 async function rpSyncNow() {
-  if (!getPat()) { rpStatus("⚠ 未设 PAT · 点此设置", "down"); return; }
-  if (!rLS(RISK_POLICY_DIRTY_KEY, false)) { rpStatus("✓ 无待同步改动"); return; }
+  if (!getPat()) { rpStatus("⚠ 未设 PAT · 点此设置", "down"); return {ok:false,msg:"未设置 PAT"}; }
+  if (!rLS(RISK_POLICY_DIRTY_KEY, false)) { rpStatus("✓ 无待同步改动"); return {ok:true}; }
   rpStatus("syncing…");
   const LP = rLS("riskPolicy", {}), groups = rLS("riskGroups", {}), mh = rLS("riskMaxHeat", null);
   const invalid = missingCoreFields(LP.bundles);
   if (invalid.length) {
     rpStatus(`✗ 补齐必填项 · ${invalid.join("；")}`, "down", "单笔风险%、总风险%、ATR倍数均须大于 0");
-    return;
+    return {ok:false,msg:invalid.join("；")};
   }
+  const riskBefore=JSON.stringify([LP,groups,mh]);
   const r = await putPolicy((L) => {
     if (LP.bundles) L.bundles = LP.bundles;
     if (LP.default_bundle) L.default_bundle = LP.default_bundle;
@@ -65,8 +66,13 @@ async function rpSyncNow() {
     L.assignments = ASSIGN ? { ...ASSIGN } : { ...(L.assignments || {}), ...groups };
     if (mh != null && !Number.isNaN(+mh)) L.portfolio = { ...(L.portfolio || {}), max_total_heat_pct: +mh };
   });
-  if (r.ok) rLSset(RISK_POLICY_DIRTY_KEY, false);
+  if (r.ok && riskBefore===JSON.stringify([rLS("riskPolicy",{}),rLS("riskGroups",{}),rLS("riskMaxHeat",null)])) rLSset(RISK_POLICY_DIRTY_KEY, false);
   rpStatus(r.ok ? `✓ 已同步 ${new Date().toTimeString().slice(0, 5)}` : `✗ 同步失败 · 点重试`, r.ok ? "muted" : "down", r.ok ? "" : (r.msg || ""));
+  return r;
+}
+export async function syncLegacyWorkflowData(){
+ const risk=await rpSyncNow();if(!risk?.ok)throw Error(risk?.msg||"风险设置同步失败");
+ for(const [path,key] of [["completed_theses.json",ARCHIVE_KEY],["thesis_events.json",THESIS_EVENTS_KEY]]){const r=await syncPrivateJSON(path,key,"chore: sync workflow legacy history");if(!r.ok)throw Error(path+"："+r.msg);}
 }
 function rpSchedule() {
   rLSset(RISK_POLICY_DIRTY_KEY, true);
@@ -120,17 +126,6 @@ function posSnapshotFor(sym, pf) {
     qty: p.qty ?? null, price: p.price ?? null, avg_cost: p.avg_cost ?? null,
     mkt_value: p.mkt_value ?? null, pnl: p.pnl ?? null, pnl_pct: p.pnl_pct ?? null,
   }));
-}
-
-async function recordThesisMove(sym, fromThesis, toThesis, reason = "assignment_change") {
-  const pf = await loadJSON("data/portfolio.json");
-  const at = new Date().toISOString();
-  const snap = posSnapshotFor(sym, pf);
-  const events = await loadLocalArray(THESIS_EVENTS_KEY, "data/thesis_events.json");
-  if (fromThesis) events.unshift({ id: `${Date.now()}-${sym}-exit`, ts: at, type: "exit", reason, thesis: fromThesis, sym, positions: snap });
-  if (toThesis) events.unshift({ id: `${Date.now()}-${sym}-enter`, ts: at, type: "enter", reason, thesis: toThesis, sym, positions: snap });
-  rLSset(THESIS_EVENTS_KEY, events);
-  syncPrivateJSON("thesis_events.json", THESIS_EVENTS_KEY, "chore: thesis assignment events via UI");
 }
 
 async function archiveCurrentThesis(name, policy) {
@@ -217,11 +212,11 @@ function lineData(curve) {  // LWC 要求 time 严格递增且唯一
 /* 风险敞口热力图(本地专用)。读 data/portfolio.json + data/atr.json + risk_policy 的 thesis。
    现价口径:open risk=|股数|×|现价−止损|;止损=ATR法(现价∓thesis.ATR倍数×ATR14),可每仓手填覆盖。
    多列绿→红:在险% / 在险÷预算 / 仓位%vs上限 / 距止损% / 浮盈%。+ 组合总在险 heat + 分 thesis 小计。
-   分组/止损/净值 存本机 localStorage(不上仓库,honors 隐私)。 */
+   thesis 归属在表内手动选择；止损/净值存本机 localStorage(不上仓库,honors 隐私)。 */
 const rLS = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch { return d; } };
 const rLSset = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* private mode */ } };
 const heatBg = (lvl) => { const l = Math.max(0, Math.min(1, lvl || 0)); return `background:hsl(${Math.round(142 * (1 - l))} 65% 45% / ${(0.08 + l * 0.42).toFixed(2)})`; };
-let ASSIGN = null;   // {sym: thesis} 内存态(含未保存改动),来源 risk_policy.json 的 assignments
+let ASSIGN = null;   // {sym: thesis} 当前手工归属；risk_policy.json 为基线，riskGroups 本机覆盖
 let MAXHEAT = null;  // 组合总在险上限%(内存态;本机 localStorage 即时持久化,「保存到 config」再推给 agent)
 let SORT = { key: "riskPct", dir: -1 };   // 热力表排序(点表头切换;文本默认升序、数值默认降序;null 永远排最后)
 let PRICE_OVERRIDE = null, PRICE_SYNCED_AT = null;   // 「同步现价」按钮从 K线快照拉到的最新价
@@ -364,7 +359,7 @@ export async function renderRiskExposure() {
 
   const cell = (txt, lvl) => `<td class="sc-num"${lvl == null ? "" : ` style="${heatBg(lvl)}"`}>${txt}</td>`;
   const pnlCell = (v) => { if (v == null) return "<td>—</td>"; const l = Math.min(Math.abs(v) / 40, 1), hue = v >= 0 ? 142 : 0; return `<td class="sc-num" style="background:hsl(${hue} 65% 45% / ${(0.06 + l * 0.34).toFixed(2)})">${v >= 0 ? "+" : ""}${v.toFixed(0)}%</td>`; };
-  const grpSel = (r) => `<select class="rk-grp" data-sym="${esc(r.sym)}" data-current="${esc(r.bundleName)}">${bnames.map((k) => `<option${k === r.bundleName ? " selected" : ""}>${esc(k)}</option>`).join("")}</select>`;
+  const grpSelect = (r) => `<select class="rk-grpsel" data-sym="${esc(r.sym)}" aria-label="${esc(r.sym)} Thesis 归属">${bnames.map(name=>`<option value="${esc(name)}"${name===r.bundleName?' selected':''}>${esc(name)}</option>`).join('')}</select>`;
   const stopIn = (r) => `<input class="rk-stopin" data-sym="${esc(r.sym)}" type="number" step="0.01" value="${r.stop != null ? r.stop.toFixed(2) : ""}" placeholder="${r.isOpt ? "期权" : (r.atr != null ? "ATR" : "手填")}" style="width:70px">`;
   // 止盈价:手填(riskTargets)覆盖优先;否则所属 thesis 填了 Target Profit% → 按成本×(1±%)自动预填(多加空减,灰色可覆盖)
   const autoTp = (r) => {
@@ -388,7 +383,7 @@ export async function renderRiskExposure() {
   const sth = (k, label, driven = false) => `<th class="rk-sort${driven ? " rk-thesis-driven" : ""}" data-k="${k}" style="cursor:pointer;user-select:none;white-space:nowrap">${label}${arrow(k)}</th>`;
   const body = disp.map((r) => `<tr>
     <td class="sc-tk"><b>${esc(r.sym)}</b> <span class="sc-dir ${r.long ? "up" : "down"}">${r.isOpt ? "期" : r.long ? "多" : "空"}</span></td>
-    <td>${grpSel(r)}</td><td>${r.qty}</td><td>$${r.price != null ? r.price.toFixed(2) : "—"}</td>
+    <td>${grpSelect(r)}</td><td>${r.qty}</td><td>$${r.price != null ? r.price.toFixed(2) : "—"}</td>
     <td class="muted">$${r.cost != null ? r.cost.toFixed(2) : "—"}</td>
     ${cell(r.posPct.toFixed(1) + "%", r.cap != null ? Math.min(r.posPct / r.cap, 1) : null)}
     ${pnlCell(r.pnlPct)}
@@ -402,7 +397,7 @@ export async function renderRiskExposure() {
     <tr>${sth("sym", "标的")}${sth("bundleName", "Thesis")}<th>股数</th><th>现价</th><th>成本</th>${sth("posPct", "仓位%")} ${sth("pnlPct", "浮盈%")}
         <th class="rk-thesis-driven">止损</th><th class="rk-thesis-driven">止盈</th>
         ${sth("riskPct", "在险%", true)}${sth("ratio", "在险/预算", true)}${sth("toTarget", "距目标", true)}${sth("distPct", "距止损%", true)}</tr>${body}</table></div>
-    <div class="muted small" style="margin-top:8px">在险%=|股数|×|现价−止损|÷净值 · 在险/预算=该仓在险÷所属 thesis 单笔预算(>1 超险)· <b>距目标</b>:thesis 超总风险/总仓位时按各仓当前比例共同缩减,再叠加单票风险/仓位上限;未超总上限时显示单独调整本票的空间。符号是交易方向:<b>+</b>=买入、<b>−</b>=卖出/做空;颜色是仓位变化:<span class="up">绿=加大仓位</span>、<span class="down">红=减少仓位</span> · 仓位%对比 thesis 上限 · 距止损%小=逼近止损 · 浮盈%仅参考(现价口径,成本不进风险)。止损默认 ATR 法,可每仓手填覆盖(存本机)。<b>止盈</b>:thesis 填了 Target Profit% 的,按成本×(1±%)自动预填(多加空减,灰色),可每仓手填覆盖;留空=无止盈。</div>`;
+    <div class="muted small" style="margin-top:8px"><b>每项持仓的 Thesis 归属在上表手动选择；选择会立即保存到本机并参与风险聚合。</b><br>在险%=|股数|×|现价−止损|÷净值 · 在险/预算=该仓在险÷所属 thesis 单笔预算(>1 超险)· <b>距目标</b>:thesis 超总风险/总仓位时按各仓当前比例共同缩减,再叠加单票风险/仓位上限;未超总上限时显示单独调整本票的空间。符号是交易方向:<b>+</b>=买入、<b>−</b>=卖出/做空;颜色是仓位变化:<span class="up">绿=加大仓位</span>、<span class="down">红=减少仓位</span> · 仓位%对比 thesis 上限 · 距止损%小=逼近止损 · 浮盈%仅参考(现价口径,成本不进风险)。止损默认 ATR 法,可每仓手填覆盖(存本机)。<b>止盈</b>:thesis 填了 Target Profit% 的,按成本×(1±%)自动预填(多加空减,灰色),可每仓手填覆盖;留空=无止盈。</div>`;
 
   const totalPct = totalHeat / equity * 100;
   const accountLabel = acctSel === "ALL" ? "全部账户" : ((accounts.find((a) => a.id === acctSel) || {}).label || acctSel);
@@ -424,21 +419,7 @@ export async function renderRiskExposure() {
       <button id="rk-syncpx" class="mini-btn">🔄 同步现价(K线)</button>
       <span class="muted small">现价源:${PRICE_OVERRIDE ? `K线同步 @ ${(PRICE_SYNCED_AT || "").slice(5, 16).replace("T", " ")}` : "portfolio.json(MCP 刷新价;点 🔄 手动同步 K线)"}</span>
     </div>
-    <div class="muted small" style="margin-top:6px">分组改动需确认;确认后会记录该标的离开旧 thesis / 进入新 thesis 时的价格和股数。事件记录会同步到私有库(需 PAT),风险策略留待手动批量同步。</div>`;
-
-  host.querySelectorAll(".rk-grp").forEach((el) => el.addEventListener("change", async () => {
-    const sym = el.dataset.sym, from = el.dataset.current, to = el.value;
-    if (from === to) return;
-    const ok = window.confirm(`确认把 ${sym} 从「${from}」改到「${to}」?\n\n会记录当前价格和股数到 thesis_events.json。`);
-    if (!ok) { el.value = from; return; }
-    ASSIGN[sym] = to;
-    const g = rLS("riskGroups", {});
-    g[sym] = to;
-    rLSset("riskGroups", g);
-    await recordThesisMove(sym, from, to);
-    renderRiskExposure();
-    rpSchedule(true);
-  }));   // 分组改动 → 确认 + 记录 enter/exit 快照;风险策略标记待手动同步
+    <div class="muted small" style="margin-top:6px">Thesis 归属在持仓表中手动选择，并保存于本机。</div>`;
   const mh = $("rk-maxheat"); if (mh) mh.addEventListener("change", () => { MAXHEAT = +mh.value || 0; rLSset("riskMaxHeat", MAXHEAT); renderRiskExposure(); rpSchedule(); });   // 本机即时持久化 + 标记待同步
   host.querySelectorAll(".rk-sort").forEach((th) => th.addEventListener("click", () => {   // 点表头排序:同列切方向,换列文本升/数值降
     const k = th.dataset.k;
@@ -447,6 +428,10 @@ export async function renderRiskExposure() {
   }));
   host.querySelectorAll(".rk-stopin").forEach((el) => el.addEventListener("change", () => { const s = rLS("riskStops", {}), v = el.value.trim(); if (v === "") delete s[el.dataset.sym]; else s[el.dataset.sym] = +v; rLSset("riskStops", s); renderRiskExposure(); }));
   host.querySelectorAll(".rk-tpin").forEach((el) => el.addEventListener("change", () => { const t = rLS("riskTargets", {}), v = el.value.trim(); if (v === "") delete t[el.dataset.sym]; else t[el.dataset.sym] = +v; rLSset("riskTargets", t); renderRiskExposure(); }));   // 止盈价:空=删除→留白
+  host.querySelectorAll(".rk-grpsel").forEach((el) => el.addEventListener("change", () => {
+    const groups = rLS("riskGroups", {}); groups[el.dataset.sym] = el.value; ASSIGN[el.dataset.sym] = el.value;
+    rLSset("riskGroups", groups); rpSchedule(); renderRiskExposure();
+  }));
   const sp = $("rk-syncpx"); if (sp) sp.addEventListener("click", async () => {
     sp.textContent = "同步中…";
     const r = await loadFreshJSON("data/research.json");   // 从 data 分支拉最新 K线快照(比本地文件新)
@@ -563,8 +548,9 @@ async function appendPrivateRecords(path, incoming, msg) {   // 远端为权威�
   catch (e) { return { ok: false, msg: String(e) }; }
 }
 
-export async function renderJournal() {   // portfolio.js import 调用(交易复盘挂在 portfolio 页)
-  const host = $("journal"); if (!host) return;
+export async function renderJournal(host = document.getElementById("journal")) {
+  if (!host) return;
+  const $ = id => host.querySelector(`[id="${id}"]`);
   const archives = await loadLocalArray(ARCHIVE_KEY, "data/completed_theses.json");
   const events = await loadLocalArray(THESIS_EVENTS_KEY, "data/thesis_events.json");
   const workflowArchives = workflowArchiveHTML();
@@ -612,7 +598,7 @@ export async function renderJournal() {   // portfolio.js import 调用(交易�
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px">
       <button id="j-export" class="mini-btn">导出归档 JSON</button>
     </div>`;
-  $("j-archive").addEventListener("change", (ev) => { localStorage.setItem("reviewThesisId", ev.target.value); renderJournal(); });
+  $("j-archive").addEventListener("change", (ev) => { localStorage.setItem("reviewThesisId", ev.target.value); renderJournal(host); });
   $("j-export").addEventListener("click", () => {
     const blob = new Blob([JSON.stringify(archives, null, 2)], { type: "application/json" });
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "completed_theses.json"; a.click();

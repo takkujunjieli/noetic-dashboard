@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {calculateSizing,estimatePositionRisk,accountContext,candidateRisk,allocationIssues,saveAccountField,mergePolicy} from '../assets/risk-budget.mjs';
+import {calculateSizing,calculateManualSizing,estimatePositionRisk,accountContext,candidateRisk,allocationIssues,saveAccountField,mergePolicy} from '../assets/risk-budget.mjs';
 import {demoCase,saveNode,validateStore,VERSION,clone} from '../assets/workflow-model.mjs';
 const sizing={equity:10000,entry:100,stop:95,atr:2,mode:'manual',side:'long',risk_pct:1,total_risk_pct:3,atr_mult:2,max_position_pct:'',total_position_pct:'',optionRisk:''};
 const policy={account_equity:10000,default_bundle:'base',bundles:{base:{risk_pct:1,total_risk_pct:3,atr_mult:2}},assignments:{}};
@@ -10,6 +10,11 @@ test('same stock calculator: manual, ATR, cap and short direction',()=>{
  r=calculateSizing({...sizing,max_position_pct:10});assert.equal(r.shares,10);assert.equal(r.capped,true);
  r=calculateSizing({...sizing,side:'short',stop:105});assert.equal(r.shares,20);
  assert.match(calculateSizing({...sizing,stop:''}).error,/止损/);assert.match(calculateSizing({...sizing,total_risk_pct:''}).error,/必填|先填写/);
+});
+test('standalone Portfolio calculator uses equity, risk, entry and stop without requiring ATR fields',()=>{
+ let r=calculateManualSizing({equity:10000,riskPct:2,entry:100,stop:94});assert.equal(r.shares,33);assert.equal(r.positionValue,3300);assert.equal(r.actualRisk,198);assert.equal(r.capped,false);
+ r=calculateManualSizing({equity:10000,riskPct:2,entry:100,stop:94,maxPositionPct:20});assert.equal(r.shares,20);assert.equal(r.positionValue,2000);assert.equal(r.capped,true);
+ assert.match(calculateManualSizing({equity:10000,riskPct:2,entry:100,stop:101}).error,/止损价/);
 });
 test('current risk uses stop-distance for stocks and explicit market-value proxy for options',()=>{
  assert.equal(estimatePositionRisk({position:{kind:'equity',qty:-10,price:100},stop:105}).risk,50);

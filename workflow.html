@@ -3,17 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Workflow · Research Desk</title>
+<title>Galaxy · Workflow</title>
 <link rel="stylesheet" href="assets/workflow.css">
 <link rel="stylesheet" href="assets/theme.css">
+<link rel="stylesheet" href="assets/galaxy.css?v=20260924-3">
 </head>
 <body>
 <nav class="wf-nav" aria-label="页面导航"><a class="active" href="workflow.html">Workflow</a><a href="portfolio.html">Portfolio</a><a href="trading.html">Trading</a><a href="research.html">Research</a><a href="strategy.html">Strategy</a></nav>
-<header class="page-heading"><div><p class="eyebrow">THESIS WORKSPACE</p><h1>从观点，到归因。</h1><p class="subtle">四层工作流 · 一个完整的交易论点生命周期</p></div><div class="toolbar"><button id="link-existing">关联现有数据</button><button id="export">导出备份</button><button id="import-trigger">导入备份</button><input hidden id="import" type="file" accept="application/json,.json"><button class="primary" id="new">＋ 新建 Thesis</button></div></header>
+<header class="galaxy-header"><div><p class="eyebrow">RESEARCH UNIVERSE</p><h1>Galaxy <span id="count" class="badge">0</span></h1></div><div class="toolbar"><button id="sync-workflow" title="同步所有 Nebula、Node 和历史数据到原私有库">同步全部</button><button id="legacy-history">历史 Thesis</button><button class="primary" id="new">＋ 新建 Nebula</button></div></header>
 <div id="notice" role="status" aria-live="polite"></div>
-<div class="workspace"><aside class="library"><div class="section-heading"><h2>Thesis Library</h2><span id="count" class="badge"></span></div><div class="segmented" role="group" aria-label="实例列表"><button data-filter="active" aria-pressed="true">Active</button><button data-filter="archived" aria-pressed="false">Archive</button></div><div id="cases"></div><button id="demo" class="quiet wide">＋ 加载模拟案例</button><p class="storage-note">仅保存在此浏览器、此站点。定期导出备份；风控与 Portfolio 共用账户参数；券商 MCP 未连接。</p></aside><main id="main"></main></div>
+<div class="galaxy-toolbar"><div class="segmented" role="group" aria-label="星云筛选"><button data-filter="active" aria-pressed="true">Active</button><button data-filter="archived" aria-pressed="false">Archive</button></div><div class="galaxy-search"><input id="galaxy-search" type="search" placeholder="寻找 Nebula / 标的" aria-label="搜索星云"><div id="cases" hidden></div></div><button id="galaxy-home">返回 Galaxy</button><button id="galaxy-zoom-in" aria-label="放大星图">＋</button><button id="galaxy-zoom-out" aria-label="缩小星图">−</button></div>
+<div class="galaxy-workspace"><section id="galaxy-scene" aria-label="Galaxy 可缩放交互星图"></section><div id="galaxy-empty" hidden><p class="eyebrow">YOUR NEXT IDEA STARTS HERE</p><h2>让一个论点，成为一片星云。</h2><p>新建 Nebula，点亮你的研究星图。</p><button data-new class="primary">＋ 新建 Nebula</button><button id="demo" class="quiet" data-demo>查看模拟星云</button></div><aside id="main" class="galaxy-panel" hidden aria-label="Star 节点面板"></aside><div class="galaxy-caption"><span id="galaxy-location">GALAXY / OVERVIEW</span><span>拖动旋转 · 右键平移 · 滚轮缩放 · 点击 Star 编辑</span></div><div class="galaxy-legend"><span>◌ 暗淡：待启动</span><span>✧ 发光：进行中</span><span>金色 Nebula：待同步</span><span>实线 → 流程关系 · 三角连线：设计协同</span></div></div>
+<dialog id="legacy-history-dialog"><div class="section-heading"><h2>历史 Thesis · 完整复盘</h2><button id="close-legacy-history">关闭</button></div><div id="workflow-journal" class="workflow-legacy-risk"></div></dialog>
+<dialog id="sync-auth-dialog"><form id="sync-auth-form"><h2>设置同步凭据</h2><p class="hint">使用原私有库 stock-dashboard-private 的 GitHub PAT，仅保存在此浏览器。</p><label>GitHub PAT<input id="workflow-pat" type="password" required autocomplete="off"></label><div class="toolbar"><button type="button" id="cancel-sync-auth">取消</button><button class="primary">保存并同步</button></div></form></dialog>
 <dialog id="new-dialog"><form id="new-form"><p class="eyebrow">NEW THESIS</p><h2>定义一个可检验的观点</h2><label>论点标题<input name="title" required maxlength="140" placeholder="例如：A 股票未来一个月上涨 10%"></label><div class="fields"><label>参考标的 · 可留空<input name="symbol" maxlength="24" placeholder="例如：A"></label><label>目标日期 · 可留空<input name="horizon" type="date"></label></div><label>初始依据<textarea name="rationale" rows="3" placeholder="是什么因素让你形成这个判断？"></textarea></label><div class="toolbar end"><button type="button" id="cancel-new">取消</button><button class="primary">创建实例</button></div></form></dialog>
-<dialog id="source-dialog"><div class="section-heading"><h2>关联现有数据</h2><button id="close-source">关闭</button></div><p class="hint">读取当前 Thesis 分组与 Portfolio 快照，只在 Workflow 创建关联实例。已有页面和源文件保持不变。</p><div id="source-content"></div></dialog>
-<script type="module" src="assets/workflow.js"></script>
+<script src="assets/vendor/3d-force-graph.min.js"></script>
+<script type="module" src="assets/workflow.js?v=20260924-3"></script>
 </body>
 </html>

@@ -3,6 +3,7 @@
    数据 data/research_bearbull.json(topic/方向/实体三层可扩展)。 */
 import { $, esc, loadJSON, loadFreshJSON, getPat, ghHeaders, REPO } from "./shared.js";
 import { loadRetailData } from "./retail-data.mjs";
+import { buildSnapshot } from "./macd-research.mjs";
 import { initScorecards } from "./trading.js";   // 个股分析 tab 复用交易台的 Scorecards 渲染(trading.js 自启动已守卫)
 
 const LAM = 10;            // L2 强度(与 factorlab/model.py 默认一致)
@@ -1012,6 +1013,131 @@ function renderCta(J) {
 }
 
 /* ---------- Tab 调度 ---------- */
+/* ---------- Topic 6:MACD return ---------- */
+const MACD_SNAPSHOT_PATH = "data/macd_returns.json", MACD_SNAPSHOT_KEY = "macdReturnsSnapshot";
+let macdPeriod = "all", macdSort = { key: "ticker", direction: 1 }, macdSnapshot = null;
+
+function validMacdSnapshot(value) {
+  return value && value.version === 1 && value.periods && ["3m", "6m", "1y", "all"].every((period) => Array.isArray(value.periods[period]));
+}
+
+async function loadMacdSnapshot() {
+  let local = null;
+  try { local = JSON.parse(localStorage.getItem(MACD_SNAPSHOT_KEY) || "null"); } catch { /* ignore corrupt local cache */ }
+  const remote = await loadFreshJSON(MACD_SNAPSHOT_PATH);
+  const choices = [local, remote].filter(validMacdSnapshot).sort((a, b) => String(b.generated_at).localeCompare(String(a.generated_at)));
+  return choices[0] || null;
+}
+
+function encodeBase64(text) {
+  const bytes = new TextEncoder().encode(text);
+  let binary = "";
+  for (let offset = 0; offset < bytes.length; offset += 8192) binary += String.fromCharCode(...bytes.subarray(offset, offset + 8192));
+  return btoa(binary);
+}
+
+async function saveMacdSnapshot(snapshot) {
+  localStorage.setItem(MACD_SNAPSHOT_KEY, JSON.stringify(snapshot));
+  const pat = getPat();
+  if (!pat) return false;
+  const url = `https://api.github.com/repos/${REPO}/contents/${MACD_SNAPSHOT_PATH}`;
+  const meta = await fetch(`${url}?ref=data`, { headers: ghHeaders(pat) });
+  if (!meta.ok && meta.status !== 404) throw new Error(`读取远端快照失败 (${meta.status})`);
+  const previous = meta.ok ? await meta.json() : null;
+  const response = await fetch(url, {
+    method: "PUT",
+    headers: { ...ghHeaders(pat), "Content-Type": "application/json" },
+    body: JSON.stringify({
+      message: `data: sync MACD returns ${snapshot.generated_at.slice(0, 10)}`,
+      content: encodeBase64(JSON.stringify(snapshot, null, 2) + "\n"),
+      branch: "data",
+      ...(previous && previous.sha ? { sha: previous.sha } : {}),
+    }),
+  });
+  if (!response.ok) throw new Error(`保存远端快照失败 (${response.status})`);
+  return true;
+}
+
+function macdValue(row, key) {
+  if (key === "ticker") return row.ticker;
+  if (!row.result) return null;
+  const [signal, field] = key.split(".");
+  return row.result[signal] ? row.result[signal][field] : null;
+}
+
+function drawMacdTable() {
+  if (!macdSnapshot) {
+    $("macd-table").innerHTML = '<span class="muted small">尚无已保存结果。点击「同步所有 tickers」生成第一份快照。</span>';
+    $("macd-status").textContent = "尚未计算";
+    return;
+  }
+  const rows = macdSnapshot.periods[macdPeriod];
+  const sorted = rows.slice().sort((a, b) => {
+    const av = macdValue(a, macdSort.key), bv = macdValue(b, macdSort.key);
+    if (av == null && bv == null) return a.ticker.localeCompare(b.ticker);
+    if (av == null) return 1;
+    if (bv == null) return -1;
+    const cmp = typeof av === "string" ? av.localeCompare(bv) : av - bv;
+    return cmp * macdSort.direction || a.ticker.localeCompare(b.ticker);
+  });
+  const button = (key, label) => {
+    const mark = macdSort.key === key ? (macdSort.direction > 0 ? "↑" : "↓") : "↕";
+    return `<button class="rf-sort-btn" data-macd-sort="${key}" title="点击切换升降序">${label}<span>${mark}</span></button>`;
+  };
+  const pct = (value) => value == null ? "—" : `${value >= 0 ? "+" : ""}${(value * 100).toFixed(2)}%`;
+  const cell = (result, signal) => {
+    if (!result) return `<td class="muted">—</td><td class="muted">—</td>`;
+    const item = result[signal], cls = item.totalReturn > 0 ? "up" : item.totalReturn < 0 ? "down" : "";
+    return `<td class="${cls}">${pct(item.totalReturn)}</td><td>${item.trades}</td>`;
+  };
+  const body = sorted.map((row) => `<tr><td><b>${esc(row.ticker)}</b></td>${cell(row.result, "histogramSlope")}${cell(row.result, "zeroLine")}${cell(row.result, "crossover")}</tr>`).join("");
+  $("macd-table").innerHTML = `<div class="rf-now-table-wrap"><table class="bt-table rf-now-table"><thead>
+    <tr><th rowspan="2">${button("ticker", "Ticker")}</th><th colspan="2">MACD histogram slope</th><th colspan="2">Zero-line</th><th colspan="2">Crossover</th></tr>
+    <tr><th>${button("histogramSlope.totalReturn", "Total return")}</th><th>${button("histogramSlope.trades", "交易次数")}</th><th>${button("zeroLine.totalReturn", "Total return")}</th><th>${button("zeroLine.trades", "交易次数")}</th><th>${button("crossover.totalReturn", "Total return")}</th><th>${button("crossover.trades", "交易次数")}</th></tr>
+    </thead><tbody>${body}</tbody></table></div>`;
+  const available = rows.filter((row) => row.result), missing = rows.filter((row) => !row.result).map((row) => row.ticker);
+  const starts = available.map((row) => row.result.validFrom).sort();
+  const latest = available.map((row) => row.result.latest).sort().at(-1) || "—";
+  const calculated = macdSnapshot.generated_at ? new Date(macdSnapshot.generated_at).toLocaleString("zh-CN", { hour12: false, timeZone: "America/New_York" }) + " ET" : "—";
+  $("macd-status").innerHTML = `上次计算：<b>${calculated}</b> · ${rows.length} 个 tickers · ${available.length} 个有完整 MACD 数据 · 有效数据 ${starts[0] || "—"} → ${latest}${missing.length ? ` · 暂无数据：${missing.map(esc).join(", ")}` : ""}`;
+  document.querySelectorAll("[data-macd-sort]").forEach((el) => { el.onclick = () => {
+    const key = el.dataset.macdSort;
+    macdSort = macdSort.key === key ? { key, direction: -macdSort.direction } : { key, direction: key === "ticker" ? 1 : -1 };
+    drawMacdTable();
+  }; });
+}
+
+async function syncMacd() {
+  const sync = $("macd-sync");
+  sync.disabled = true; sync.textContent = "同步中…";
+  try {
+    const [config, research] = await Promise.all([loadFreshJSON("config/tickers.json"), loadFreshJSON("data/research.json")]);
+    if (!config || !Array.isArray(config.watchlist) || !research || !research.tickers) throw new Error("ticker 清单或行情数据读取失败");
+    macdSnapshot = buildSnapshot(config.watchlist, research);
+    const remote = await saveMacdSnapshot(macdSnapshot);
+    drawMacdTable();
+    sync.textContent = remote ? "同步完成" : "已保存到本机";
+  } catch (error) {
+    console.error(error);
+    sync.textContent = "同步失败 · 重试";
+    $("macd-status").textContent = `同步失败：${error.message}`;
+  } finally {
+    sync.disabled = false;
+  }
+}
+
+async function renderMacd() {
+  if (!macdSnapshot) macdSnapshot = await loadMacdSnapshot();
+  drawMacdTable();
+  document.querySelectorAll("[data-macd-period]").forEach((el) => { el.onclick = () => {
+    macdPeriod = el.dataset.macdPeriod;
+    document.querySelectorAll("[data-macd-period]").forEach((button) => button.classList.toggle("active", button === el));
+    drawMacdTable();
+  }; });
+  const sync = $("macd-sync");
+  if (sync) sync.onclick = syncMacd;
+}
+
 /* ---------- Topic 4.5:期权流 → 方向(逐票 rank-IC,读 data/flow_ic.json) ---------- */
 async function renderFlowDir() {
   const d = await loadJSON("data/flow_ic.json");
@@ -1068,7 +1194,7 @@ async function renderFlowDir() {
     + `<ul class="muted small" style="margin:6px 0 0;padding-left:18px">${note}</ul>`;
 }
 
-const RENDER = { bearbull: renderBearbull, retailflow: renderRetailflow, rates: renderRates, gexvol: renderGexVol, flowdir: renderFlowDir, positioning: renderPositioning, stocks: initScorecards };
+const RENDER = { bearbull: renderBearbull, retailflow: renderRetailflow, rates: renderRates, gexvol: renderGexVol, flowdir: renderFlowDir, positioning: renderPositioning, macd: renderMacd, stocks: initScorecards };
 const rendered = {};
 async function showTopic(topic) {
   if (!RENDER[topic]) return;

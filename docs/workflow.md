@@ -1,8 +1,46 @@
+## Position Management 留空与热力图手动归属（2026-09-25）
+
+Portfolio 风险敞口热力图的每一行重新提供 Thesis 下拉选择。选择结果写入本机 `riskGroups`，立即参与该表的风险聚合并标记共享风险数据待同步；Workflow 的 `linkedSymbols` 只保留来源标的元数据，不再自动决定持仓归属。
+
+Workflow 的 Position Management 现在是保留星点。面板不含输入字段、持仓列表、Portfolio/MCP 读取、绑定、刷新或保存操作，只保留 `pending ↔ running` 的手动状态。`positionNodeVersion: 1` 迁移会把所有当前实例和事件快照中的 Position Management 数据清成 `{}`；新版快照状态归为 `pending`，旧版快照使用其版本可识别的空初始状态。迁移会写入一次清理事件且可重复加载。创建新实例、关联旧 Thesis、归档和导入都不能再向此节点写入持仓字段。
+
+旧的 `position-link.mjs` 与 `position-control.js` 暂留为未挂载适配器，方便未来重新设计时参考；当前 Workflow 不导入或执行它们。Attribution 已保存的对账证据继续保留，新的对账预览因没有账户/合约绑定会明确提示无法自动筛选，实际净损益仍可手工填写。
+
+## Galaxy 状态、重命名与同步提示（2026-09-24）
+
+Star 不再在名称下显示 pending/running 字样：pending 使用暗淡核心和弱光晕，running 使用明亮核心和强光晕；选中环与邻居高亮继续表达图关系，不替代业务状态。Hypothesis 面板顶部的 Nebula 名可双击进入行内编辑，Enter 或失焦保存，Escape 取消；历史快照与归档保持只读。
+
+新建 Nebula 或保存任意 Node、状态流转、方案、快照及 Nebula 重命名后，该 Nebula 名以金色显示，并将未同步标记保存在本机。只有「同步全部」中的 Workflow 快照与旧版风险/归档数据均成功后，才清除已上传且同步期间未再变化的 Nebula 标记；失败或同步过程中产生的新版本继续保持金色。该标记不写入远端 workflow.json。
+
+## Risk Budget 精简与 Portfolio 仓位试算（2026-09-24）
+
+Workflow 的 Risk Budget 不再显示 Edge 和 Invalidation；这两项研究内容分别归属 Hypothesis 的论点依据与证伪条件。旧数据仍保留在历史记录中，隐藏字段不会被新界面清空或覆盖。Risk Budget 保留 Thesis 风险参数、仓位上限、止盈和 Shelf life 等管理能力。
+
+Portfolio 新增独立的「仓位计算器」板块，用账户净值、单笔风险、买入价、止损价和可选仓位上限计算正股多头的股数、仓位金额与实际风险。可选择一个 Risk Budget Thesis 带入风险百分比和仓位上限；在计算器内修改这两项只用于试算，不回写 Thesis。账户净值继续作为共享设置，修改后会标记待同步。期权和组合结构仍在 Workflow 中管理。
+
+## 统一手动同步（2026-09-24）
+
+顶部「同步全部」位于「历史 Thesis」左侧，替代 Risk Budget 的局部同步入口。workflow.json 写入完整 Workflow store（全部实例、节点和历史快照），以及白名单内的本地风控、分组、止损/目标和旧版归档/事件；不包含 PAT 或清理备份。沿用原私有库和 PAT，并更新原风险配置及 append-only 归档文件。未保存的表单先提示保存，不自动提交草稿。失败区分完整快照与旧版文件的部分完成情况。远端 Workflow 与本机上次已知 SHA 不一致时拒绝覆盖；读取失败不会按空文件覆盖。同步过程中新增编辑不会标为全部已同步。
+
+## Portfolio 风控入口移除（2026-09-24）
+
+Portfolio 只移除「账户风险控制 · 仓位」区块及初始化调用，风险敞口热力图与交易复盘保留。Workflow Risk Budget 继续使用原组件与原 riskPolicy/config 数据，未复制或删除设置。Workflow 顶部「历史 Thesis」复用完整 renderJournal：文件与本地归档合并、归档参数、Edge/Invalidation、进入/退出持仓事件、Note、JSON 导出均保留；历史记录作为只读资料访问，并未伪造成新的 Workflow 星云。Portfolio 仍监听共享风险参数变化刷新热力图。
+
+## 三维恒星星团皮肤（2026-09-24）
+
+星云名称替代 NEBULA 字样，沿用小号淡紫灰字样。每个实例使用 ID 固定随机种子生成 420 个三维恒星光点，从中选取 7 个间隔足够的点作为业务 Star；刷新、状态变化保持位置。节点颜色为自然恒星红、暖黄、白及冷白色，与业务层级无关。左键旋转、右键平移、滚轮缩放；触屏单指旋转、双指缩放平移。关系数据和节点编辑逻辑保持原样。
+
+## Galaxy 界面（2026-09-24）
+
+Workflow 改为持久 WebGL 场景 + 独立 HTML 节点面板。Galaxy 包含 Nebula（Thesis），每个 Nebula 有 7 个 Star（节点）。缩放和平移仅改变相机，不写业务数据。固定空间布局、显式关系图、直接邻居高亮；背景粒子不承担业务意义。点击 Star 打开/切换面板，再次点击、空白或 Esc 关闭；保留未保存编辑确认。Nebula 标题与搜索定位星云，顶部 Active/Archive 过滤。来源与事件记录在面板底部抽屉，历史只读行为保留。
+
+模块：galaxy-model.mjs（纯图数据）、galaxy-scene.js（Three.js / 3d-force-graph）、galaxy.css（仅 Workflow）。本地固定依赖：3d-force-graph 1.79.0、Three.js 0.180.0，许可证位于 assets/vendor。不依赖运行时 CDN、不迁移存储数据。WebGL 不可用时提供节点导航；减少动态效果设置取消相机动画。保存表单不重建星图，相机位置保留。背景粒子使用固定种子，不持续移动。
+
 ## 关联现有数据（2026-09-23）
 
 Workflow 顶部「关联现有数据」读取 risk_policy（含浏览器覆盖和 riskGroups）及 portfolio 快照，预览现有活跃 Thesis。逐项关联，仅写 Workflow 本地存储；按来源名称防止重复导入。原页面无布局或流程修改。
 
-Edge → Hypothesis 论点依据，Invalidation → 证伪条件，Shelf life → 目标日期。多标的分组保留 linkedSymbols，匹配持仓经成本、源时间、现有归属检查后整仓关联；跳过项保留提示。Risk Budget 打开对应来源 Thesis，但打开动作不更改共享默认值。导入风险参数保留快照；论点不是双向同步，后续人工编辑不会被源数据覆盖。Position Management 沿用刷新机制；Attribution 沿用完整合约归属对账。既有归档保留在原页面，尚未导入；不从现有持仓推断方案、收益预测或实际净收益。
+Edge → Hypothesis 论点依据，Invalidation → 证伪条件，Shelf life → 目标日期。多标的分组只保留为 `linkedSymbols` 元数据，不复制或绑定持仓。Risk Budget 打开对应来源 Thesis，但打开动作不更改共享默认值。导入风险参数保留快照；论点不是双向同步，后续人工编辑不会被源数据覆盖。既有归档保留在原页面，尚未导入；不从现有持仓推断方案、收益预测或实际净收益。
 
 ## Risk Budget：直接复用账户风险控制（2026-09-23）
 
@@ -40,13 +78,13 @@ Validation: 31 unit tests and five isolated browser suites. Candidate browser co
 
 - Hypothesis has four optional text areas in this order: 市场结果预期假设 (`expectation`), 论点依据 (`rationale`), 验证条件 (`verification`), 证伪条件 (`invalidation`). There is no direction selector or numeric target field.
 - Every node starts `pending` and supports `pending ↔ running`. Both labels are manual progress markers, not approval or completion. Transitions require no reason or domain prerequisites. Edits and account refreshes do not change these labels. Domain calculations, financial-data validation and position-allocation checks remain intact.
-- Archiving is a separate Attribution action at the instance level, retains read-only replay/export, and requires no open recorded positions or live allocation rules. It does not introduce a third node label.
+- Archiving is a separate Attribution action at the instance level and retains read-only replay/export. Position Management is empty, so archiving has no position-allocation prerequisite. It does not introduce a third node label.
 - Legacy data is validated before migration. Current instances gain `stateVersion: 2` and a single migration event; historical snapshots are unchanged. Initial legacy states map to pending and other states to running. Legacy numerical targets become expectation text, prior rationale/invalidation stay intact, and the removed direction remains available in the original snapshot/export. Historical UI presents the simplified fields and labels. Existing archived instances stay archived. Migration is idempotent and persisted with the existing cross-tab write check.
 - Validation: `node --test tests/*.test.mjs` and the Workflow progress, risk, position and Attribution browser fixtures.
 
 # Workflow — thesis workspace
 
-Open `workflow.html` via the same local HTTP server as the dashboard. Risk Budget shares the Portfolio risk-control component and account settings. Trading, Research and Strategy remain separate. Position Management now links read-only actual-position allocations from the same local Portfolio snapshot.
+Open `workflow.html` via the same local HTTP server as the dashboard. Risk Budget shares the Portfolio risk-control component and account settings. Trading, Research and Strategy remain separate. Position Management is an empty reserved star.
 
 ## First version
 
@@ -100,7 +138,9 @@ Future broker sync should provide a separate normalized snapshot adapter with so
 Checks: `node --test tests/workflow.test.mjs tests/risk-budget.test.mjs`.
 Browser integration (requires installed Playwright + Chrome and local server on 8642): `node tests/risk-control.browser.cjs`. Set `PLAYWRIGHT_MODULE` to an installed Playwright module path and `DASHBOARD_URL` to override the local URL. This test uses isolated browser storage and mocked account data, blocks GitHub writes, and does not touch real holdings.
 
-## Position Management integration (step two)
+## Retired Position Management integration (step two; superseded 2026-09-25)
+
+The integration below is no longer mounted. Current and historical Position Management node data is scrubbed by migration, and Portfolio heatmap assignment is manual. The files remain in the repository only as reference code for a future redesign.
 
 - `position-link.mjs` is a pure normalizer/allocation/reconciliation layer. `position-control.js` reads the existing `data/portfolio.json` through `loadJSON`; no second holdings database, broker API, orders, or raw-account writes are introduced.
 - Eligible accounts are identified by ID and exclude Agentic. The picker lists the thesis underlying's stocks and standard options with full ISO expiry, strike, call/put and direction. Keys include broker, account and canonical instrument/direction, avoiding cross-account or same-ticker contract collisions. Instrument IDs and quote timestamps are now preserved by `build_portfolio.py` on the next normal build; existing files work without them. This change does not rebuild or modify private account files automatically.
@@ -115,7 +155,7 @@ Checks: `node --test tests/workflow.test.mjs tests/risk-budget.test.mjs tests/po
 
 ## Attribution integration (step 4; Signal integration intentionally deferred)
 
-- Attribution reads the same `data/pnl.json` used by the dashboard. Confirmed Position Management bindings (including closed/released rules) identify exact accounts and full instrument symbols. The user chooses dates and one source window (YTD, 3m, 1m). Overlapping windows are never combined; identical realized events inside a window are retained. Option P&L is already dollars and is not multiplied again.
+- Attribution reads the same `data/pnl.json` used by the dashboard. The user chooses dates and one source window (YTD, 3m, 1m). With Position Management now empty, there are no confirmed account/contract bindings and the preview explicitly reports that it cannot auto-filter rows. Previously saved evidence remains readable. Overlapping windows are never combined; identical realized events inside a window are retained. Option P&L is already dollars and is not multiplied again.
 - These rows are **account-level reconciliation evidence**, not automatically assigned thesis profit. The source lacks fill IDs, quantities, lot identity, fees and precise timestamps. Fixed allocations and other trades of the same instrument cannot be reliably disentangled. Net realized thesis profit and causal explanation remain manual. The UI labels incomplete coverage, missing accounts and no-match results explicitly.
 - Reading previews evidence without altering the thesis. Explicit “保存参考快照到此 thesis” saves the evidence plus current form edits in a workflow event. Failed reads retain previously saved evidence; archive/replay uses saved evidence and does not fetch current P&L. Existing backups remain compatible; new evidence validates on import.
 - Attribution compares the first confirmed construction baseline's modeled expected profit with manually confirmed net profit, with no automatic causal inference. Full lifecycle snapshots remain accessible in the existing timeline/export.

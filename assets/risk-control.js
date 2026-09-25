@@ -1,6 +1,6 @@
 // Shared risk-control component: legacy Portfolio editor and Workflow instance adapter.
 import { esc, loadJSON, getPat, setPat } from "./shared.js";
-import { positiveNum, calculateSizing } from "./risk-budget.mjs";
+import { positiveNum, calculateSizing, calculateManualSizing } from "./risk-budget.mjs";
 
 export async function mountLegacyRiskControl(host, services) {
   if (!host) return;
@@ -10,6 +10,8 @@ export async function mountLegacyRiskControl(host, services) {
   const controller = new AbortController();
   host._riskCleanup = () => controller.abort();
   const frozen = services.snapshot;
+  const showSizing = services.showSizing !== false;
+  const showNarrative = services.showNarrative !== false;
   let POLICY = frozen ? structuredClone(frozen.policy) : (await loadJSON("config/risk_policy.json")) || {};
   if (controller.signal.aborted) return;
   if (!POLICY.bundles || !Object.keys(POLICY.bundles).length) {
@@ -28,8 +30,8 @@ export async function mountLegacyRiskControl(host, services) {
   const atrP = POLICY.atr_period ?? 14;
   let cur = (POLICY.default_bundle && POLICY.bundles[POLICY.default_bundle]) ? POLICY.default_bundle : Object.keys(POLICY.bundles)[0];
   if (!services.readonly && services.initialBundle && Object.hasOwn(POLICY.bundles, services.initialBundle)) cur = services.initialBundle;
-  const g = (id) => +$(id).value;
-  const persistLocal = () => rLSset("riskPolicy", { ...rLS("riskPolicy", {}), bundles: POLICY.bundles, default_bundle: cur, account_equity: g("rk-eq") });
+  const g = (id) => +($(id)?.value ?? NaN);
+  const persistLocal = () => rLSset("riskPolicy", { ...rLS("riskPolicy", {}), bundles: POLICY.bundles, default_bundle: cur, account_equity: showSizing ? g("rk-eq") : POLICY.account_equity });
   const T = (k, v, sb = "", cls = "") => `<div class="opt-tile"><div class="opt-k">${k}</div><div class="opt-v ${cls}">${v}${sb ? ` <span class="opt-sub">${sb}</span>` : ""}</div></div>`;
   const bundleOpts = () => Object.keys(POLICY.bundles).map((k) => `<option value="${esc(k)}"${k === cur ? " selected" : ""}>${esc(k)}</option>`).join("");
 
@@ -46,7 +48,7 @@ export async function mountLegacyRiskControl(host, services) {
           <button class="rk-menu-item rk-danger" data-act="delete">🗑 删除</button>
         </div></span>
       <input id="rk-pat" type="password" value="${esc(services.readonly ? "" : getPat() || "")}" placeholder="粘贴 fine-grained PAT(含私有库写权限)" hidden style="width:230px;background:var(--card-hover);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-size:12px">
-      <button id="rk-sync" class="mini-btn" style="margin-left:auto" title="把本机累计的风险策略改动一次提交到私有库">同步到远端</button>
+      <button id="rk-sync" ${services.hideSync?'hidden':''} class="mini-btn" style="margin-left:auto" title="把本机累计的风险策略改动一次提交到私有库">同步到远端</button>
       <span id="rk-msg" class="muted small"></span>
     </div>
     <div class="risk-form" style="margin-top:10px">
@@ -58,11 +60,11 @@ export async function mountLegacyRiskControl(host, services) {
       <label>Target Profit %<input id="rk-goal" type="number" step="1" style="width:96px" placeholder="optional"></label>
       <label>Shelf life<input id="rk-shelf" type="date" style="width:150px" title="thesis 有效期(可选);过期未走出=复盘/离场"></label>
     </div>
-    <div class="risk-form" style="margin-top:6px">
+    ${showNarrative ? `<div class="risk-form" style="margin-top:6px">
       <label style="flex:1;min-width:260px">Edge (optional)<input id="rk-edge" style="width:100%" placeholder="为什么这个 thesis 成立…"></label>
       <label style="flex:1;min-width:260px">Invalidation (optional)<input id="rk-invalid" style="width:100%" placeholder="什么情况证明 thesis 被推翻=离场,非亏X%…"></label>
-    </div>
-    <div class="risk-form" style="margin-top:12px;border-top:1px solid var(--border);padding-top:12px">
+    </div>` : ''}
+    ${showSizing ? `<div class="risk-form" style="margin-top:12px;border-top:1px solid var(--border);padding-top:12px">
       <label>账户净值 $<input id="rk-eq" type="number" step="1000" value="${esc(POLICY.account_equity ?? 100000)}"></label>
       <label>买入价 $<input id="rk-entry" type="number" step="0.01" value="100"></label>
       <label>止损法<select id="rk-mode"><option value="manual">手动止损价</option><option value="atr">ATR 法</option></select></label>
@@ -70,20 +72,25 @@ export async function mountLegacyRiskControl(host, services) {
       <label id="rk-atr-wrap" style="display:none">ATR${atrP} $<input id="rk-atr" type="number" step="0.01" value="3"></label>
     </div>
     <div id="rk-out" class="wb-statbar" style="margin-top:12px"></div>
-    <div id="rk-note" class="muted small" style="margin-top:6px"></div>
+    <div id="rk-note" class="muted small" style="margin-top:6px"></div>` : ''}
     <div id="rk-done" class="muted small" style="margin-top:10px"></div>
-    <div class="muted small" style="margin-top:10px"><b>止损放在 thesis 被证伪处</b>(不是"亏 X% 就卖"):${(POLICY.stop_bases || []).map(esc).join(" · ")}。<br>单笔风险%、总风险%、ATR倍数为必填。默认单笔仓位上限 = 单笔风险% ÷ (ATR倍数×ATR/现价)；默认总仓位上限 = 典型单笔上限 × 总风险/单笔风险。两个仓位上限均可手工覆盖。Target Profit/Shelf life/Edge/Invalidation 可选。改动即时保存在本机；完成一批编辑后点右上「同步到远端」。</div>`;
+    <div class="muted small" style="margin-top:10px">单笔风险%、总风险%、ATR倍数为必填。两个仓位上限均可手工覆盖；Target Profit 与 Shelf life 可选。改动即时保存在本机；${services.hideSync?'完成编辑后点页面顶部「同步全部」。':'完成一批编辑后点右上「同步到远端」。'}</div>`;
 
   const loadBundle = () => { const b = POLICY.bundles[cur] || {};   // 必填项缺失时保持空白，交由用户明确填写
     $("rk-risk").value = b.risk_pct ?? ""; $("rk-mult").value = b.atr_mult ?? ""; $("rk-cap").value = b.max_position_pct ?? "";
     $("rk-totrisk").value = b.total_risk_pct ?? ""; $("rk-totcap").value = b.total_position_pct ?? ""; $("rk-goal").value = b.target_profit_pct ?? "";
-    $("rk-shelf").value = b.shelf || ""; $("rk-edge").value = b.edge || ""; $("rk-invalid").value = b.invalid || ""; };
+    $("rk-shelf").value = b.shelf || "";
+    if (showNarrative) { $("rk-edge").value = b.edge || ""; $("rk-invalid").value = b.invalid || ""; }
+  };
   const syncBundle = () => { const b = POLICY.bundles[cur] || (POLICY.bundles[cur] = {});
     b.risk_pct = gt("rk-risk"); b.atr_mult = gt("rk-mult"); b.max_position_pct = gt("rk-cap");
     b.total_risk_pct = gt("rk-totrisk"); b.total_position_pct = gt("rk-totcap"); b.target_profit_pct = gt("rk-goal");
-    b.shelf = $("rk-shelf").value || null; b.edge = $("rk-edge").value.trim(); b.invalid = $("rk-invalid").value.trim(); };
+    b.shelf = $("rk-shelf").value || null;
+    if (showNarrative) { b.edge = $("rk-edge").value.trim(); b.invalid = $("rk-invalid").value.trim(); }
+  };
 
   function compute() {
+    if (!showSizing) return;
     const b = POLICY.bundles[cur] || {};
     const eq = g("rk-eq"), entry = g("rk-entry");
     const riskPct = positiveNum(b.risk_pct) ? +b.risk_pct : null;
@@ -131,10 +138,10 @@ export async function mountLegacyRiskControl(host, services) {
       ? `<b>已完成 ${done.length}</b>(存档,不计入活跃):` + done.map((d) => `<span class="sc-dir muted" style="margin:2px 3px;display:inline-block">${esc(d.name)}${d.thesis?.target_profit_pct != null ? ` · Target ${d.thesis.target_profit_pct}%` : ""} <span class="muted">${(d.completed_at || "").slice(0, 10)}</span></span>`).join("")
       : ""; };
 
-  host._riskRead = () => ({policy: {...structuredClone(POLICY), default_bundle: cur, account_equity: g("rk-eq")}, calculator: Object.fromEntries(["entry", "mode", "stop", "atr"].map(k => [k, $("rk-" + k).value])), done: structuredClone(frozen ? frozen.done || [] : rLS(ARCHIVE_KEY, []))});
+  host._riskRead = () => ({policy: {...structuredClone(POLICY), default_bundle: cur, account_equity: showSizing ? g("rk-eq") : POLICY.account_equity}, calculator: showSizing ? Object.fromEntries(["entry", "mode", "stop", "atr"].map(k => [k, $("rk-" + k).value])) : frozen?.calculator || {}, done: structuredClone(frozen ? frozen.done || [] : rLS(ARCHIVE_KEY, []))});
   if (services.readonly) {
     loadBundle();
-    for (const key of ["entry", "mode", "stop", "atr"]) if (frozen?.calculator?.[key] != null) $("rk-" + key).value = frozen.calculator[key];
+    if (showSizing) for (const key of ["entry", "mode", "stop", "atr"]) if (frozen?.calculator?.[key] != null) $("rk-" + key).value = frozen.calculator[key];
     compute(); renderDone();
     host.querySelectorAll("input, select, button").forEach(el => el.disabled = true);
     $("rk-sync").textContent = "历史快照 · 只读";
@@ -145,11 +152,13 @@ export async function mountLegacyRiskControl(host, services) {
   const onEdit = (recompute) => () => { syncBundle(); if (recompute) compute(); persistLocal(); rpSchedule(); };
   ["rk-risk", "rk-mult", "rk-cap"].forEach((id) => { const el = $(id); el.addEventListener("input", onEdit(true)); el.addEventListener("change", () => { renderRiskExposure(); rpSchedule(true); }); });
   ["rk-totrisk", "rk-totcap", "rk-goal"].forEach((id) => { const el = $(id); el.addEventListener("input", onEdit(true)); el.addEventListener("change", () => { renderRiskExposure(); rpSchedule(true); }); });
-  ["rk-shelf", "rk-edge", "rk-invalid"].forEach((id) => { const el = $(id); el.addEventListener("input", onEdit(false)); el.addEventListener("change", () => rpSchedule(true)); });
-  ["rk-eq", "rk-entry", "rk-stop", "rk-atr"].forEach((id) => $(id).addEventListener("input", compute));
-  $("rk-eq").addEventListener("input", () => { persistLocal(); rpSchedule(); });
-  $("rk-eq").addEventListener("change", () => rpSchedule(true));
-  $("rk-mode").addEventListener("change", compute);
+  ["rk-shelf", ...(showNarrative ? ["rk-edge", "rk-invalid"] : [])].forEach((id) => { const el = $(id); el.addEventListener("input", onEdit(false)); el.addEventListener("change", () => rpSchedule(true)); });
+  if (showSizing) {
+    ["rk-eq", "rk-entry", "rk-stop", "rk-atr"].forEach((id) => $(id).addEventListener("input", compute));
+    $("rk-eq").addEventListener("input", () => { POLICY.account_equity = g("rk-eq"); persistLocal(); rpSchedule(); });
+    $("rk-eq").addEventListener("change", () => rpSchedule(true));
+    $("rk-mode").addEventListener("change", compute);
+  }
   // ---- thesis 选择(委托,重建 select 后仍有效)+ 内联重命名 ----
   const startRename = () => { $("rk-sel-wrap").innerHTML = `<input id="rk-ren" value="${esc(cur)}" style="width:150px"><button id="rk-ren-ok" class="mini-btn">✓</button><button id="rk-ren-x" class="mini-btn">✕</button>`; const inp = $("rk-ren"); inp.focus(); inp.select(); };
   const applyRename = () => {
@@ -176,7 +185,7 @@ export async function mountLegacyRiskControl(host, services) {
     const name = ($("rk-newname").value || "").trim();
     if (!name) return void ($("rk-msg").textContent = "先填 thesis 名");
     if (POLICY.bundles[name]) return void ($("rk-msg").textContent = "同名已存在");
-    POLICY.bundles[name] = { risk_pct: null, atr_mult: null, max_position_pct: null, total_risk_pct: null, total_position_pct: null, target_profit_pct: null, shelf: null, edge: "", invalid: "" };
+    POLICY.bundles[name] = { risk_pct: null, atr_mult: null, max_position_pct: null, total_risk_pct: null, total_position_pct: null, target_profit_pct: null, shelf: null };
     cur = name; rebuildSel(); $("rk-newname").value = "";
     loadBundle(); compute(); persistLocal(); rpSchedule(true); $("rk-msg").textContent = `已建「${name}」`;
   });
@@ -227,6 +236,59 @@ export async function mountLegacyRiskControl(host, services) {
   loadBundle(); compute(); renderDone();
   const dirty = rLS(RISK_POLICY_DIRTY_KEY, false);
   rpStatus(dirty ? (getPat() ? "↑ 有未同步改动 · 点击同步" : "⚠ 有未同步改动 · 需 PAT") : (getPat() ? "✓ 无待同步改动" : "⚠ 未设 PAT · 点此设置"), dirty && !getPat() ? "down" : "muted");
+}
+
+export async function mountPortfolioSizingCalculator(host, storage = localStorage) {
+  if (!host) return;
+  const file = (await loadJSON("config/risk_policy.json")) || {};
+  let local = {};
+  try { local = JSON.parse(storage.getItem("riskPolicy") || "{}"); } catch { /* use file fallback */ }
+  const policy = { ...file, ...local, bundles: local.bundles || file.bundles || {} };
+  const names = Object.keys(policy.bundles);
+  const initial = names.includes(policy.default_bundle) ? policy.default_bundle : names[0] || "";
+  const tile = (k, v, sub = "", cls = "") => `<div class="opt-tile"><div class="opt-k">${k}</div><div class="opt-v ${cls}">${v}${sub ? ` <span class="opt-sub">${sub}</span>` : ""}</div></div>`;
+  host.innerHTML = `<div class="risk-form portfolio-sizing-inputs">
+    <label>Risk Budget Thesis<select id="ps-bundle">${names.map(name => `<option value="${esc(name)}"${name === initial ? " selected" : ""}>${esc(name)}</option>`).join("")}</select></label>
+    <label>账户净值 $<input id="ps-equity" type="number" min="0.01" step="1000" value="${esc(policy.account_equity ?? 100000)}"></label>
+    <label>单笔风险 %<input id="ps-risk" type="number" min="0.01" step="0.05"></label>
+    <label>买入价 $<input id="ps-entry" type="number" min="0.01" step="0.01" value="100"></label>
+    <label>止损价 $<input id="ps-stop" type="number" min="0" step="0.01" value="94"></label>
+    <label>仓位上限 %<input id="ps-cap" type="number" min="0.01" step="1" placeholder="沿用 Thesis / 自动"></label>
+  </div>
+  <div id="ps-out" class="wb-statbar" style="margin-top:12px"></div>
+  <div id="ps-note" class="muted small" style="margin-top:6px"></div>
+  <p class="muted small">这是正股多头的手工试算，不会修改所选 Thesis 的风险参数。账户净值会写入共享风险设置；期权与组合结构请在 Workflow 中管理。</p>`;
+  const $ = id => host.querySelector(`#${id}`), bundle = () => policy.bundles[$("ps-bundle").value] || {};
+  function loadBundle() {
+    const b = bundle();
+    $("ps-risk").value = b.risk_pct ?? "";
+    $("ps-cap").value = b.max_position_pct ?? "";
+    calculate();
+  }
+  function calculate() {
+    const result = calculateManualSizing({ equity: $("ps-equity").value, riskPct: $("ps-risk").value, entry: $("ps-entry").value, stop: $("ps-stop").value, maxPositionPct: $("ps-cap").value });
+    if (result.error) { $("ps-out").innerHTML = tile("提示", "—", result.error); $("ps-note").textContent = ""; return; }
+    $("ps-out").innerHTML = [
+      tile("风险预算", "$" + result.budget.toFixed(0), `${$("ps-risk").value}% × 净值`, "down"),
+      tile("每股风险", "$" + result.perShare.toFixed(2), `买入价 − 止损价`),
+      tile("仓位股数", result.shares.toLocaleString(), result.capped ? `触发 ${result.cap}% 上限` : `风险预算反推`, "up"),
+      tile("仓位金额", "$" + result.positionValue.toFixed(0), `${result.positionPct.toFixed(1)}% 净值`),
+      tile("实际风险", "$" + result.actualRisk.toFixed(0), `${(result.actualRisk / +$("ps-equity").value * 100).toFixed(2)}% 净值`, "down"),
+    ].join("");
+    $("ps-note").textContent = `${result.shares.toLocaleString()} 股 = 风险预算 $${result.budget.toFixed(0)} ÷ 每股风险 $${result.perShare.toFixed(2)}`;
+  }
+  $("ps-bundle").addEventListener("change", loadBundle);
+  host.querySelectorAll("input").forEach(input => input.addEventListener("input", calculate));
+  $("ps-equity").addEventListener("change", () => {
+    if (!positiveNum($("ps-equity").value)) return;
+    let latest = {};
+    try { latest = JSON.parse(storage.getItem("riskPolicy") || "{}"); } catch { /* replace malformed local value */ }
+    policy.account_equity = +$("ps-equity").value;
+    storage.setItem("riskPolicy", JSON.stringify({ ...latest, account_equity: policy.account_equity }));
+    storage.setItem("riskPolicyDirty", "true");
+    window.dispatchEvent(new CustomEvent("portfolio-account-change"));
+  });
+  loadBundle();
 }
 
 // Workflow adapter: account settings are shared; sizing fields are owned by one instance.
