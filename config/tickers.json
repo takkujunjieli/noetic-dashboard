@@ -47,7 +47,6 @@
   "deep": [
     "MU",
     "RKLB",
-    "FIG",
     "HOOD",
     "NVDA",
     "CRWV",
@@ -81,6 +80,7 @@
     "IREN",
     "ASTS",
     "BE",
-    "CBRS"
+    "CBRS",
+    "FIG"
   ]
 }
