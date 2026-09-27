@@ -55,7 +55,6 @@
   ],
   "uncertain": [
     "SMCI",
-    "NBIS",
     "MRVL",
     "CRWD"
   ],
@@ -78,6 +77,7 @@
     "BE",
     "CBRS",
     "FIG",
-    "HOOD"
+    "HOOD",
+    "NBIS"
   ]
 }
