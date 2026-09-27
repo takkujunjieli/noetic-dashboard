@@ -47,7 +47,6 @@
   "deep": [
     "MU",
     "RKLB",
-    "HOOD",
     "NVDA",
     "CRWV",
     "DELL",
@@ -81,6 +80,7 @@
     "ASTS",
     "BE",
     "CBRS",
-    "FIG"
+    "FIG",
+    "HOOD"
   ]
 }
