@@ -1,144 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Short-Term Research Desk · Trading</title>
-<link rel="stylesheet" href="assets/style.css">
-<link rel="stylesheet" href="assets/theme.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Short-Term Research Desk · Trading</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/theme.css">
 </head>
+
 <body class="trading">
-<nav class="pagenav">
-  <a href="workflow.html">Workflow</a>
-  <a href="portfolio.html">Portfolio</a>
-  <a href="trading.html" class="active">Trading</a>
-  <a href="research.html">Research</a>
-  <a href="strategy.html">Strategy</a>
-</nav>
-<header>
-  <h1>Trading Desk</h1>
-  <div class="hdr-right">
-    <span id="poll-status" class="muted small"></span>
-    <button id="refresh-btn" class="mini-btn">🔄 Refresh</button>
-  </div>
-</header>
+  <nav class="pagenav">
+    <a href="workflow.html">Workflow</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="trading.html" class="active">Trading</a>
+    <a href="research.html">Research</a>
+    <a href="strategy.html">Strategy</a>
+  </nav>
+  <header>
+    <h1>Trading Desk</h1>
+    <div class="hdr-right">
+      <span id="poll-status" class="muted small"></span>
+      <button id="refresh-btn" class="mini-btn">🔄 Refresh</button>
+    </div>
+  </header>
 
-<!-- Full-watchlist mini quote cards: ticker switcher + four-state status control + add box -->
-<div id="mini-cards" class="quotes-strip mini-strip"></div>
-<div id="cfg-status" class="muted small"></div>
-
-<!-- ================= Price & GEX panel (underlying trading + risk) ================= -->
-<section>
-  <h2>Price &amp; GEX</h2>
-
-<!-- Toolbar: each group is a labeled segmented toggle -->
-<div class="wb-toolbar">
-  <div class="tb-group">
-    <span class="tb-label">周期</span>
-    <div id="tf-chips" class="chips seg">
-      <button data-tf="1m">1m</button>
-      <button data-tf="5m" class="active">5m</button>
-      <button data-tf="15m">15m</button>
-      <button data-tf="1d">1D</button>
+  <!-- Full-watchlist mini quote cards: ticker switcher + four-state status control + add box -->
+  <div class="ticker-card-toolbar">
+    <span class="muted small">Ticker cards:</span>
+    <div id="ticker-card-filter" class="ticker-card-filter" role="group" aria-label="Filter ticker cards by category">
+      <label><input type="checkbox" data-card-filter="all"> All</label>
+      <label><input type="checkbox" data-card-filter="deep"> Beat</label>
+      <label><input type="checkbox" data-card-filter="disliked"> Miss</label>
+      <label><input type="checkbox" data-card-filter="uncertain"> Auto</label>
+      <label><input type="checkbox" data-card-filter="neutral"> Potential</label>
     </div>
   </div>
-  <div class="tb-group">
-    <span class="tb-label">阶梯</span>
-    <div id="ladder-mode" class="chips seg">
-      <button data-m="gex" class="active" title="做市商推断:全市场 OI×gamma 再乘 dealer 符号(Raw=call+/put− 假设,Real=Lee-Ready 实测)。非实测 MM 持仓。">GEX</button>
-      <button data-m="oi" title="全市场未平仓总量,不区分做市商/散户/机构(每张合约多空各一,只数一次)。">OI</button>
-      <button data-m="vol" title="全市场当日成交总量,所有参与者,无方向、无归因。">Vol</button>
-      <button data-m="netflow" title="每档 Lee-Ready 净主动买卖(calls+puts 合计,buy−sell);绿=净主动买、红=净主动卖。当日流量、单名股才有。">Net Flow</button>
+  <div id="mini-cards" class="quotes-strip mini-strip"></div>
+  <div id="cfg-status" class="muted small"></div>
+
+  <!-- ================= Price & GEX panel (underlying trading + risk) ================= -->
+  <section>
+    <h2>Price &amp; GEX</h2>
+
+    <!-- Toolbar: each group is a labeled segmented toggle -->
+    <div class="wb-toolbar">
+      <div class="tb-group">
+        <span class="tb-label">周期</span>
+        <div id="tf-chips" class="chips seg">
+          <button data-tf="1m">1m</button>
+          <button data-tf="5m" class="active">5m</button>
+          <button data-tf="15m">15m</button>
+          <button data-tf="1d">1D</button>
+        </div>
+      </div>
+      <div class="tb-group">
+        <span class="tb-label">阶梯</span>
+        <div id="ladder-mode" class="chips seg">
+          <button data-m="gex" class="active"
+            title="做市商推断:全市场 OI×gamma 再乘 dealer 符号(Raw=call+/put− 假设,Real=Lee-Ready 实测)。非实测 MM 持仓。">GEX</button>
+          <button data-m="oi" title="全市场未平仓总量,不区分做市商/散户/机构(每张合约多空各一,只数一次)。">OI</button>
+          <button data-m="vol" title="全市场当日成交总量,所有参与者,无方向、无归因。">Vol</button>
+          <button data-m="netflow" title="每档 Lee-Ready 净主动买卖(calls+puts 合计,buy−sell);绿=净主动买、红=净主动卖。当日流量、单名股才有。">Net
+            Flow</button>
+        </div>
+      </div>
+      <div class="tb-group">
+        <span class="tb-label" title="仅作用于 GEX 阶梯 / 净GEX / flip">到期</span>
+        <div id="gex-exp" class="chips seg" title="单到期(该票真实到期日,不与其他到期混合)或 ≤30d 聚合;作用于 GEX 梯 / 净GEX / flip"></div>
+      </div>
+      <div class="tb-group">
+        <span class="tb-label" title="GEX dealer 符号口径(仅作用于 GEX)">口径</span>
+        <div id="gex-caliber" class="chips seg"
+          title="Raw (index):按 call +/put − 假设 dealer 符号——该假设对指数(SPX/SPY)校准合理,对单名股(散户买 call)常错。Real (sampled):用真实成交方向(Lee-Ready)实测 dealer 符号——仍是存量 GEX(gamma×OI),只是符号来自实测而非假设。">
+          <button data-c="nominal" class="active">Raw (index)</button>
+          <button data-c="flow">Real (sampled)</button>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="tb-group">
-    <span class="tb-label" title="仅作用于 GEX 阶梯 / 净GEX / flip">到期</span>
-    <div id="gex-exp" class="chips seg" title="单到期(该票真实到期日,不与其他到期混合)或 ≤30d 聚合;作用于 GEX 梯 / 净GEX / flip"></div>
-  </div>
-  <div class="tb-group">
-    <span class="tb-label" title="GEX dealer 符号口径(仅作用于 GEX)">口径</span>
-    <div id="gex-caliber" class="chips seg" title="Raw (index):按 call +/put − 假设 dealer 符号——该假设对指数(SPX/SPY)校准合理,对单名股(散户买 call)常错。Real (sampled):用真实成交方向(Lee-Ready)实测 dealer 符号——仍是存量 GEX(gamma×OI),只是符号来自实测而非假设。">
-      <button data-c="nominal" class="active">Raw (index)</button>
-      <button data-c="flow">Real (sampled)</button>
+
+    <!-- Key stats (left-aligned row) -->
+    <div id="wb-stats" class="wb-statbar"></div>
+
+    <!-- Overlay toggles (candles & volume always on) + anchored-VWAP anchor -->
+    <div class="wb-toolbar wb-overlays">
+      <span class="muted small" title="RTH=常规时段 9:30-16:00 ET(默认,去盘前盘后);+ETH=含盘前盘后。仅分时图,不影响日线">Session:</span>
+      <div id="session-chips" class="chips">
+        <button data-s="rth" class="active">RTH</button>
+        <button data-s="eth">+ETH</button>
+      </div>
+      <span class="muted small" title="底部量带显示成交量(股数)或成交额($≈量×bar均价);二选一">量带:</span>
+      <div id="volmode-chips" class="chips seg">
+        <button data-vm="vol">成交量</button>
+        <button data-vm="turnover">成交额</button>
+      </div>
+      <span class="muted small">Overlays:</span>
+      <div id="overlay-chips" class="chips"></div>
+      <span class="muted small" title="开启后点图上任一根 bar,从那时刻起画一条锚定 VWAP(成本线);可留多条,聚拢处=强支撑/压力。按时间戳锚,切周期仍在。">AVWAP:</span>
+      <div id="avwap-ctrl" class="chips">
+        <button data-a="add" title="点击图表任一 bar 添加/删除一条锚定 VWAP">点击锚定</button>
+        <button data-a="clear" title="清除本票所有锚定 VWAP">清除</button>
+      </div>
     </div>
-  </div>
-</div>
 
-<!-- Key stats (left-aligned row) -->
-<div id="wb-stats" class="wb-statbar"></div>
-
-<!-- Overlay toggles (candles & volume always on) + anchored-VWAP anchor -->
-<div class="wb-toolbar wb-overlays">
-  <span class="muted small" title="RTH=常规时段 9:30-16:00 ET(默认,去盘前盘后);+ETH=含盘前盘后。仅分时图,不影响日线">Session:</span>
-  <div id="session-chips" class="chips">
-    <button data-s="rth" class="active">RTH</button>
-    <button data-s="eth">+ETH</button>
-  </div>
-  <span class="muted small" title="底部量带显示成交量(股数)或成交额($≈量×bar均价);二选一">量带:</span>
-  <div id="volmode-chips" class="chips seg">
-    <button data-vm="vol">成交量</button>
-    <button data-vm="turnover">成交额</button>
-  </div>
-  <span class="muted small">Overlays:</span>
-  <div id="overlay-chips" class="chips"></div>
-  <span class="muted small" title="开启后点图上任一根 bar,从那时刻起画一条锚定 VWAP(成本线);可留多条,聚拢处=强支撑/压力。按时间戳锚,切周期仍在。">AVWAP:</span>
-  <div id="avwap-ctrl" class="chips">
-    <button data-a="add" title="点击图表任一 bar 添加/删除一条锚定 VWAP">点击锚定</button>
-    <button data-a="clear" title="清除本票所有锚定 VWAP">清除</button>
-  </div>
-</div>
-
-<!-- Main: candles + strike ladder -->
-<div class="wb-main">
-  <div class="wb-chart">
-    <div class="chart-wrap">
-      <div id="chart"></div>
-      <div id="chart-legend"></div>
+    <!-- Main: candles + strike ladder -->
+    <div class="wb-main">
+      <div class="wb-chart">
+        <div class="chart-wrap">
+          <div id="chart"></div>
+          <div id="chart-legend"></div>
+        </div>
+        <div class="sub-title muted small" id="macd-sub-title" style="display:none"></div>
+        <div id="macd-sub" style="display:none"></div>
+        <div class="sub-title muted small" id="ind-sub-title" style="display:none"></div>
+        <div id="ind-sub" style="display:none"></div>
+        <div class="sub-title muted small" id="gex-sub-title">Intraday net GEX trend (accumulates per collection)</div>
+        <div id="gex-sub"></div>
+      </div>
+      <div class="wb-ladder">
+        <div class="sub-title muted small" id="ladder-title">Strike Ladder · GEX <span class="muted">+ Vol Profile
+            (line)</span></div>
+        <div id="gex-week-chips" class="chips" style="margin:0 0 6px;gap:6px"
+          title="本周每日 GEX 快照(当周到期):选某天看那天的墙,配左侧价格/VWAP 路径判断钉价/加速"></div>
+        <div id="ladder-box"><svg id="ladder" xmlns="http://www.w3.org/2000/svg"></svg></div>
+      </div>
     </div>
-    <div class="sub-title muted small" id="macd-sub-title" style="display:none"></div>
-    <div id="macd-sub" style="display:none"></div>
-    <div class="sub-title muted small" id="ind-sub-title" style="display:none"></div>
-    <div id="ind-sub" style="display:none"></div>
-    <div class="sub-title muted small" id="gex-sub-title">Intraday net GEX trend (accumulates per collection)</div>
-    <div id="gex-sub"></div>
-  </div>
-  <div class="wb-ladder">
-    <div class="sub-title muted small" id="ladder-title">Strike Ladder · GEX <span class="muted">+ Vol Profile (line)</span></div>
-    <div id="gex-week-chips" class="chips" style="margin:0 0 6px;gap:6px" title="本周每日 GEX 快照(当周到期):选某天看那天的墙,配左侧价格/VWAP 路径判断钉价/加速"></div>
-    <div id="ladder-box"><svg id="ladder" xmlns="http://www.w3.org/2000/svg"></svg></div>
-  </div>
-</div>
-</section>
+  </section>
 
-<!-- Options panel -->
-<section>
-  <h2>Options Panel <span class="muted" id="opt-src"></span></h2>
-  <div id="opt-panel"></div>
-</section>
+  <!-- Options panel -->
+  <section>
+    <h2>Options Panel <span class="muted" id="opt-src"></span></h2>
+    <div id="opt-panel"></div>
+  </section>
 
-<!-- Portfolio/Scorecards 已迁至 portfolio 页 -->
+  <!-- Portfolio/Scorecards 已迁至 portfolio 页 -->
 
-<!-- Collection control -->
-<section>
-  <h2>Collection <span class="muted">(auto rolling collection on trading days ET 9:30-16:00; manual trigger here)</span></h2>
-  <div class="card gex-controls">
-    <div class="ctl-row">
-      <input type="password" id="gex-pat" placeholder="GitHub PAT (repo Actions scope only, stored in this browser; enables 60s auto-refresh)">
-      <button id="gex-start-btn">▶ Run to Close</button>
-      <button id="gex-once-btn">🔁 Single Round</button>
-      <button id="gex-stop-btn">⏹ Stop</button>
+  <!-- Collection control -->
+  <section>
+    <h2>Collection <span class="muted">(auto rolling collection on trading days ET 9:30-16:00; manual trigger
+        here)</span></h2>
+    <div class="card gex-controls">
+      <div class="ctl-row">
+        <input type="password" id="gex-pat"
+          placeholder="GitHub PAT (repo Actions scope only, stored in this browser; enables 60s auto-refresh)">
+        <button id="gex-start-btn">▶ Run to Close</button>
+        <button id="gex-once-btn">🔁 Single Round</button>
+        <button id="gex-stop-btn">⏹ Stop</button>
+      </div>
+      <div id="gex-status" class="muted small"></div>
     </div>
-    <div id="gex-status" class="muted small"></div>
-  </div>
-</section>
+  </section>
 
-<div id="errors" class="muted small"></div>
+  <div id="errors" class="muted small"></div>
 
-<footer class="muted small">
-  Candles/indicators: Massive (real-time, Yahoo fallback) · Options: Massive/Yahoo (15-min delayed) · GEX/OI is latest collected snapshot — personal research only
-</footer>
+  <footer class="muted small">
+    Candles/indicators: Massive (real-time, Yahoo fallback) · Options: Massive/Yahoo (15-min delayed) · GEX/OI is latest
+    collected snapshot — personal research only
+  </footer>
 
-<script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
-<script type="module" src="assets/trading.js"></script>
+  <script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
+  <script type="module" src="assets/trading.js"></script>
 </body>
+
 </html>

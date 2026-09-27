@@ -3,6 +3,7 @@
 import {
   $, esc, fmtDT, fmtMoney, fmtNum, REPO, loadJSON, loadFreshJSON, getPat, setPat, ghHeaders,
 } from "./shared.js";
+import { monthlyLogStats } from "./portfolio-monthly.mjs";
 
 const LWC = window.LightweightCharts;
 const ET = "America/New_York";
@@ -14,6 +15,11 @@ let pfAccount = null;         // Portfolio 选中的账户 id(null=全部账户)
 let pfPnlWin = "ytd";         // Portfolio 盈亏诊断窗口:ytd / 3m / 1m
 const PF_MIN_VALUE = 1000;    // 饼图只显示市值 ≥ 此的持仓
 let CFG = { watchlist: [], deep: [], uncertain: [], neutral: [] };  // 👍 deep / 👎 quotes-only / ? uncertain / − neutral
+const TICKER_CARD_CATEGORIES = ["deep", "disliked", "uncertain", "neutral"];
+const savedTickerCardFilters = JSON.parse(localStorage.getItem("wbTickerCardFilters") || "null");
+let tickerCardFilters = new Set(Array.isArray(savedTickerCardFilters)
+  ? savedTickerCardFilters.filter((x) => TICKER_CARD_CATEGORIES.includes(x))
+  : TICKER_CARD_CATEGORIES);
 let SYM = localStorage.getItem("wbSym") || null;
 let TF = localStorage.getItem("wbTf") || "5m";
 let ladderMode = "gex";
@@ -924,6 +930,25 @@ function volProfileFragment(W, H, dy = 0) {
 const isDeep = (s) => CFG.deep.includes(s);
 const isUncertain = (s) => CFG.uncertain.includes(s);
 const isNeutral = (s) => CFG.neutral.includes(s);
+const tickerCardCategory = (s) => isDeep(s) ? "deep"
+  : isUncertain(s) ? "uncertain"
+  : isNeutral(s) ? "neutral"
+  : "disliked";
+
+function syncTickerCardFilter() {
+  const box = $("ticker-card-filter");
+  if (!box) return;
+  const allSelected = TICKER_CARD_CATEGORIES.every((category) => tickerCardFilters.has(category));
+  const someSelected = TICKER_CARD_CATEGORIES.some((category) => tickerCardFilters.has(category));
+  for (const input of box.querySelectorAll("input[data-card-filter]")) {
+    if (input.dataset.cardFilter === "all") {
+      input.checked = allSelected;
+      input.indeterminate = someSelected && !allSelected;
+    } else {
+      input.checked = tickerCardFilters.has(input.dataset.cardFilter);
+    }
+  }
+}
 
 // Heroicons/Lucide-style monochrome outlines. Inline SVG keeps the controls sharp,
 // theme-aware and dependency-free at every zoom level.
@@ -939,10 +964,11 @@ const tickerStateIcon = (kind) => {
 };
 
 function renderMiniCards() {
-  const syms = (CFG.watchlist.length ? [...CFG.watchlist] : Object.keys(RESEARCH?.tickers || {}))
+  const allSyms = (CFG.watchlist.length ? [...CFG.watchlist] : Object.keys(RESEARCH?.tickers || {}))
     .sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
-  const deepSyms = syms.filter(isDeep);
-  if (!SYM || !syms.includes(SYM)) SYM = deepSyms[0] || syms[0] || null;
+  const syms = allSyms.filter((s) => tickerCardFilters.has(tickerCardCategory(s)));
+  const deepSyms = allSyms.filter(isDeep);
+  if (!SYM || !allSyms.includes(SYM)) SYM = deepSyms[0] || allSyms[0] || null;
   // 日均成交额水位:20日均量(EWMA,股)× 现价 ≈ 日均 $ 成交额,√相对当前列表最大值缩放(小票也可辨)
   const advOf = (s) => { const t = researchOf(s); return t.adv20 ?? t.short?.avg_daily_volume ?? null; };
   const dvOf = (s) => { const a = advOf(s); const sp = (RESEARCH?.snapshots?.[s] || {}).price ?? lastClose(s); return (a && sp) ? a * sp : null; };
@@ -981,6 +1007,7 @@ function renderMiniCards() {
     <input id="mc-add-input" placeholder="+ ticker" maxlength="6" autocomplete="off">
   </div>`;
   $("mini-cards").innerHTML = syms.length ? cards + adder : adder;
+  syncTickerCardFilter();
   updateCfgStatus();
 }
 
@@ -1429,6 +1456,21 @@ function buildMonthlyCalendar() {
   const MM = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
   const allYm = [...new Set([...Object.keys(realized), ...Object.keys(snaps), ...Object.keys(robMap)])].filter((ym) => ym >= "2026");
   const years = [...new Set(allYm.map((ym) => ym.slice(0, 4)))].sort();
+  const monthParts = Object.fromEntries(new Intl.DateTimeFormat("en-US", {
+    timeZone: ET, year: "numeric", month: "2-digit",
+  }).formatToParts(new Date()).map((part) => [part.type, part.value]));
+  const currentYm = `${monthParts.year}-${monthParts.month}`;
+  const logStats = monthlyLogStats(allYm.map((ym) => {
+    const ret = retObj(ym);
+    return { ym, value: ret == null || ret.v <= -100 ? null : Math.log1p(ret.v / 100) };
+  }), currentYm);
+  const pctStat = (v, signed = true) => v == null ? "—" : `${signed && v >= 0 ? "+" : ""}${(v * 100).toFixed(2)}%`;
+  const statTiles = [
+    tile("Mean Log Return", pctStat(logStats.mean), `${logStats.n} 个完整月 · 月均`, (logStats.mean ?? 0) >= 0 ? "up" : "down",
+      "完整月份月度对数收益的算术平均；对数收益 = ln(1 + 月收益率)，不计当前月份"),
+    tile("Log Return Volatility", pctStat(logStats.volatility, false), `${logStats.n} 个完整月 · 月度样本 σ`, "",
+      "完整月份月度对数收益的样本标准差（n−1），未年化，不计当前月份"),
+  ].join("");
   const maxAbs = Math.max(1e-9, ...allYm.map(valObj).filter(Boolean).map((o) => Math.abs(o.v)));
   const heat = (v) => v == null ? "" : `background:hsl(${v >= 0 ? 142 : 0} 65% 45% / ${(0.08 + Math.min(Math.abs(v) / maxAbs, 1) * 0.42).toFixed(2)})`;
   const yearAgg = (y) => {   // $ 求和 · % 复利 · log 求和;est=该年任一月用了估算
@@ -1444,7 +1486,7 @@ function buildMonthlyCalendar() {
   }).join("");
   if (!years.length) return `<div class="pf-cal">${head}<div class="muted small">暂无月度数据(需 data/monthly_returns.json / robustness.json,本地专用)。</div></div>`;
   const th = `<tr><th></th>${MM.map((m) => `<th>${+m}</th>`).join("")}<th>年</th></tr>`;
-  return `<div class="pf-cal">${head}<div class="pf-cal-wrap"><table class="pf-cal-tbl"><thead>${th}</thead><tbody>${body}</tbody></table></div></div>`;
+  return `<div class="pf-cal"><div class="opt-grid pf-cal-stats">${statTiles}</div>${head}<div class="pf-cal-wrap"><table class="pf-cal-tbl"><thead>${th}</thead><tbody>${body}</tbody></table></div></div>`;
 }
 
 /* ---------- 错误 ---------- */
@@ -1726,6 +1768,20 @@ function startPolling() {
 
 /* ---------- 交互绑定 ---------- */
 function initToolbar() {
+  $("ticker-card-filter").addEventListener("change", (ev) => {
+    const input = ev.target.closest("input[data-card-filter]");
+    if (!input) return;
+    const category = input.dataset.cardFilter;
+    if (category === "all") {
+      tickerCardFilters = new Set(input.checked ? TICKER_CARD_CATEGORIES : []);
+    } else if (input.checked) {
+      tickerCardFilters.add(category);
+    } else {
+      tickerCardFilters.delete(category);
+    }
+    localStorage.setItem("wbTickerCardFilters", JSON.stringify([...tickerCardFilters]));
+    renderMiniCards();
+  });
   $("mini-cards").addEventListener("click", (ev) => {
     const btn = ev.target.closest("[data-act]");
     if (!btn) return;

@@ -160,6 +160,14 @@ footer { margin-top: 50px; text-align: center; }
 .tab-link { text-decoration: none; display: inline-flex; align-items: center; }
 
 /* 固定十列 ticker grid；视口不足时横向滚动，不改变列数或卡片尺寸。 */
+.ticker-card-toolbar { display: flex; align-items: center; gap: 10px; padding-top: 8px; }
+.ticker-card-filter { display: inline-flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.ticker-card-filter label { display: inline-flex; align-items: center; gap: 5px; padding: 4px 9px;
+  border: 1px solid var(--border); border-radius: 7px; color: var(--muted); font-size: 12px;
+  cursor: pointer; user-select: none; }
+.ticker-card-filter label:hover { color: var(--text); background: var(--card-hover); }
+.ticker-card-filter label:has(input:checked) { color: var(--text); border-color: var(--accent); background: rgba(96, 165, 250, .12); }
+.ticker-card-filter input { margin: 0; accent-color: var(--accent); }
 .mini-strip { display: grid; grid-template-columns: repeat(10, 142px); gap: 10px;
   align-items: stretch; justify-content: start; padding: 10px 0 6px;
   overflow-x: auto; overflow-y: hidden; overscroll-behavior-inline: contain; }
@@ -338,6 +346,7 @@ footer { margin-top: 50px; text-align: center; }
 .fd-tbl td.fd-name, .fd-tbl th:first-child { text-align: left; white-space: normal; }
 /* 月历 */
 .pf-cal { margin-top: 14px; }
+.pf-cal-stats { margin: 8px 0 12px; }
 .pf-cal-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
 .pf-cal-wrap { overflow-x: auto; }
 .pf-cal-tbl { border-collapse: collapse; font-size: 12px; white-space: nowrap; }
