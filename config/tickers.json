@@ -54,7 +54,6 @@
     "U"
   ],
   "uncertain": [
-    "SMCI",
     "MRVL",
     "CRWD"
   ],
@@ -80,6 +79,7 @@
     "HOOD",
     "NBIS",
     "NET",
-    "PANW"
+    "PANW",
+    "SMCI"
   ]
 }
