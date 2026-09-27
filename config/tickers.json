@@ -51,7 +51,6 @@
     "CRWV",
     "DELL",
     "SNDK",
-    "U",
     "SPCX"
   ],
   "uncertain": [
@@ -80,6 +79,7 @@
     "NBIS",
     "NET",
     "PANW",
-    "SMCI"
+    "SMCI",
+    "U"
   ]
 }
