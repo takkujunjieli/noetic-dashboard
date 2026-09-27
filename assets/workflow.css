@@ -50,3 +50,5 @@
 
 #source-dialog {width:min(900px,94vw);max-height:85vh;overflow:auto;}
 .workbench > div {min-width:0;}
+
+.candidate-core{margin-top:18px}.candidate-rules,.market-snapshot{margin:16px 0;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--bg)}.candidate-rules summary,.market-snapshot summary{cursor:pointer;color:var(--mint)}.candidate-rules .fields{margin-top:12px}.risk-policy-fields{margin:18px 0}.risk-comparison td{vertical-align:top}.risk-comparison td:first-child{min-width:180px;white-space:normal}.risk-comparison td:nth-child(9){min-width:150px;white-space:normal}.risk-status{font-weight:600}.status-within{color:var(--mint)}.status-near-limit{color:var(--warn)}.status-over-budget,.status-incomplete{color:var(--bad)}.allocation-active{border-left-color:#ffb454}.risk-budget-inspector #activate-allocation{margin-top:10px}

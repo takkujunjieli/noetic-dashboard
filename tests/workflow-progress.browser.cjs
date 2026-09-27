@@ -7,7 +7,7 @@ const assert=require('node:assert/strict');
  await ctx.route('**/data/atr.json*',r=>r.fulfill({json:{}}));
  await p.goto((process.env.DASHBOARD_URL||'http://127.0.0.1:8642')+'/workflow.html');
  await p.locator('#new').click();await p.locator('[name="title"]').fill('Optional hypothesis');await p.locator('[name="symbol"]').fill('A');await p.locator('[name="horizon"]').fill('2030-01-01');await p.getByRole('button',{name:'创建实例',exact:true}).click();
- const fields=p.locator('#node-form textarea');assert.equal(await fields.count(),4);assert.deepEqual(await fields.evaluateAll(es=>es.map(e=>e.parentElement.firstChild.textContent)),['市场结果预期假设','论点依据','验证条件','证伪条件']);assert.equal(await p.locator('[name="f.direction"],[name="f.target"],#transition-reason').count(),0);
+ const fields=p.locator('#node-form textarea');assert.equal(await fields.count(),4);assert.deepEqual(await fields.evaluateAll(es=>es.map(e=>e.parentElement.firstChild.textContent)),['市场结果预期假设 · 我认为市场最终会发生什么？','论点依据 · 为什么市场目前可能定价错误？','验证条件 · 什么新证据会提高该假设的可信度？','证伪条件 · 什么新证据会证明原始逻辑已经不成立？']);assert.ok(await fields.evaluateAll(es=>es.every(e=>e.placeholder.startsWith('示例：')&&e.value==='')));assert.equal(await p.locator('[name="f.direction"],[name="f.target"],#transition-reason').count(),0);
  for(const key of ['hypothesis','signal','returns','construction','risk','positions','attribution']){
   await p.locator(`[data-node="${key}"]`).click();await p.locator('[data-transition="running"]').click();assert.match(await p.locator('.current-state').textContent(),/running/);await p.locator('[data-transition="pending"]').click();assert.match(await p.locator('.current-state').textContent(),/pending/);
  }

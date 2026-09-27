@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {newStructureLeg,templateLegs,structureDraft,structureError,structureExposure} from '../assets/trade-structure.mjs';
+import {candidateDraft,newStructureLeg,templateLegs,structureDraft,structureError,structureExposure} from '../assets/trade-structure.mjs';
 import {createCase,saveNode,scenario,exposure,savePlan,setActivePlan,deletePlan,selectPlan,record,validateStore,clone} from '../assets/workflow-model.mjs';
 const leg=(symbol,type='stock',side='long',qty=1)=>({...newStructureLeg(type,side,qty),underlying:symbol,entry:10,...(type==='stock'?{}:{strike:100,expiry:'2030-01-01'})});
 test('thesis can start without symbol; incomplete independent legs survive reload as drafts',()=>{const c=createCase({title:'relative thesis'}),d=clone(c.nodes.construction.data);d.legs=templateLegs('strangle');d.template='strangle';saveNode(c,'construction',d);assert.equal(d.legs[0].underlying,'');assert.equal(validateStore({version:1,cases:[c]}).cases[0].symbol,'');assert.equal(c.design.plans.length,1);});
@@ -20,3 +20,5 @@ test('legacy frozen design migrates once into active plan without touching old s
  const corrupt=clone(migrated);corrupt.cases[0].design.activeId='missing';assert.throws(()=>validateStore(corrupt),/引用/);
 });
 test('legacy legs preserve historical ticker only during conversion, and draft validation catches bad input',()=>{const old={legs:[{type:'stock',side:'long',qty:20,entry:100}],notes:'old'};const d=structureDraft(old,'A','2030-01-01');assert.equal(d.legs[0].underlying,'A');assert.equal(newStructureLeg().underlying,'');assert.equal(old.notes,'old');d.legs[0].qty=-1;assert.match(structureError(d),/数量/);});
+test('an explicit candidate underlying stays independent from the thesis symbol',()=>{assert.equal(candidateDraft({candidate:{underlying:'',instrument:'stock'}},'NVDA').underlying,'');assert.equal(candidateDraft({legs:[]},'NVDA').underlying,'NVDA');});
+test('candidate positions may share an instrument while using different selection rules',()=>{const c=createCase({title:'same instrument'}),base={structureVersion:1,template:'bullCall',evaluationDate:'2030-01-01',candidate:{underlying:'NVDA',instrument:'bullCall',targetDte:30,longDelta:50,shortDelta:25,plannedEntry:''},legs:[]};savePlan(c,null,'',base);savePlan(c,null,'',{...clone(base),candidate:{...base.candidate,targetDte:60}});assert.equal(c.design.plans.length,2);assert.equal(c.design.plans[0].name,c.design.plans[1].name);validateStore({version:1,cases:[c]});});

@@ -54,7 +54,7 @@ export function completedReturn(c){
 export function historyPoints(c,cases){
  // Demo examples are never mixed into actual trading history.
  const eligible=cases.filter(x=>Boolean(x.demo)===Boolean(c.demo)),actuals=eligible.map(completedReturn).filter(Boolean);
- const f=c.archived&&c.performance?.basis?c.performance.basis:forecastFor(c);
+ const f=c.archived&&c.performance?.basis?c.performance.basis:(c.returnBasis||forecastFor(c));
  const predicted=f.rate!==null&&validDay(f.expectedDate)?{id:c.id,title:c.title,planName:f.planName,date:f.expectedDate,rate:f.rate,net:f.expectedNet,capital:f.capital}:null;
  return {actuals,predicted,omitted:eligible.filter(x=>x.archived).length-actuals.length};
 }

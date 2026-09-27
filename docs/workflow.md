@@ -1,3 +1,25 @@
+## Candidate Positions 与共享风险优化（2026-09-26）
+
+Portfolio Construction 当前管理 **Candidate Positions（候选仓位）**，不再管理带固定数量的互斥方案。每个 Position 的最小输入只有独立的 `Underlying` 与 `Instrument`；新增 Position 不继承 Nebula/Thesis 的参考标的。Instrument 支持 Long/Short Stock、Long Call/Put、Bull/Bear Call Spread、Bull/Bear Put Spread、Long Straddle/Strangle、Covered Call 与 Long Stock + Bull Put Spread。名称由 `Underlying · Instrument` 自动生成。
+
+结构选择规则收在可选的高级区，包括 Target DTE、Long/Short Leg Delta 与 Planned Entry Override。这里不录入数量、权重、真实成交价或持仓成本。Reference Market Snapshot 是只读的标准化行情输出；没有行情时 Position 仍可保存，但 Risk Budget 明确显示 `Incomplete`，不会猜测报价。Planned Entry 是计划口径，未来 Position Management 的 Actual Fill / Cost Basis 属于实际持仓口径，不能覆盖计划值或参考行情。
+
+Expected Return 按 Position 保存单位结构的 Expected P&L、预计完成日期与可选平均亏损。Risk Budget 对所有 Position 使用同一套 Thesis Risk Budget、Capital Limit、Maximum Dollar Delta、共同价格压力和单一 Position 风险贡献上限，比较 Unit Capital、理论最大损失、Stress Loss、Risk Charge 与 Return/Risk，并输出整数 Optimized Quantity。股票以一股为一个单位，期权组合以一组标准结构为一个单位。点击 `设为 In Action Allocation` 后冻结本次数量、风险、资本与组合预期收益，形成 Attribution 使用的收益基准；后续编辑或删除 Candidate Position 会清除旧 Allocation。
+
+Cost 的三个口径分开保存：Reference Mark 属于行情快照；Planned Entry Override 属于计划；Actual Fill / Cost Basis 留给未来 Position Management。当前静态站点尚未接入可调用的期权行情 MCP，因此新 Position 默认等待 Reference Market Snapshot。纯计算与测试使用标准化快照，不生成伪行情。
+
+## Galaxy / Nebula 标签层级（2026-09-26）
+
+Galaxy Overview 只显示 Nebula 名称。无论通过滚轮、触控或界面按钮放大到多近，Star 名称都保持隐藏。点击一个 Nebula 进入 Nebula 层后，只显示该 Nebula 内的 Star 名称；其他 Nebula 仍只显示自己的 Nebula 名称。点击 `返回 Galaxy` 恢复 Overview 规则。
+
+## Nebula 列表与实例管理（2026-09-25）
+
+点击 Galaxy 顶部的 Active 或 Archive 会从星图左侧边缘展开当前筛选范围的 Nebula 管理抽屉；再次点击当前按钮会收起，点击另一筛选按钮会直接切换列表。每行固定包含 Nebula 名称、创建时间、最后修改时间和三点设置键；名称用于定位该 Nebula，三点菜单提供存档与永久删除。存档沿用 Attribution 的实例归档逻辑并转为只读；删除在确认后移除实例及全部本地快照。移动端保留四列并允许列表内部横向滚动。
+
+抽屉右边缘提供水平调整柄，可用鼠标或触控拖动，也可聚焦后使用左右方向键、Home 和 End。宽度限制会为桌面星图保留最小空间，并在移动端限制于视口内；最终宽度保存在本机 `research-desk.nebula-drawer-width`，后续打开继续沿用。
+
+Node 保存、状态切换和 Nebula 重命名成功后不再显示“已保存到此浏览器；金色 Nebula 表示尚未同步。”底部提示；金色未同步标记及错误提示仍保留。
+
 ## Position Management 留空与热力图手动归属（2026-09-25）
 
 Portfolio 风险敞口热力图的每一行重新提供 Thesis 下拉选择。选择结果写入本机 `riskGroups`，立即参与该表的风险聚合并标记共享风险数据待同步；Workflow 的 `linkedSymbols` 只保留来源标的元数据，不再自动决定持仓归属。
@@ -28,7 +50,11 @@ Portfolio 只移除「账户风险控制 · 仓位」区块及初始化调用，
 
 ## 三维恒星星团皮肤（2026-09-24）
 
-星云名称替代 NEBULA 字样，沿用小号淡紫灰字样。每个实例使用 ID 固定随机种子生成 420 个三维恒星光点，从中选取 7 个间隔足够的点作为业务 Star；刷新、状态变化保持位置。节点颜色为自然恒星红、暖黄、白及冷白色，与业务层级无关。左键旋转、右键平移、滚轮缩放；触屏单指旋转、双指缩放平移。关系数据和节点编辑逻辑保持原样。
+星云名称替代 NEBULA 字样，沿用小号淡紫灰字样。每个实例使用 ID 固定随机种子生成 420 个三维恒星光点，从中选取 7 个间隔足够的点作为业务 Star；刷新、状态变化保持位置。节点颜色为自然恒星红、暖黄、白及冷白色，与业务层级无关。左键或单指拖动平移，右键拖动旋转，滚轮或双指缩放平移。聚焦一个 Nebula 或其中的 Star 后，只显示该 Nebula 的业务 Star 标签；远方星云仅保留 Nebula 名称和星团光点，返回 Galaxy Overview 后恢复全部标签。关系数据和节点编辑逻辑保持原样。
+
+Nebula 中心不再使用近似二维的黄金角平面螺旋，而是用 Halton 低差异方向和随实例数扩张的半径分布在三维体积中，Z 轴深度与 X/Y 同量级。背景不再从长方体均匀采样：远景层使用包围场景的球壳分布，银河带层使用倾斜的大圆带、局部密度峰和稀疏区；两层采用不同点尺寸、透明度和自然恒星色，从任何旋转方向都不会暴露方形边界。
+
+深空球壳需要超过 Three.js 默认远裁剪距离。场景把相机 Far Clipping Plane 扩展至 60,000，并让背景层跟随相机位置、保持固定天球方向；恒星使用屏幕空间尺寸，避免远距离衰减成不可见亚像素。普通远星、银河带和少量高亮主星分别渲染，平移、聚焦和缩放后都会保留背景。
 
 ## Galaxy 界面（2026-09-24）
 
@@ -76,7 +102,7 @@ Validation: 31 unit tests and five isolated browser suites. Candidate browser co
 
 ## Current node fields and progress (supersedes the earlier state-machine descriptions below)
 
-- Hypothesis has four optional text areas in this order: 市场结果预期假设 (`expectation`), 论点依据 (`rationale`), 验证条件 (`verification`), 证伪条件 (`invalidation`). There is no direction selector or numeric target field.
+- Hypothesis has four optional text areas in this order: 市场结果预期假设 (`expectation`), 论点依据 (`rationale`), 验证条件 (`verification`), 证伪条件 (`invalidation`). Each label includes the decision question it answers, and each empty textarea shows a professional semiconductor-trade example as a placeholder. Placeholder text is never persisted as thesis data. There is no direction selector or numeric target field.
 - Every node starts `pending` and supports `pending ↔ running`. Both labels are manual progress markers, not approval or completion. Transitions require no reason or domain prerequisites. Edits and account refreshes do not change these labels. Domain calculations, financial-data validation and position-allocation checks remain intact.
 - Archiving is a separate Attribution action at the instance level and retains read-only replay/export. Position Management is empty, so archiving has no position-allocation prerequisite. It does not introduce a third node label.
 - Legacy data is validated before migration. Current instances gain `stateVersion: 2` and a single migration event; historical snapshots are unchanged. Initial legacy states map to pending and other states to running. Legacy numerical targets become expectation text, prior rationale/invalidation stay intact, and the removed direction remains available in the original snapshot/export. Historical UI presents the simplified fields and labels. Existing archived instances stay archived. Migration is idempotent and persisted with the existing cross-tab write check.

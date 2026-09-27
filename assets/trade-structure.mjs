@@ -1,4 +1,5 @@
-export const TEMPLATES={custom:'自定义',stock:'正股 / ETF',call:'Long Call',put:'Long Put',bullPut:'Bull Put Spread',bullCall:'Bull Call Spread',straddle:'Long Straddle',strangle:'Long Strangle',coveredCall:'Covered Call',stockBullPut:'正股 + Bull Put Spread'};
+export const TEMPLATES={custom:'Custom Structure',stock:'Long Stock',shortStock:'Short Stock',call:'Long Call',put:'Long Put',bullPut:'Bull Put Spread',bearPut:'Bear Put Spread',bullCall:'Bull Call Spread',bearCall:'Bear Call Spread',straddle:'Long Straddle',strangle:'Long Strangle',coveredCall:'Covered Call',stockBullPut:'Long Stock + Bull Put Spread'};
+export const POSITION_INSTRUMENTS=Object.fromEntries(Object.entries(TEMPLATES).filter(([key])=>!['custom','stockBullPut'].includes(key)));
 export const ticker=l=>String(l.underlying??l.symbol??'').trim().toUpperCase().replace(/\s+\d{4}-\d{2}-\d{2}\s+[\d.]+[CP]$/, '');
 export const multiplier=l=>l.type==='stock'?1:100;
 const num=x=>x!==''&&x!=null&&Number.isFinite(+x);
@@ -6,13 +7,27 @@ export function newStructureLeg(type='stock',side='long',qty=1){return {underlyi
 export function templateLegs(template){
  const l=newStructureLeg;
  switch(template){
- case 'stock':return [l()];case 'call':return [l('call')];case 'put':return [l('put')];
- case 'bullPut':return [l('put','short'),l('put')];case 'bullCall':return [l('call'),l('call','short')];
+ case 'stock':return [l()];case 'shortStock':return [l('stock','short')];case 'call':return [l('call')];case 'put':return [l('put')];
+ case 'bullPut':return [l('put','short'),l('put')];case 'bearPut':return [l('put'),l('put','short')];case 'bullCall':return [l('call'),l('call','short')];case 'bearCall':return [l('call','short'),l('call')];
  case 'straddle':case 'strangle':return [l('call'),l('put')];
  case 'coveredCall':return [l('stock','long',100),l('call','short')];
  case 'stockBullPut':return [l('stock','long',20),l('put','short'),l('put')];
  default:return [];
  }
+}
+export function inferInstrument(d={}){
+ if(Object.hasOwn(POSITION_INSTRUMENTS,d.template))return d.template;
+ const legs=d.legs||[],signature=legs.map(l=>`${l.type}:${l.side}`).join('|');
+ return ({'stock:long':'stock','stock:short':'shortStock','call:long':'call','put:long':'put','call:long|call:short':'bullCall','call:short|call:long':'bearCall','put:short|put:long':'bullPut','put:long|put:short':'bearPut','call:long|put:long':'strangle','stock:long|call:short':'coveredCall','stock:long|put:short|put:long':'stockBullPut'})[signature]||'custom';
+}
+export function candidateDraft(d={},legacySymbol=''){
+ const legs=d.legs||[],symbols=[...new Set(legs.map(ticker).filter(Boolean))],instrument=d.candidate?.instrument||inferInstrument(d);
+ const hasCandidateUnderlying=Object.hasOwn(d.candidate||{},'underlying');
+ const supported=Object.hasOwn(TEMPLATES,instrument)&&instrument!=='custom';
+ return {version:1,underlying:String(hasCandidateUnderlying?d.candidate.underlying:(symbols[0]||legacySymbol||'')).toUpperCase(),instrument:supported?instrument:'stock',targetDte:d.candidate?.targetDte??'',longDelta:d.candidate?.longDelta??'',shortDelta:d.candidate?.shortDelta??'',plannedEntry:d.candidate?.plannedEntry??''};
+}
+export function positionLabel(d={},legacySymbol=''){
+ const c=candidateDraft(d,legacySymbol);return `${c.underlying||'未指定标的'} · ${POSITION_INSTRUMENTS[c.instrument]||TEMPLATES[c.instrument]}`;
 }
 export function structureDraft(data,legacySymbol='',horizon=''){
  const d=JSON.parse(JSON.stringify(data));

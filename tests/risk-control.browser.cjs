@@ -15,30 +15,24 @@ assert.equal(await portfolio.locator('#ps-equity').inputValue(),'10000');assert.
 await portfolio.locator('.rk-grpsel[data-sym="A"]').waitFor();assert.equal(await portfolio.locator('.rk-grpsel[data-sym="A"]').inputValue(),'Existing');
 await portfolio.locator('.rk-grpsel[data-sym="A"]').selectOption('Untouched');await portfolio.waitForFunction(()=>JSON.parse(localStorage.getItem('riskGroups')).A==='Untouched');assert.equal(await portfolio.locator('.rk-grpsel[data-sym="A"]').inputValue(),'Untouched');
 
-const wf=await context.newPage();wf.on('pageerror',e=>errors.push(e.message));await wf.goto(`${base}/workflow.html`);await wf.locator('[data-demo]').click();await wf.locator('[data-node="risk"]').click();await wf.locator('#rk-risk').waitFor();
-assert.equal(await wf.locator('#rk-edge').count(),0);assert.equal(await wf.locator('#rk-invalid').count(),0);assert.equal(await wf.locator('#rk-eq').count(),0);assert.equal(await wf.locator('#rk-entry').count(),0);assert.equal(await wf.locator('#rk-out').count(),0);
-assert.equal(await wf.locator('[name="f.lossBudget"]').count(),0);assert.equal(await wf.locator('#design-plan-selector').count(),0);
-
-await wf.locator('#save-risk-snapshot').click();await wf.locator('#rk-risk').waitFor();
+const wf=await context.newPage();wf.on('pageerror',e=>errors.push(e.message));await wf.goto(`${base}/workflow.html`);await wf.locator('[data-demo]').click();await wf.locator('[data-node="risk"]').click();await wf.locator('[name="f.riskBudget"]').waitFor();
+assert.equal(await wf.locator('#rk-risk,#rk-edge,#rk-invalid,#rk-eq,#rk-entry,#rk-out,#save-risk-snapshot').count(),0);
+assert.equal(await wf.locator('[name="f.lossBudget"],#design-plan-selector').count(),0);
+assert.equal(await wf.locator('.risk-comparison tbody tr').count(),1);
+await wf.locator('[name="f.riskBudget"]').fill('3000');await wf.getByRole('button',{name:'保存 Risk Policy',exact:true}).click();
 let saved=await wf.evaluate(()=>JSON.parse(localStorage.getItem('research-desk.workflow.v1')).cases[0]);
-assert.equal(JSON.parse(saved.accountRiskSnapshot).policy.account_equity,10000);
-
+assert.equal(saved.nodes.risk.data.riskBudget,3000);
+assert.equal(await wf.evaluate(()=>JSON.parse(localStorage.getItem('riskPolicy')).account_equity),10000);
 await portfolio.locator('#ps-equity').fill('12000');await portfolio.locator('#ps-equity').blur();
 await wf.waitForFunction(()=>JSON.parse(localStorage.getItem('riskPolicy')).account_equity===12000);
-await wf.locator('#save-risk-snapshot').click();
-saved=await wf.evaluate(()=>JSON.parse(localStorage.getItem('research-desk.workflow.v1')).cases[0]);
-assert.equal(JSON.parse(saved.accountRiskSnapshot).policy.account_equity,12000);
-
-await wf.locator('#rk-risk').evaluate(el=>{el.value='3';el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));});
-await wf.waitForFunction(()=>JSON.parse(localStorage.getItem('riskPolicy')).bundles.Existing.risk_pct===3);
-await portfolio.reload();await portfolio.locator('#ps-risk').waitFor();assert.equal(await portfolio.locator('#ps-risk').inputValue(),'3');
-const historical=saved.events.at(-2).id;
+assert.equal((await wf.evaluate(()=>JSON.parse(localStorage.getItem('research-desk.workflow.v1')).cases[0])).nodes.risk.data.riskBudget,3000);
+const historical=saved.events.at(-1).id;
 await wf.locator('details.nebula-context').evaluate(el=>{el.open=true;});
-await wf.locator(`[data-replay="${historical}"]`).click();await wf.locator('#rk-risk').waitFor();
-assert.equal(await wf.locator('#rk-risk').inputValue(),'2');assert.equal(await wf.locator('#rk-risk').isDisabled(),true);assert.equal(await wf.locator('#rk-edge').count(),0);assert.equal(await wf.locator('#rk-eq').count(),0);
-await wf.getByRole('button',{name:'返回当前版本'}).click();await wf.locator('#rk-risk').waitFor();assert.equal(await wf.locator('#rk-risk').inputValue(),'3');
-await wf.reload();await wf.locator('[data-node="risk"]').click();await wf.locator('#rk-risk').waitFor();assert.equal(await wf.locator('#rk-risk').inputValue(),'3');
+await wf.locator(`[data-replay="${historical}"]`).click();await wf.locator('[name="f.riskBudget"]').waitFor();
+assert.equal(await wf.locator('[name="f.riskBudget"]').inputValue(),'3000');assert.equal(await wf.locator('[name="f.riskBudget"]').isDisabled(),true);
+await wf.getByRole('button',{name:'返回当前版本'}).click();await wf.locator('[name="f.riskBudget"]').waitFor();assert.equal(await wf.locator('[name="f.riskBudget"]').inputValue(),'3000');
+await wf.reload();await wf.locator('[data-node="risk"]').click();await wf.locator('[name="f.riskBudget"]').waitFor();assert.equal(await wf.locator('[name="f.riskBudget"]').inputValue(),'3000');
 await wf.setViewportSize({width:390,height:844});assert.equal(await wf.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
 assert.equal(writes.length,0);assert.deepEqual(errors,[]);
-console.log('PASS: Portfolio sizing calculator, manual heatmap Thesis selection, shared equity, Risk Budget field removal, readonly history, reload, mobile, no remote writes/errors');await b.close();
+console.log('PASS: Portfolio sizing calculator and manual heatmap assignment stay intact; Workflow uses an independent shared-position Risk Policy with readonly history, reload, mobile and no remote writes/errors');await b.close();
 })().catch(e=>{console.error(e);process.exit(1)});

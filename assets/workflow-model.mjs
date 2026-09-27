@@ -1,5 +1,5 @@
 import {returnInputError,captureReturnBasis,validateReturnBasis,numeric} from './expected-return.mjs';
-import {structureDraft,structureError,ticker,structureExposure} from './trade-structure.mjs';
+import {structureDraft,structureError,ticker,structureExposure,positionLabel,candidateDraft} from './trade-structure.mjs';
 import { validateAttributionEvidence } from './attribution-link.mjs';
 import { allocationIssues } from "./risk-budget.mjs";
 // Standalone workflow domain. No dependencies on dashboard data or broker credentials.
@@ -36,7 +36,7 @@ export function createCase({title,symbol='',horizon='',rationale='',demo=false})
  Object.assign(c.nodes.signal.data,{indicator:'MACD 金叉',condition:'',expires:'',evidence:''});
  Object.assign(c.nodes.returns.data,{expectedNet:'',capital:'',averageLoss:'',expectedDate:'',spot:'',down:-10,base:0,up:10,pDown:'',pBase:'',pUp:'',probabilityBasis:'',cost:0,notes:''});
  Object.assign(c.nodes.construction.data,{structureVersion:1,template:'custom',evaluationDate:horizon,legs:[]});
- Object.assign(c.nodes.risk.data,{lossBudget:'',deltaBudget:'',existingDelta:'',context:'',notes:''});
+ Object.assign(c.nodes.risk.data,{riskBudget:'',capitalLimit:'',maxDollarDelta:'',priceShock:10,positionRiskCapPct:60});
  c.nodes.positions.data={};
  Object.assign(c.nodes.attribution.data,{realized:'',outcome:'',drivers:'',lesson:'',reconciliation:''});
  c.design={version:1,plans:[],selectedId:'',activeId:''};
@@ -121,16 +121,16 @@ export function saveNode(c,key,data,reason='更新节点内容'){
  if(key==='construction'){const error=data.structureVersion===1?structureError(data):legError(data.legs);if(error)throw Error(error);}
  if(JSON.stringify(c.nodes[key].data)===JSON.stringify(data))return false;
  c.nodes[key].data=clone(data);
- if(['construction','returns','risk'].includes(key)){
+ if(['construction','returns'].includes(key)){
   if(!c.design?.plans.length)initializePlans(c);
   const plan=c.design?.plans.find(p=>p.id===c.design.selectedId);if(plan)plan[key]=clone(data);
  }
  if(key==='returns')captureReturnBasis(c,now());
  record(c,'更新内容',key,reason);return true;
 }
-const DESIGN_KEYS=['construction','returns','risk'];
+const DESIGN_KEYS=['construction','returns'];
 export function emptyDesign(horizon=''){
- return {construction:{structureVersion:1,template:'custom',evaluationDate:horizon,legs:[]},returns:{expectedNet:'',capital:'',averageLoss:'',expectedDate:'',spot:'',down:-10,base:0,up:10,pDown:'',pBase:'',pUp:'',probabilityBasis:'',cost:0,notes:''},risk:{lossBudget:'',deltaBudget:'',existingDelta:'',context:'',notes:''}};
+ return {construction:{structureVersion:1,template:'stock',evaluationDate:horizon,candidate:{version:1,underlying:'',instrument:'stock',targetDte:'',longDelta:'',shortDelta:'',plannedEntry:''},legs:[]},returns:{expectedNet:'',capital:'',averageLoss:'',expectedDate:'',spot:'',down:-10,base:0,up:10,pDown:'',pBase:'',pUp:'',probabilityBasis:'',cost:0,notes:''}};
 }
 export function initializePlans(c){
  const id='legacy-'+c.id,plan={id,name:'现有方案',...Object.fromEntries(DESIGN_KEYS.map(k=>[k,clone(c.nodes[k].data)]))};
@@ -139,24 +139,29 @@ export function initializePlans(c){
 function writable(c){if(c.archived)throw Error('归档实例只读');}
 function projectPlan(c,id){const p=c.design.plans.find(p=>p.id===id);c.design.selectedId=p?.id||'';const values=p||emptyDesign(c.horizon);for(const key of DESIGN_KEYS)c.nodes[key].data=clone(values[key]);}
 export function savePlan(c,id,name,construction){
- writable(c);name=String(name||'').trim();if(!name||name.length>100)throw Error('请填写方案名称（最多 100 字）');
- if(c.design.plans.some(p=>p.id!==id&&p.name===name))throw Error('方案名称已存在');
+ writable(c);const modern=!!construction.candidate;if(modern){construction=clone(construction);construction.candidate=candidateDraft(construction,c.symbol);name=positionLabel(construction,c.symbol);if(!construction.candidate.underlying)throw Error('请填写 Underlying');}else{name=String(name||'').trim();if(!name||name.length>100)throw Error('请填写方案名称（最多 100 字）');if(c.design.plans.some(p=>p.id!==id&&p.name===name))throw Error('方案名称已存在');}
  const error=structureError(construction);if(error)throw Error(error);
- let p=c.design.plans.find(p=>p.id===id);if(id&&!p)throw Error('方案已不存在');
- if(!p){if(c.design.plans.length>=30)throw Error('每个 thesis 最多 30 个方案');p={id:uid(),name,...emptyDesign(c.horizon)};c.design.plans.push(p);}
- p.name=name;p.construction=clone(construction);projectPlan(c,p.id);
- record(c,id?'更新方案':'添加方案','construction',name);return p.id;
+ let p=c.design.plans.find(p=>p.id===id);if(id&&!p)throw Error('Candidate Position 已不存在');
+ if(!p){if(c.design.plans.length>=30)throw Error('每个 thesis 最多 30 个 Candidate Position');p={id:uid(),name,...emptyDesign(c.horizon)};c.design.plans.push(p);}
+ p.name=name;p.construction=clone(construction);delete c.design.allocation;projectPlan(c,p.id);
+ record(c,id?'更新 Candidate Position':'添加 Candidate Position','construction',name);return p.id;
 }
 export function selectPlan(c,id){writable(c);if(!c.design.plans.some(p=>p.id===id))throw Error('方案不存在');if(c.design.selectedId===id)return;projectPlan(c,id);record(c,'切换查看方案','construction',c.design.plans.find(p=>p.id===id).name);}
 export function setActivePlan(c,id){writable(c);if(id&&!c.design.plans.some(p=>p.id===id))throw Error('方案不存在');c.design.activeId=id;captureReturnBasis(c,now());record(c,'设置 In Action','construction',id?c.design.plans.find(p=>p.id===id).name:'取消 In Action');}
-export function deletePlan(c,id){writable(c);const p=c.design.plans.find(p=>p.id===id);if(!p)throw Error('方案不存在');c.design.plans=c.design.plans.filter(p=>p.id!==id);if(c.design.activeId===id)c.design.activeId='';if(c.design.selectedId===id)projectPlan(c,c.design.plans[0]?.id||'');record(c,'删除方案','construction',p.name+'；历史快照保留');}
+export function setActiveAllocation(c,result){
+ writable(c);if(!result||!Array.isArray(result.allocations)||!result.allocations.some(x=>x.quantity>0))throw Error('当前没有可执行的优化数量');
+ c.design.allocation={inAction:true,at:now(),items:clone(result.allocations),riskBudget:result.riskBudget,usedRisk:result.usedRisk,usedCapital:result.usedCapital,expected:result.expected,dollarDelta:result.dollarDelta};
+ if(result.usedCapital>0)c.returnBasis={planId:'allocation',planName:'Optimized Allocation',expectedNet:result.expected,capital:result.usedCapital,expectedDate:c.horizon||'',rate:result.expected/result.usedCapital*100,at:c.design.allocation.at};
+ record(c,'设置 In Action Allocation','risk',c.design.allocation.items.filter(x=>x.quantity).map(x=>`${x.positionId} × ${x.quantity}`).join('；'));
+}
+export function deletePlan(c,id){writable(c);const p=c.design.plans.find(p=>p.id===id);if(!p)throw Error('Candidate Position 不存在');c.design.plans=c.design.plans.filter(p=>p.id!==id);if(c.design.activeId===id)c.design.activeId='';delete c.design.allocation;if(c.design.selectedId===id)projectPlan(c,c.design.plans[0]?.id||'');record(c,'删除 Candidate Position','construction',p.name+'；历史快照保留');}
 export function planView(c,id){const copy=clone(c),p=c.design?.plans.find(p=>p.id===id);if(p)for(const key of DESIGN_KEYS)copy.nodes[key].data=clone(p[key]);return copy;}
 export function demoCase(){const horizon=new Date(Date.now()+30*86400000).toISOString().slice(0,10),c=createCase({title:'A 股票 · 一个月上涨 10%',symbol:'A',horizon,demo:true,rationale:'模拟：产品催化与盈利预期上修。所有价格、概率、Greeks 都是假设值。'});
  Object.assign(c.nodes.hypothesis.data,{expectation:'一个月内股价上涨约 10%',verification:'催化兑现，股价向目标区间运行',invalidation:'催化未兑现，或关键支撑失效'});c.nodes.hypothesis.state='running';
  Object.assign(c.nodes.signal.data,{condition:'日线收盘 MACD 上穿信号线，次日确认',expires:horizon,evidence:'模拟：日线金叉已确认'});c.nodes.signal.state='running';
  Object.assign(c.nodes.returns.data,{spot:100,down:-10,base:0,up:10,notes:'只展示到期情景；未估计概率。'});
  c.nodes.construction.data.legs=[{type:'stock',side:'long',qty:20,entry:100,strike:'',expiry:'',delta:'',gamma:'',theta:'',vega:''},{type:'put',side:'short',qty:1,entry:3,strike:100,expiry:horizon,delta:-.45,gamma:.03,theta:-.04,vega:.1},{type:'put',side:'long',qty:1,entry:1,strike:95,expiry:horizon,delta:-.25,gamma:.02,theta:-.03,vega:.08}];c.nodes.construction.data.legs=c.nodes.construction.data.legs.map(l=>({...l,underlying:'A',iv:'',quoteAt:'',underlyingPrice:''}));c.nodes.construction.state='running';c.nodes.returns.state='running';
- Object.assign(c.nodes.risk.data,{lossBudget:2500,deltaBudget:100,existingDelta:0,context:'模拟：同标的无其他持仓；其他标的相关性与购买力需人工核查。'});c.nodes.risk.state='running';
+ Object.assign(c.nodes.risk.data,{riskBudget:2500,capitalLimit:10000,maxDollarDelta:10000,priceShock:10,positionRiskCapPct:60,lossBudget:2500,deltaBudget:100,existingDelta:0,context:'模拟：同标的无其他持仓；其他标的相关性与购买力需人工核查。'});c.nodes.risk.state='running';
  initializePlans(c);
  record(c,'加载模拟方案','construction','Long stock + bull put spread；未关联任何实际持仓');return c;}
 export function validateStore(store){
@@ -166,7 +171,7 @@ export function validateStore(store){
   if(!c||typeof c.id!=='string'||typeof c.title!=='string'||typeof c.symbol!=='string'||typeof c.horizon!=='string'||typeof c.archived!=='boolean'||!Number.isInteger(c.revision)||c.revision<1)throw Error('实例内容不完整');
   if(c.linkedSymbols!=null&&(!Array.isArray(c.linkedSymbols)||c.linkedSymbols.some(x=>typeof x!=='string')))throw Error('关联标的格式无效');
   if(c.sourceLink!=null&&(c.sourceLink.kind!=='risk-policy'||typeof c.sourceLink.name!=='string'||!Array.isArray(c.sourceLink.warnings)||c.sourceLink.warnings.some(x=>typeof x!=='string')))throw Error('数据来源关联格式无效');
-  for(const [key,def] of Object.entries(NODES)){const n=c.nodes?.[key];if(!n||!Object.hasOwn(c.stateVersion===2?def.states:LEGACY_NODES[key].states,n.state)||!n.data||typeof n.data!=='object'||Array.isArray(n.data))throw Error('节点状态无效');for(const [field,value] of Object.entries(n.data))if(!['legs','positions','sizing','accountSnapshot','binding','sync','evidence'].includes(field)&&!['string','number'].includes(typeof value))throw Error('节点字段格式无效');}
+  for(const [key,def] of Object.entries(NODES)){const n=c.nodes?.[key];if(!n||!Object.hasOwn(c.stateVersion===2?def.states:LEGACY_NODES[key].states,n.state)||!n.data||typeof n.data!=='object'||Array.isArray(n.data))throw Error('节点状态无效');for(const [field,value] of Object.entries(n.data))if(!['legs','positions','sizing','accountSnapshot','binding','sync','evidence','candidate'].includes(field)&&!['string','number'].includes(typeof value))throw Error('节点字段格式无效');}
   if(c.stateVersion===2&&['expectation','rationale','verification','invalidation'].some(k=>typeof c.nodes.hypothesis.data[k]!=='string'))throw Error('论点字段格式无效');
   if(c.stateVersion!=null&&c.stateVersion!==2)throw Error('节点版本不支持');
   const risk=c.nodes.risk.data;
@@ -188,12 +193,13 @@ export function validateStore(store){
   if(c.designFrozen!=null&&typeof c.designFrozen!=='boolean')throw Error('方案冻结标记无效');
   if(c.design!=null){
    const d=c.design;if(d.version!==1||!Array.isArray(d.plans)||d.plans.length>30||typeof d.selectedId!=='string'||typeof d.activeId!=='string')throw Error('方案列表格式无效');
-   const ids=new Set(),names=new Set();
+   const ids=new Set();
    for(const p of d.plans){
-    if(!p||typeof p.id!=='string'||!p.id||ids.has(p.id)||typeof p.name!=='string'||!p.name.trim()||p.name.length>100||names.has(p.name))throw Error('方案名称或 ID 无效');ids.add(p.id);names.add(p.name);
+    if(!p||typeof p.id!=='string'||!p.id||ids.has(p.id)||typeof p.name!=='string'||!p.name.trim()||p.name.length>100)throw Error('Position 名称或 ID 无效');ids.add(p.id);
     const test=clone(c);delete test.design;for(const key of DESIGN_KEYS)test.nodes[key].data=p[key];body(test);
    }
    if((d.plans.length&&!ids.has(d.selectedId))||(!d.plans.length&&d.selectedId)||(d.activeId&&!ids.has(d.activeId)))throw Error('方案引用无效');
+   if(d.allocation!=null){const a=d.allocation;if(typeof a!=='object'||!Array.isArray(a.items)||typeof a.inAction!=='boolean'||a.items.some(x=>!ids.has(x.positionId)||!Number.isInteger(x.quantity)||x.quantity<0))throw Error('Allocation 格式无效');}
    const selected=d.plans.find(p=>p.id===d.selectedId);if(selected&&DESIGN_KEYS.some(k=>JSON.stringify(selected[k])!==JSON.stringify(c.nodes[k].data)))throw Error('方案与节点数据不一致');
   }
 
