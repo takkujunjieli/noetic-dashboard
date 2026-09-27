@@ -51,7 +51,8 @@
     "CRWV",
     "DELL",
     "SNDK",
-    "U"
+    "U",
+    "SPCX"
   ],
   "uncertain": [
     "MRVL",
@@ -64,7 +65,6 @@
     "STRL",
     "MOD",
     "TSLA",
-    "SPCX",
     "SOXX",
     "IGV",
     "GLW",
