@@ -53,8 +53,7 @@
     "CRWV",
     "DELL",
     "SNDK",
-    "U",
-    "CBRS"
+    "U"
   ],
   "uncertain": [
     "SMCI",
@@ -86,6 +85,7 @@
     "SNOW",
     "IREN",
     "ASTS",
-    "BE"
+    "BE",
+    "CBRS"
   ]
 }
