@@ -41,7 +41,8 @@
     "STRL",
     "MOD",
     "BE",
-    "U"
+    "U",
+    "CBRS"
   ],
   "deep": [
     "MU",
@@ -52,7 +53,8 @@
     "CRWV",
     "DELL",
     "SNDK",
-    "U"
+    "U",
+    "CBRS"
   ],
   "uncertain": [
     "SMCI",
