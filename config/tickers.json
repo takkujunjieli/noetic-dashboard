@@ -51,13 +51,13 @@
     "CRWV",
     "DELL",
     "SNDK",
-    "SPCX",
     "INTC",
     "MSTR"
   ],
   "uncertain": [
     "MRVL",
-    "CRWD"
+    "CRWD",
+    "SPCX"
   ],
   "neutral": [
     "AAOI",
