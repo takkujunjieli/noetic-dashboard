@@ -1,6 +1,6 @@
 import * as THREE from './vendor/three.module.js';
 import {galaxyData,deepSpaceField,neighborhood,connected,starId} from './galaxy-model.mjs';
-const names={hypothesis:'Hypothesis',signal:'Signal',returns:'Expected Return',construction:'Portfolio Construction',risk:'Risk Budget',positions:'Position Management',attribution:'Attribution'};
+const names={hypothesis:'Hypothesis',signal:'Signal',returns:'Scenario Underwriting',construction:'Portfolio Construction',risk:'Kelly Allocation',positions:'Position Management',attribution:'Attribution'};
 
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function createGalaxy(host,{onStar,onNebula,onBackground}){
@@ -8,7 +8,7 @@ export function createGalaxy(host,{onStar,onNebula,onBackground}){
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
  const canvasHost=document.createElement('div'),overlay=document.createElement('div');canvasHost.className='galaxy-canvas';overlay.className='galaxy-labels';host.append(canvasHost,overlay);
  let graph,selected='',focused='',signature='',data={nodes:[],links:[],nebulae:[]},neighbors=new Set(),clouds=[],backgrounds=[],labels=[],disposed=false,frame;
- function fallback(message){canvasHost.hidden=true;overlay.classList.add('galaxy-fallback');overlay.innerHTML=`<p class="hint">${esc(message)} · 使用节点导航。</p>`+data.nebulae.map(c=>`<section><h3 class="${c.unsynced?'is-unsynced':''}">${esc(c.title)}</h3>${data.nodes.filter(n=>n.caseId===c.id).map(n=>`<button class="is-${n.state}" data-star="${esc(n.id)}">${names[n.key]}</button>`).join('')}</section>`).join('');}
+ function fallback(message){canvasHost.hidden=true;overlay.classList.add('galaxy-fallback');overlay.innerHTML=`<p class="hint">${esc(message)} · 使用节点导航。</p>`+data.nebulae.map(c=>`<section><h3 class="${c.activeThesis?'is-active-thesis':''}">${c.unsynced?'<i class="sync-dot" aria-hidden="true"></i>':''}${esc(c.title)}</h3>${data.nodes.filter(n=>n.caseId===c.id).map(n=>`<button class="is-${n.state}" data-star="${esc(n.id)}">${names[n.key]}</button>`).join('')}</section>`).join('');}
  function glowTexture(){const c=document.createElement('canvas');c.width=c.height=128;const ctx=c.getContext('2d'),g=ctx.createRadialGradient(64,64,0,64,64,64);g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.08,'rgba(255,255,255,.9)');g.addColorStop(.25,'rgba(255,255,255,.24)');g.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=g;ctx.fillRect(0,0,128,128);return new THREE.CanvasTexture(c);}
  const texture=glowTexture();
  function star(n){const running=n.state==='running',group=new THREE.Group();const mat=new THREE.SpriteMaterial({map:texture,color:n.color,transparent:true,depthWrite:false,opacity:running?1:.16});const halo=new THREE.Sprite(mat);halo.scale.set(running?36:24,running?36:24,1);group.add(halo);const core=new THREE.Mesh(new THREE.SphereGeometry(running?3.3:2.6,12,8),new THREE.MeshBasicMaterial({color:n.color,transparent:true,opacity:running?1:.46}));group.add(core);const ring=new THREE.Mesh(new THREE.RingGeometry(7.2,7.8,40),new THREE.MeshBasicMaterial({color:n.color,transparent:true,opacity:0,side:THREE.DoubleSide}));group.add(ring);group.userData={halo,core,ring};return group;}
@@ -41,7 +41,7 @@ export function createGalaxy(host,{onStar,onNebula,onBackground}){
 
  function focus(caseId,key){focused=caseId;const c=data.nebulae.find(c=>c.id===caseId);if(!graph||!c)return;const n=key?data.nodes.find(n=>n.id===starId(caseId,key)):null;const x=n?.x??c.center.x,y=n?.y??c.center.y,depth=n?.z??c.center.z;const aspect=Math.max(.3,host.clientWidth/host.clientHeight),z=(key?740:1000)/Math.min(1,aspect);graph.cameraPosition({x,y,z:depth+z},{x,y,z:depth},reduced?0:700);}
  return {
- update(cases,selection){const newData=galaxyData(cases,layoutAspect),sig=JSON.stringify(cases.map(c=>[c.id,c.title,c.archived,c.unsynced,...Object.values(c.nodes).map(n=>n.state)]));selected=selection?.caseId?starId(selection.caseId,selection.key):'';
+ update(cases,selection){const newData=galaxyData(cases,layoutAspect),sig=JSON.stringify(cases.map(c=>[c.id,c.title,c.archived,c.unsynced,c.activeThesis,...Object.values(c.nodes).map(n=>n.state)]));selected=selection?.caseId?starId(selection.caseId,selection.key):'';
   if(sig!==signature){signature=sig;data=newData;if(!graph){fallback('3D 场景不可用');return;}
    clouds.forEach(o=>{graph.scene().remove(o);o.material.dispose();o.geometry?.dispose();});clouds=[];graph.graphData({nodes:data.nodes,links:data.links});
    for(const c of data.nebulae){
@@ -51,7 +51,7 @@ export function createGalaxy(host,{onStar,onNebula,onBackground}){
     const stars=new THREE.Points(geometry,new THREE.PointsMaterial({map:texture,size:9,vertexColors:true,transparent:true,opacity:.85,depthWrite:false,blending:THREE.AdditiveBlending}));graph.scene().add(stars);clouds.push(stars);
     const haze=new THREE.Sprite(new THREE.SpriteMaterial({map:texture,color:'#b9a794',transparent:true,opacity:.045,depthWrite:false}));haze.position.set(c.center.x,c.center.y,c.center.z);haze.scale.set(650,580,1);graph.scene().add(haze);clouds.push(haze);
    }
-   overlay.innerHTML=data.nebulae.map(c=>`<button class="nebula-label ${c.unsynced?'is-unsynced':''}" data-nebula="${esc(c.id)}"><span>${esc(c.title)}${c.archived?' / ARCHIVED':c.demo?' / DEMO':''}</span></button>`).join('')+data.nodes.map(n=>`<button class="star-label is-${n.state}" data-star="${esc(n.id)}" data-node="${n.key}" aria-label="${esc(cases.find(c=>c.id===n.caseId).title)} · ${names[n.key]}"><i style="--star:${n.color}"></i><span>${names[n.key]}</span></button>`).join('');
+   overlay.innerHTML=data.nebulae.map(c=>`<button class="nebula-label ${c.unsynced?'is-unsynced':''} ${c.activeThesis?'is-active-thesis':''}" data-nebula="${esc(c.id)}"><span>${c.unsynced?'<i class="sync-dot" aria-hidden="true"></i>':''}${esc(c.title)}${c.archived?' / ARCHIVED':c.demo?' / DEMO':''}</span></button>`).join('')+data.nodes.map(n=>`<button class="star-label is-${n.state}" data-star="${esc(n.id)}" data-node="${n.key}" aria-label="${esc(cases.find(c=>c.id===n.caseId).title)} · ${names[n.key]}"><i style="--star:${n.color}"></i><span>${names[n.key]}</span></button>`).join('');
    labels=[...data.nebulae.map(c=>({el:[...overlay.querySelectorAll('[data-nebula]')].find(el=>el.dataset.nebula===c.id),point:[c.center.x,c.center.y+310,c.center.z]})),...data.nodes.map(n=>({el:[...overlay.querySelectorAll('[data-star]')].find(el=>el.dataset.star===n.id),point:[n.x,n.y,n.z],node:n}))];
   }
   neighbors=neighborhood(selected,data.links);refreshHighlight();

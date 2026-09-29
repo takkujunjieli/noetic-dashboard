@@ -7,27 +7,28 @@ const assert=require('node:assert/strict');
  const base=process.env.DASHBOARD_URL||'http://127.0.0.1:8642';
  await p.goto(base+'/workflow.html');
  await p.locator('#new').click();
- await p.locator('[name="title"]').fill('Candidate positions');
+ await p.locator('[name="title"]').fill('Underlying Greek bundles');
  await p.locator('[name="symbol"]').fill('THESIS');
  await p.locator('[name="horizon"]').fill('2030-01-01');
  await p.getByRole('button',{name:'创建实例',exact:true}).click();
  await p.locator('[data-node="construction"]').click();
  assert.equal(await p.locator('.plan-editor').count(),0);
 
- const addPosition=async(underlying,instrument)=>{
+ const addBundle=async(underlying,instrument,capital)=>{
   await p.locator('#add-plan').click();
   assert.equal(await p.locator('[name="candidate.underlying"]').inputValue(),'');
-  assert.equal(await p.locator('[name="plan-name"], [name*="qty"], [name*="entry"]').count(),0);
+  assert.equal(await p.locator('.bundle-leg').count(),1);
   await p.locator('[name="candidate.underlying"]').fill(underlying);
   await p.locator('[name="candidate.instrument"]').selectOption(instrument);
-  await p.getByRole('button',{name:'保存 Position',exact:true}).click();
+  await p.locator('[name="candidate.referenceCapital"]').fill(String(capital));
+  await p.getByRole('button',{name:'保存 Bundle',exact:true}).click();
   assert.equal(await p.locator('.plan-editor').count(),0);
  };
- await addPosition('NVDA','bullCall');
- await addPosition('NVDA','call');
- await addPosition('SPY','stock');
+ await addBundle('NVDA','bullCall',5000);
+ await addBundle('NVDA','call',4000);
+ await addBundle('SPY','stock',1000);
  let c=await p.evaluate(()=>JSON.parse(localStorage.getItem('research-desk.workflow.v1')).cases[0]);
- assert.deepEqual(c.design.plans.map(x=>x.name),['NVDA · Bull Call Spread','NVDA · Long Call','SPY · Long Stock']);
+ assert.deepEqual(c.design.plans.map(x=>x.name),['NVDA Bundle','NVDA Bundle','SPY Bundle']);
 
  for(const [index,expected] of [[0,'300'],[1,'240'],[2,'8']]){
   await p.locator('[data-node="returns"]').click();
@@ -69,8 +70,9 @@ const assert=require('node:assert/strict');
  await p.locator('[data-node="construction"]').click();
  await p.locator('[data-plan-row]').first().locator('[data-edit-plan]').click();
  assert.equal(await p.locator('[name="candidate.underlying"]').inputValue(),'NVDA');
- assert.equal(await p.locator('.market-snapshot input').count(),0);
- await p.locator('#close-plan-editor').click();
+ assert.equal(await p.locator('.bundle-leg').count(),2);
+ assert.equal(await p.locator('[name="candidate.referenceCapital"]').inputValue(),'5000');
+ await p.locator('[data-plan-row]').first().locator('[data-edit-plan]').click();
  await p.reload();
  await p.locator('[data-node="risk"]').click();
  assert.equal(await p.locator('.allocation-active').count(),1);
@@ -78,6 +80,6 @@ const assert=require('node:assert/strict');
  assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  if(process.env.SCREENSHOT_PATH)await p.screenshot({path:process.env.SCREENSHOT_PATH,fullPage:true});
  assert.deepEqual(errors,[]);
- console.log('PASS: candidate positions, blank underlying, derived names, unit returns, reference snapshots, shared risk optimization, frozen allocation, reload and mobile');
+ console.log('PASS: underlying Greek bundles, editable legs, aggregate display, shared risk optimization, frozen allocation, reload and mobile');
  await browser.close();
 })().catch(e=>{console.error(e);process.exit(1);});

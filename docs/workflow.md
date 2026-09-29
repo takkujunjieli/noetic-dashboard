@@ -1,4 +1,24 @@
-## Candidate Positions 与共享风险优化（2026-09-26）
+## Underlying Greek Bundles · 第一阶段（2026-09-28）
+
+Portfolio Construction 的最小风险单元改为 **Underlying Greek Bundle**。每个 Bundle 只属于一个 Underlying，但内部允许用户直接编辑任意数量的 Stock / Call / Put 交易腿、Long / Short 方向和 Ratio / Quantity。Starter Structure 只负责生成初始交易腿；保存后所有腿的固定比例共同定义一个可整体缩放的 Bundle。
+
+每条期权腿可手工填写 Reference Mark、Reference Spot、Expiry、Strike、Delta、Gamma、Vega、Theta、IV 与观察时间；正股自动按每股 Delta 1、其余 Greeks 0 处理。Portfolio Construction 按方向、数量和期权 100 倍乘数聚合 Net Delta / Gamma / Vega / Theta。用户单独填写 Reference Capital，作为后续情景收益率与 Kelly 缩放的分母；它不等于账户 Kelly Bankroll。主表显示 Underlying、Reference Spot、四项 Net Greeks 与 Reference Capital，点击 Underlying 行展开或收起腿编辑器。
+
+旧 Candidate Position 数据继续按原有 legs 读取，不重写历史快照。当前 Workflow 已用 Scenario Underwriting 替换旧 Expected Return，并用 Kelly Allocation 替换旧 Risk Budget；ATR mandatory re-underwrite 留给后续阶段。
+
+### Scenario Underwriting → Kelly Allocation
+
+Scenario Underwriting 为整个 thesis 定义一组联合 Bull / Base / Bear 状态。系统先用每个 Bundle 的 Net Delta、Gamma、Vega、Theta、Reference Spot 与 Reference Capital 计算情景收益，再由 Kelly Allocation 同时求解所有 Bundle 的非负资本比例：`max Σ pᵢ log(1 + Σ fⱼrᵢⱼ)`。约束为 `Σfⱼ ≤ 1` 且每个情景中的剩余财富均大于 0。
+
+Kelly Bankroll 只负责把最优比例换算为 Target Capital。每个 Bundle 的 `Scale vs Reference = Target Capital / Reference Capital`；Stock 与 Option 交易腿按这个倍数整体缩放，保留用户在 Portfolio Construction 中定义的内部比例。结果可冻结为 In Action Kelly Allocation，保存当时的比例、目标资本、缩放倍数、目标 Greeks 与各情景组合损益。
+
+### Uncertainty-aware Kelly · 第二阶段（2026-09-29）
+
+每个 Scenario 的 Probability，以及每个 Underlying Bundle 的 Price Move 和可选 IV Change，都可以填写中心值与 `±` 区间。区间表示主观参数范围，不新增单独的 confidence 分数。系统使用固定种子的 500 次均匀 Monte Carlo 采样；每次将采样后的 Bull / Base / Bear 概率重新归一化，再计算 Greek 情景收益和多变量 Kelly。
+
+每个 Bundle 最终保留 Point Full Kelly、Q25、Q50 与 Q100 分布统计。用户在 Kelly Allocation 中选择 Target Quantile；Target Capital、Scale、目标 Greeks、组合情景 P&L 和 In Action snapshot 都使用同一个所选分位向量。目标向量再次投影到 `Σf ≤ 1` 的资本单纯形，避免逐 Bundle 分位数合并后超过总资本。
+
+## Candidate Positions 与共享风险优化（2026-09-26 · 历史实现）
 
 Portfolio Construction 当前管理 **Candidate Positions（候选仓位）**，不再管理带固定数量的互斥方案。每个 Position 的最小输入只有独立的 `Underlying` 与 `Instrument`；新增 Position 不继承 Nebula/Thesis 的参考标的。Instrument 支持 Long/Short Stock、Long Call/Put、Bull/Bear Call Spread、Bull/Bear Put Spread、Long Straddle/Strangle、Covered Call 与 Long Stock + Bull Put Spread。名称由 `Underlying · Instrument` 自动生成。
 
@@ -14,11 +34,11 @@ Galaxy Overview 只显示 Nebula 名称。无论通过滚轮、触控或界面�
 
 ## Nebula 列表与实例管理（2026-09-25）
 
-点击 Galaxy 顶部的 Active 或 Archive 会从星图左侧边缘展开当前筛选范围的 Nebula 管理抽屉；再次点击当前按钮会收起，点击另一筛选按钮会直接切换列表。每行固定包含 Nebula 名称、创建时间、最后修改时间和三点设置键；名称用于定位该 Nebula，三点菜单提供存档与永久删除。存档沿用 Attribution 的实例归档逻辑并转为只读；删除在确认后移除实例及全部本地快照。移动端保留四列并允许列表内部横向滚动。
+点击 Galaxy 顶部的 Existing 或 Archive 会从星图左侧边缘展开当前筛选范围的 Nebula 管理抽屉；再次点击当前按钮会收起，点击另一筛选按钮会直接切换列表。Existing 表示所有尚未归档的 Nebula。每行固定包含 Nebula 名称、创建时间、最后修改时间和三点设置键；名称用于定位该 Nebula，三点菜单提供激活/离线、存档与永久删除。每个 Nebula 可独立设为 Active Thesis；Active Thesis 名称显示金色。存档会自动离线，沿用 Attribution 的实例归档逻辑并转为只读；删除在确认后移除实例及全部本地快照。移动端保留四列并允许列表内部横向滚动。
 
 抽屉右边缘提供水平调整柄，可用鼠标或触控拖动，也可聚焦后使用左右方向键、Home 和 End。宽度限制会为桌面星图保留最小空间，并在移动端限制于视口内；最终宽度保存在本机 `research-desk.nebula-drawer-width`，后续打开继续沿用。
 
-Node 保存、状态切换和 Nebula 重命名成功后不再显示“已保存到此浏览器；金色 Nebula 表示尚未同步。”底部提示；金色未同步标记及错误提示仍保留。
+Node 保存、状态切换、Nebula 重命名和 Active Thesis 切换成功后不会显示底部成功提示。尚未同步到私有库的 Nebula 在名称前显示一个发光小圆点；金色只表示 Active Thesis。错误提示继续保留。
 
 ## Position Management 留空与热力图手动归属（2026-09-25）
 
@@ -32,7 +52,7 @@ Workflow 的 Position Management 现在是保留星点。面板不含输入字�
 
 Star 不再在名称下显示 pending/running 字样：pending 使用暗淡核心和弱光晕，running 使用明亮核心和强光晕；选中环与邻居高亮继续表达图关系，不替代业务状态。Hypothesis 面板顶部的 Nebula 名可双击进入行内编辑，Enter 或失焦保存，Escape 取消；历史快照与归档保持只读。
 
-新建 Nebula 或保存任意 Node、状态流转、方案、快照及 Nebula 重命名后，该 Nebula 名以金色显示，并将未同步标记保存在本机。只有「同步全部」中的 Workflow 快照与旧版风险/归档数据均成功后，才清除已上传且同步期间未再变化的 Nebula 标记；失败或同步过程中产生的新版本继续保持金色。该标记不写入远端 workflow.json。
+新建 Nebula 或保存任意 Node、状态流转、方案、快照、Active Thesis 切换及 Nebula 重命名后，该 Nebula 名称前显示发光小圆点，并将未同步标记保存在本机。只有「同步全部」中的 Workflow 快照与旧版风险/归档数据均成功后，才清除已上传且同步期间未再变化的 Nebula 圆点；失败或同步过程中产生的新版本继续保留圆点。该标记不写入远端 workflow.json。Nebula 名称的金色仅由 Active Thesis 状态控制。
 
 ## Risk Budget 精简与 Portfolio 仓位试算（2026-09-24）
 

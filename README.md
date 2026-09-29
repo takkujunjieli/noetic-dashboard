@@ -117,3 +117,32 @@ data/            抓取生成的 JSON(由 Actions 自动提交)
 index.html       dashboard 页面(纯静态,无需构建)
 assets/          样式和渲染逻辑
 ```
+
+## Workflow 风险系统：第一阶段
+
+`Expected Return` Star 已改为 thesis 级的 `Scenario Underwriting`。Bull / Base / Bear 共用一张联合情景表；每个情景填写主观概率、各 Underlying Greek Bundle 的价格变化，并可为含期权的 Bundle 填写 IV Change。三种情景的概率必须合计为 100%。
+
+系统用组合 Greeks 估算每个 Bundle 的情景损益：
+
+```text
+P&L ≈ Delta × ΔS + 1/2 × Gamma × ΔS² + Vega × ΔIV + Theta × Days Forward
+```
+
+结果矩阵同时显示各 Bundle 的 P&L、相对 Reference Capital 的 Return，以及按三种情景概率加权的组合 Expected P&L / Expected Return。含期权的 Bundle 未填写 IV Change 时按 `ΔIV = 0` 计算，并标记为 `Price-only Greek Estimate`。
+
+旧的 Expected Net、Average Loss、Win Rate × Payoff Ratio 输入和图表已从当前界面移除。历史 snapshot 仍保留旧数据的读取兼容性。
+
+原 `Risk Budget` Star 已替换为 `Kelly Allocation`。它读取同一张联合情景矩阵，求解多变量 Full Kelly：
+
+```text
+maximize Σ pᵢ log(1 + Σ fⱼrᵢⱼ)
+subject to fⱼ ≥ 0, Σfⱼ ≤ 1, 1 + Σfⱼrᵢⱼ > 0
+```
+
+用户只额外填写 Kelly Bankroll。系统输出各 Bundle 的 Full Kelly 比例、Target Capital、相对 Reference Capital 的 Scale，以及按相同比例缩放后的 Delta / Gamma / Vega / Theta；还会显示各联合情景下的组合收益、P&L 和 Survival Wealth。结果可以冻结为 `In Action Kelly Allocation`。
+
+### 第二阶段：Uncertainty-aware Kelly
+
+Scenario Underwriting 的 Probability、Price Move 和期权 IV Change 均支持可选的 `±` 不确定区间。中心值仍用于 Point Estimate；存在任一不确定区间时，系统执行 500 次可复现的 Monte Carlo 均匀采样，每次重新归一化三种情景概率、重新计算 Greek P&L 并重新求多变量 Kelly。
+
+Kelly Allocation 同时显示 Point Full Kelly、Q25、Q50 和 Q100。用户可选择其中一个分位作为 Target Quantile；Target Capital、Scale、目标 Greeks、情景收益及 In Action snapshot 全部使用所选 allocation。未填写任何区间时，三个分位都退化为确定性的 Full Kelly。ATR mandatory re-underwrite 属于下一阶段。

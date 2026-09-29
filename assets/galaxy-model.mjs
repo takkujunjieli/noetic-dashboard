@@ -22,7 +22,7 @@ export function deepSpaceField(seed='galaxy-background',shellCount=2400,bandCoun
 export function galaxyData(cases,aspect=1.6){const nodes=[],links=[],nebulae=[];
  const centers=nebulaCenters(cases.length,aspect);
 
- cases.forEach((c,i)=>{const center=centers[i],cluster=starCluster(c.id);nebulae.push({id:c.id,title:c.title,center,cluster,archived:c.archived,demo:c.demo,unsynced:!!c.unsynced});
+ cases.forEach((c,i)=>{const center=centers[i],cluster=starCluster(c.id);nebulae.push({id:c.id,title:c.title,center,cluster,archived:c.archived,demo:c.demo,unsynced:!!c.unsynced,activeThesis:!!c.activeThesis});
  STAR_KEYS.forEach((key,j)=>{const p=cluster.selected[j];nodes.push({id:starId(c.id,key),caseId:c.id,key,color:p.color,state:c.nodes[key].state,fx:center.x+p.x,fy:center.y+p.y,fz:center.z+p.z,x:center.x+p.x,y:center.y+p.y,z:center.z+p.z});});
  for(const [a,b,kind]of RELATIONS)links.push({source:starId(c.id,a),target:starId(c.id,b),kind,caseId:c.id});
  });return {nodes,links,nebulae};}

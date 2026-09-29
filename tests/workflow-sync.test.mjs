@@ -18,3 +18,11 @@ test('unsynced Nebula markers persist and clear only cases identical to the uplo
  const payload=captureWorkflow(storage),current=structuredClone(payload.entries[KEY]);current.cases[1].title='B changed during sync';
  assert.deepEqual(remainingUnsyncedNebulae(marked,current,payload),new Set([b.id]));
 });
+test('sync reports empty or malformed JSON with the exact source instead of a raw parser error',async()=>{
+ const c=createCase({title:'A'}),map=new Map([[KEY,JSON.stringify({version:VERSION,cases:[c]})],['riskGroups','']]),storage={getItem:k=>map.get(k)??null,setItem:(k,v)=>map.set(k,v)};
+ assert.doesNotThrow(()=>captureWorkflow(storage));map.set('riskGroups','{');assert.throws(()=>captureWorkflow(storage),/riskGroups 不是有效 JSON/);
+ globalThis.localStorage={getItem:k=>k==='ghPat'?'test-only':map.get(k)??null,setItem:(k,v)=>map.set(k,v)};
+ globalThis.fetch=async()=>({ok:true,status:200,text:async()=>''});await assert.rejects(syncWorkflowSnapshot({version:1,entries:{}}),/读取 GitHub Workflow 时返回空响应/);
+ const requests=[];globalThis.fetch=async(url,options={})=>{requests.push(options);return options.method==='PUT'?{ok:true,status:200,text:async()=>JSON.stringify({content:{sha:'initialized'}})}:{ok:true,status:200,text:async()=>JSON.stringify({sha:'empty-file',content:''})};};
+ await syncWorkflowSnapshot({version:1,entries:{}});assert.equal(requests.length,2);assert.equal(JSON.parse(requests[1].body).sha,'empty-file');assert.equal(map.get(KEY+'.remote-sha'),'initialized');
+});
