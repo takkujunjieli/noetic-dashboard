@@ -14,7 +14,9 @@ let pfFilter = null;          // Portfolio 饼图选中的 sym → 控制饼图�
 let pfAccount = null;         // Portfolio 选中的账户 id(null=全部账户)
 let pfPnlWin = "ytd";         // Portfolio 盈亏诊断窗口:ytd / 3m / 1m
 const PF_MIN_VALUE = 1000;    // 饼图只显示市值 ≥ 此的持仓
-let CFG = { watchlist: [], deep: [], uncertain: [], neutral: [] };  // 👍 deep / 👎 quotes-only / ? uncertain / − neutral
+// `deep` is the legacy storage key for the Beat category. It only classifies cards:
+// every ticker in watchlist receives and displays the same full research dataset.
+let CFG = { watchlist: [], deep: [], uncertain: [], neutral: [] };
 const TICKER_CARD_CATEGORIES = ["deep", "disliked", "uncertain", "neutral"];
 const savedTickerCardFilters = JSON.parse(localStorage.getItem("wbTickerCardFilters") || "null");
 let tickerCardFilters = new Set(Array.isArray(savedTickerCardFilters)
@@ -927,10 +929,10 @@ function volProfileFragment(W, H, dy = 0) {
 }
 
 /* ---------- 迷你行情卡(切票器 + 分组开关 + 增删) ---------- */
-const isDeep = (s) => CFG.deep.includes(s);
+const isBeat = (s) => CFG.deep.includes(s);
 const isUncertain = (s) => CFG.uncertain.includes(s);
 const isNeutral = (s) => CFG.neutral.includes(s);
-const tickerCardCategory = (s) => isDeep(s) ? "deep"
+const tickerCardCategory = (s) => isBeat(s) ? "deep"
   : isUncertain(s) ? "uncertain"
   : isNeutral(s) ? "neutral"
   : "disliked";
@@ -967,8 +969,7 @@ function renderMiniCards() {
   const allSyms = (CFG.watchlist.length ? [...CFG.watchlist] : Object.keys(RESEARCH?.tickers || {}))
     .sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
   const syms = allSyms.filter((s) => tickerCardFilters.has(tickerCardCategory(s)));
-  const deepSyms = allSyms.filter(isDeep);
-  if (!SYM || !allSyms.includes(SYM)) SYM = deepSyms[0] || allSyms[0] || null;
+  if (!SYM || !allSyms.includes(SYM)) SYM = allSyms[0] || null;
   // 日均成交额水位:20日均量(EWMA,股)× 现价 ≈ 日均 $ 成交额,√相对当前列表最大值缩放(小票也可辨)
   const advOf = (s) => { const t = researchOf(s); return t.adv20 ?? t.short?.avg_daily_volume ?? null; };
   const dvOf = (s) => { const a = advOf(s); const sp = (RESEARCH?.snapshots?.[s] || {}).price ?? lastClose(s); return (a && sp) ? a * sp : null; };
@@ -978,13 +979,13 @@ function renderMiniCards() {
     const snap = RESEARCH?.snapshots?.[s] || {};
     const price = snap.price ?? lastClose(s);
     const pct = snap.chg_pct;
-    const deep = isDeep(s);
+    const beat = isBeat(s);
     const uncertain = isUncertain(s);
     const neutral = isNeutral(s);
     const dv = dvOf(s);
     const fill = dv ? Math.round(Math.sqrt(dv / maxDV) * 100) : 0;
     const volLbl = dv ? fmtDV(dv) : "—";
-    return `<div class="mini-card ${s === SYM ? "active" : ""} ${neutral ? "neutral wl-only" : !deep && !uncertain ? "disliked" : ""}" data-act="pick" data-sym="${esc(s)}">
+    return `<div class="mini-card ${s === SYM ? "active" : ""} ${neutral ? "neutral wl-only" : !beat && !uncertain ? "disliked" : ""}" data-act="pick" data-sym="${esc(s)}">
       ${dv ? `<div class="mc-water" style="height:${fill}%"></div>` : ""}
       <button type="button" class="mc-del" data-act="del" data-sym="${esc(s)}" title="Remove ticker" aria-label="Remove ${esc(s)}">${tickerStateIcon("x")}</button>
       <div class="mc-main">
@@ -995,10 +996,10 @@ function renderMiniCards() {
       </div>
       <div class="mc-side">
         <div class="mc-grp" role="group" aria-label="${esc(s)} ticker status">
-          <button type="button" class="${deep ? "on" : ""}" data-act="deep" data-sym="${esc(s)}" title="Like · Deep data" aria-label="Like · Deep data" aria-pressed="${deep}">${tickerStateIcon("up")}</button>
-          <button type="button" class="${!deep && !uncertain && !neutral ? "on" : ""}" data-act="wl" data-sym="${esc(s)}" title="Dislike · Quotes only" aria-label="Dislike · Quotes only" aria-pressed="${!deep && !uncertain && !neutral}">${tickerStateIcon("down")}</button>
-          <button type="button" class="${uncertain ? "on" : ""}" data-act="uncertain" data-sym="${esc(s)}" title="Uncertain · decide later" aria-label="Uncertain · decide later" aria-pressed="${uncertain}">${tickerStateIcon("help")}</button>
-          <button type="button" class="${neutral ? "on" : ""}" data-act="neutral" data-sym="${esc(s)}" title="Neutral · no preference" aria-label="Neutral · no preference" aria-pressed="${neutral}">${tickerStateIcon("minus")}</button>
+          <button type="button" class="${beat ? "on" : ""}" data-act="deep" data-sym="${esc(s)}" title="Beat category" aria-label="Beat category" aria-pressed="${beat}">${tickerStateIcon("up")}</button>
+          <button type="button" class="${!beat && !uncertain && !neutral ? "on" : ""}" data-act="wl" data-sym="${esc(s)}" title="Miss category" aria-label="Miss category" aria-pressed="${!beat && !uncertain && !neutral}">${tickerStateIcon("down")}</button>
+          <button type="button" class="${uncertain ? "on" : ""}" data-act="uncertain" data-sym="${esc(s)}" title="Auto category" aria-label="Auto category" aria-pressed="${uncertain}">${tickerStateIcon("help")}</button>
+          <button type="button" class="${neutral ? "on" : ""}" data-act="neutral" data-sym="${esc(s)}" title="Potential category" aria-label="Potential category" aria-pressed="${neutral}">${tickerStateIcon("minus")}</button>
         </div>
       </div>
     </div>`;
@@ -1020,11 +1021,6 @@ function tile(k, v, sub = "", cls = "", title = "") {
 /* ---------- 指标栏(与 Options Panel 同款 grid 磁贴) ---------- */
 function renderStats() {
   renderExpChips();  // 到期选择器随票/口径/数据动态刷新
-  if (SYM && CFG.watchlist.length && !isDeep(SYM)) {
-    const state = isUncertain(SYM) ? "Uncertain" : isNeutral(SYM) ? "Neutral" : "Quotes only";
-    $("wb-stats").innerHTML = `<span class="muted">${esc(SYM)} is ${state} — no deep data. Click the thumbs-up on its card to add it to Deep.</span>`;
-    return;
-  }
   const d = researchOf(SYM);
   const g = gexBucketData(SYM) || {};
   const sv = (d.short_vol || [])[0];
@@ -1536,7 +1532,7 @@ async function saveCfg() {
   const uncertain = [...new Set(CFG.uncertain)].filter((t) => watchlist.includes(t) && !deep.includes(t));
   const neutral = [...new Set(CFG.neutral)].filter((t) => watchlist.includes(t) && !deep.includes(t) && !uncertain.includes(t));
   if (!pat) { cfgStatus = "⚠️ Saved on THIS device only. To sync (so data actually loads for new tickers), enter a PAT with Contents read/write in the Collection panel below."; updateCfgStatus(); return; }
-  const body = { "_note": "Single source of truth for tickers; edited via the four-state ticker controls on the trading-desk mini cards.", watchlist, deep, uncertain, neutral };
+  const body = { "_note": "Single source of truth for tickers. Every watchlist ticker gets full research data; deep/uncertain/neutral only store the four trading-desk card categories.", watchlist, deep, uncertain, neutral };
   const content = btoa(unescape(encodeURIComponent(JSON.stringify(body, null, 2) + "\n")));
   cfgStatus = "Saving…"; updateCfgStatus();
   try {
@@ -1817,7 +1813,7 @@ function initToolbar() {
       scheduleSave(); renderMiniCards(); renderAll();
     }
   });
-  // 末尾添加框:回车加入(全量普通组待遇,同时进 deep 保持一致)
+  // 末尾添加框:回车加入；所有票都拿全量数据，新票默认归入 Beat 类别。
   $("mini-cards").addEventListener("keydown", (ev) => {
     if (ev.target.id !== "mc-add-input" || ev.key !== "Enter") return;
     const t = ev.target.value.trim().toUpperCase().replace(/[^A-Z0-9.]/g, "");
