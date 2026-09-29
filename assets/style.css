@@ -64,8 +64,74 @@ nav .tab {
 nav .tab:hover { background: var(--card-hover); color: var(--text); }
 nav .tab.active { background: var(--accent); border-color: var(--accent); color: #0b1020; font-weight: 600; }
 
+/* Research topic tabs: related studies stay together, with clear spacing between groups. */
+.research-topic-nav { position: static; align-items: stretch; gap: 22px; }
+.research-topic-group { display: flex; flex-direction: column; gap: 5px; }
+.research-topic-group + .research-topic-group { margin-left: 2px; padding-left: 24px; border-left: 1px solid var(--border); }
+.research-topic-label { color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .08em; }
+.research-topic-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.research-topic-tabs .tab[data-topic="fivefactor"] { max-width: 220px; line-height: 1.2; text-align: center; }
+
+@media (max-width: 760px) {
+  .research-topic-nav { gap: 14px 22px; }
+  .research-topic-group + .research-topic-group { margin-left: 0; padding-left: 0; border-left: 0; }
+}
+
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
+
+/* Five-factor equity return decomposition */
+.ff-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ff-controls .tab { position: relative; padding-bottom: 7px; }
+.ff-controls .tab.active::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: 1px;
+  height: 4px;
+  border-radius: 3px;
+  background: var(--accent);
+}
+.ff-formula { margin: 10px 0 6px; color: var(--text); font-family: Georgia, serif; font-size: 15px; }
+.ff-table-wrap { overflow-x: auto; }
+.ff-table { min-width: 1330px; table-layout: fixed; }
+.ff-table th:first-child, .ff-table td:first-child { width: 150px; position: sticky; left: 0; z-index: 1; background: var(--card); }
+.ff-table th:not(:first-child) { width: 205px; text-align: center; }
+.ff-table th:nth-child(2) { width: 150px; }
+.ff-sort-btn {
+  width: 100%;
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: 1.35;
+  cursor: pointer;
+}
+.ff-sort-btn:hover { color: var(--text); }
+.ff-sort-btn i { margin-left: 5px; color: var(--accent); font-style: normal; font-weight: 800; }
+.ff-sort-btn:focus-visible { outline: 1px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+.ff-table td { vertical-align: top; }
+.ff-factor { text-align: center; font-size: 14px; font-weight: 750; font-variant-numeric: tabular-nums; }
+.ff-raw { margin-top: 3px; color: var(--muted); font-size: 10px; line-height: 1.35; text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ff-warning { color: #fbbf24; cursor: help; }
+.ff-price { margin-top: 3px; color: var(--muted); font-size: 10px; line-height: 1.35; font-variant-numeric: tabular-nums; }
+.ff-missing { color: var(--muted); font-size: 11px; }
+.ff-note { margin-top: 8px; line-height: 1.6; }
+.floating-table-head {
+  position: fixed;
+  z-index: 90;
+  overflow: hidden;
+  background: var(--card);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, .35), 0 2px 0 var(--border);
+  pointer-events: auto;
+}
+.floating-table-head[hidden] { display: none; }
+.floating-table-head table { table-layout: fixed; margin: 0; background: var(--card); }
+.floating-table-head th { background: var(--card); }
+.floating-table-head th:first-child { position: relative; z-index: 2; background: var(--card); }
 
 /* 卡片和表格 */
 .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }

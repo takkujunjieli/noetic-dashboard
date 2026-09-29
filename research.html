@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Research · 研究台</title>
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/style.css?v=20260928-five-factor-sort">
 <link rel="stylesheet" href="assets/theme.css">
 </head>
 <body class="trading">
@@ -20,15 +20,41 @@
 </header>
 
 <!-- Topic 导航(每个 topic 是自成一体的研究模块) -->
-<nav>
-  <span class="tab active" data-topic="bearbull">熊市预测</span>
-  <span class="tab" data-topic="retailflow">散户订单流</span>
-  <span class="tab" data-topic="rates">国债vs股市</span>
-  <span class="tab" data-topic="gexvol">GEX→波动</span>
-  <span class="tab" data-topic="flowdir">期权流→方向</span>
-  <span class="tab" data-topic="positioning">仓位情报</span>
-  <span class="tab" data-topic="macd">MACD</span>
-  <span class="tab" data-topic="stocks">个股分析</span>
+<nav class="research-topic-nav" aria-label="研究主题">
+  <div class="research-topic-group" role="group" aria-label="宏观环境">
+    <span class="research-topic-label">宏观环境</span>
+    <div class="research-topic-tabs">
+      <span class="tab active" data-topic="bearbull">熊市预测</span>
+      <span class="tab" data-topic="rates">国债vs股市</span>
+    </div>
+  </div>
+  <div class="research-topic-group" role="group" aria-label="资金与仓位">
+    <span class="research-topic-label">资金与仓位</span>
+    <div class="research-topic-tabs">
+      <span class="tab" data-topic="retailflow">散户订单流</span>
+      <span class="tab" data-topic="positioning">仓位情报</span>
+    </div>
+  </div>
+  <div class="research-topic-group" role="group" aria-label="期权研究">
+    <span class="research-topic-label">期权研究</span>
+    <div class="research-topic-tabs">
+      <span class="tab" data-topic="gexvol">GEX→波动</span>
+      <span class="tab" data-topic="flowdir">期权流→方向</span>
+    </div>
+  </div>
+  <div class="research-topic-group" role="group" aria-label="技术分析">
+    <span class="research-topic-label">技术分析</span>
+    <div class="research-topic-tabs">
+      <span class="tab" data-topic="macd">MACD</span>
+    </div>
+  </div>
+  <div class="research-topic-group" role="group" aria-label="个股基本面研究">
+    <span class="research-topic-label">个股基本面研究</span>
+    <div class="research-topic-tabs">
+      <span class="tab" data-topic="stocks">个股分析</span>
+      <span class="tab" data-topic="fivefactor">Five-Factor Equity Return Decomposition</span>
+    </div>
+  </div>
 </nav>
 
 <div id="r-status" class="muted small" style="padding:8px 0"></div>
@@ -148,11 +174,32 @@
   <div id="scorecards"><span class="muted small">加载打分…(本地专用 · 读 research/scorecards/_summary.csv,gitignored;公开站不显示)</span></div>
 </section>
 
+<!-- ========== Topic 8:Five-Factor Equity Return Decomposition ========== -->
+<section data-topic-panel="fivefactor" hidden>
+  <h2>Five-Factor Equity Return Decomposition <span class="muted small">Trading Desk 全部 ticker · SEC TTM fundamentals · split-adjusted price</span></h2>
+  <div class="card" style="margin-bottom:12px">
+    <div class="ff-controls">
+      <span class="muted small">对比区间</span>
+      <button class="tab active" data-ff-period="1y">1Y</button>
+      <button class="tab" data-ff-period="3y">3Y</button>
+      <button class="tab" data-ff-period="5y">5Y</button>
+    </div>
+    <div class="ff-formula">P₁/P₀ = (R₁/R₀) × (OM₁/OM₀) × ((NI/OI)₁/(NI/OI)₀) × (Shares₀/Shares₁) × (PE₁/PE₀)</div>
+    <div id="ff-status" class="muted small">加载中…</div>
+  </div>
+  <div id="ff-table" class="card"><span class="muted small">加载中…</span></div>
+  <div class="muted small ff-note">
+    财务原始值来自 <a href="https://data.sec.gov/api/xbrl/companyfacts/" target="_blank" rel="noopener">SEC Company Facts</a>；
+    价格为 Yahoo Finance 拆股调整收盘价的静态快照。每格粗体为因子比例，下方为“之前 TTM → 最新 TTM”原始值。
+    负营业利润或负净利润仍保留代数结果并标注 ⚠，但不应按常规扩张或估值倍数解释。ETF 与历史不足的标的保留在表内并说明原因。
+  </div>
+</section>
+
 <footer class="muted small">
   熊侧 v1 · 模型 L2-logistic 在浏览器实时计算 · 公开宏观数据(French/FRED/Welch-Goyal)· personal research only
 </footer>
 
 <script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
-<script type="module" src="assets/research.js"></script>
+<script type="module" src="assets/research.js?v=20260928-five-factor-sort"></script>
 </body>
 </html>

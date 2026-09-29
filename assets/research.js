@@ -4,7 +4,58 @@
 import { $, esc, loadJSON, loadFreshJSON, getPat, ghHeaders, REPO } from "./shared.js";
 import { loadRetailData } from "./retail-data.mjs";
 import { buildSnapshot } from "./macd-research.mjs";
+import { decomposeFiveFactor } from "./five-factor.mjs";
 import { initScorecards } from "./trading.js";   // 个股分析 tab 复用交易台的 Scorecards 渲染(trading.js 自启动已守卫)
+
+const floatingTableHeaders = new Map();
+function installFloatingTableHeader(wrap, tableSelector, key) {
+  const table = wrap?.querySelector(tableSelector);
+  if (!wrap || !table?.tHead) return;
+  const old = floatingTableHeaders.get(key);
+  if (old) { old.controller.abort(); old.observer?.disconnect(); old.shell.remove(); }
+
+  const controller = new AbortController();
+  const shell = document.createElement("div");
+  shell.className = "floating-table-head";
+  shell.setAttribute("aria-hidden", "true");
+  const headTable = table.cloneNode(false);
+  headTable.removeAttribute("id");
+  headTable.append(table.tHead.cloneNode(true));
+  shell.append(headTable);
+  document.body.append(shell);
+  shell.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-ff-sort]");
+    if (!button) return;
+    table.querySelector(`[data-ff-sort="${button.dataset.ffSort}"]`)?.click();
+  }, { signal: controller.signal });
+
+  const sync = () => {
+    if (!document.body.contains(table) || table.offsetParent === null) { shell.hidden = true; return; }
+    const navBottom = document.querySelector(".pagenav")?.getBoundingClientRect().bottom || 0;
+    const wrapRect = wrap.getBoundingClientRect();
+    const tableRect = table.getBoundingClientRect();
+    const sourceCells = [...table.tHead.rows[0].cells];
+    const cloneCells = [...headTable.tHead.rows[0].cells];
+    sourceCells.forEach((cell, index) => {
+      const width = cell.getBoundingClientRect().width;
+      if (cloneCells[index]) cloneCells[index].style.width = cloneCells[index].style.minWidth = `${width}px`;
+    });
+    headTable.style.width = `${tableRect.width}px`;
+    headTable.style.marginLeft = `${-wrap.scrollLeft}px`;
+    if (cloneCells[0]) cloneCells[0].style.transform = `translateX(${wrap.scrollLeft}px)`;
+    shell.style.top = `${Math.max(0, navBottom)}px`;
+    shell.style.left = `${wrapRect.left}px`;
+    shell.style.width = `${wrapRect.width}px`;
+    shell.hidden = !(tableRect.top < navBottom && tableRect.bottom > navBottom + table.tHead.getBoundingClientRect().height);
+  };
+  window.addEventListener("scroll", sync, { passive: true, signal: controller.signal });
+  window.addEventListener("resize", sync, { passive: true, signal: controller.signal });
+  wrap.addEventListener("scroll", sync, { passive: true, signal: controller.signal });
+  const observer = window.ResizeObserver ? new ResizeObserver(sync) : null;
+  observer?.observe(wrap);
+  floatingTableHeaders.set(key, { controller, observer, shell, sync });
+  requestAnimationFrame(sync);
+}
 
 const LAM = 10;            // L2 强度(与 factorlab/model.py 默认一致)
 /* 按"驱动机制"分簇(比 内生/政策/外生 更贴数据、名实相符):
@@ -1194,13 +1245,130 @@ async function renderFlowDir() {
     + `<ul class="muted small" style="margin:6px 0 0;padding-left:18px">${note}</ul>`;
 }
 
-const RENDER = { bearbull: renderBearbull, retailflow: renderRetailflow, rates: renderRates, gexvol: renderGexVol, flowdir: renderFlowDir, positioning: renderPositioning, macd: renderMacd, stocks: initScorecards };
+/* ---------- Topic 8:Five-Factor Equity Return Decomposition ---------- */
+let fiveFactorPeriod = "1y", fiveFactorSnapshot = null;
+let fiveFactorSort = { key: null, direction: "desc" };
+
+function ffNumber(value, kind) {
+  if (!Number.isFinite(value)) return "—";
+  if (kind === "pct") return `${(value * 100).toFixed(1)}%`;
+  if (kind === "pe") return `${value.toFixed(1)}×`;
+  const abs = Math.abs(value), sign = value < 0 ? "−" : "";
+  if (abs >= 1e12) return `${sign}$${(abs / 1e12).toFixed(2)}T`;
+  if (abs >= 1e9) return `${sign}$${(abs / 1e9).toFixed(2)}B`;
+  if (abs >= 1e6) return `${sign}$${(abs / 1e6).toFixed(1)}M`;
+  return `${sign}$${abs.toFixed(0)}`;
+}
+
+function ffShares(value) {
+  if (!Number.isFinite(value)) return "—";
+  return value >= 1e9 ? `${(value / 1e9).toFixed(2)}B` : value >= 1e6 ? `${(value / 1e6).toFixed(1)}M` : value.toLocaleString();
+}
+
+function ffCell(result, key, formatter, warning) {
+  const factor = result.factors[key], raw = result.raw[key];
+  if (!Number.isFinite(factor)) return `<td class="ff-missing">N/M<br>分母为零</td>`;
+  const cls = factor > 1 ? "up" : factor > 0 && factor < 1 ? "down" : "ff-warning";
+  return `<td${warning ? ` title="${esc(warning)}"` : ""}>
+    <div class="ff-factor ${cls}">${factor.toFixed(2)}×${warning ? ' <span class="ff-warning">⚠</span>' : ""}</div>
+    <div class="ff-raw">${formatter(raw.prior)} → ${formatter(raw.current)}</div>
+  </td>`;
+}
+
+function ffSortHeader(label, formula, key) {
+  const active = fiveFactorSort.key === key;
+  const arrow = active ? (fiveFactorSort.direction === "desc" ? "↓" : "↑") : "↕";
+  return `<button class="ff-sort-btn" data-ff-sort="${key}">${label}<br><span class="muted">${formula}</span><i>${arrow}</i></button>`;
+}
+
+function ffSortValue(row, key) {
+  const result = decomposeFiveFactor(row);
+  if (!result) return null;
+  return key === "price" ? result.priceRatio : result.factors[key];
+}
+
+function drawFiveFactorTable() {
+  if (!fiveFactorSnapshot) return;
+  const sourceRows = fiveFactorSnapshot.periods?.[fiveFactorPeriod] || [];
+  const rows = [...sourceRows];
+  if (fiveFactorSort.key) rows.sort((a, b) => {
+    const av = ffSortValue(a, fiveFactorSort.key), bv = ffSortValue(b, fiveFactorSort.key);
+    if (!Number.isFinite(av)) return Number.isFinite(bv) ? 1 : 0;
+    if (!Number.isFinite(bv)) return -1;
+    return (av - bv) * (fiveFactorSort.direction === "asc" ? 1 : -1);
+  });
+  const complete = rows.filter((row) => row.status === "ok").length;
+  const body = rows.map((row) => {
+    if (row.status !== "ok") return `<tr><td><b>${esc(row.ticker)}</b></td><td colspan="6" class="ff-missing">${esc(row.reason || "数据不足")}</td></tr>`;
+    const result = decomposeFiveFactor(row);
+    if (!result) return `<tr><td><b>${esc(row.ticker)}</b></td><td colspan="6" class="ff-missing">无法计算</td></tr>`;
+    const warning = result.unstable.join("；");
+    const priceClass = result.priceRatio > 1 ? "up" : result.priceRatio > 0 && result.priceRatio < 1 ? "down" : "ff-warning";
+    const source = row.cik ? `https://data.sec.gov/api/xbrl/companyfacts/CIK${row.cik}.json` : null;
+    const ticker = source ? `<a href="${source}" target="_blank" rel="noopener"><b>${esc(row.ticker)}</b></a>` : `<b>${esc(row.ticker)}</b>`;
+    return `<tr>
+      <td>${ticker}${warning ? ` <span class="ff-warning" title="${esc(warning)}">⚠</span>` : ""}
+        <div class="ff-price">TTM ${row.prior.ttm_end} → ${row.current.ttm_end}</div>
+      </td>
+      <td><div class="ff-factor ${priceClass}">${result.priceRatio.toFixed(2)}×</div>
+        <div class="ff-raw">$${row.prior.price.toFixed(2)} → $${row.current.price.toFixed(2)}</div></td>
+      ${ffCell(result, "revenue", (value) => ffNumber(value, "money"), null)}
+      ${ffCell(result, "margin", (value) => ffNumber(value, "pct"), row.current.operating_income <= 0 || row.prior.operating_income <= 0 ? warning : null)}
+      ${ffCell(result, "conversion", (value) => ffNumber(value, "pct"), warning || null)}
+      ${ffCell(result, "buyback", ffShares, null)}
+      ${ffCell(result, "multiple", (value) => ffNumber(value, "pe"), row.current.net_income <= 0 || row.prior.net_income <= 0 ? warning : null)}
+    </tr>`;
+  }).join("");
+  $("ff-table").innerHTML = `<div class="ff-table-wrap"><table class="bt-table ff-table"><thead><tr>
+    <th>Ticker</th><th>${ffSortHeader("Price Return", "P₁/P₀", "price")}</th>
+    <th>${ffSortHeader("Revenue Growth", "R₁/R₀", "revenue")}</th>
+    <th>${ffSortHeader("Margin Expansion", "OM₁/OM₀", "margin")}</th>
+    <th>${ffSortHeader("Earnings Conversion", "(NI/OI)₁/(NI/OI)₀", "conversion")}</th>
+    <th>${ffSortHeader("Buyback / Dilution", "Shares₀/Shares₁", "buyback")}</th>
+    <th>${ffSortHeader("Multiple Re-rating", "PE₁/PE₀", "multiple")}</th>
+  </tr></thead><tbody>${body}</tbody></table></div>`;
+  const generated = fiveFactorSnapshot.generated_at
+    ? new Date(fiveFactorSnapshot.generated_at).toLocaleString("zh-CN", { hour12: false, timeZone: "America/New_York" }) + " ET" : "—";
+  $("ff-status").textContent = `as of ${fiveFactorSnapshot.as_of} · ${complete}/${rows.length} 可计算 · 静态快照生成 ${generated}`;
+  document.querySelectorAll("#ff-table [data-ff-sort]").forEach((button) => { button.onclick = () => {
+    const key = button.dataset.ffSort;
+    fiveFactorSort = fiveFactorSort.key === key
+      ? { key, direction: fiveFactorSort.direction === "desc" ? "asc" : "desc" }
+      : { key, direction: "desc" };
+    drawFiveFactorTable();
+  }; });
+  installFloatingTableHeader($("ff-table").querySelector(".ff-table-wrap"), ".ff-table", "fivefactor");
+}
+
+async function renderFiveFactor() {
+  if (!fiveFactorSnapshot) fiveFactorSnapshot = await loadFreshJSON("data/five_factor.json");
+  if (!fiveFactorSnapshot?.periods) {
+    $("ff-table").innerHTML = '<span class="muted small">缺少 data/five_factor.json。</span>';
+    $("ff-status").textContent = "数据不可用";
+    return;
+  }
+  $("r-status").textContent = `Topic: Five-Factor Equity Return Decomposition · ${fiveFactorSnapshot.as_of} 静态快照 · SEC TTM fundamentals`;
+  drawFiveFactorTable();
+  document.querySelectorAll("[data-ff-period]").forEach((button) => { button.onclick = () => {
+    fiveFactorPeriod = button.dataset.ffPeriod;
+    document.querySelectorAll("[data-ff-period]").forEach((item) => item.classList.toggle("active", item === button));
+    drawFiveFactorTable();
+  }; });
+}
+
+async function renderStocks() {
+  await initScorecards();
+  installFloatingTableHeader(document.querySelector("#scorecards .sc-wrap"), ".sc-table", "scorecards");
+}
+
+const RENDER = { bearbull: renderBearbull, retailflow: renderRetailflow, rates: renderRates, gexvol: renderGexVol, flowdir: renderFlowDir, positioning: renderPositioning, macd: renderMacd, stocks: renderStocks, fivefactor: renderFiveFactor };
 const rendered = {};
 async function showTopic(topic) {
   if (!RENDER[topic]) return;
   document.querySelectorAll(".tab[data-topic]").forEach((t) => t.classList.toggle("active", t.dataset.topic === topic));
   document.querySelectorAll("[data-topic-panel]").forEach((s) => { s.hidden = s.dataset.topicPanel !== topic; });
   if (!rendered[topic]) { rendered[topic] = true; try { await RENDER[topic](); } catch (e) { console.error(e); } }
+  requestAnimationFrame(() => floatingTableHeaders.forEach((header) => header.sync()));
 }
 document.querySelectorAll(".tab[data-topic]").forEach((t) => {
   if (!RENDER[t.dataset.topic]) return;             // deadtime 等未实现的保持禁用
