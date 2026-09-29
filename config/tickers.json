@@ -52,8 +52,7 @@
     "DELL",
     "SNDK",
     "SPCX",
-    "INTC",
-    "CCL"
+    "INTC"
   ],
   "uncertain": [
     "MRVL",
@@ -82,6 +81,7 @@
     "NET",
     "PANW",
     "SMCI",
-    "U"
+    "U",
+    "CCL"
   ]
 }
