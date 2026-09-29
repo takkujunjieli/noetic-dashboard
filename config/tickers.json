@@ -1,5 +1,5 @@
 {
-  "_note": "Single source of truth for tickers; edited via the four-state ticker controls on the trading-desk mini cards.",
+  "_note": "Single source of truth for tickers. Every watchlist ticker gets full research data; deep/uncertain/neutral only store the four trading-desk card categories.",
   "watchlist": [
     "AMD",
     "CCL",
@@ -52,7 +52,8 @@
     "DELL",
     "SNDK",
     "SPCX",
-    "INTC"
+    "INTC",
+    "CCL"
   ],
   "uncertain": [
     "MRVL",
