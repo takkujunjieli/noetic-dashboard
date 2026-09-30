@@ -53,7 +53,8 @@
     "SNDK",
     "INTC",
     "MSTR",
-    "COIN"
+    "COIN",
+    "BE"
   ],
   "uncertain": [
     "MRVL",
@@ -75,7 +76,6 @@
     "SNOW",
     "IREN",
     "ASTS",
-    "BE",
     "CBRS",
     "FIG",
     "HOOD",
