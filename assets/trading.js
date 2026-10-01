@@ -9,6 +9,7 @@ const LWC = window.LightweightCharts;
 const ET = "America/New_York";
 
 let RESEARCH = null, GEX = null, GEXH = null, BARS = null, WEEK = null, PORTFOLIO = null, PNL = null, SCORES = null, ROBUST = null, MONTHLY = null;
+let scoreSortCol = null, scoreSortDir = -1;  // Scorecards:首次点击按高分→低分
 let pfCalMode = localStorage.getItem("pfCalMode") || "realized";   // 月历:realized 已实现$ / total 总$(精确优先,缺则估) / ret 收益率% / log 对数收益(估)
 let pfFilter = null;          // Portfolio 饼图选中的 sym → 控制饼图中心显示
 let pfAccount = null;         // Portfolio 选中的账户 id(null=全部账户)
@@ -1380,10 +1381,11 @@ function monthlyExact(acctKey) {
   for (const [, a] of rows) {
     for (const [ym, v] of Object.entries(a.realized || {})) realized[ym] = (realized[ym] || 0) + v;
     for (const [ym, s] of Object.entries(a.snapshots || {})) {
-      const t = snapshots[ym] || (snapshots[ym] = { netliq: 0, unreal: 0, net_flow: 0, _netliq_n: 0, _unreal_n: 0 });
+      const t = snapshots[ym] || (snapshots[ym] = { netliq: 0, unreal: 0, net_flow: 0, cash_flows: [], _netliq_n: 0, _unreal_n: 0 });
       if (finite(s.netliq)) { t.netliq += +s.netliq; t._netliq_n++; }
       if (finite(s.unreal)) { t.unreal += +s.unreal; t._unreal_n++; }
       if (finite(s.net_flow)) t.net_flow += +s.net_flow;
+      if (Array.isArray(s.cash_flows)) t.cash_flows.push(...s.cash_flows);
     }
   }
   for (const s of Object.values(snapshots)) {
@@ -1396,8 +1398,8 @@ function monthlyExact(acctKey) {
 
 /* 月历:账户跟随 Portfolio 下拉(全部→_all)。四个口径:
    已实现$ = 券商精确(含期权,仅已实现);总$ = 相邻月末 Net Liq 差−净入金(net_flow)优先，
-   缺连续 Net Liq 时退回已实现+未实现变化，再缺则回退
-   M2M 估算,金额前带「(估)」;收益率% 同理(精确=总$÷上月末净值,估=M2M ret);log = ln(1 + P&L %)。
+   收益率% 将当月外部现金流视为月初到账，使用 (月末−月初−净流)/(月初+净流)；缺连续 Net Liq 时退回
+   M2M 估算,金额前带「(估)」;log = ln(1 + P&L %)。
    精确与估计合并同一列,靠「(估)」前缀区分。绿正红负,深浅∝|值|。 */
 function buildMonthlyCalendar() {
   const acctKey = pfAccount || "_all";
@@ -1410,7 +1412,7 @@ function buildMonthlyCalendar() {
   if (!MODES[mode]) mode = "realized";
   const kind = MODES[mode].kind;
   const modeChips = Object.entries(MODES).map(([k, m]) => `<button data-cal="${k}"${k === mode ? ' class="active"' : ""}>${m.label}</button>`).join("");
-  const head = `<div class="pf-cal-head"><b>月历</b> <span class="muted small">Realized P&L=券商精确(仅已实现);P&L=相邻月末 Net Liq 差−净入金,缺则回退「(估)」M2M;未记录 net_flow 的入出金会计入净值变化;log P&L=ln(1 + P&L %)</span>`
+  const head = `<div class="pf-cal-head"><b>月历</b> <span class="muted small">Realized P&L=券商精确(仅已实现); P&L=相邻月末 Net Liq 差−净现金流; P&L % 将当月净现金流视为月初到账: (月末−月初−净流)/(月初+净流); log P&L=ln(1 + P&L %)</span>`
     + `<div class="chips seg" id="pf-calmode" style="margin-left:auto">${modeChips}</div></div>`;
   const prevYm = (ym) => { let [y, mm] = ym.split("-").map(Number); mm--; if (mm < 1) { mm = 12; y--; } return `${y}-${String(mm).padStart(2, "0")}`; };
   const finite = (v) => v != null && v !== "" && Number.isFinite(+v);
@@ -1423,9 +1425,16 @@ function buildMonthlyCalendar() {
     const r = realized[ym], u = cur?.unreal, pu = prev?.unreal;
     return (r != null && u != null && pu != null) ? r + (u - pu) : null;
   };
-  const retObj = (ym) => {   // P&L %:精确优先,否则回退 M2M 估算
-    const ex = exactMoney(ym), base = snaps[prevYm(ym)]?.netliq;
-    if (ex != null && base > 0) return { v: ex / base * 100, est: false };
+  const retObj = (ym) => {   // 外部现金流按月初到账的用户指定口径。
+    const cur = snaps[ym], ex = exactMoney(ym), base = snaps[prevYm(ym)]?.netliq;
+    if (ex != null && base > 0) {
+      const flows = Array.isArray(cur?.cash_flows) ? cur.cash_flows : [];
+      if (flows.length) {
+        const openingFlow = flows.reduce((sum, f) => sum + (+f.amount || 0), 0);
+        return { v: ex / (base + openingFlow) * 100, est: false, method: "BOM" };
+      }
+      return { v: ex / base * 100, est: false };
+    }
     const e = robMap[ym]?.ret_pct; return e == null ? null : { v: e, est: true };
   };
   // 每月取值 → {v, est}(est=用了 M2M 估算)或 null
@@ -1673,9 +1682,21 @@ function renderScorecards() {
     return `<td class="sc-cell" style="${heat(s)}"><b>${t}</b>`
       + `${why ? ` <span class="sc-why">${esc(why)}</span>` : ""}</td>`;
   };
-  const th = `<th>标的</th><th></th>`
-    + SCORE_COLS.map((i) => `<th>${esc(TH[head[i]] ?? head[i])}</th>`).join("");
-  const body = rows.slice(1).filter((r) => r.length > 1 && r[0]).map((r) => {
+  const sortButton = (i) => {
+    const mark = scoreSortCol === i ? (scoreSortDir > 0 ? "↑" : "↓") : "↕";
+    return `<button class="rf-sort-btn" data-sc-sort="${i}" title="点击切换升降序">${esc(TH[head[i]] ?? head[i])}<span>${mark}</span></button>`;
+  };
+  const th = `<th>标的</th><th></th>` + SCORE_COLS.map((i) => `<th>${sortButton(i)}</th>`).join("");
+  const displayRows = rows.slice(1).filter((r) => r.length > 1 && r[0]);
+  if (scoreSortCol != null) displayRows.sort((a, b) => {
+    const av = parse(a[scoreSortCol]).s, bv = parse(b[scoreSortCol]).s;
+    const aMissing = Number.isNaN(av), bMissing = Number.isNaN(bv);
+    if (aMissing && bMissing) return a[0].localeCompare(b[0]);
+    if (aMissing) return 1;
+    if (bMissing) return -1;
+    return (av - bv) * scoreSortDir || a[0].localeCompare(b[0]);
+  });
+  const body = displayRows.map((r) => {
     const dir = r[1];
     const dirCls = dir === "Short" ? "down" : dir === "Long" ? "up" : "muted";
     const dirTxt = dir === "Short" ? "空" : dir === "Long" ? "多" : "观";  // Watch=无仓位
@@ -1687,6 +1708,12 @@ function renderScorecards() {
   el.innerHTML = `<div class="card"><div class="sc-head"><b>Scorecards</b> `
     + `<span class="muted small">本地 · 3 维单分(-5~+5,0=中性/正好负差),理由直显。经营/管理层/外部=质量维度。多头看高、空头看低;★需数据校准 ⚠身份存疑</span></div>`
     + `<div class="sc-wrap"><table class="bt-table sc-table"><thead><tr>${th}</tr></thead><tbody>${body}</tbody></table></div></div>`;
+  el.querySelectorAll("[data-sc-sort]").forEach((button) => { button.onclick = () => {
+    const col = Number(button.dataset.scSort);
+    if (scoreSortCol === col) scoreSortDir *= -1;
+    else { scoreSortCol = col; scoreSortDir = -1; }
+    renderScorecards();
+  }; });
 }
 
 /* Portfolio 页入口:portfolio.js import 调用。加载数据 + 渲染 Portfolio/Scorecards + 挂交互监听。 */

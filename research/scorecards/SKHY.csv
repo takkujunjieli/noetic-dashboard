@@ -1,5 +1,5 @@
-﻿# SKHY,方向=Watch 无仓位,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
+﻿# SKHY,方向=多头 Long,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
 Feature,Score,Rationale
-Operation,3,⚠身份待确认(疑 SK Hynix/存储);若存储:AI 内存强、capex 重
-Leadership,0,⚠身份未确认
-Externality,1,⚠若内存:寡头格局好+周期顺风
+Operation,4,Q2’26 rev $56.6B +257% YoY、OP $43.2B +557%、OPM 76%，HBM/AI server memory高增长叠加DRAM/NAND涨价，盈利处于历史极强水平 4；HBM仍全球#1、Q2份额50，HBM4已量产/HBM4E送样，但份额Q1 58%→50、Samsung 21%→33，领先优势收窄 2；现金62.9B vs debt 13.3B净现金约49.6B，Q2 FCF约$39.1B，另宣布约$28.6B回购注销(~3.3% shares)，资产负债表/现金创造能力发生质变 +4；约10家客户签多年LTA，使HBM逐渐从传统commodity模式转向提前锁量/co-development，降低盈利周期性 +2；FY26 CapEx预计约$34B+，另批准Y2+M17合计约$38.8B fab投资，SKH/Samsung/Micron同步扩产，当前shortage及76% OPM明显不可直接外推，未来核心风险是供给释放+HBM竞争导致margin normalization -2。
+Leadership,0,
+Externality,3,AI/HBM需求仍极强：27年bit shipment仍预计+50–60%；9大CSP CapEx 26年>$887B +~90%、27年~$1.3T +~50% +3；HBM极耗wafer，预计占三大厂DRAM wafer input 18%(25)→22%(26)→~30%(27)，却仅贡献~13% DRAM bits，挤压传统DRAM供给，供给紧至27年 +3；但Samsung HBM份额21→33%、SKH 58→50%，Micron亦扩TSV/先进DRAM，SKH/Samsung/Micron巨额新fab约28年后陆续释放，当前shortage/76% OPM存在周期反转风险 -2；需求高度集中于NVIDIA/Google及少数hyperscaler，且NVIDIA已因HBM成本/供应考虑降低Rubin Ultra潜在单卡配置 -1；中国CXMT等成熟DRAM追赶压低端价格，但先进制程/HBM受美日荷设备限制，短期反而保护SKH高端壁垒 +1；无锡DRAM/大连NAND等中国资产暴露于美国出口管制及中美关系，政策变化可能限制设备升级/产能运营 -1
