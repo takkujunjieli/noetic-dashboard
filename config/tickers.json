@@ -52,7 +52,8 @@
     "BE",
     "SPCX",
     "COHR",
-    "MRVL"
+    "MRVL",
+    "LITE"
   ],
   "uncertain": [
     "CRWD",
