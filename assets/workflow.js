@@ -1,16 +1,17 @@
-import {captureWorkflow,syncWorkflowSnapshot,UNSYNCED_KEY,readUnsyncedNebulae,writeUnsyncedNebulae,remainingUnsyncedNebulae} from './workflow-sync.js?v=20260929-2';
+import {captureWorkflow,syncWorkflowSnapshot,refreshActiveNebulaCatalog,UNSYNCED_KEY,readUnsyncedNebulae,writeUnsyncedNebulae,remainingUnsyncedNebulae} from './workflow-sync.js?v=20260929-3';
 import {createGalaxy} from './galaxy-scene.js?v=20260928-2';
 import {getPat,setPat} from './shared.js';
-import {expectedCharts,readScenarioUnderwriting,scenarioUnderwritingForm} from './expected-return.js?v=20260929-1';
+import {expectedCharts,readScenarioUnderwriting,scenarioUnderwritingForm} from './expected-return.js?v=20260929-2';
 import {completedReturn,rate} from './expected-return.mjs?v=20260929-1';
-import {planTable} from './design-plans.js';
-import {appendBundleLeg,constructionFields,constructionSummary,readConstruction,removeBundleLeg,resetBundleLegs} from './trade-structure.js?v=20260928-1';
-import {kellyAllocationView,kellyPolicyForm,readKellyPolicy} from './kelly-allocation.js?v=20260929-2';
-import {kellyAllocation} from './kelly-allocation.mjs?v=20260929-2';
-import {newStructureLeg} from './trade-structure.mjs';
+import {planTable} from './design-plans.js?v=20260929-2';
+import {loadPortfolioBundleDrafts} from './portfolio-autofill.js?v=20260929-2';
+import {appendBundleLeg,constructionFields,constructionSummary,readConstruction,removeBundleLeg,resetBundleLegs} from './trade-structure.js?v=20260929-2';
+import {kellyAllocationView,kellyPolicyForm,readKellyPolicy} from './kelly-allocation.js?v=20260930-3';
+import {kellyAllocation} from './kelly-allocation.mjs?v=20260930-1';
+import {bundleMetrics,newStructureLeg} from './trade-structure.mjs';
 import { mountAttributionControl } from './attribution-control.js';
 import { renderJournal, syncLegacyWorkflowData } from "./strategy.js";
-import {VERSION,KEY,NODES,LAYERS,LABELS,displayState,hypothesisFields,archiveCase,emptyDesign,initializePlans,savePlan,selectPlan,setActiveAllocation,deletePlan,planView,clone,createCase,record,saveNode,transition,gate,scenario,demoCase,validateStore} from './workflow-model.mjs?v=20260929-2';
+import {VERSION,KEY,NODES,LAYERS,LABELS,displayState,hypothesisFields,archiveCase,emptyDesign,initializePlans,savePlan,setPlanFrozen,selectPlan,setActiveAllocation,deletePlan,planView,clone,createCase,record,saveNode,transition,gate,scenario,demoCase,validateStore} from './workflow-model.mjs?v=20260930-4';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=v=>v===null||v===undefined||Number.isNaN(v)?'未估计':Number.isFinite(v)?new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:2}).format(v):'无上界';
@@ -23,6 +24,10 @@ try{raw=localStorage.getItem(KEY);if(raw){store=validateStore(JSON.parse(raw));c
 let unsyncedNebulae=readUnsyncedNebulae();
 let planEditor=null;
 let galaxy=null,panelOpen=false;
+let kellySizing={atr:{},atrUpdated:''};
+async function loadAtrRiskData(){
+ try{const response=await fetch(`data/atr.json?t=${Date.now()}`,{cache:'no-store'});if(!response.ok)return;const data=await response.json();kellySizing={atr:data.atr14||{},atrUpdated:data.updated||''};if(panelOpen&&node==='risk'&&!dirty)render();}catch{}
+}
 function saveUnsyncedNebulae(){try{writeUnsyncedNebulae(unsyncedNebulae);}catch(e){notice('未同步提示无法持久化：'+e.message);}}
 function markNebulaUnsynced(id){if(!id)return;unsyncedNebulae.add(id);saveUnsyncedNebulae();}
 function current(){return store.cases.find(c=>c.id===selected);}
@@ -91,7 +96,7 @@ function readDraft(){const form=$('#node-form');if(node==='construction'&&form)r
  return d;
 }
 function syncCandidateRules(form){const instrument=form?.elements.namedItem('candidate.instrument')?.value,stockOnly=['stock','shortStock'].includes(instrument),hasLongOption=['call','put','bullPut','bearPut','bullCall','bearCall','straddle','strangle'].includes(instrument),hasShortOption=['bullPut','bearPut','bullCall','bearCall','coveredCall'].includes(instrument),details=form?.querySelector('.candidate-rules');if(!details)return;details.hidden=stockOnly;const long=details.querySelector('[data-candidate-rule="long"]'),short=details.querySelector('[data-candidate-rule="short"]');long.hidden=!hasLongOption;short.hidden=!hasShortOption;if(!hasLongOption)long.querySelector('input').value='';if(!hasShortOption)short.querySelector('input').value='';if(stockOnly)for(const input of details.querySelectorAll('input'))input.value='';}
-function updatePreview(){dirty=['returns','risk'].includes(node)?JSON.stringify(readDraft())!==JSON.stringify(visible().nodes[node].data):true;$('#dirty-label').textContent=dirty?' · 未保存':'';document.querySelectorAll('[data-transition]').forEach(b=>b.disabled=dirty||!!gate(visible(),node,b.dataset.transition));const c=clone(visible());c.nodes[node].data=readDraft();const preview=$(node==='construction'?'#editor-preview':'#live-summary');if(preview)preview.innerHTML=node==='construction'?constructionSummary(c):node==='returns'?expectedCharts(c):node==='risk'?kellyAllocationView(c,c.nodes.risk.data):node==='attribution'?attributionSummary(c):'';}
+function updatePreview(){dirty=node==='risk'?false:node==='returns'?JSON.stringify(readDraft())!==JSON.stringify(visible().nodes[node].data):true;const label=$('#dirty-label');if(label)label.textContent=dirty?' · 未保存':'';document.querySelectorAll('[data-transition]').forEach(b=>b.disabled=dirty||!!gate(visible(),node,b.dataset.transition));const c=clone(visible());c.nodes[node].data=readDraft();const preview=$(node==='construction'?'#editor-preview':'#live-summary');if(preview)preview.innerHTML=node==='construction'?constructionSummary(c):node==='returns'?expectedCharts(c):node==='risk'?kellyAllocationView(c,c.nodes.risk.data,kellySizing):node==='attribution'?attributionSummary(c):'';}
 function openNew(){if(!leave())return;$('#new-form').reset();$('#new-dialog').showModal();}
 function addDemo(){if(!leave())return;const c=demoCase();try{const next=clone(store);next.cases.push(c);persist(next);markNebulaUnsynced(c.id);dirty=false;selectCase(c.id);notice('已创建模拟案例。所有价格、Greeks 与预算均为示例。');}catch(e){notice(e.message);}}
 $('#new').addEventListener('click',openNew);$('#cancel-new').addEventListener('click',()=>$('#new-dialog').close());
@@ -104,7 +109,7 @@ document.addEventListener('dblclick',e=>{
  input.addEventListener('blur',()=>finish(true),{once:true});
 });
 document.addEventListener('input',e=>{if(e.target.name==='candidate.instrument')resetBundleLegs(e.target.form);if(e.target.closest('#node-form')&&e.target.name!=='reason')updatePreview();});
-document.addEventListener('submit',e=>{if(e.target.id!=='node-form')return;e.preventDefault();if(node==='construction'){if(readOnly())return;const data=readDraft(),id=planEditor?.id,previous=planEditor;planEditor=null;if(!mutate(c=>savePlan(c,id,'',data)))planEditor=previous;return;}if(['returns','risk'].includes(node)&&!dirty){notice('当前输入已保存。');return;}const data=readDraft(),reason=e.target.elements.namedItem('reason')?.value.trim()||'更新节点内容';mutate(c=>{if(!saveNode(c,node,data,reason))throw Error('没有内容变更');});});
+document.addEventListener('submit',e=>{if(e.target.id!=='node-form')return;e.preventDefault();if(node==='risk')return;if(node==='construction'){if(readOnly())return;const data=readDraft(),id=planEditor?.id,previous=planEditor;planEditor=null;if(!mutate(c=>savePlan(c,id,'',data)))planEditor=previous;return;}if(node==='returns'&&!dirty){notice('当前输入已保存。');return;}const data=readDraft(),reason=e.target.elements.namedItem('reason')?.value.trim()||'更新节点内容';mutate(c=>{if(!saveNode(c,node,data,reason))throw Error('没有内容变更');});});
 document.addEventListener('click',async e=>{let b=e.target.closest('button');
  if(!b&&!e.target.closest('[popover]')){const row=e.target.closest('[data-plan-row]');if(row)b=row.querySelector('[data-edit-plan]');}
  if(!b)return;
@@ -123,23 +128,43 @@ document.addEventListener('click',async e=>{let b=e.target.closest('button');
  if(b.dataset.replay){if(!leave())return;replay=b.dataset.replay;dirty=false;planEditor=null;render();return;}
  if(b.id==='exit-replay'){replay=null;planEditor=null;render();return;}
  if(b.id==='archive-case'){if(dirty){notice('请先保存节点内容');return;}if(mutate(c=>archiveCase(c))){filter='archived';render();}return;}
+ if(b.id==='autofill-bundles'){
+  if(readOnly()||!leave())return;b.disabled=true;b.textContent='读取中…';
+  try{
+   const result=await loadPortfolioBundleDrafts(current()),byUnderlying=new Map(result.bundles.map(x=>[x.underlying,x]));
+   if(!result.matchedPositions){notice(`没有找到归属于「${result.names.join(' / ')||current().title}」的本地 Portfolio 持仓。请先在 Portfolio 风险敞口热力图设置 thesis 归属并刷新持仓。`);return;}
+   let created=0,updated=0,frozen=0;planEditor=null;
+   if(mutate(c=>{
+    const covered=new Set();
+    for(const p of c.design.plans){const underlying=bundleMetrics(p.construction).underlying,item=byUnderlying.get(underlying);if(!item)continue;covered.add(underlying);if(p.frozen){frozen++;continue;}savePlan(c,p.id,'',item.construction);updated++;}
+    for(const item of result.bundles)if(!covered.has(item.underlying)){savePlan(c,null,'',item.construction);created++;}
+   })){
+    const unsupported=result.unsupported.length;
+    notice(`自动填写完成：新建 ${created} 个，刷新 ${updated} 个${frozen?`，跳过 ${frozen} 个 Frozen Bundle`:''}${unsupported?`；${unsupported} 个无法识别的持仓未导入`:''}。`);
+   }
+  }catch(err){notice('自动填写失败：'+err.message);}
+  finally{if(b.isConnected){b.disabled=false;b.textContent='自动填写';}}
+  return;
+ }
  if(b.id==='add-plan'){if(readOnly()||!leave())return;planEditor=planEditor?.id===null?null:{id:null};dirty=false;render();return;}
+ if(b.dataset.togglePlanFrozen){if(readOnly()||!leave())return;const p=current().design.plans.find(p=>p.id===b.dataset.togglePlanFrozen);if(p)mutate(c=>setPlanFrozen(c,p.id,!p.frozen));return;}
  if(b.dataset.editPlan){if(!leave())return;const id=b.dataset.editPlan;
   if(planEditor?.id===id){planEditor=null;dirty=false;render();return;}
   if(readOnly()){planEditor={id};dirty=false;render();return;}
   planEditor={id};if(!mutate(c=>selectPlan(c,id)))planEditor=null;return;
  }
- if(b.id==='activate-allocation'){if(readOnly()||dirty){notice(dirty?'请先保存 Kelly Bankroll。':'当前版本只读。');return;}const result=kellyAllocation(current(),current().nodes.risk.data);mutate(c=>setActiveAllocation(c,result));return;}
+ if(b.id==='activate-allocation'){if(readOnly()){notice('当前版本只读。');return;}const policy=readDraft(),result=kellyAllocation(current(),policy,undefined,kellySizing.atr);mutate(c=>{c.nodes.risk.data=clone(policy);setActiveAllocation(c,result);});return;}
  if(b.dataset.deletePlan){if(readOnly()||!leave())return;const id=b.dataset.deletePlan,p=current().design.plans.find(p=>p.id===id);if(!confirm(`删除 Underlying Greek Bundle「${p.name}」及其单位收益假设？历史快照仍保留。`))return;planEditor=null;mutate(c=>deletePlan(c,id));return;}
  if(b.dataset.transition){if(dirty){notice('请先保存节点内容');return;}const to=b.dataset.transition;
  if(mutate(c=>transition(c,node,to))&&current().archived){filter='archived';render();}return;}
 });
-document.addEventListener('change',e=>{if(e.target.matches('[data-leg-toggle]')){e.target.closest('.payoff-card').classList.toggle('show-legs',e.target.checked);return;}if(e.target.id!=='design-plan-selector')return;const id=e.target.value;if(!leave()){e.target.value=visible().design.selectedId;return;}if(readOnly()){const c=visible(),p=c.design?.plans.find(p=>p.id===id);if(p){notice('历史快照按当时查看的方案回放；其他方案可在 Portfolio Construction 查看交易腿。');e.target.value=c.design.selectedId;}return;}mutate(c=>selectPlan(c,id));});
+document.addEventListener('change',e=>{if(e.target.matches('[data-leg-toggle]')){e.target.closest('.payoff-card').classList.toggle('show-legs',e.target.checked);return;}if(e.target.name?.startsWith('kelly.')){updatePreview();return;}if(e.target.id!=='design-plan-selector')return;const id=e.target.value;if(!leave()){e.target.value=visible().design.selectedId;return;}if(readOnly()){const c=visible(),p=c.design?.plans.find(p=>p.id===id);if(p){notice('历史快照按当时查看的方案回放；其他方案可在 Portfolio Construction 查看交易腿。');e.target.value=c.design.selectedId;}return;}mutate(c=>selectPlan(c,id));});
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
 window.addEventListener('storage',e=>{if(e.key===KEY)notice('另一个窗口修改了 Workflow 数据，请刷新页面。当前窗口不会覆盖新数据。');if(e.key===UNSYNCED_KEY){unsyncedNebulae=readUnsyncedNebulae();renderLibrary();}});
 
-function riskInspector(c){const ro=readOnly(),hasPositions=!!c.design?.plans.length;return `<section class="inspector kelly-allocation-inspector"><form id="node-form"><fieldset ${ro||!hasPositions?'disabled':''}>${kellyPolicyForm(c.nodes.risk.data)}<button class="primary" type="submit">保存 Kelly Bankroll</button><span id="dirty-label" class="hint"></span></fieldset></form><div id="live-summary">${kellyAllocationView(c)}</div>${ro?'':`<button id="activate-allocation" ${hasPositions?'':'disabled'}>设为 In Action Kelly Allocation</button>`}<div class="state-control"><h3>状态流转</h3>${ro?'<p class="hint">历史快照与归档实例只读。</p>':NODES.risk.states[c.nodes.risk.state].map(to=>`<button data-transition="${to}">${LABELS[to]}</button>`).join('')}</div></section>`;}
+function riskInspector(c){const ro=readOnly(),hasPositions=!!c.design?.plans.length;return `<section class="inspector kelly-allocation-inspector"><form id="node-form"><fieldset ${ro||!hasPositions?'disabled':''}>${kellyPolicyForm(c.nodes.risk.data)}</fieldset></form><div id="live-summary">${kellyAllocationView(c,c.nodes.risk.data,kellySizing)}</div>${ro?'':`<button id="activate-allocation" ${hasPositions?'':'disabled'}>设为 In Action Kelly Allocation</button>`}<div class="state-control"><h3>状态流转</h3>${ro?'<p class="hint">历史快照与归档实例只读。</p>':NODES.risk.states[c.nodes.risk.state].map(to=>`<button data-transition="${to}">${LABELS[to]}</button>`).join('')}</div></section>`;}
 galaxy=createGalaxy($('#galaxy-scene'),{onStar:openStar,onNebula:selectCase,onBackground:closeStar});
+loadAtrRiskData();
 try{selected=decodeURIComponent(location.hash.slice(1));}catch{selected='';}if(!current())selected=store.cases.find(c=>!c.archived)?.id||store.cases[0]?.id||'';if(current())filter=current().archived?'archived':'active';if(new URLSearchParams(location.search).get('node')==='attribution'){node='attribution';panelOpen=!!current();}render();galaxy.overview();if(panelOpen)galaxy.focus(selected,node);
 
 function sourceLinkHTML(c){if(!c.sourceLink)return '';return `<section class="callout"><strong>已关联：${esc(c.sourceLink.name)}</strong><p class="hint">${esc(c.linkedSymbols?.join(' · ')||'尚未分配标的')} · 来源：现有 Thesis。论点为导入时副本；持仓 Thesis 归属在 Portfolio 风险敞口热力图中手动设置。Portfolio Construction 现在使用 Underlying Greek Bundles；旧风险参数只保留为历史参考。</p>${(c.sourceLink.warnings||[]).map(w=>`<p class="hint">${esc(w)}</p>`).join('')}<details><summary>已保存的旧风险参数</summary><p class="hint">${(()=>{try{const p=JSON.parse(c.accountRiskSnapshot).policy,b=p.bundles[c.sourceLink.name]||{};return esc(`单笔风险 ${b.risk_pct??'—'}% · 总风险 ${b.total_risk_pct??'—'}% · ATR ${b.atr_mult??'—'} · 单笔仓位上限 ${b.max_position_pct??'自动'} · 总仓位上限 ${b.total_position_pct??'自动'}`);}catch{return '尚无快照';}})()}</p></details></section>`;}
@@ -166,7 +191,7 @@ async function syncAllWorkflow(){
  if(localStorage.getItem(KEY)!==raw){notice('其他窗口已更新 Workflow，请刷新后同步。');return;}
  if(!getPat()){$('#sync-auth-dialog').showModal();return;}
  const button=$('#sync-workflow');syncingWorkflow=true;button.disabled=true;button.textContent='同步中…';let uploaded=false;
- try{const payload=captureWorkflow();await syncWorkflowSnapshot(payload);uploaded=true;await syncLegacyWorkflowData();
+ try{refreshActiveNebulaCatalog(store);const payload=captureWorkflow();await syncWorkflowSnapshot(payload);uploaded=true;await syncLegacyWorkflowData();
  const changed=JSON.stringify(captureWorkflow())!==JSON.stringify(payload);unsyncedNebulae=remainingUnsyncedNebulae(unsyncedNebulae,store,payload);saveUnsyncedNebulae();renderLibrary();button.textContent=changed?'同步全部 · 有新改动':'同步全部 · 已同步';notice(changed?'本次快照已同步；期间产生了新改动，请再次同步。':'全部 Nebula、Node、历史快照及风险/归档数据已同步到私有库。');
  }catch(e){button.textContent='同步全部 · 重试';notice((uploaded?'Workflow 快照已同步，但风险/归档同步未全部完成：':'同步未完成：')+e.message);}finally{syncingWorkflow=false;button.disabled=false;}
 }

@@ -7,7 +7,7 @@ const positive=value=>finite(value)&&Number(value)>0;
 export function emptyRiskPolicy(){return {riskBudget:'',capitalLimit:'',maxDollarDelta:'',priceShock:10,positionRiskCapPct:60};}
 
 export function candidateMetrics(position,policy={}){
- const construction=position.construction||{},candidate=candidateDraft(construction),legs=construction.legs||[],exposure=structureExposure(legs),groups=payoffGroups(construction),errors=[];
+ const construction=position.construction||{},candidate=candidateDraft(construction),legs=construction.legs||[],exposure=structureExposure(legs,construction.greekScale),groups=payoffGroups(construction),errors=[];
  if(!candidate.underlying)errors.push('缺少 Underlying');
  if(!legs.length)errors.push('等待 Instrument 生成单位结构');
  const capital=exposure.cash==null?null:Math.abs(exposure.cash),shock=positive(policy.priceShock)?Number(policy.priceShock):10;

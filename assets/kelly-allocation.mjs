@@ -1,8 +1,9 @@
-import {greekScenarioMatrix,scenarioUnderwriting,scenarioUnderwritingError} from './expected-return.mjs?v=20260929-1';
+import {greekScenarioMatrix,scenarioUnderwriting,scenarioUnderwritingError} from './expected-return.mjs?v=20260929-2';
 import {bundleMetrics} from './trade-structure.mjs';
 
 const finite=value=>value!==''&&value!=null&&Number.isFinite(Number(value));
-export const emptyKellyPolicy=()=>({allocationVersion:1,bankroll:'',targetQuantile:25});
+export const REFERENCE_BANKROLL=100000;
+export const emptyKellyPolicy=()=>({allocationVersion:1,targetQuantile:25,thesisAtRiskLimitPct:'',atrReviewMultiple:1.5,atrHardStopMultiple:2.5});
 
 function projectSimplex(values){
  const positive=values.map(x=>Math.max(0,x));
@@ -45,33 +46,44 @@ export function solveKelly(scenarios,count){
  return {fractions,expectedLogGrowth:score,iterations};
 }
 
-export function kellyAllocation(c,data=c.nodes.risk.data){
- const bundles=c.design?.plans||[],bankroll=finite(data?.bankroll)&&Number(data.bankroll)>0?Number(data.bankroll):null;
+export function kellyAllocation(c,data=c.nodes.risk.data,capitalBase=null,atrByUnderlying={}){
+ const bundles=c.design?.plans||[],referenceBankroll=bundles.reduce((sum,bundle)=>sum+(Number(bundleMetrics(bundle.construction).referenceCapital)||0),0),bankroll=finite(capitalBase)&&Number(capitalBase)>0?Number(capitalBase):referenceBankroll;
  const underwritingError=scenarioUnderwritingError(c.nodes.returns.data,bundles),matrix=greekScenarioMatrix(c.nodes.returns.data,bundles),issues=[];
  if(!bundles.length)issues.push('先在 Portfolio Construction 添加 Underlying Greek Bundle');
  if(underwritingError)issues.push(underwritingError);
- if(bankroll==null)issues.push('填写 Kelly Bankroll');
+ if(!(bankroll>0))issues.push('请先为 Underlying Greek Bundle 填写 Reference Capital');
  const complete=!issues.length&&matrix.rows.every(row=>row.cells.every(cell=>cell.returnRate!=null));
  if(!complete)return {complete:false,issues:[...new Set(issues)],bankroll,bundles:[],scenarios:[],fractions:[],allocatedFraction:0,cashFraction:1,expectedLogGrowth:null};
  const scenarios=matrix.rows.map(row=>({id:row.id,name:row.name,probability:Number(row.probability)/100,returns:row.cells.map(cell=>cell.returnRate/100)}));
  const solution=solveKelly(scenarios,bundles.length),uncertaintyAware=hasUncertainty(c.nodes.returns.data),monteCarlo=uncertaintyAware?monteCarloKelly(c.nodes.returns.data,bundles):null,targetQuantile=[25,50,100].includes(Number(data?.targetQuantile))?Number(data.targetQuantile):25;
  const selected=monteCarlo?.[`q${targetQuantile}`];
- const targetFractions=selected?projectSimplex(selected):solution.fractions;
- const rows=bundles.map((bundle,index)=>{
+ const kellyFractions=selected?projectSimplex(selected):solution.fractions;
+ const hardStopMultiple=finite(data?.atrHardStopMultiple)&&Number(data.atrHardStopMultiple)>0?Number(data.atrHardStopMultiple):2.5;
+ const atRiskLimitPct=finite(data?.thesisAtRiskLimitPct)&&Number(data.thesisAtRiskLimitPct)>0?Number(data.thesisAtRiskLimitPct):null,atRiskLimitFraction=atRiskLimitPct==null?null:atRiskLimitPct/100,atRiskLimit=atRiskLimitFraction==null?null:bankroll*atRiskLimitFraction;
+ const preliminary=bundles.map((bundle,index)=>{
   const metrics=bundleMetrics(bundle.construction);
-  const fullFraction=solution.fractions[index],fraction=targetFractions[index];
+  const fullFraction=solution.fractions[index],fraction=kellyFractions[index];
   const targetCapital=fraction*bankroll;
   const referenceCapital=Number(metrics.referenceCapital);
   const scale=referenceCapital>0?targetCapital/referenceCapital:null;
-  return {bundleId:bundle.id,name:metrics.underlying||bundle.name,fullFraction,fraction,q25:monteCarlo?.q25[index]??fullFraction,q50:monteCarlo?.q50[index]??fullFraction,q100:monteCarlo?.q100[index]??fullFraction,targetCapital,referenceCapital,scale,delta:metrics.netDelta==null||scale==null?null:metrics.netDelta*scale,gamma:metrics.netGamma==null||scale==null?null:metrics.netGamma*scale,vega:metrics.netVega==null||scale==null?null:metrics.netVega*scale,theta:metrics.netTheta==null||scale==null?null:metrics.netTheta*scale};
+  const atr=Number(atrByUnderlying?.[metrics.underlying]),spot=Number(metrics.referenceSpot),direction=Math.sign(Number(metrics.netDelta)||0),stopMove=atr>0&&direction?(-direction*hardStopMultiple*atr):null;
+  const referenceStopPnl=stopMove==null||metrics.netDelta==null||metrics.netGamma==null?null:metrics.netDelta*stopMove+.5*metrics.netGamma*stopMove*stopMove;
+  const referenceStopRisk=referenceStopPnl==null?null:Math.max(0,-referenceStopPnl),referenceStopRiskRate=referenceStopRisk==null||!(referenceCapital>0)?null:referenceStopRisk/referenceCapital,estimatedStopRiskFraction=referenceStopRiskRate==null?null:fraction*referenceStopRiskRate,estimatedStopRisk=estimatedStopRiskFraction==null?null:estimatedStopRiskFraction*bankroll;
+  return {bundleId:bundle.id,name:metrics.underlying||bundle.name,underlying:metrics.underlying,fullFraction,fraction,q25:monteCarlo?.q25[index]??fullFraction,q50:monteCarlo?.q50[index]??fullFraction,q100:monteCarlo?.q100[index]??fullFraction,targetCapital,referenceCapital,scale,atr:Number.isFinite(atr)&&atr>0?atr:null,stopMove,stopPrice:Number.isFinite(spot)&&stopMove!=null?spot+stopMove:null,referenceStopRisk,referenceStopRiskRate,estimatedStopRiskFraction,estimatedStopRisk,delta:metrics.netDelta==null||scale==null?null:metrics.netDelta*scale,gamma:metrics.netGamma==null||scale==null?null:metrics.netGamma*scale,vega:metrics.netVega==null||scale==null?null:metrics.netVega*scale,theta:metrics.netTheta==null||scale==null?null:metrics.netTheta*scale};
  });
+ const rawStopRiskFraction=preliminary.reduce((sum,row)=>sum+(row.estimatedStopRiskFraction??0),0),rawStopRisk=rawStopRiskFraction*bankroll,hasCompleteAtr=preliminary.every(row=>row.atr!=null&&row.estimatedStopRiskFraction!=null);
+ const riskScale=atRiskLimitFraction&&hasCompleteAtr&&rawStopRiskFraction>atRiskLimitFraction?atRiskLimitFraction/rawStopRiskFraction:1,targetFractions=kellyFractions.map(x=>x*riskScale);
+ const rows=preliminary.map(row=>{const scale=row.scale==null?null:row.scale*riskScale;return {...row,fraction:row.fraction*riskScale,targetCapital:row.targetCapital*riskScale,scale,estimatedStopRiskFraction:row.estimatedStopRiskFraction==null?null:row.estimatedStopRiskFraction*riskScale,estimatedStopRisk:row.estimatedStopRisk==null?null:row.estimatedStopRisk*riskScale,delta:row.delta==null?null:row.delta*riskScale,gamma:row.gamma==null?null:row.gamma*riskScale,vega:row.vega==null?null:row.vega*riskScale,theta:row.theta==null?null:row.theta*riskScale};});
  const allocatedFraction=targetFractions.reduce((a,b)=>a+b,0),scenarioResults=scenarios.map(s=>{const portfolioReturn=s.returns.reduce((sum,r,j)=>sum+targetFractions[j]*r,0);return {id:s.id,name:s.name,probability:s.probability,portfolioReturn,pnl:portfolioReturn*bankroll,wealth:1+portfolioReturn};});
- return {complete:true,issues:[],bankroll,bundles:rows,scenarios:scenarioResults,fractions:targetFractions,fullFractions:solution.fractions,allocatedFraction,cashFraction:Math.max(0,1-allocatedFraction),expectedLogGrowth:objective(targetFractions,scenarios),pointExpectedLogGrowth:solution.expectedLogGrowth,iterations:solution.iterations,uncertaintyAware,monteCarlo,targetQuantile};
+ return {complete:true,issues:[],bankroll,bundles:rows,scenarios:scenarioResults,fractions:targetFractions,kellyFractions,fullFractions:solution.fractions,allocatedFraction,cashFraction:Math.max(0,1-allocatedFraction),expectedLogGrowth:objective(targetFractions,scenarios),pointExpectedLogGrowth:solution.expectedLogGrowth,iterations:solution.iterations,uncertaintyAware,monteCarlo,targetQuantile,atRiskLimitPct,atRiskLimit,hardStopMultiple,reviewMultiple:finite(data?.atrReviewMultiple)?Number(data.atrReviewMultiple):1.5,rawStopRisk,rawStopRiskFraction,estimatedStopRisk:rows.reduce((sum,row)=>sum+(row.estimatedStopRisk??0),0),estimatedStopRiskFraction:rows.reduce((sum,row)=>sum+(row.estimatedStopRiskFraction??0),0),riskScale,hasCompleteAtr,constraintIssue:atRiskLimitFraction&&!hasCompleteAtr?'部分 Underlying 缺少 ATR、Reference Spot 或可计算 Greeks，无法执行 Thesis At-Risk Limit':''};
 }
 
 export function kellyPolicyError(c,data){
- if(data?.bankroll===''||data?.bankroll==null)return '';
- if(!finite(data.bankroll)||Number(data.bankroll)<=0)return 'Kelly Bankroll 必须大于 0';
  if(data.targetQuantile!=null&&![25,50,100].includes(Number(data.targetQuantile)))return 'Target Quantile 只支持 Q25、Q50 或 Q100';
+ if(data.thesisAtRiskLimitPct!==''&&data.thesisAtRiskLimitPct!=null&&(!finite(data.thesisAtRiskLimitPct)||Number(data.thesisAtRiskLimitPct)<=0||Number(data.thesisAtRiskLimitPct)>100))return 'Thesis At-Risk Limit 必须在 0% 到 100% 之间或留空';
+ const review=data.atrReviewMultiple??1.5,hardStop=data.atrHardStopMultiple??2.5;
+ if(!finite(review)||Number(review)<=0)return 'ATR Review Multiple 必须大于 0';
+ if(!finite(hardStop)||Number(hardStop)<=0)return 'ATR Hard-Stop Multiple 必须大于 0';
+ if(Number(hardStop)<=Number(review))return 'ATR Hard-Stop Multiple 必须大于 ATR Review Multiple';
  return '';
 }

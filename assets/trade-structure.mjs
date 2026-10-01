@@ -32,10 +32,12 @@ export function positionLabel(d={},legacySymbol=''){
 export function structureDraft(data,legacySymbol='',horizon=''){
  const d=JSON.parse(JSON.stringify(data));
  if(d.structureVersion!==1){d.structureVersion=1;d.template='custom';d.evaluationDate=horizon;d.legs=d.legs.map(l=>({...newStructureLeg(),...l,underlying:l.underlying??legacySymbol}));}
+ if(d.greekScale!==10000){for(const l of d.legs||[])if(l.type!=='stock')for(const k of ['delta','gamma','theta','vega'])if(num(l[k]))l[k]=Math.abs(+l[k])*10000;d.greekScale=10000;}
  delete d.notes;return d;
 }
 export function structureError(d,complete=false){
  if(d.structureVersion!==1)return '';
+ if(d.greekScale!=null&&d.greekScale!==10000)return 'Greeks 缩放口径无效';
  if(!Object.hasOwn(TEMPLATES,d.template)||!Array.isArray(d.legs)||d.legs.length>60)return '交易结构格式无效';
  const date=x=>typeof x==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(x)&&Number.isFinite(Date.parse(x))&&new Date(x).toISOString().slice(0,10)===x;
  if(d.evaluationDate&&!date(d.evaluationDate))return '评估日期无效';
@@ -50,27 +52,28 @@ export function structureError(d,complete=false){
   if(l.type!=='stock'&&l.strike!==''&&+l.strike<=0)return '行权价须大于 0';
   if(l.type!=='stock'&&l.expiry&&!date(l.expiry))return '到期日无效';
   if(complete&&(!num(l.entry)||(l.type!=='stock'&&(!date(l.expiry)||!num(l.strike)||+l.strike<=0))))return '选定方案前请补齐参考价格与期权合约';
-  for(const k of ['delta','gamma','theta','vega'])if(l[k]!==''&&l[k]!=null&&!num(l[k]))return 'Greeks 须为数值或留空';
-  if(l.type!=='stock'&&num(l.delta)&&(Math.abs(+l.delta)>1||(l.type==='call'&&+l.delta<0)||(l.type==='put'&&+l.delta>0)))return 'Delta 使用多头合约口径：Call 0 到 1；Put −1 到 0';
+  for(const k of ['delta','gamma','theta','vega'])if(l[k]!==''&&l[k]!=null&&(!num(l[k])||(d.greekScale===10000&&+l[k]<0)))return 'Greeks 须为非负的 ×10,000 数值或留空';
+  if(l.type!=='stock'&&num(l.delta)&&(d.greekScale===10000?+l.delta>10000:Math.abs(+l.delta)>1))return 'Delta 须为 0 到 10,000 的绝对值';
   if(l.quoteAt&&!Number.isFinite(Date.parse(l.quoteAt)))return '指标观察时间无效';
  }
  return '';
 }
-export function structureExposure(legs){
+export function structureExposure(legs,greekScale=1){
  const groups=new Map();let cash=0;
  for(const l of legs){
   const key=ticker(l)||'未指定标的';if(!groups.has(key))groups.set(key,{symbol:key,delta:0,gamma:0,theta:0,vega:0});
   const g=groups.get(key),q=num(l.qty)?+l.qty*multiplier(l)*(l.side==='short'?-1:1):null;
   cash=cash===null||q===null||!num(l.entry)?null:cash+q*+l.entry;
   for(const k of ['delta','gamma','theta','vega']){
-   const v=l.type==='stock'?(k==='delta'?1:0):(num(l[k])?+l[k]:null);
+   const raw=num(l[k])?+l[k]:null,sign=greekScale===10000?(k==='delta'&&l.type==='put'||k==='theta'?-1:1):1;
+   const v=l.type==='stock'?(k==='delta'?1:0):(raw==null?null:greekScale===10000?Math.abs(raw)/10000*sign:raw);
    g[k]=g[k]===null||q===null||v===null?null:g[k]+q*v;
   }
  }
  return {cash:legs.length?cash:null,groups:[...groups.values()]};
 }
 export function bundleMetrics(d={}){
- const candidate=candidateDraft(d),exposure=structureExposure(d.legs||[]),group=exposure.groups.find(g=>g.symbol===candidate.underlying)||exposure.groups[0]||null;
+ const candidate=candidateDraft(d),exposure=structureExposure(d.legs||[],d.greekScale),group=exposure.groups.find(g=>g.symbol===candidate.underlying)||exposure.groups[0]||null;
  const spots=[...new Set((d.legs||[]).filter(l=>num(l.underlyingPrice)&&+l.underlyingPrice>0).map(l=>+l.underlyingPrice))];
  const referenceCapital=num(candidate.referenceCapital)&&+candidate.referenceCapital>0?+candidate.referenceCapital:null;
  return {underlying:candidate.underlying,referenceSpot:spots.length===1?spots[0]:null,spotConflict:spots.length>1,referenceCapital,netDelta:group?.delta??null,netGamma:group?.gamma??null,netVega:group?.vega??null,netTheta:group?.theta??null,legCount:(d.legs||[]).length};

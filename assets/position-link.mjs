@@ -29,7 +29,10 @@ export function normalizePortfolio(raw) {
   if(ins.type!=='stock'&&!Number.isInteger(qty)){unsupported.push({account:p.account,symbol:String(p.sym||''),reason:'期权张数不是整数'});continue;}
   const row={...ins,account:p.account,accountLabel:account.label,broker:p.broker||account.broker,symbol:String(p.sym),side:+p.qty<0?'short':'long',qty,
    entry:finite(p.avg_cost)&&+p.avg_cost>=0?+p.avg_cost/factor:'',mark:finite(p.price)&&+p.price>=0?+p.price/factor:'',
-   sourceAt:account.sourceAt,priceAt:stamp(p.price_as_of),instrumentId:String(p.instrument_id||'')};
+   sourceAt:account.sourceAt,priceAt:stamp(p.price_as_of),instrumentId:String(p.instrument_id||''),
+   underlyingPrice:finite(p.underlying_price)&&+p.underlying_price>=0?+p.underlying_price:'',
+   delta:finite(p.delta)?+p.delta:'',gamma:finite(p.gamma)?+p.gamma:'',theta:finite(p.theta)?+p.theta:'',vega:finite(p.vega)?+p.vega:'',
+   iv:finite(p.iv)&&+p.iv>=0?+p.iv:finite(p.implied_volatility)&&+p.implied_volatility>=0?+p.implied_volatility:''};
   row.key=positionKey(row);if(seen.has(row.key))throw Error('同账户存在重复合约行，不能安全分配');seen.add(row.key);rows.push(row);
  }
  return {builtAt:raw.updated_at,accounts,rows,unsupported};

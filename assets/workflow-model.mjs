@@ -1,8 +1,8 @@
-import {emptyScenarioUnderwriting,returnInputError,scenarioUnderwritingError,captureReturnBasis,validateReturnBasis,numeric} from './expected-return.mjs?v=20260929-1';
+import {emptyScenarioUnderwriting,returnInputError,scenarioUnderwritingError,captureReturnBasis,validateReturnBasis,numeric} from './expected-return.mjs?v=20260929-2';
 import {structureDraft,structureError,ticker,structureExposure,positionLabel,candidateDraft} from './trade-structure.mjs';
 import { validateAttributionEvidence } from './attribution-link.mjs';
 import { allocationIssues } from "./risk-budget.mjs";
-import {emptyKellyPolicy,kellyPolicyError} from './kelly-allocation.mjs?v=20260929-2';
+import {emptyKellyPolicy,kellyPolicyError} from './kelly-allocation.mjs?v=20260930-3';
 // Standalone workflow domain. No dependencies on dashboard data or broker credentials.
 export const VERSION = 1;
 export const KEY = 'research-desk.workflow.v1';
@@ -132,7 +132,7 @@ export function saveNode(c,key,data,reason='更新节点内容'){
 }
 const DESIGN_KEYS=['construction'];
 export function emptyDesign(horizon=''){
- return {construction:{structureVersion:1,template:'stock',evaluationDate:horizon,candidate:{version:1,underlying:'',instrument:'stock',referenceCapital:'',targetDte:'',longDelta:'',shortDelta:'',plannedEntry:''},legs:[]}};
+ return {construction:{structureVersion:1,greekScale:10000,template:'stock',evaluationDate:horizon,candidate:{version:1,underlying:'',instrument:'stock',referenceCapital:'',targetDte:'',longDelta:'',shortDelta:'',plannedEntry:''},legs:[]}};
 }
 export function initializePlans(c){
  const id='legacy-'+c.id,plan={id,name:'现有方案',...Object.fromEntries(DESIGN_KEYS.map(k=>[k,clone(c.nodes[k].data)]))};
@@ -144,20 +144,28 @@ export function savePlan(c,id,name,construction){
  writable(c);const modern=!!construction.candidate;if(modern){construction=clone(construction);construction.candidate=candidateDraft(construction,c.symbol);name=positionLabel(construction,c.symbol);if(!construction.candidate.underlying)throw Error('请填写 Underlying');}else{name=String(name||'').trim();if(!name||name.length>100)throw Error('请填写方案名称（最多 100 字）');if(c.design.plans.some(p=>p.id!==id&&p.name===name))throw Error('方案名称已存在');}
  const error=structureError(construction);if(error)throw Error(error);
  let p=c.design.plans.find(p=>p.id===id);if(id&&!p)throw Error('Underlying Greek Bundle 已不存在');
- if(!p){if(c.design.plans.length>=30)throw Error('每个 thesis 最多 30 个 Underlying Greek Bundle');p={id:uid(),name,...emptyDesign(c.horizon)};c.design.plans.push(p);}
+ if(!p){if(c.design.plans.length>=30)throw Error('每个 thesis 最多 30 个 Underlying Greek Bundle');p={id:uid(),name,frozen:false,...emptyDesign(c.horizon)};c.design.plans.push(p);}
  p.name=name;p.construction=clone(construction);delete c.design.allocation;projectPlan(c,p.id);
  record(c,id?'更新 Underlying Greek Bundle':'添加 Underlying Greek Bundle','construction',name);return p.id;
+}
+export function setPlanFrozen(c,id,frozen){
+ writable(c);const p=c.design.plans.find(p=>p.id===id);if(!p)throw Error('Underlying Greek Bundle 不存在');
+ if(typeof frozen!=='boolean')throw Error('Bundle Freeze 状态无效');if(!!p.frozen===frozen)return;
+ p.frozen=frozen;record(c,frozen?'Frozen Bundle':'Unfrozen Bundle','construction',p.name);
 }
 export function selectPlan(c,id){writable(c);if(!c.design.plans.some(p=>p.id===id))throw Error('方案不存在');if(c.design.selectedId===id)return;projectPlan(c,id);record(c,'切换查看方案','construction',c.design.plans.find(p=>p.id===id).name);}
 export function setActivePlan(c,id){writable(c);if(id&&!c.design.plans.some(p=>p.id===id))throw Error('方案不存在');c.design.activeId=id;captureReturnBasis(c,now());record(c,'设置 In Action','construction',id?c.design.plans.find(p=>p.id===id).name:'取消 In Action');}
 export function setActiveAllocation(c,result){
  writable(c);
  if(result?.complete&&Array.isArray(result.bundles)){
-  if(!result.bundles.some(x=>x.fraction>0))throw Error('Full Kelly 当前建议保持现金，无法设为 In Action');
-  c.design.allocation={method:result.uncertaintyAware?'monte-carlo-kelly':'multivariate-kelly',inAction:true,at:now(),bankroll:result.bankroll,allocatedFraction:result.allocatedFraction,cashFraction:result.cashFraction,expectedLogGrowth:result.expectedLogGrowth,items:clone(result.bundles),scenarios:clone(result.scenarios),monteCarlo:result.monteCarlo?{samples:result.monteCarlo.samples,quantile:result.targetQuantile/100}:null};
+  if(result.constraintIssue)throw Error(result.constraintIssue);
+  const items=result.bundles.map(({bundleId,name,fullFraction,fraction,q25,q50,q100,atr,stopMove,stopPrice,estimatedStopRiskFraction})=>({bundleId,name,fullFraction,fraction,q25,q50,q100,atr,stopMove,stopPrice,estimatedStopRiskFraction}));
+  const scenarios=result.scenarios.map(({id,name,probability,portfolioReturn,wealth})=>({id,name,probability,portfolioReturn,wealth}));
+  c.design.allocation={method:result.uncertaintyAware?'monte-carlo-kelly':'multivariate-kelly',inAction:true,at:now(),allocatedFraction:result.allocatedFraction,cashFraction:result.cashFraction,expectedLogGrowth:result.expectedLogGrowth,thesisAtRiskLimitPct:result.atRiskLimitPct,atrReviewMultiple:result.reviewMultiple,atrHardStopMultiple:result.hardStopMultiple,estimatedStopRiskPct:result.estimatedStopRiskFraction*100,atrRiskScale:result.riskScale,items,scenarios,monteCarlo:result.monteCarlo?{samples:result.monteCarlo.samples,quantile:result.targetQuantile/100}:null};
   const capital=result.bankroll*result.allocatedFraction,expectedNet=result.scenarios.reduce((sum,row)=>sum+row.probability*row.pnl,0);
   if(capital>0)c.returnBasis={planId:'kelly-allocation',planName:'Kelly Allocation',expectedNet,capital,expectedDate:c.horizon||'',rate:expectedNet/capital*100,at:c.design.allocation.at};
-  record(c,'设置 In Action Kelly Allocation','risk',result.bundles.filter(x=>x.fraction>0).map(x=>`${x.name} ${Number(x.fraction*100).toFixed(2)}%`).join('；'));return;
+  const active=result.bundles.filter(x=>x.fraction>0).map(x=>`${x.name} ${Number(x.fraction*100).toFixed(2)}%`).join('；');
+  record(c,'设置 In Action Kelly Allocation','risk',active||'Target Allocation 0% · 保持现金');return;
  }
  if(!result||!Array.isArray(result.allocations)||!result.allocations.some(x=>x.quantity>0))throw Error('当前没有可执行的优化数量');
  c.design.allocation={inAction:true,at:now(),items:clone(result.allocations),riskBudget:result.riskBudget,usedRisk:result.usedRisk,usedCapital:result.usedCapital,expected:result.expected,dollarDelta:result.dollarDelta};
@@ -170,8 +178,8 @@ export function demoCase(){const horizon=new Date(Date.now()+30*86400000).toISOS
  Object.assign(c.nodes.hypothesis.data,{expectation:'一个月内股价上涨约 10%',verification:'催化兑现，股价向目标区间运行',invalidation:'催化未兑现，或关键支撑失效'});c.nodes.hypothesis.state='running';
  Object.assign(c.nodes.signal.data,{condition:'日线收盘 MACD 上穿信号线，次日确认',expires:horizon,evidence:'模拟：日线金叉已确认'});c.nodes.signal.state='running';
  c.nodes.returns.data=emptyScenarioUnderwriting();
- c.nodes.construction.data.legs=[{type:'stock',side:'long',qty:20,entry:100,strike:'',expiry:'',delta:'',gamma:'',theta:'',vega:''},{type:'put',side:'short',qty:1,entry:3,strike:100,expiry:horizon,delta:-.45,gamma:.03,theta:-.04,vega:.1},{type:'put',side:'long',qty:1,entry:1,strike:95,expiry:horizon,delta:-.25,gamma:.02,theta:-.03,vega:.08}];c.nodes.construction.data.legs=c.nodes.construction.data.legs.map(l=>({...l,underlying:'A',iv:'',quoteAt:'',underlyingPrice:''}));c.nodes.construction.state='running';c.nodes.returns.state='running';
- c.nodes.risk.data={allocationVersion:1,bankroll:50000,targetQuantile:25};c.nodes.risk.state='running';
+ c.nodes.construction.data.legs=[{type:'stock',side:'long',qty:20,entry:100,strike:'',expiry:'',delta:'',gamma:'',theta:'',vega:''},{type:'put',side:'short',qty:1,entry:3,strike:100,expiry:horizon,delta:4500,gamma:300,theta:400,vega:1000},{type:'put',side:'long',qty:1,entry:1,strike:95,expiry:horizon,delta:2500,gamma:200,theta:300,vega:800}];c.nodes.construction.data.legs=c.nodes.construction.data.legs.map(l=>({...l,underlying:'A',iv:'',quoteAt:'',underlyingPrice:''}));c.nodes.construction.state='running';c.nodes.returns.state='running';
+ c.nodes.risk.data={allocationVersion:1,targetQuantile:25};c.nodes.risk.state='running';
  initializePlans(c);
  record(c,'加载模拟方案','construction','Long stock + bull put spread；未关联任何实际持仓');return c;}
 export function validateStore(store){
@@ -205,11 +213,11 @@ export function validateStore(store){
    const d=c.design;if(d.version!==1||!Array.isArray(d.plans)||d.plans.length>30||typeof d.selectedId!=='string'||typeof d.activeId!=='string')throw Error('方案列表格式无效');
    const ids=new Set();
    for(const p of d.plans){
-    if(!p||typeof p.id!=='string'||!p.id||ids.has(p.id)||typeof p.name!=='string'||!p.name.trim()||p.name.length>100)throw Error('Position 名称或 ID 无效');ids.add(p.id);
+    if(!p||typeof p.id!=='string'||!p.id||ids.has(p.id)||typeof p.name!=='string'||!p.name.trim()||p.name.length>100||(p.frozen!=null&&typeof p.frozen!=='boolean'))throw Error('Position 名称、ID 或 Freeze 状态无效');ids.add(p.id);
     const test=clone(c);delete test.design;for(const key of DESIGN_KEYS)test.nodes[key].data=p[key];body(test);
    }
    if((d.plans.length&&!ids.has(d.selectedId))||(!d.plans.length&&d.selectedId)||(d.activeId&&!ids.has(d.activeId)))throw Error('方案引用无效');
-   if(d.allocation!=null){const a=d.allocation,kelly=['multivariate-kelly','monte-carlo-kelly'].includes(a.method);if(typeof a!=='object'||!Array.isArray(a.items)||typeof a.inAction!=='boolean'||(kelly?a.items.some(x=>!ids.has(x.bundleId)||typeof x.name!=='string'||!numeric(x.fraction)||x.fraction<0||x.fraction>1||!numeric(x.targetCapital)||x.targetCapital<0):a.items.some(x=>!ids.has(x.positionId)||!Number.isInteger(x.quantity)||x.quantity<0)))throw Error('Allocation 格式无效');}
+   if(d.allocation!=null){const a=d.allocation,kelly=['multivariate-kelly','monte-carlo-kelly'].includes(a.method);if(typeof a!=='object'||!Array.isArray(a.items)||typeof a.inAction!=='boolean'||(kelly?a.items.some(x=>!ids.has(x.bundleId)||typeof x.name!=='string'||!numeric(x.fraction)||x.fraction<0||x.fraction>1||(x.targetCapital!=null&&(!numeric(x.targetCapital)||x.targetCapital<0))):a.items.some(x=>!ids.has(x.positionId)||!Number.isInteger(x.quantity)||x.quantity<0)))throw Error('Allocation 格式无效');}
    const selected=d.plans.find(p=>p.id===d.selectedId);if(selected&&DESIGN_KEYS.some(k=>JSON.stringify(selected[k])!==JSON.stringify(c.nodes[k].data)))throw Error('方案与节点数据不一致');
   }
 

@@ -1,8 +1,10 @@
 import {KEY,validateStore} from './workflow-model.mjs';
+import {ACTIVE_NEBULAE_KEY,activeNebulaCatalog} from './workflow-risk-bridge.mjs';
 import {getPat,ghHeaders} from './shared.js';
 const URL='https://api.github.com/repos/takkujunjieli/stock-dashboard-private/contents/workflow.json';
 export const UNSYNCED_KEY=KEY+'.unsynced-nebulae';
-export const SYNC_KEYS=[KEY,'riskPolicy','riskGroups','riskMaxHeat','riskStops','riskTargets','completedTheses','thesisEvents'];
+export const SYNC_KEYS=[KEY,ACTIVE_NEBULAE_KEY,'riskPolicy','riskGroups','riskMaxHeat','riskStops','riskTargets','completedTheses','thesisEvents'];
+export function refreshActiveNebulaCatalog(store,storage=localStorage){const catalog=activeNebulaCatalog(store);storage.setItem(ACTIVE_NEBULAE_KEY,JSON.stringify(catalog));return catalog;}
 export function readUnsyncedNebulae(storage=localStorage){try{const value=JSON.parse(storage.getItem(UNSYNCED_KEY)||'[]');return new Set(Array.isArray(value)?value.filter(id=>typeof id==='string'):[]);}catch{return new Set();}}
 export function writeUnsyncedNebulae(ids,storage=localStorage){storage.setItem(UNSYNCED_KEY,JSON.stringify([...ids]));}
 export function remainingUnsyncedNebulae(ids,currentStore,payload){

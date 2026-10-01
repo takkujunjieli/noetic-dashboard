@@ -2,7 +2,8 @@ import {bundleMetrics,ticker, multiplier, structureDraft, structureError} from '
 export const numeric=x=>x!==''&&x!=null&&typeof x!=='boolean'&&Number.isFinite(Number(x));
 export const validDay=x=>typeof x==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(x)&&Number.isFinite(Date.parse(x))&&new Date(x).toISOString().slice(0,10)===x;
 export const SCENARIOS=[['bull','Bull'],['base','Base'],['bear','Bear']];
-export function emptyScenarioUnderwriting(){return {scenarioVersion:1,daysForward:'',scenarios:SCENARIOS.map(([id,name],i)=>({id,name,probability:[25,50,25][i],probabilityRange:'',moves:{}}))};}
+export const SCENARIO_DEFAULTS={bull:{probability:30,priceMove:20},base:{probability:40,priceMove:0},bear:{probability:30,priceMove:-20}};
+export function emptyScenarioUnderwriting(){return {scenarioVersion:1,daysForward:'',scenarios:SCENARIOS.map(([id,name])=>({id,name,probability:SCENARIO_DEFAULTS[id].probability,probabilityRange:10,moves:{}}))};}
 export function scenarioUnderwriting(data={}){
  if(data.scenarioVersion===1&&Array.isArray(data.scenarios)){const copy=JSON.parse(JSON.stringify(data));for(const [id,name]of SCENARIOS){let row=copy.scenarios.find(x=>x.id===id);if(!row){row={id,name,probability:'',probabilityRange:'',moves:{}};copy.scenarios.push(row);}row.name=name;row.probabilityRange??='';row.moves=row.moves&&typeof row.moves==='object'?row.moves:{};for(const move of Object.values(row.moves)){move.priceMoveRange??='';move.ivChangeRange??='';}}copy.scenarios=SCENARIOS.map(([id])=>copy.scenarios.find(x=>x.id===id));return copy;}
  return emptyScenarioUnderwriting();

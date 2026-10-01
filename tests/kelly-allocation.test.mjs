@@ -12,14 +12,15 @@ test('single bundle Kelly matches the closed-form binary result',()=>{
 
 test('multivariate Kelly consumes the joint Greek scenario matrix and scales the whole bundle',()=>{
  const bundle={id:'mu',name:'MU Bundle',construction:{structureVersion:1,template:'stock',candidate:{underlying:'MU',instrument:'stock',referenceCapital:10000},legs:[{...newStructureLeg('stock','long',100),underlying:'MU',entry:100,underlyingPrice:100}]}};
- const c={design:{plans:[bundle]},nodes:{returns:{data:{scenarioVersion:1,daysForward:0,scenarios:[{id:'bull',name:'Bull',probability:55,moves:{mu:{priceMove:20,ivChange:''}}},{id:'base',name:'Base',probability:0,moves:{mu:{priceMove:0,ivChange:''}}},{id:'bear',name:'Bear',probability:45,moves:{mu:{priceMove:-20,ivChange:''}}}]}},risk:{data:{allocationVersion:1,bankroll:50000}}}};
+ const c={design:{plans:[bundle]},nodes:{returns:{data:{scenarioVersion:1,daysForward:0,scenarios:[{id:'bull',name:'Bull',probability:55,moves:{mu:{priceMove:20,ivChange:''}}},{id:'base',name:'Base',probability:0,moves:{mu:{priceMove:0,ivChange:''}}},{id:'bear',name:'Bear',probability:45,moves:{mu:{priceMove:-20,ivChange:''}}}]}},risk:{data:{allocationVersion:1}}}};
  const result=kellyAllocation(c);
  assert.equal(kellyPolicyError(c,c.nodes.risk.data),'');
  assert.equal(result.complete,true);
  assert.ok(Math.abs(result.bundles[0].fraction-.5)<1e-4);
- assert.ok(Math.abs(result.bundles[0].targetCapital-25000)<5);
- assert.ok(Math.abs(result.bundles[0].scale-2.5)<.001);
- assert.ok(Math.abs(result.bundles[0].delta-250)<.1);
+ assert.ok(Math.abs(result.bundles[0].targetCapital-5000)<5);
+ assert.ok(Math.abs(result.bundles[0].scale-.5)<.001);
+ assert.ok(Math.abs(result.bundles[0].delta-50)<.1);
+ const scaled=kellyAllocation(c,c.nodes.risk.data,50000);assert.ok(Math.abs(scaled.bundles[0].targetCapital-25000)<5);
  assert.ok(result.scenarios.every(s=>s.wealth>0));
  for(const scenario of c.nodes.returns.data.scenarios){scenario.probabilityRange=scenario.id==='base'?0:10;scenario.moves.mu.priceMoveRange=5;scenario.moves.mu.ivChangeRange='';}
  const uncertain=kellyAllocation(c),repeat=kellyAllocation(c);
@@ -28,19 +29,34 @@ test('multivariate Kelly consumes the joint Greek scenario matrix and scales the
  assert.equal(q50.targetQuantile,50);assert.equal(q100.targetQuantile,100);assert.ok(q50.fractions[0]>=uncertain.fractions[0]);assert.ok(q100.fractions[0]>=q50.fractions[0]);
 });
 
-test('Kelly refuses incomplete underwriting and nonpositive bankroll',()=>{
- const c={design:{plans:[]},nodes:{returns:{data:{}},risk:{data:{allocationVersion:1,bankroll:0}}}};
+test('Kelly refuses incomplete underwriting and validates target quantile',()=>{
+ const c={design:{plans:[]},nodes:{returns:{data:{}},risk:{data:{allocationVersion:1}}}};
  const result=kellyAllocation(c);
  assert.equal(result.complete,false);
- assert.match(kellyPolicyError(c,c.nodes.risk.data),/Bankroll/);
- assert.match(kellyPolicyError(c,{bankroll:10000,targetQuantile:75}),/Q25/);
+ assert.equal(kellyPolicyError(c,c.nodes.risk.data),'');
+ assert.match(kellyPolicyError(c,{targetQuantile:75}),/Q25/);
 });
 
 test('In Action Kelly allocation freezes a valid attribution basis and roundtrips',()=>{
  const c=createCase({title:'Kelly snapshot'}),construction={structureVersion:1,template:'stock',evaluationDate:'',candidate:{underlying:'MU',instrument:'stock',referenceCapital:10000},legs:[{...newStructureLeg('stock','long',100),underlying:'MU',entry:100,underlyingPrice:100}]};
  const id=savePlan(c,null,'',construction),moves=priceMove=>({[id]:{priceMove,ivChange:''}});
  saveNode(c,'returns',{scenarioVersion:1,daysForward:0,scenarios:[{id:'bull',name:'Bull',probability:55,moves:moves(20)},{id:'base',name:'Base',probability:0,moves:moves(0)},{id:'bear',name:'Bear',probability:45,moves:moves(-20)}]});
- saveNode(c,'risk',{allocationVersion:1,bankroll:50000});setActiveAllocation(c,kellyAllocation(c));
+ saveNode(c,'risk',{allocationVersion:1,targetQuantile:25});setActiveAllocation(c,kellyAllocation(c));
  assert.equal(c.design.allocation.method,'multivariate-kelly');assert.ok(c.returnBasis.capital>0);assert.equal(c.returnBasis.planName,'Kelly Allocation');
  validateStore({version:VERSION,cases:[c]});
+});
+
+test('ATR hard stop caps Kelly allocation while review multiple remains a monitoring threshold',()=>{
+ const bundle={id:'mu',name:'MU Bundle',construction:{structureVersion:1,template:'stock',candidate:{underlying:'MU',instrument:'stock',referenceCapital:10000},legs:[{...newStructureLeg('stock','long',100),underlying:'MU',entry:100,underlyingPrice:100}]}};
+ const c={design:{plans:[bundle]},nodes:{returns:{data:{scenarioVersion:1,daysForward:0,scenarios:[{id:'bull',name:'Bull',probability:55,moves:{mu:{priceMove:20,ivChange:''}}},{id:'base',name:'Base',probability:0,moves:{mu:{priceMove:0,ivChange:''}}},{id:'bear',name:'Bear',probability:45,moves:{mu:{priceMove:-20,ivChange:''}}}]}},risk:{data:{allocationVersion:1,targetQuantile:25,thesisAtRiskLimitPct:.5,atrReviewMultiple:1.5,atrHardStopMultiple:2.5}}}};
+ const result=kellyAllocation(c,c.nodes.risk.data,100000,{MU:2});
+ assert.equal(result.reviewMultiple,1.5);assert.equal(result.hardStopMultiple,2.5);assert.ok(Math.abs(result.bundles[0].stopPrice-95)<1e-9);assert.ok(Math.abs(result.estimatedStopRiskFraction-.005)<1e-9);assert.ok(Math.abs(result.estimatedStopRisk-500)<1e-6);assert.ok(Math.abs(result.riskScale-.2)<1e-4);assert.ok(Math.abs(result.bundles[0].fraction-.1)<1e-4);
+});
+
+test('zero Kelly allocation can be frozen as an explicit cash decision',()=>{
+ const c=createCase({title:'Cash decision'}),construction={structureVersion:1,template:'stock',evaluationDate:'',candidate:{underlying:'MU',instrument:'stock',referenceCapital:10000},legs:[{...newStructureLeg('stock','long',100),underlying:'MU',entry:100,underlyingPrice:100}]};
+ const id=savePlan(c,null,'',construction),moves=priceMove=>({[id]:{priceMove,ivChange:''}});
+ saveNode(c,'returns',{scenarioVersion:1,daysForward:0,scenarios:[{id:'bull',name:'Bull',probability:20,moves:moves(10)},{id:'base',name:'Base',probability:30,moves:moves(0)},{id:'bear',name:'Bear',probability:50,moves:moves(-20)}]});
+ const result=kellyAllocation(c);assert.equal(result.allocatedFraction,0);setActiveAllocation(c,result);
+ assert.equal(c.design.allocation.inAction,true);assert.equal(c.design.allocation.allocatedFraction,0);assert.equal(c.design.allocation.cashFraction,1);assert.equal(c.returnBasis,undefined);assert.match(c.events.at(-1).reason,/保持现金/);
 });
