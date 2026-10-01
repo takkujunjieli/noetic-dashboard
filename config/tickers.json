@@ -53,10 +53,10 @@
     "COIN",
     "BE",
     "SPCX",
-    "COHR"
+    "COHR",
+    "MRVL"
   ],
   "uncertain": [
-    "MRVL",
     "CRWD"
   ],
   "neutral": [
