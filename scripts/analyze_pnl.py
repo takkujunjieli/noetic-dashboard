@@ -33,6 +33,7 @@ ACCOUNT_CAPITAL = {          # 账户资本基数≈当前市值(equity_value),�
     "takku-rh-2566": 35150,  # Takku·个人(Margin)
 }
 HUI_ACCOUNT = "rh-7159"
+AUTO_BACKFILL_MONTHLY_SNAPSHOTS = False
 HUI_BACKFILL_START = "2026-01"
 PRICE_CACHE = ROOT / "data/.px_cache.json"
 UA = {"User-Agent": "Mozilla/5.0 (research-dashboard monthly netliq)"}
@@ -164,6 +165,12 @@ def backfill_hui_monthly_snapshots(raw_files=RAW_FILES):
     reconstructed trading P&L. This avoids pretending old RH net-liq snapshots exist, while
     making month-end estimates far closer than using current holdings against old prices.
     """
+    # Month-end net liq is an account statement value, not a price-derived metric.
+    # It is recorded only from the explicitly selected Robinhood MCP account (or an
+    # operator-supplied broker value).  Never synthesize or overwrite it from trades.
+    if not AUTO_BACKFILL_MONTHLY_SNAPSHOTS:
+        return None
+
     raw = []
     latest_equity = None
     for rf in raw_files:
