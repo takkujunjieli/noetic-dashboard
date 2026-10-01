@@ -3,6 +3,7 @@ import { workflowArchiveHTML } from './attribution-journal.js';
 import { $, esc, loadJSON, loadFreshJSON, getPat, setPat, ghHeaders, REPO } from "./shared.js";
 import { mountLegacyRiskControl } from "./risk-control.js";
 import { estimatePositionRisk } from "./risk-budget.mjs";
+import {readActiveNebulaCatalog,nebulaRiskModels} from './workflow-risk-bridge.mjs?v=20260930-3';
 const LWC = window.LightweightCharts;
 
 /* 账户风险控制 · 仓位计算器 + thesis 管理(UI 称 Thesis;历史数据键沿用 bundles/default_bundle
@@ -220,6 +221,7 @@ let ASSIGN = null;   // {sym: thesis} 当前手工归属；risk_policy.json 为�
 let MAXHEAT = null;  // 组合总在险上限%(内存态;本机 localStorage 即时持久化,「保存到 config」再推给 agent)
 let SORT = { key: "riskPct", dir: -1 };   // 热力表排序(点表头切换;文本默认升序、数值默认降序;null 永远排最后)
 let PRICE_OVERRIDE = null, PRICE_SYNCED_AT = null;   // 「同步现价」按钮从 K线快照拉到的最新价
+const WORKFLOW_ASSIGNMENT_RESET_KEY='riskGroups.workflow-nebula-reset.v1';
 
 function sortRows(rows) {
   const { key, dir } = SORT, strK = key === "sym" || key === "bundleName";
@@ -242,15 +244,14 @@ export async function renderRiskExposure() {
     if (heatEl) heatEl.innerHTML = '<span class="muted small">本地专用:需 data/portfolio.json(gitignored,公开站不显示)。本地刷新持仓后可见。</span>';
     host.innerHTML = ""; return;
   }
-  const ATR = (atrJ && atrJ.atr14) || {};
+  const ATR = (atrJ && atrJ.atr14) || {},catalog=readActiveNebulaCatalog(),activeCases=catalog.cases||[];
   const LP = rLS("riskPolicy", {});   // thesis 编辑器的本机即时态,优先于 config 文件,让改动立刻反映到热力表
   const bundles = LP.bundles || (P && P.bundles) || { "常规": { risk_pct: 0.75, atr_mult: 2.0, max_position_pct: 20 } };
-  const bnames = Object.keys(bundles);
-  const dfb = LP.default_bundle || (P && P.default_bundle);
-  const defB = (dfb && bundles[dfb]) ? dfb : bnames[0];
+  const bnames = activeCases.map(c=>c.title);
   MAXHEAT = +rLS("riskMaxHeat", (P && P.portfolio && P.portfolio.max_total_heat_pct) ?? 6);
   const maxHeat = MAXHEAT;
-  if (ASSIGN === null) ASSIGN = { ...((P && P.assignments) || {}), ...rLS("riskGroups", {}) };  // 本机 localStorage 覆盖(本地即时持久化,无需 PAT);「发布到 config」再推给 agent
+  if(!rLS(WORKFLOW_ASSIGNMENT_RESET_KEY,false)){rLSset('riskGroups',{});rLSset(WORKFLOW_ASSIGNMENT_RESET_KEY,true);ASSIGN={};rpSchedule();}
+  if (ASSIGN === null) ASSIGN = { ...rLS("riskGroups", {}) };
   await ensureThesisBaselines(ASSIGN, pf);
   const stops = rLS("riskStops", {});
   const targets = rLS("riskTargets", {});   // 每仓止盈目标价(本机,可空)
@@ -274,102 +275,59 @@ export async function renderRiskExposure() {
   }
   if (!(equity > 0)) { equity = positions.reduce((s, p) => s + Math.abs(p.mkt_value || 0), 0) || 1; eqSrc = "持仓市值合计"; }
 
+  const workflowModels=new Map(),targetByBundle={};
+  for(const c of activeCases)for(const model of nebulaRiskModels(c,equity,ATR)){workflowModels.set(`${c.title}\u0000${model.underlying}`,model);if(model.targetCapital!=null)targetByBundle[c.title]=(targetByBundle[c.title]||0)+model.targetCapital;}
+
   // 先算每仓风险,再汇总 thesis;「距目标」须基于完整 thesis 总量统一分摊,不能让每只票各自承担全部超额。
   const rows = []; let totalHeat = 0;
-  const heatByBundle = {}, posByBundle = {}, derivedCapsByBundle = {}, autoCapsByBundle = {};
+  const heatByBundle = {}, posByBundle = {};
   for (const p of positions) {
-    const sym = p.sym, qty = p.qty || 0; if (!qty) continue;
+    const sym = p.sym,underlying=p.kind==='equity'?sym:String(sym||'').split(/\s+/)[0], qty = p.qty || 0; if (!qty) continue;
     const isOpt = p.kind !== "equity", long = qty > 0;
     if (!isOpt && Math.abs(qty) <= 1) continue;   // 去掉 |持股|<=1 的正股(±1 股噪声);期权不受此限(1 张=100 股敞口)
     // 现价:默认用 portfolio.json(MCP 刷新价),不自动同步 K线快照;须手动点「同步现价(K线)」才用 PRICE_OVERRIDE
     const price = (!isOpt && PRICE_OVERRIDE && PRICE_OVERRIDE[sym] != null) ? PRICE_OVERRIDE[sym] : p.price;
-    const bundleName = ASSIGN[sym] || defB, b = bundles[bundleName] || bundles[defB];
-    const riskParam = positiveNum(b.risk_pct) ? +b.risk_pct : null;
-    const totalRiskParam = positiveNum(b.total_risk_pct) ? +b.total_risk_pct : null;
-    const mult = positiveNum(b.atr_mult) ? +b.atr_mult : null;
-    const budget = riskParam != null ? equity * riskParam / 100 : null, atr = ATR[sym];
-    const estimate = estimatePositionRisk({position: p, atr, bundle: b, stop: stops[sym], price});
+    const bundleName = ASSIGN[underlying] || '',b=bundles[bundleName]||{},model=workflowModels.get(`${bundleName}\u0000${underlying}`),mult=positiveNum(b.atr_mult)?+b.atr_mult:2.5,atr=ATR[underlying];
+    const estimate = estimatePositionRisk({position: p, atr, bundle:{...b,atr_mult:mult}, stop: stops[underlying], price});
     const stop = estimate.stop;
     const perShare = (stop != null && price != null) ? (long ? price - stop : stop - price) : null;
-    const openRisk = estimate.risk;
+    const openRisk = model?.bearReturn==null?null:Math.max(0,-model.bearReturn*Math.abs(p.mkt_value||0));
     const posPct = Math.abs(p.mkt_value || 0) / equity * 100;
     const riskPct = openRisk != null ? openRisk / equity * 100 : null;
-    const ratio = openRisk != null && budget > 0 ? openRisk / budget : null;
     const distPct = (perShare != null && price) ? perShare / price * 100 : null;
     if (openRisk != null) { totalHeat += openRisk; heatByBundle[bundleName] = (heatByBundle[bundleName] || 0) + openRisk; }
     posByBundle[bundleName] = (posByBundle[bundleName] || 0) + Math.abs(p.mkt_value || 0);
-    const manualCap = positiveNum(b.max_position_pct) ? +b.max_position_pct : null;
-    const derivedCap = !isOpt && riskParam != null && perShare > 0 && price > 0 ? riskParam * price / perShare : null;
-    const effectiveCap = manualCap ?? derivedCap;
-    if (!isOpt && derivedCap != null) (autoCapsByBundle[bundleName] ||= {})[sym] = derivedCap;
-    if (!isOpt && effectiveCap != null) (derivedCapsByBundle[bundleName] ||= {})[sym] = effectiveCap;
     // 浮盈%:股票用现价算,做空取反(价跌为盈);期权回退 portfolio.json 的 pnl_pct
     const pnlPct = (!isOpt && p.avg_cost && price != null)
       ? (long ? (price / p.avg_cost - 1) : (1 - price / p.avg_cost)) * 100
       : (p.pnl_pct != null ? p.pnl_pct * 100 : null);
-    rows.push({ sym, isOpt, long, qty, price, cost: p.avg_cost, stop, atr, bundleName, cap: effectiveCap,
-                totalRiskPct: totalRiskParam, totalPositionPct: null,
-                riskBudget: budget, perShare, mktValue: Math.abs(p.mkt_value || 0),
-                tpp: b.target_profit_pct, openRisk, riskPct, ratio, posPct, distPct, pnlPct, toTarget: null });
+    rows.push({ sym,underlying,isOpt, long, qty, price, cost: p.avg_cost, stop, atr, bundleName, model,
+                perShare,mktValue:Math.abs(p.mkt_value||0),
+                openRisk,riskPct,posPct,distPct,pnlPct,toTarget:null,targetCapital:null,targetDistPct:null });
   }
-
-  // 默认总仓位上限 = 典型单笔自动上限 × 可容纳风险单元数(总风险/单笔风险)。
-  // 同一 thesis 股票波动率不同，典型值取当前所属股票自动上限的算术均值；手工值始终优先。
-  const totalCapByBundle = {};
-  for (const name of bnames) {
-    const b = bundles[name] || {}, manual = positiveNum(b.total_position_pct) ? +b.total_position_pct : null;
-    const caps = Object.values(derivedCapsByBundle[name] || {});
-    const typical = caps.length ? caps.reduce((sum, v) => sum + v, 0) / caps.length : null;
-    totalCapByBundle[name] = manual ?? (typical != null && positiveNum(b.total_risk_pct) && positiveNum(b.risk_pct)
-      ? typical * (+b.total_risk_pct / +b.risk_pct) : null);
-  }
-  for (const r of rows) r.totalPositionPct = totalCapByBundle[r.bundleName];
-
-  // 空白输入框以半透明 placeholder 展示当前 thesis 的实时推导值；手工值存在时浏览器自动隐藏 placeholder。
-  const selectedThesis = $("rk-bundle")?.value;
-  const capInput = $("rk-cap"), totalCapInput = $("rk-totcap");
-  const autoCaps = Object.values(autoCapsByBundle[selectedThesis] || {});
-  const autoSingleCap = autoCaps.length ? autoCaps.reduce((sum, v) => sum + v, 0) / autoCaps.length : null;
-  if (capInput) capInput.placeholder = autoSingleCap != null ? `${autoSingleCap.toFixed(1)}（自动）` : "自动(待持仓/ATR)";
-  const autoTotalCap = selectedThesis ? totalCapByBundle[selectedThesis] : null;
-  if (totalCapInput) totalCapInput.placeholder = autoTotalCap != null ? `${autoTotalCap.toFixed(1)}（自动）` : "自动(待持仓/ATR)";
-
-  // thesis 超总风险/总仓位时,所有股票按当前仓位同比例缩减;单票预算/上限仍可要求进一步减仓。
-  for (const r of rows) {
-    if (r.isOpt || !(r.price > 0)) continue;   // 期权按张且乘数不同,暂不输出股数建议
-    const currentQ = Math.abs(r.qty);
-    const capQ = r.cap != null ? equity * r.cap / 100 / r.price : Infinity;
-    const riskQ = (r.riskBudget > 0 && r.perShare != null && r.perShare > 0) ? r.riskBudget / r.perShare : Infinity;
-    const bundlePos = posByBundle[r.bundleName] || 0, bundleRisk = heatByBundle[r.bundleName] || 0;
-    const posScale = r.totalPositionPct != null && bundlePos > equity * r.totalPositionPct / 100
-      ? equity * r.totalPositionPct / 100 / bundlePos : 1;
-    const riskScale = r.totalRiskPct != null && bundleRisk > equity * r.totalRiskPct / 100
-      ? equity * r.totalRiskPct / 100 / bundleRisk : 1;
-    const bundleScale = Math.min(posScale, riskScale);
-    // 未超 thesis 总上限时,沿用“若只调整本票还能加多少”的剩余额度;超限时改为统一比例分摊。
-    const bundleQ = bundleScale < 1
-      ? currentQ * bundleScale
-      : (r.totalPositionPct != null
-        ? (equity * r.totalPositionPct / 100 - (bundlePos - r.mktValue)) / r.price
-        : Infinity);
-    r.toTarget = Math.min(riskQ, capQ, bundleQ) - currentQ;
+  const capitalBySymbol={};for(const r of rows)capitalBySymbol[r.underlying]=(capitalBySymbol[r.underlying]||0)+r.mktValue;
+  for(const r of rows){
+   const total=capitalBySymbol[r.underlying]||0,share=total>0?r.mktValue/total:1;
+   r.targetCapital=r.model?.targetCapital==null?null:r.model.targetCapital*share;
+   if(!r.isOpt&&r.price>0&&r.targetCapital!=null)r.toTarget=r.targetCapital/r.price-Math.abs(r.qty);
   }
   const sorted = sortRows(rows);
   const disp = [...sorted.filter((r) => !r.isOpt), ...sorted.filter((r) => r.isOpt)];   // 期权统一排到最下方(各组内仍按当前排序)
 
   const cell = (txt, lvl) => `<td class="sc-num"${lvl == null ? "" : ` style="${heatBg(lvl)}"`}>${txt}</td>`;
   const pnlCell = (v) => { if (v == null) return "<td>—</td>"; const l = Math.min(Math.abs(v) / 40, 1), hue = v >= 0 ? 142 : 0; return `<td class="sc-num" style="background:hsl(${hue} 65% 45% / ${(0.06 + l * 0.34).toFixed(2)})">${v >= 0 ? "+" : ""}${v.toFixed(0)}%</td>`; };
-  const grpSelect = (r) => `<select class="rk-grpsel" data-sym="${esc(r.sym)}" aria-label="${esc(r.sym)} Thesis 归属">${bnames.map(name=>`<option value="${esc(name)}"${name===r.bundleName?' selected':''}>${esc(name)}</option>`).join('')}</select>`;
+  const grpSelect = (r) => `<select class="rk-grpsel" data-sym="${esc(r.underlying)}" aria-label="${esc(r.sym)} Thesis 归属"><option value=""${r.bundleName?'':' selected'}>—</option>${bnames.map(name=>`<option value="${esc(name)}"${name===r.bundleName?' selected':''}>${esc(name)}</option>`).join('')}</select>`;
   const stopIn = (r) => `<input class="rk-stopin" data-sym="${esc(r.sym)}" type="number" step="0.01" value="${r.stop != null ? r.stop.toFixed(2) : ""}" placeholder="${r.isOpt ? "期权" : (r.atr != null ? "ATR" : "手填")}" style="width:70px">`;
-  // 止盈价:手填(riskTargets)覆盖优先;否则所属 thesis 填了 Target Profit% → 按成本×(1±%)自动预填(多加空减,灰色可覆盖)
+  // 止盈价:手填(riskTargets)覆盖优先;否则正股按 Workflow Bull Case 的 Underlying Price Move 从成本价推导。
   const autoTp = (r) => {
     if (targets[r.sym] != null) return { v: +targets[r.sym], auto: false };
-    if (r.tpp != null && r.tpp !== "" && r.cost != null)
-      return { v: +(r.cost * (r.long ? 1 + r.tpp / 100 : 1 - r.tpp / 100)).toFixed(2), auto: true };
+    if (!r.isOpt && r.model?.bullPriceMove != null && r.cost != null)
+      return { v: +(r.cost * (1 + r.model.bullPriceMove / 100)).toFixed(2), auto: true };
     return { v: null, auto: false };
   };
   const tpIn = (r) => { const t = autoTp(r);
-    return `<input class="rk-tpin" data-sym="${esc(r.sym)}" type="number" step="0.01" value="${t.v != null ? t.v : ""}"${t.auto ? ` data-auto="1" title="来自 thesis「${esc(r.bundleName)}」Target Profit ${r.tpp}%,按成本自动算,可手填覆盖"` : ""} placeholder="止盈价" style="width:70px${t.auto ? ";color:#8b96ad" : ""}">`; };
+    return `<input class="rk-tpin" data-sym="${esc(r.sym)}" type="number" step="0.01" value="${t.v != null ? t.v : ""}"${t.auto ? ` data-auto="1" title="来自 Nebula「${esc(r.bundleName)}」Bull Case ${r.model.bullPriceMove>=0?'+':''}${r.model.bullPriceMove}%，按成本价计算，可手填覆盖"` : ""} placeholder="止盈价" style="width:70px${t.auto ? ";color:#8b96ad" : ""}">`; };
+  const targetDistance=r=>{const target=autoTp(r).v;if(target==null||!(r.price>0))return null;return (r.long?target-r.price:r.price-target)/r.price*100;};
   const tgtCell = (r) => {   // 符号=交易方向(+买/-卖或做空);颜色=敞口变化(绿增仓/红减仓)
     if (r.toTarget == null || !isFinite(r.toTarget)) return "<td>—</td>";
     const tradeQty = r.long ? r.toTarget : -r.toTarget;
@@ -382,22 +340,21 @@ export async function renderRiskExposure() {
   const arrow = (k) => SORT.key === k ? (SORT.dir < 0 ? " ↓" : " ↑") : "";
   const sth = (k, label, driven = false) => `<th class="rk-sort${driven ? " rk-thesis-driven" : ""}" data-k="${k}" style="cursor:pointer;user-select:none;white-space:nowrap">${label}${arrow(k)}</th>`;
   const body = disp.map((r) => `<tr>
-    <td class="sc-tk"><b>${esc(r.sym)}</b> <span class="sc-dir ${r.long ? "up" : "down"}">${r.isOpt ? "期" : r.long ? "多" : "空"}</span></td>
+    <td class="sc-tk"><b>${esc(r.sym)}</b> <span class="sc-dir ${r.long ? "up" : "down"}">${r.isOpt ? "期" : r.long ? "多" : "空"}</span>${r.model?.running?` <span class="sc-dir">Q${r.model.quantile}</span>`:''}</td>
     <td>${grpSelect(r)}</td><td>${r.qty}</td><td>$${r.price != null ? r.price.toFixed(2) : "—"}</td>
     <td class="muted">$${r.cost != null ? r.cost.toFixed(2) : "—"}</td>
-    ${cell(r.posPct.toFixed(1) + "%", r.cap != null ? Math.min(r.posPct / r.cap, 1) : null)}
+    ${cell(r.posPct.toFixed(1) + "%", r.targetCapital>0 ? Math.min(r.mktValue/r.targetCapital,1) : null)}
     ${pnlCell(r.pnlPct)}
-    <td>${stopIn(r)}</td><td>${tpIn(r)}</td>
+    <td>${stopIn(r)}</td>${cell(r.distPct!=null?r.distPct.toFixed(1)+"%":"—",r.distPct==null?null:Math.max(0,Math.min(1,1-r.distPct/15)))}
+    <td>${tpIn(r)}</td>${cell(targetDistance(r)!=null?targetDistance(r).toFixed(1)+"%":"—",null)}
     ${cell(r.riskPct != null ? r.riskPct.toFixed(2) + "%" : "—", r.riskPct == null ? null : Math.min(r.riskPct / 2, 1))}
-    ${cell(r.ratio != null ? r.ratio.toFixed(2) + "×" : "—", r.ratio == null ? null : Math.min(r.ratio / 1.5, 1))}
-    ${tgtCell(r)}
-    ${cell(r.distPct != null ? r.distPct.toFixed(1) + "%" : "—", r.distPct == null ? null : Math.max(0, Math.min(1, 1 - r.distPct / 15)))}</tr>`).join("");
+    ${tgtCell(r)}</tr>`).join("");
 
   host.innerHTML = `<div class="sc-wrap"><table class="sc-table">
     <tr>${sth("sym", "标的")}${sth("bundleName", "Thesis")}<th>股数</th><th>现价</th><th>成本</th>${sth("posPct", "仓位%")} ${sth("pnlPct", "浮盈%")}
-        <th class="rk-thesis-driven">止损</th><th class="rk-thesis-driven">止盈</th>
-        ${sth("riskPct", "在险%", true)}${sth("ratio", "在险/预算", true)}${sth("toTarget", "距目标", true)}${sth("distPct", "距止损%", true)}</tr>${body}</table></div>
-    <div class="muted small" style="margin-top:8px"><b>每项持仓的 Thesis 归属在上表手动选择；选择会立即保存到本机并参与风险聚合。</b><br>在险%=|股数|×|现价−止损|÷净值 · 在险/预算=该仓在险÷所属 thesis 单笔预算(>1 超险)· <b>距目标</b>:thesis 超总风险/总仓位时按各仓当前比例共同缩减,再叠加单票风险/仓位上限;未超总上限时显示单独调整本票的空间。符号是交易方向:<b>+</b>=买入、<b>−</b>=卖出/做空;颜色是仓位变化:<span class="up">绿=加大仓位</span>、<span class="down">红=减少仓位</span> · 仓位%对比 thesis 上限 · 距止损%小=逼近止损 · 浮盈%仅参考(现价口径,成本不进风险)。止损默认 ATR 法,可每仓手填覆盖(存本机)。<b>止盈</b>:thesis 填了 Target Profit% 的,按成本×(1±%)自动预填(多加空减,灰色),可每仓手填覆盖;留空=无止盈。</div>`;
+        <th class="rk-thesis-driven">止损</th>${sth("distPct", "距止损%", true)}<th class="rk-thesis-driven">止盈</th><th class="rk-thesis-driven">距止盈%</th>
+        ${sth("riskPct", "在险%", true)}${sth("toTarget", "距目标", true)}</tr>${body}</table></div>
+    <div class="muted small" style="margin-top:8px"><b>Thesis 下拉菜单只显示 Workflow 中同步过的 Active Nebula；空白表示尚未对齐。</b><br>正股止盈价=持仓成本价×(1+对应 Underlying 的 Bull Case Price Move%)；手填值优先。期权不使用底层涨跌幅直接推算权利金止盈价。在险%=当前持仓按 Bear Scenario 估计的亏损÷账户净值。距目标=(Kelly Target Capital−Current Capital)÷现价，保留 1 位小数；<span class="up">绿色=顺方向补 Exposure</span>，<span class="down">红色=逆方向减 Exposure</span>。Q25/Q50/Q100 表示该 Running Kelly Node 当前采用的 Target Quantile。</div>`;
 
   const totalPct = totalHeat / equity * 100;
   const accountLabel = acctSel === "ALL" ? "全部账户" : ((accounts.find((a) => a.id === acctSel) || {}).label || acctSel);
@@ -406,15 +363,10 @@ export async function renderRiskExposure() {
     <div class="opt-tile"><div class="opt-k">账户净值(portfolio)</div><div class="opt-v">$${Math.round(equity).toLocaleString()}</div><div class="opt-sub">${eqSrc}</div></div>
     <div class="opt-tile"><div class="opt-k">组合总在险 heat</div><div class="opt-v" style="${heatBg(Math.min(totalPct / maxHeat, 1))};border-radius:6px;padding:1px 8px">$${Math.round(totalHeat).toLocaleString()} · ${totalPct.toFixed(2)}%</div><div class="opt-sub">上限 <input id="rk-maxheat" type="number" step="0.5" value="${maxHeat}" style="width:52px;background:var(--card-hover);border:1px solid var(--border);border-radius:5px;padding:1px 5px;color:var(--text);font-size:12px"> % 净值</div></div>
     ${bnames.filter((k) => heatByBundle[k] || posByBundle[k]).map((k) => {
-      const b = bundles[k] || {};
-      const usedR = (heatByBundle[k] || 0) / equity * 100, capR = b.total_risk_pct, overR = capR != null && usedR > capR;
-      const usedP = (posByBundle[k] || 0) / equity * 100, capP = totalCapByBundle[k], overP = capP != null && usedP > capP;
-      const capPManual = positiveNum(b.total_position_pct);
-      return `<div class="opt-tile"><div class="opt-k">${esc(k)}</div>`
-        + `<div class="opt-v"${overR ? ' style="color:var(--down)"' : ""}>在险 ${usedR.toFixed(1)}%${capR != null ? ` / ${capR}%${overR ? " ⚠️" : ""}` : ""}`
-        + `<span class="opt-sub"${overP ? ' style="color:var(--down)"' : ""}>仓位 ${usedP.toFixed(1)}%${capP != null ? ` / ${capP.toFixed(1)}%${capPManual ? " 手工" : " 自动"}${overP ? " ⚠️" : ""}` : " / 待补必填或 ATR"}</span></div></div>`;
+      const usedR=(heatByBundle[k]||0)/equity*100,usedP=(posByBundle[k]||0)/equity*100,targetP=(targetByBundle[k]||0)/equity*100;
+      return `<div class="opt-tile"><div class="opt-k">${esc(k)}</div><div class="opt-v">Bear 在险 ${usedR.toFixed(1)}%<span class="opt-sub">当前资本 ${usedP.toFixed(1)}% · Kelly 目标 ${targetP.toFixed(1)}%</span></div></div>`;
     }).join("")}</div>
-    <div class="muted small" style="margin-top:6px">组合总在险 = 所有持仓在险之和(若止损全被打的总亏损)。${totalPct > maxHeat ? `<span class="down">⚠️ 超总上限 ${maxHeat}%,考虑减仓/收紧止损</span>` : "在上限内。"}</div>
+    <div class="muted small" style="margin-top:6px">组合总在险 = 已对齐 Active Nebula 的持仓在 Bear Scenario 下的估计亏损；未对齐行不计入。</div>
     <div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
       <button id="rk-syncpx" class="mini-btn">🔄 同步现价(K线)</button>
       <span class="muted small">现价源:${PRICE_OVERRIDE ? `K线同步 @ ${(PRICE_SYNCED_AT || "").slice(5, 16).replace("T", " ")}` : "portfolio.json(MCP 刷新价;点 🔄 手动同步 K线)"}</span>
@@ -429,7 +381,7 @@ export async function renderRiskExposure() {
   host.querySelectorAll(".rk-stopin").forEach((el) => el.addEventListener("change", () => { const s = rLS("riskStops", {}), v = el.value.trim(); if (v === "") delete s[el.dataset.sym]; else s[el.dataset.sym] = +v; rLSset("riskStops", s); renderRiskExposure(); }));
   host.querySelectorAll(".rk-tpin").forEach((el) => el.addEventListener("change", () => { const t = rLS("riskTargets", {}), v = el.value.trim(); if (v === "") delete t[el.dataset.sym]; else t[el.dataset.sym] = +v; rLSset("riskTargets", t); renderRiskExposure(); }));   // 止盈价:空=删除→留白
   host.querySelectorAll(".rk-grpsel").forEach((el) => el.addEventListener("change", () => {
-    const groups = rLS("riskGroups", {}); groups[el.dataset.sym] = el.value; ASSIGN[el.dataset.sym] = el.value;
+    const groups = rLS("riskGroups", {});if(el.value){groups[el.dataset.sym]=el.value;ASSIGN[el.dataset.sym]=el.value;}else{delete groups[el.dataset.sym];delete ASSIGN[el.dataset.sym];}
     rLSset("riskGroups", groups); rpSchedule(); renderRiskExposure();
   }));
   const sp = $("rk-syncpx"); if (sp) sp.addEventListener("click", async () => {
