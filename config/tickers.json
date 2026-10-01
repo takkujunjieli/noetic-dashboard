@@ -49,7 +49,6 @@
     "NVDA",
     "DELL",
     "SNDK",
-    "MSTR",
     "COIN",
     "BE",
     "SPCX",
@@ -57,7 +56,8 @@
     "MRVL"
   ],
   "uncertain": [
-    "CRWD"
+    "CRWD",
+    "MSTR"
   ],
   "neutral": [
     "AAOI",
