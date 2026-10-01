@@ -54,12 +54,12 @@
     "INTC",
     "MSTR",
     "COIN",
-    "BE"
+    "BE",
+    "SPCX"
   ],
   "uncertain": [
     "MRVL",
-    "CRWD",
-    "SPCX"
+    "CRWD"
   ],
   "neutral": [
     "AAOI",
