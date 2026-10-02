@@ -42,7 +42,8 @@
     "MOD",
     "BE",
     "U",
-    "CBRS"
+    "CBRS",
+    "SKHY"
   ],
   "deep": [
     "MU",
@@ -53,7 +54,8 @@
     "SPCX",
     "COHR",
     "MRVL",
-    "LITE"
+    "LITE",
+    "SKHY"
   ],
   "uncertain": [
     "CRWD",
