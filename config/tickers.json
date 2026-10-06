@@ -56,7 +56,8 @@
     "AVGO",
     "COIN",
     "CRWV",
-    "INTC"
+    "INTC",
+    "PURR"
   ],
   "uncertain": [
     "MSTR"
@@ -71,7 +72,6 @@
     "SOXX",
     "IGV",
     "GLW",
-    "PURR",
     "RCL",
     "SNOW",
     "IREN",
