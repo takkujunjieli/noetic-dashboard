@@ -48,7 +48,6 @@
   "deep": [
     "MU",
     "NVDA",
-    "DELL",
     "SNDK",
     "SPCX",
     "COHR",
@@ -56,7 +55,8 @@
     "LITE",
     "SKHY",
     "AVGO",
-    "COIN"
+    "COIN",
+    "CRWV"
   ],
   "uncertain": [
     "MSTR"
