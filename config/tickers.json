@@ -55,12 +55,12 @@
     "MRVL",
     "LITE",
     "SKHY",
-    "AVGO"
+    "AVGO",
+    "COIN"
   ],
   "uncertain": [
     "CRWD",
-    "MSTR",
-    "COIN"
+    "MSTR"
   ],
   "neutral": [
     "AAOI",
