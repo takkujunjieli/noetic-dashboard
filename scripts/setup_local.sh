@@ -14,4 +14,4 @@ for f in _rh_raw.json _takku_raw.json portfolio.json pnl.json portfolio_history.
 done
 ln -sfn ../../stock-dashboard-private/risk_policy.json config/risk_policy.json && echo "  config/risk_policy.json → private/risk_policy.json"
 [ -e "$PRIV/build_scorecards.py" ] && ln -sfn ../../stock-dashboard-private/build_scorecards.py scripts/build_scorecards.py && echo "  scripts/build_scorecards.py → private/build_scorecards.py"
-echo "✓ 完成。起本地服务: python3 -m http.server 8000  → http://localhost:8000/portfolio.html"
+echo "✓ 完成。起本地服务: python3 scripts/serve_dashboard.py  → http://localhost:8642/portfolio.html"

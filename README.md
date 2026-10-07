@@ -105,8 +105,10 @@ export FINNHUB_API_KEY=你的key
 python scripts/fetch_market.py   # → data/market.json
 python scripts/fetch_feeds.py    # → data/feeds.json
 
-python3 -m http.server 8000      # 打开 http://localhost:8000
+python3 scripts/serve_dashboard.py --port 8642  # 打开 http://localhost:8642
 ```
+
+本地 Workflow 必须使用上述服务启动。不要使用 `python3 -m http.server` 或直接双击 HTML；纯静态服务不提供 thesis 交易文件的读取、保存和删除 API。
 
 ## 目录结构
 

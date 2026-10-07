@@ -9,7 +9,7 @@
 
 | 你想干嘛 | 怎么做 |
 |---|---|
-| 本地看页面 | `python3 -m http.server 8000` → `http://localhost:8000/trading.html`(ES module 有缓存,看不到改动就 `Cmd+Shift+R`) |
+| 本地看页面 | `python3 scripts/serve_dashboard.py --port 8642` → `http://localhost:8642/trading.html`(不要用 `python3 -m http.server`；它没有交易文件 API。ES module 有缓存,看不到改动就 `Cmd+Shift+R`) |
 | 公开站 | https://takkujunjieli.github.io/ai-dashboard/ |
 | **改了前端要上线** | commit + push main → **必须** `gh workflow run deploy.yml`(push 本身不部署,见 §9) |
 | 刷新持仓 | Claude 调 Robinhood 只读 MCP → 归一 → `python3 scripts/build_portfolio.py`(本地,见 §7) |
@@ -238,7 +238,7 @@ GitHub Pages(deploy.yml 用 workflow 部署 main)
 
 ```bash
 # 本地起 server
-cd ~/personal-projects/ai-dashboard && python3 -m http.server 8000
+python3 scripts/serve_dashboard.py --port 8642
 
 # 刷新持仓(Claude 侧:调 RH 只读 MCP 归一后)→ 重建本地
 python3 scripts/build_portfolio.py            # → portfolio.json + pnl.json(本地)
@@ -267,3 +267,7 @@ gh workflow run gex.yml
 
 ---
 *生成于 2026-09。反映改名(stock-dashboard→ai-dashboard)、双仓库/符号链接、Portfolio、Scorecards、rates 聚合图、统一 tab 栏之后的当前状态。*
+
+### Attribution 交易文件（2026-10-04）
+
+使用 `scripts/serve_dashboard.py` 提供本地文件接口。每个 thesis 只写私有库的 `thesis_transactions/<thesis-id>.json`；页面查询和 agent 读写共用此文件，不下载、不把 transactions 复制进 Workflow。筛选使用已冻结 In Action Kelly Allocation 中的全部 underlying，包括当前目标权重为 0 的 Bundle；候选 Bundle、旧归属不参与。生成按钮读取本地 raw，**不会实时刷新 Robinhood**。详见 `docs/workflow.md` 的 Attribution transaction store。保持原页面的 hostname/port，避免改变 localStorage scope。

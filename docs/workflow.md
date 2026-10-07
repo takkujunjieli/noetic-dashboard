@@ -40,11 +40,11 @@ Galaxy Overview 只显示 Nebula 名称。无论通过滚轮、触控或界面�
 
 Node 保存、状态切换、Nebula 重命名和 Active Thesis 切换成功后不会显示底部成功提示。尚未同步到私有库的 Nebula 在名称前显示一个发光小圆点；金色只表示 Active Thesis。错误提示继续保留。
 
-## Position Management 留空与热力图手动归属（2026-09-25）
+## Monitor 留空与热力图手动归属（2026-09-25）
 
 Portfolio 风险敞口热力图的每一行重新提供 Thesis 下拉选择。选择结果写入本机 `riskGroups`，立即参与该表的风险聚合并标记共享风险数据待同步；Workflow 的 `linkedSymbols` 只保留来源标的元数据，不再自动决定持仓归属。
 
-Workflow 的 Position Management 现在是保留星点。面板不含输入字段、持仓列表、Portfolio/MCP 读取、绑定、刷新或保存操作，只保留 `pending ↔ running` 的手动状态。`positionNodeVersion: 1` 迁移会把所有当前实例和事件快照中的 Position Management 数据清成 `{}`；新版快照状态归为 `pending`，旧版快照使用其版本可识别的空初始状态。迁移会写入一次清理事件且可重复加载。创建新实例、关联旧 Thesis、归档和导入都不能再向此节点写入持仓字段。
+Workflow 的 Monitor 现在是保留星点，内部兼容 key 仍为 `positions`。面板不含输入字段、持仓列表、Portfolio/MCP 读取、绑定、刷新或保存操作，只保留 `pending ↔ running` 的手动状态。`positionNodeVersion: 1` 迁移会把所有当前实例和事件快照中的旧 Position Management 数据清成 `{}`；新版快照状态归为 `pending`，旧版快照使用其版本可识别的空初始状态。迁移会写入一次清理事件且可重复加载。创建新实例、关联旧 Thesis、归档和导入都不能再向此节点写入持仓字段。
 
 旧的 `position-link.mjs` 与 `position-control.js` 暂留为未挂载适配器，方便未来重新设计时参考；当前 Workflow 不导入或执行它们。Attribution 已保存的对账证据继续保留，新的对账预览因没有账户/合约绑定会明确提示无法自动筛选，实际净损益仍可手工填写。
 
@@ -134,7 +134,7 @@ Open `workflow.html` via the same local HTTP server as the dashboard. Risk Budge
 
 ## First version
 
-- Four layers / seven nodes: Alpha Research (Hypothesis, Signal), Portfolio Design & Risk Allocation (Expected Return, Portfolio Construction, Risk Budget), Position Lifecycle Management, Performance Attribution.
+- Four layers / seven nodes: Alpha Research (Hypothesis, Signal), Portfolio Design & Risk Allocation (Expected Return, Portfolio Construction, Risk Budget), Monitoring (Monitor), Performance Attribution.
 - Independent instances, active/archive library, editable node panels, explicit guarded state transitions, reasons, revision history, read-only snapshots and archive.
 - Every saved edit and transition captures the entire instance (node states, fields, portfolio legs and manual position snapshot). Events are append-only through the UI. Snapshots are not cryptographically tamper-proof audit records.
 - Leg edits invalidate the previous return/risk assessment and confirmed design. Hypothesis and signal edits require reconfirmation. Existing actual positions can be entered without approving a pre-trade plan.
@@ -199,15 +199,9 @@ The integration below is no longer mounted. Current and historical Position Mana
 
 Checks: `node --test tests/workflow.test.mjs tests/risk-budget.test.mjs tests/position-link.test.mjs` and `node tests/position-control.browser.cjs` (same Playwright/URL environment options as the risk-control browser test). All browser tests use isolated storage and synthetic fixtures, not real positions.
 
-## Attribution integration (step 4; Signal integration intentionally deferred)
+## Attribution integration
 
-- Attribution reads the same `data/pnl.json` used by the dashboard. The user chooses dates and one source window (YTD, 3m, 1m). With Position Management now empty, there are no confirmed account/contract bindings and the preview explicitly reports that it cannot auto-filter rows. Previously saved evidence remains readable. Overlapping windows are never combined; identical realized events inside a window are retained. Option P&L is already dollars and is not multiplied again.
-- These rows are **account-level reconciliation evidence**, not automatically assigned thesis profit. The source lacks fill IDs, quantities, lot identity, fees and precise timestamps. Fixed allocations and other trades of the same instrument cannot be reliably disentangled. Net realized thesis profit and causal explanation remain manual. The UI labels incomplete coverage, missing accounts and no-match results explicitly.
-- Reading previews evidence without altering the thesis. Explicit “保存参考快照到此 thesis” saves the evidence plus current form edits in a workflow event. Failed reads retain previously saved evidence; archive/replay uses saved evidence and does not fetch current P&L. Existing backups remain compatible; new evidence validates on import.
-- Attribution compares the first confirmed construction baseline's modeled expected profit with manually confirmed net profit, with no automatic causal inference. Full lifecycle snapshots remain accessible in the existing timeline/export.
-- Portfolio's existing Journal adds a read-only list of Workflow archives from the same browser storage, with a deep link directly to that instance's Attribution node. Legacy archives remain intact; no remote writes or automatic legacy-name matching occur. Refresh Portfolio to see newly archived cases.
-
-Checks: `node --test tests/*.test.mjs`; `node tests/attribution-control.browser.cjs` with the same Playwright environment as previous tests. Browser fixtures verify saved evidence, preserving manual net profit, source failure retention, archive reload without live fetch, and Journal deep links.
+Attribution 只显示按 thesis 保存的 Transaction History 模块。收益摘要、人工损益、文字复盘、节点保存表单和状态流转不再展示。旧的人工字段和 evidence 仍保留在历史快照中以兼容既有数据，但页面不再读取或编辑它们。
 
 ## Parameterized Portfolio Construction
 
@@ -222,3 +216,20 @@ Checks: `node --test tests/*.test.mjs`; `node tests/attribution-control.browser.
 - Checks: 30 unit tests, `tests/trade-structure.browser.cjs` plus all four existing browser suites. Verified partial saves/reload, stock/ETF selection, independent underlyings, sign/units, model boundaries, frozen design, new versions, immutable replay and mobile layout with synthetic fixtures.
 
 - Simplification: underlying class is no longer an input or required validation field. A ticker plus Stock/Call/Put identifies the leg; legacy assetClass values in snapshots remain readable.
+## Attribution transaction store (2026-10-04)
+
+Run `python3 scripts/serve_dashboard.py --port 8642` and keep the same hostname/port previously used by the dashboard (browser Workflow state is origin-specific). A plain `python3 -m http.server` can serve the UI but cannot save files; the panel reports this explicitly.
+
+Each thesis has one authoritative file at `../stock-dashboard-private/thesis_transactions/<thesis-id>.json`. The local service supports GET, PUT and DELETE on `/api/thesis-transactions/<thesis-id>`. PUT creates or replaces the document (including transaction additions/edits/removals); changing dates or the thesis name never changes its filename. Writes are atomic and use ETag / If-Match to reject stale updates from another tab or agent. Creating uses If-None-Match: *. Invalid identity, out-of-range rows, out-of-scope underlyings and traversal IDs are rejected. The service binds to loopback and rejects foreign Host/Origin headers. No credentials or GitHub calls are needed.
+
+The panel reads the file on opening. “生成 / 更新交易历史文件” replaces its contents with the selected date interval from current local raw broker records and then reads the saved file back. “查询已保存文件” only reads and filters this file; it never reimports broker data. “删除交易文件” removes this file, never the raw broker history. No automatic downloads or download button remain. Workflow stores only `transactionFilePath`, not another copy of the transactions. Existing embedded exports are ignored by the panel and removed from current node data on the next save; old immutable workflow snapshots remain unchanged. History replay and archives explicitly show the current shared file, not a historical copy. Agent edits to the same JSON become visible on the next query.
+
+Underlyings come **only** from `design.allocation` with `inAction: true`, a Kelly method and positive `items[].fraction`. New snapshots preserve `items[].underlying`; old Kelly snapshots use their frozen `items[].name` (the old writer stored the ticker there). Candidates, `linkedSymbols`, thesis symbols, mutable Portfolio assignments and zero-allocation bundles are excluded. Missing allocations fail rather than widening scope. If a saved file's symbols differ from the current allocation, its table is hidden until regeneration. All source accounts are included; this is underlying-level evidence, not exclusive thesis/lot attribution.
+
+The selected dates define a continuous interval from start-date 02:00 to end-date 24:00 in America/New_York. The end time is fixed and has no user selector. DST is respected; 24:00 excludes the next day. The JSON preserves original transactions and IDs, source timestamps, range, underlyings, allocation time and coverage warnings. Old underlying-only option records remain included with `contract_details_missing`; contract information is never invented.
+
+Portfolio heatmap assignment is a separate view-level map (`riskGroups`). A symbol may be reassigned to any Active Thesis or cleared; only that heatmap row and thesis totals are recalculated. The assignment handler receives no Workflow case and cannot change a Bundle's `frozen` state, construction data, or `design.allocation`. Explicit Workflow actions such as “自动填写” remain separate user-initiated operations.
+
+**Source provenance:** GET `/api/transaction-history` runs `build_history` over local `data/_*_raw.json` at generation time, avoiding a stale intermediate file and the Portfolio 90-day cutoff. The thesis scope is every underlying in the frozen In Action Kelly Allocation, including a Bundle whose current target weight is 0. These paths point to the adjacent private repository. Raw files are accumulated from Robinhood read-only MCP refreshes: existing transaction history is retained and new executed fills are normalized/appended with deduplication; open orders are separate. This service does not call Robinhood or guarantee historical completeness. As checked on 2026-10-04, both raw files reported `source_updated_at=2026-09-30T20:52:44.754Z`; rebuilding a JSON must never be represented as a fresh broker sync. The earlier standalone `build_transaction_history.py` / Portfolio build remains available, but the new generation button reads current raw files directly.
+
+Checks: `node --test tests/attribution-transactions.test.mjs tests/kelly-allocation.test.mjs`; `python3 tests/test_thesis_transaction_store.py`; `node tests/attribution-transactions.browser.cjs` with a test server on 8643 and a temporary `--private-dir`.

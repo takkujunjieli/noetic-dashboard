@@ -80,6 +80,8 @@ def _txn(t: dict) -> dict:
 
 
 def main() -> None:
+    from build_transaction_history import write_history
+    write_history(DATA)
     now_dt = datetime.now(timezone.utc)
     now = now_dt.isoformat(timespec="seconds")
     cutoff = now_dt - timedelta(days=TX_KEEP_DAYS)

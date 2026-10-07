@@ -1,6 +1,7 @@
 import {emptyScenarioUnderwriting,returnInputError,scenarioUnderwritingError,captureReturnBasis,validateReturnBasis,numeric} from './expected-return.mjs?v=20260929-2';
 import {structureDraft,structureError,ticker,structureExposure,positionLabel,candidateDraft} from './trade-structure.mjs';
 import { validateAttributionEvidence } from './attribution-link.mjs';
+import { parseTransactionFile } from './attribution-transactions.mjs?v=20261004-3';
 import { allocationIssues } from "./risk-budget.mjs";
 import {emptyKellyPolicy,kellyPolicyError} from './kelly-allocation.mjs?v=20260930-3';
 // Standalone workflow domain. No dependencies on dashboard data or broker credentials.
@@ -12,7 +13,7 @@ const LEGACY_NODES = {
  returns:{name:'Scenario Underwriting',cn:'联合情景承保',initial:'pending',states:{pending:['evaluated'],evaluated:['reassess'],reassess:['evaluated']}},
  construction:{name:'Portfolio Construction',cn:'组合构建',initial:'draft',states:{draft:['feasible'],feasible:['baseline','revise'],baseline:['revise'],revise:['feasible']}},
  risk:{name:'Kelly Allocation',cn:'凯利配置',initial:'unchecked',states:{unchecked:['within','breached'],within:['recheck','breached'],breached:['recheck'],recheck:['within','breached']}},
- positions:{name:'Position Management',cn:'持仓生命周期',initial:'unlinked',states:{unlinked:['active','closed'],active:['adjusting','exiting','closed'],adjusting:['active','exiting','closed'],exiting:['active','closed'],closed:[]}},
+ positions:{name:'Monitor',cn:'盘中监控',initial:'unlinked',states:{unlinked:['active','closed'],active:['adjusting','exiting','closed'],adjusting:['active','exiting','closed'],exiting:['active','closed'],closed:[]}},
  attribution:{name:'Attribution',cn:'归因与归档',initial:'reconcile',states:{reconcile:['review'],review:['reviewed'],reviewed:['review','archived'],archived:[]}}
 };
 export const LABELS = {pending:'pending',running:'running'};
@@ -24,7 +25,7 @@ export function hypothesisFields(data){
 export const LAYERS = [
  {name:'Alpha Research',cn:'超额收益研究层',nodes:['hypothesis','signal']},
  {name:'Portfolio Design & Risk Allocation',cn:'组合设计与风险配置层',nodes:['returns','construction','risk']},
- {name:'Position Lifecycle Management',cn:'持仓生命周期管理层',nodes:['positions']},
+ {name:'Monitoring',cn:'盘中监控层',nodes:['positions']},
  {name:'Performance Attribution',cn:'绩效归因层',nodes:['attribution']}
 ];
 export const clone = value => JSON.parse(JSON.stringify(value));
@@ -116,10 +117,11 @@ export function archiveCase(c){
 }
 export function saveNode(c,key,data,reason='更新节点内容'){
  if(c.archived)throw Error('归档实例只读');
+ if(key==='attribution'&&data.transactionFile){const file=parseTransactionFile(data.transactionFile);if(file.thesis.id!==c.id)throw Error('交易历史文件不属于此 thesis');}
 
  if(key==='returns'){const error=data?.scenarioVersion===1?scenarioUnderwritingError(data,c.design?.plans||[]):returnInputError(data);if(error)throw Error(error);}
  if(key==='risk'&&data?.allocationVersion===1){const error=kellyPolicyError(c,data);if(error)throw Error(error);}
- if(key==='positions')throw Error('Position Management 当前为空节点，暂不保存字段');
+ if(key==='positions')throw Error('Monitor 当前为空节点，暂不保存字段');
  if(key==='construction'){const error=data.structureVersion===1?structureError(data):legError(data.legs);if(error)throw Error(error);}
  if(JSON.stringify(c.nodes[key].data)===JSON.stringify(data))return false;
  c.nodes[key].data=clone(data);
@@ -159,7 +161,7 @@ export function setActiveAllocation(c,result){
  writable(c);
  if(result?.complete&&Array.isArray(result.bundles)){
   if(result.constraintIssue)throw Error(result.constraintIssue);
-  const items=result.bundles.map(({bundleId,name,fullFraction,fraction,q25,q50,q100,atr,stopMove,stopPrice,estimatedStopRiskFraction})=>({bundleId,name,fullFraction,fraction,q25,q50,q100,atr,stopMove,stopPrice,estimatedStopRiskFraction}));
+  const items=result.bundles.map(({bundleId,name,underlying,fullFraction,fraction,q25,q50,q100,atr,stopMove,stopPrice,estimatedStopRiskFraction})=>({bundleId,name,underlying:underlying||name,fullFraction,fraction,q25,q50,q100,atr,stopMove,stopPrice,estimatedStopRiskFraction}));
   const scenarios=result.scenarios.map(({id,name,probability,portfolioReturn,wealth})=>({id,name,probability,portfolioReturn,wealth}));
   c.design.allocation={method:result.uncertaintyAware?'monte-carlo-kelly':'multivariate-kelly',inAction:true,at:now(),allocatedFraction:result.allocatedFraction,cashFraction:result.cashFraction,expectedLogGrowth:result.expectedLogGrowth,thesisAtRiskLimitPct:result.atRiskLimitPct,atrReviewMultiple:result.reviewMultiple,atrHardStopMultiple:result.hardStopMultiple,estimatedStopRiskPct:result.estimatedStopRiskFraction*100,atrRiskScale:result.riskScale,items,scenarios,monteCarlo:result.monteCarlo?{samples:result.monteCarlo.samples,quantile:result.targetQuantile/100}:null};
   const capital=result.bankroll*result.allocatedFraction,expectedNet=result.scenarios.reduce((sum,row)=>sum+row.probability*row.pnl,0);
@@ -206,8 +208,9 @@ export function validateStore(store){
   if(c.returnBasis)validateReturnBasis(c.returnBasis);
   if(c.performance){validateReturnBasis(c.performance.basis);if(!c.archived||!numeric(c.performance.actualNet)||!Number.isFinite(Date.parse(c.performance.completedAt)))throw Error('实际收益快照格式无效');}
   validateAttributionEvidence(c.nodes.attribution.data.evidence);
-  if(c.positionNodeVersion!=null&&c.positionNodeVersion!==1)throw Error('Position Management 版本不支持');
-  if(c.positionNodeVersion===1&&Object.keys(c.nodes.positions.data).length)throw Error('Position Management 必须保持为空');
+  if(c.nodes.attribution.data.transactionFile){const file=parseTransactionFile(c.nodes.attribution.data.transactionFile);if(file.thesis.id!==c.id)throw Error('交易历史文件不属于此 thesis');}
+  if(c.positionNodeVersion!=null&&c.positionNodeVersion!==1)throw Error('Monitor 版本不支持');
+  if(c.positionNodeVersion===1&&Object.keys(c.nodes.positions.data).length)throw Error('Monitor 必须保持为空');
   if(c.designFrozen!=null&&typeof c.designFrozen!=='boolean')throw Error('方案冻结标记无效');
   if(c.design!=null){
    const d=c.design;if(d.version!==1||!Array.isArray(d.plans)||d.plans.length>30||typeof d.selectedId!=='string'||typeof d.activeId!=='string')throw Error('方案列表格式无效');

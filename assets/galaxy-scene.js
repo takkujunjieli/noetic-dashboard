@@ -1,6 +1,6 @@
 import * as THREE from './vendor/three.module.js';
 import {galaxyData,deepSpaceField,neighborhood,connected,starId} from './galaxy-model.mjs';
-const names={hypothesis:'Hypothesis',signal:'Signal',returns:'Scenario Underwriting',construction:'Portfolio Construction',risk:'Kelly Allocation',positions:'Position Management',attribution:'Attribution'};
+const names={hypothesis:'Hypothesis',signal:'Signal',returns:'Scenario Underwriting',construction:'Portfolio Construction',risk:'Kelly Allocation',positions:'Monitor',attribution:'Attribution'};
 
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function createGalaxy(host,{onStar,onNebula,onBackground}){
