@@ -83,17 +83,17 @@ STOCKS = {
   (3, "企业工作流 SaaS 龙头、留存 98%、usage 订阅;回购>SBC"),
   (3, "McDermott 执行强、信誉高"),
   (1, "企业 SaaS 龙头;利率敏感、IT 预算顺周期")]),
- "COIN": ("W", [
-  (1, "加密交易所龙头,收入随周期大起大落、订阅/USDC 多元化;现金厚但盈利波动极大"),
-  (2, "Armstrong 创始人;监管博弈/游说(政府关系)老练;高 alignment"),
-  (1, "交易所竞争+费率压缩但合规龙头;极度受加密/风险偏好/利率驱动")]),
+ "COIN": ("S", [
+  (-2, "+1 Q2’26 rev $1.22B -18% YoY、H1 rev约-25%，收入增长高度随crypto cycle波动，非稳定趋势性增长 -1；USDC是真正高利润池，26H1约$655M，但收益同时暴露于短端利率下降+竞争，当前高capture rate不可直接永续外推 +1；Q2 GAAP net loss -$360M、Adj EBITDA仅**$208M**，同时SBC $238M>Adj EBITDA，~84% implied gross margin 对应operating margin在-20%到100%之间，至今没有形成趋势性经营 -2。"),
+  (0, "创始人长期alignment，但dual-class下Armstrong约50% voting control、外部制衡弱 0;监管博弈/游说(政府关系)老练 +1;长期股东利润纪律弱 -1"),
+  (-1, "交易所竞争+费率压缩但合规龙头;极度受加密/风险偏好/利率驱动")]),
  "SNOW": ("W", [
   (3, "云数仓高增、消费模式、净留存高、FCF 转正;SBC 稀释高、回购启动"),
   (1, "Slootman→Ramaswamy 换帅,新 CEO(ex-Google AI)可信;增速放缓"),
   (1, "数据平台竞争激烈(Databricks/云厂);云支出顺周期")]),
  "INTC": ("S", [
-  (0, "Q2’26 rev $16.13B +25%、GAAP GM 40.4%(+12.9ppt)/OPM 11.1%(vs -24.7%)，核心Products明显复苏：rev $15.14B +28%、OP $4.82B=31.8% OPM，其中DCAI $6.26B +59%/OPM 39.5% +3；Foundry Q2 rev $5.77B、OP -$2.09B(-36%)，先进18A制程yield增大进一步拉低op -1；Q2末debt $50.5B，net debt $20.8B（25年底仅$9.2B)，gross interest约$2.4B年化，新债利率高 -2."),
-  (-2, "管理层动荡+信誉受损(屡次下调指引/路线图落后)、turnaround 未验证;裁员可能是双刃剑"),
+  (0, "Q2’26 rev $16.13B +25%、GAAP GM 40.4%(+12.9ppt)/OPM 11.1%(vs -24.7%)，核心Products明显复苏：rev $15.14B +28%、OP $4.82B=31.8% OPM，其中DCAI $6.26B +59%/OPM 39.5% +3；Foundry Q2 rev $5.77B、OP -$2.09B(-36%)，先进18A制程yield增大进一步拉低op -1；Q2末debt $50.5B，net debt $20.8B（25年底仅$9.2B)，gross interest约$2.4B年化，新债利率高6.5%且未来更高 -2."),
+  (-1, "管理层动荡+信誉受损(屡次下调指引/路线图落后)、turnaround 未验证 -1;裁员可能是双刃剑 0"),
   (1, "竞争位弱 -1；政府注资，存在战略不可替代 0；政府可能强制second source chip maker +1；和skhy合作建memory的传闻 +1")]),
  "MSTR": ("S", [
   (-3, "本质=杠杆 BTC 持仓:845,050 BTC/成本 $63.73B(均价~$75.4k),软件业务仅~$0.5B/年 near-irrelevant;$15.5B 永续优先股+$6.75B 可转债、年股息~$1.7B(STRC $10.5B@11.5%),软件收入远不够付→Saylor 已承认或卖 BTC 付息=强制卖方 -3;mNAV 稀释 0.81×(<1)→增发买币/付息由增值变毁灭、flywheel 反转 -2;但已跌 63%($365→$82→~$135)、折价于 BTC NAV=froth 已挤 +2"),
@@ -106,12 +106,31 @@ STOCKS = {
  "MOD": ("W", [(None, ""), (None, ""), (None, "")]),
  "STRL": ("W", [(None, ""), (None, ""), (None, "")]),
  "LITE": ("W", [(None, ""), (None, ""), (None, "")]),
+ "TSLA": ("W", [(None, ""), (None, ""), (None, "")]),
+ "FIG": ("W", [(None, ""), (None, ""), (None, "")]),
+ "AAOI": ("W", [(None, ""), (None, ""), (None, "")]),
+ "SPCX": ("W", [(None, ""), (None, ""), (None, "")]),
+ "SOXX": ("W", [(None, ""), (None, ""), (None, "")]),
+ "GLW": ("W", [(None, ""), (None, ""), (None, "")]),
+ "ALAB": ("W", [(None, ""), (None, ""), (None, "")]),
+ "SMCI": ("W", [(None, ""), (None, ""), (None, "")]),
+ "IREN": ("W", [(None, ""), (None, ""), (None, "")]),
+ "IGV": ("W", [(None, ""), (None, ""), (None, "")]),
+ "ASTS": ("W", [(None, ""), (None, ""), (None, "")]),
+ "MRVL": ("W", [(None, ""), (None, ""), (None, "")]),
+ "AVGO": ("W", [(None, ""), (None, ""), (None, "")]),
+ "AXTI": ("W", [(None, ""), (None, ""), (None, "")]),
+ "DELL": ("W", [(None, ""), (None, ""), (None, "")]),
+ "RCL": ("W", [(None, ""), (None, ""), (None, "")]),
+ "U": ("W", [(None, ""), (None, ""), (None, "")]),
+ "CBRS": ("W", [(None, ""), (None, ""), (None, "")]),
 }
 
 DIR_FULL = {"L": "Long", "S": "Short", "W": "Watch"}
 ORDER = ["SKHY", "MU", "SNDK", "HOOD", "COHR", "GOOG", "NVDA", "CCL", "RKLB",
          "AMD", "CRWV", "NBIS", "CRWD", "NET", "PANW", "NOW", "COIN", "SNOW", "INTC", "MSTR",
-         "BE", "ASST", "PURR", "MOD", "STRL", "LITE"]
+         "BE", "ASST", "PURR", "MOD", "STRL", "LITE", "TSLA", "FIG", "AAOI", "SPCX", "SOXX",
+         "GLW", "ALAB", "SMCI", "IREN", "IGV", "ASTS", "MRVL", "AVGO", "AXTI", "DELL", "RCL", "U", "CBRS"]
 
 summary_rows = []
 snapshot = {}                                                # 本次打分快照(供 IC 研究)

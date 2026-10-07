@@ -1148,9 +1148,11 @@ function drawMacdTable() {
     </thead><tbody>${body}</tbody></table></div>`;
   const available = rows.filter((row) => row.result), missing = rows.filter((row) => !row.result).map((row) => row.ticker);
   const starts = available.map((row) => row.result.validFrom).sort();
+  const rangeStarts = available.map((row) => row.result.rangeFrom).sort();
   const latest = available.map((row) => row.result.latest).sort().at(-1) || "—";
   const calculated = macdSnapshot.generated_at ? new Date(macdSnapshot.generated_at).toLocaleString("zh-CN", { hour12: false, timeZone: "America/New_York" }) + " ET" : "—";
-  $("macd-status").innerHTML = `上次计算：<b>${calculated}</b> · ${rows.length} 个 tickers · ${available.length} 个有完整 MACD 数据 · 有效数据 ${starts[0] || "—"} → ${latest}${missing.length ? ` · 暂无数据：${missing.map(esc).join(", ")}` : ""}`;
+  const periodLabel = { "3m": "3M", "6m": "6M", "1y": "1Y", all: "ALL" }[macdPeriod];
+  $("macd-status").innerHTML = `上次计算：<b>${calculated}</b> · 当前 ${periodLabel} 实际回测最早区间 <b>${rangeStarts[0] || "—"} → ${latest}</b> · MACD 最早有效 ${starts[0] || "—"} · ${rows.length} 个 tickers / ${available.length} 个可计算${missing.length ? ` · 暂无数据：${missing.map(esc).join(", ")}` : ""}`;
   document.querySelectorAll("[data-macd-sort]").forEach((el) => { el.onclick = () => {
     const key = el.dataset.macdSort;
     macdSort = macdSort.key === key ? { key, direction: -macdSort.direction } : { key, direction: key === "ticker" ? 1 : -1 };

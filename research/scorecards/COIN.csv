@@ -1,5 +1,5 @@
-﻿# COIN,方向=Watch 无仓位,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
+﻿# COIN,方向=空头 Short,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
 Feature,Score,Rationale
-Operation,1,"加密交易所龙头,收入随周期大起大落、订阅/USDC 多元化;现金厚但盈利波动极大"
-Leadership,2,Armstrong 创始人;监管博弈/游说(政府关系)老练;高 alignment
-Externality,1,交易所竞争+费率压缩但合规龙头;极度受加密/风险偏好/利率驱动
+Operation,-2,+1 Q2’26 rev $1.22B -18% YoY、H1 rev约-25%，收入增长高度随crypto cycle波动，非稳定趋势性增长 -1；USDC是真正高利润池，26H1约$655M，但收益同时暴露于短端利率下降+竞争，当前高capture rate不可直接永续外推 +1；Q2 GAAP net loss -$360M、Adj EBITDA仅**$208M**，同时SBC $238M>Adj EBITDA，~84% implied gross margin 对应operating margin在-20%到100%之间，至今没有形成趋势性经营 -2。
+Leadership,0,创始人长期alignment，但dual-class下Armstrong约50% voting control、外部制衡弱 0;监管博弈/游说(政府关系)老练 +1;长期股东利润纪律弱 -1
+Externality,-1,交易所竞争+费率压缩但合规龙头;极度受加密/风险偏好/利率驱动

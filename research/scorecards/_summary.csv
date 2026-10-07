@@ -15,9 +15,9 @@ CRWD,Watch,2 (云安全龙头、高毛利 SaaS、现金流强/净现金;回购�
 NET,Watch,"1 (边缘/安全高增+AI 推理边缘布局,但 margin 仅 14%、现金流改善中;SBC 稀释高、可转债 strike 497)","1 (Prince 创始人产品/执行强、愿景足,但稀释偏高)",1 (边缘/安全结构性增长;成长股利率敏感)
 PANW,Watch,2 (安全平台化龙头、留存高、现金流强;回购+SBC),3 (Nikesh Arora 平台化执行卓越、信誉强),1 (安全整合领导者;安全刚需/IT 预算)
 NOW,Watch,3 (企业工作流 SaaS 龙头、留存 98%、usage 订阅;回购>SBC),3 (McDermott 执行强、信誉高),1 (企业 SaaS 龙头;利率敏感、IT 预算顺周期)
-COIN,Watch,"1 (加密交易所龙头,收入随周期大起大落、订阅/USDC 多元化;现金厚但盈利波动极大)",2 (Armstrong 创始人;监管博弈/游说(政府关系)老练;高 alignment),1 (交易所竞争+费率压缩但合规龙头;极度受加密/风险偏好/利率驱动)
+COIN,Short,-2 (+1 Q2’26 rev $1.22B -18% YoY、H1 rev约-25%，收入增长高度随crypto cycle波动，非稳定趋势性增长 -1；USDC是真正高利润池，26H1约$655M，但收益同时暴露于短端利率下降+竞争，当前高capture rate不可直接永续外推 +1；Q2 GAAP net loss -$360M、Adj EBITDA仅**$208M**，同时SBC $238M>Adj EBITDA，~84% implied gross margin 对应operating margin在-20%到100%之间，至今没有形成趋势性经营 -2。),0 (创始人长期alignment，但dual-class下Armstrong约50% voting control、外部制衡弱 0;监管博弈/游说(政府关系)老练 +1;长期股东利润纪律弱 -1),-1 (交易所竞争+费率压缩但合规龙头;极度受加密/风险偏好/利率驱动)
 SNOW,Watch,3 (云数仓高增、消费模式、净留存高、FCF 转正;SBC 稀释高、回购启动),"1 (Slootman→Ramaswamy 换帅,新 CEO(ex-Google AI)可信;增速放缓)",1 (数据平台竞争激烈(Databricks/云厂);云支出顺周期)
-INTC,Short,0 (Q2’26 rev $16.13B +25%、GAAP GM 40.4%(+12.9ppt)/OPM 11.1%(vs -24.7%)，核心Products明显复苏：rev $15.14B +28%、OP $4.82B=31.8% OPM，其中DCAI $6.26B +59%/OPM 39.5% +3；Foundry Q2 rev $5.77B、OP -$2.09B(-36%)，先进18A制程yield增大进一步拉低op -1；Q2末debt $50.5B，net debt $20.8B（25年底仅$9.2B)，gross interest约$2.4B年化，新债利率高 -2.),-2 (管理层动荡+信誉受损(屡次下调指引/路线图落后)、turnaround 未验证;裁员可能是双刃剑),1 (竞争位弱 -1；政府注资，存在战略不可替代 0；政府可能强制second source chip maker +1；和skhy合作建memory的传闻 +1)
+INTC,Short,0 (Q2’26 rev $16.13B +25%、GAAP GM 40.4%(+12.9ppt)/OPM 11.1%(vs -24.7%)，核心Products明显复苏：rev $15.14B +28%、OP $4.82B=31.8% OPM，其中DCAI $6.26B +59%/OPM 39.5% +3；Foundry Q2 rev $5.77B、OP -$2.09B(-36%)，先进18A制程yield增大进一步拉低op -1；Q2末debt $50.5B，net debt $20.8B（25年底仅$9.2B)，gross interest约$2.4B年化，新债利率高6.5%且未来更高 -2.),-1 (管理层动荡+信誉受损(屡次下调指引/路线图落后)、turnaround 未验证 -1;裁员可能是双刃剑 0),1 (竞争位弱 -1；政府注资，存在战略不可替代 0；政府可能强制second source chip maker +1；和skhy合作建memory的传闻 +1)
 MSTR,Short,"-3 (本质=杠杆 BTC 持仓:845,050 BTC/成本 $63.73B(均价~$75.4k),软件业务仅~$0.5B/年 near-irrelevant;$15.5B 永续优先股+$6.75B 可转债、年股息~$1.7B(STRC $10.5B@11.5%),软件收入远不够付→Saylor 已承认或卖 BTC 付息=强制卖方 -3;mNAV 稀释 0.81×(<1)→增发买币/付息由增值变毁灭、flywheel 反转 -2;但已跌 63%($365→$82→~$135)、折价于 BTC NAV=froth 已挤 +2)",0 (Saylor(exec chairman)发明 BTC 国库打法+资本市场执行大师(募数百亿)+创始人高信念/重仓 alignment +2;all-in 单一资产 maximalism=零风险管理/bet-the-company -1;Saylor 法律旧账(2000 SEC 会计欺诈和解、2022 DC 逃税 $40M 和解)+集权治理 -1),-5 (纯 BTC 价格/加密监管/利率的宏观杠杆敞口、高 beta 顺周期 -2;反身性:体量大、若 BTC 续跌+优先股息逼迫→卖币螺旋 -1;copycat BTC 国库公司(Metaplanet 等)泛滥稀释稀缺 -0;可能被剔除纳指100+监管潜在压力(crypto 法案不通过+公司优先股问题)-2)
 BE,Watch,,,
 ASST,Watch,,,
@@ -25,3 +25,21 @@ PURR,Watch,,,
 MOD,Watch,,,
 STRL,Watch,,,
 LITE,Watch,,,
+TSLA,Watch,,,
+FIG,Watch,,,
+AAOI,Watch,,,
+SPCX,Watch,,,
+SOXX,Watch,,,
+GLW,Watch,,,
+ALAB,Watch,,,
+SMCI,Watch,,,
+IREN,Watch,,,
+IGV,Watch,,,
+ASTS,Watch,,,
+MRVL,Watch,,,
+AVGO,Watch,,,
+AXTI,Watch,,,
+DELL,Watch,,,
+RCL,Watch,,,
+U,Watch,,,
+CBRS,Watch,,,

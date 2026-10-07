@@ -1,5 +1,5 @@
 ﻿# INTC,方向=空头 Short,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
 Feature,Score,Rationale
-Operation,0,Q2’26 rev $16.13B +25%、GAAP GM 40.4%(+12.9ppt)/OPM 11.1%(vs -24.7%)，核心Products明显复苏：rev $15.14B +28%、OP $4.82B=31.8% OPM，其中DCAI $6.26B +59%/OPM 39.5% +3；Foundry Q2 rev $5.77B、OP -$2.09B(-36%)，先进18A制程yield增大进一步拉低op -1；Q2末debt $50.5B，net debt $20.8B（25年底仅$9.2B)，gross interest约$2.4B年化，新债利率高 -2.
-Leadership,-2,管理层动荡+信誉受损(屡次下调指引/路线图落后)、turnaround 未验证;裁员可能是双刃剑
+Operation,0,Q2’26 rev $16.13B +25%、GAAP GM 40.4%(+12.9ppt)/OPM 11.1%(vs -24.7%)，核心Products明显复苏：rev $15.14B +28%、OP $4.82B=31.8% OPM，其中DCAI $6.26B +59%/OPM 39.5% +3；Foundry Q2 rev $5.77B、OP -$2.09B(-36%)，先进18A制程yield增大进一步拉低op -1；Q2末debt $50.5B，net debt $20.8B（25年底仅$9.2B)，gross interest约$2.4B年化，新债利率高6.5%且未来更高 -2.
+Leadership,-1,管理层动荡+信誉受损(屡次下调指引/路线图落后)、turnaround 未验证 -1;裁员可能是双刃剑 0
 Externality,1,竞争位弱 -1；政府注资，存在战略不可替代 0；政府可能强制second source chip maker +1；和skhy合作建memory的传闻 +1
