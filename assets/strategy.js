@@ -3,7 +3,7 @@ import { workflowArchiveHTML } from './attribution-journal.js';
 import { $, esc, loadJSON, loadFreshJSON, getPat, setPat, ghHeaders, REPO } from "./shared.js";
 import { mountLegacyRiskControl } from "./risk-control.js";
 import { estimatePositionRisk } from "./risk-budget.mjs";
-import {readActiveNebulaCatalog,nebulaRiskModels} from './workflow-risk-bridge.mjs?v=20260930-3';
+import {readActiveNebulaCatalog,nebulaRiskModels,setHeatmapAssignment} from './workflow-risk-bridge.mjs?v=20261004-1';
 const LWC = window.LightweightCharts;
 
 /* 账户风险控制 · 仓位计算器 + thesis 管理(UI 称 Thesis;历史数据键沿用 bundles/default_bundle
@@ -381,7 +381,8 @@ export async function renderRiskExposure() {
   host.querySelectorAll(".rk-stopin").forEach((el) => el.addEventListener("change", () => { const s = rLS("riskStops", {}), v = el.value.trim(); if (v === "") delete s[el.dataset.sym]; else s[el.dataset.sym] = +v; rLSset("riskStops", s); renderRiskExposure(); }));
   host.querySelectorAll(".rk-tpin").forEach((el) => el.addEventListener("change", () => { const t = rLS("riskTargets", {}), v = el.value.trim(); if (v === "") delete t[el.dataset.sym]; else t[el.dataset.sym] = +v; rLSset("riskTargets", t); renderRiskExposure(); }));   // 止盈价:空=删除→留白
   host.querySelectorAll(".rk-grpsel").forEach((el) => el.addEventListener("change", () => {
-    const groups = rLS("riskGroups", {});if(el.value){groups[el.dataset.sym]=el.value;ASSIGN[el.dataset.sym]=el.value;}else{delete groups[el.dataset.sym];delete ASSIGN[el.dataset.sym];}
+    const groups=setHeatmapAssignment(rLS("riskGroups", {}),el.dataset.sym,el.value);
+    ASSIGN=setHeatmapAssignment(ASSIGN,el.dataset.sym,el.value);
     rLSset("riskGroups", groups); rpSchedule(); renderRiskExposure();
   }));
   const sp = $("rk-syncpx"); if (sp) sp.addEventListener("click", async () => {

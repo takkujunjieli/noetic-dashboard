@@ -14,6 +14,17 @@ export function readActiveNebulaCatalog(storage=localStorage){
  catch{return {version:1,updatedAt:'',cases:[]};}
 }
 
+// Portfolio heatmap ownership is a view-only grouping. It never receives or
+// returns a Workflow object, so changing it cannot rewrite frozen bundles or
+// an In Action Kelly Allocation.
+export function setHeatmapAssignment(groups,symbol,thesis){
+ const next={...(groups&&typeof groups==='object'&&!Array.isArray(groups)?groups:{})};
+ const key=String(symbol||'').trim().toUpperCase();
+ if(!key)throw Error('热力图标的无效');
+ if(thesis)next[key]=String(thesis);else delete next[key];
+ return next;
+}
+
 export function nebulaRiskModels(c,accountCapital,atrByUnderlying={}){
  const allocation=kellyAllocation(c,c.nodes.risk.data,accountCapital,atrByUnderlying),matrix=greekScenarioMatrix(c.nodes.returns.data,c.design?.plans||[]),bear=matrix.rows.find(row=>row.id==='bear');
  const bull=c.nodes.returns.data?.scenarios?.find(row=>row.id==='bull');
