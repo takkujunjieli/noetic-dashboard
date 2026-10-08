@@ -55,8 +55,7 @@
     "CRWV",
     "INTC",
     "PURR",
-    "ASST",
-    "ORCL"
+    "ASST"
   ],
   "uncertain": [
     "MSTR"
@@ -85,6 +84,7 @@
     "U",
     "CCL",
     "RKLB",
-    "LITE"
+    "LITE",
+    "ORCL"
   ]
 }
