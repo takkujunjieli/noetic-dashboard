@@ -43,7 +43,8 @@
     "BE",
     "U",
     "CBRS",
-    "SKHY"
+    "SKHY",
+    "ORCL"
   ],
   "deep": [
     "NVDA",
@@ -54,7 +55,8 @@
     "CRWV",
     "INTC",
     "PURR",
-    "ASST"
+    "ASST",
+    "ORCL"
   ],
   "uncertain": [
     "MSTR"
