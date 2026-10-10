@@ -59,7 +59,8 @@
   ],
   "uncertain": [
     "MSTR",
-    "GEV"
+    "GEV",
+    "RKLB"
   ],
   "neutral": [
     "AAOI",
@@ -84,7 +85,6 @@
     "SMCI",
     "U",
     "CCL",
-    "RKLB",
     "LITE",
     "ORCL"
   ]
