@@ -58,7 +58,8 @@
     "PURR"
   ],
   "uncertain": [
-    "MSTR"
+    "MSTR",
+    "GEV"
   ],
   "neutral": [
     "AAOI",
@@ -85,7 +86,6 @@
     "CCL",
     "RKLB",
     "LITE",
-    "ORCL",
-    "GEV"
+    "ORCL"
   ]
 }
