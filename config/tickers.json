@@ -55,8 +55,7 @@
     "COIN",
     "CRWV",
     "INTC",
-    "PURR",
-    "GEV"
+    "PURR"
   ],
   "uncertain": [
     "MSTR"
@@ -86,6 +85,7 @@
     "CCL",
     "RKLB",
     "LITE",
-    "ORCL"
+    "ORCL",
+    "GEV"
   ]
 }
