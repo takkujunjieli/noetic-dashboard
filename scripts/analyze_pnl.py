@@ -24,13 +24,14 @@ import urllib.request
 from _cfg import RISK_FREE_ANNUAL, TRADING_DAYS   # 统一可配 rf(默认 4%)+ 年化交易日
 
 ROOT = Path(__file__).resolve().parent.parent
-RAW_FILES = ["data/_takku_raw.json", "data/_rh_raw.json"]   # 有完整历史、可算 P&L 的账户原料
+RAW_FILES = ["data/_takku_raw.json", "data/_rh_raw.json", "data/_moomoo_raw.json"]   # 有完整历史、可算 P&L 的账户原料
 
 # rf 与 MAR(最低可接受收益)统一取 _cfg.RISK_FREE_ANNUAL(默认 4%)。因指标基于每日美元 P&L,需账户
 # 资本把年化% 折成每日美元门槛:日门槛$ = 资本 × RISK_FREE_ANNUAL / 252。
 ACCOUNT_CAPITAL = {          # 账户资本基数≈当前市值(equity_value),随市值变动手改
     "rh-7159": 86746,        # hui
     "takku-rh-2566": 35150,  # Takku·个人(Margin)
+    "moomoo-8609": 10786.97, # Moomoo·保证金
 }
 HUI_ACCOUNT = "rh-7159"
 AUTO_BACKFILL_MONTHLY_SNAPSHOTS = False

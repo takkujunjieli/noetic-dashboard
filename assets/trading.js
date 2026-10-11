@@ -1,14 +1,23 @@
+import {mountTradeLinkGroupEditor} from './trade-link-ui.js?v=20261010-group-links';
 /* 交易台 — 单票工作台:K线主图 + 共享价格轴行权价梯 + 期权面板 + 采集控制
    图表库: TradingView lightweight-charts v4(CDN,全局 LightweightCharts) */
 import {
   $, esc, fmtDT, fmtMoney, fmtNum, REPO, loadJSON, loadFreshJSON, getPat, setPat, ghHeaders,
 } from "./shared.js";
 import { monthlyLogStats } from "./portfolio-monthly.mjs";
+import { aggregateTradeDetails, dedupeTradeFills, equityPositionsAtBars, groupTradeFills } from "./trade-markers.mjs?v=20261010-position-anchor";
 
 const LWC = window.LightweightCharts;
 const ET = "America/New_York";
 
 let RESEARCH = null, GEX = null, GEXH = null, BARS = null, WEEK = null, PORTFOLIO = null, PNL = null, SCORES = null, ROBUST = null, MONTHLY = null;
+let TRADE_JOURNAL = { fills: [] }, TRADE_ANNOTATIONS = { annotations: {} }, tradeAnnotationsEtag = null;
+let TRADE_POSITION_SNAPSHOT = null;
+let tradeMarkerGroups = new Map();
+let tradeMarkerLayout = [], tradeMarkerFrame = null, hoveredTradeMarker = null;
+let tradePositionByTime = new Map();
+let TRADE_LINKS = {links: []};
+let tradeAccountFilter = localStorage.getItem("wbTradeAccount") || "all";
 let scoreSortCol = null, scoreSortDir = -1;  // Scorecards:首次点击按高分→低分
 let pfCalMode = localStorage.getItem("pfCalMode") || "realized";   // 月历:realized 已实现$ / total 总$(精确优先,缺则估) / ret 收益率% / log 对数收益(估)
 let pfFilter = null;          // Portfolio 饼图选中的 sym → 控制饼图中心显示
@@ -23,8 +32,10 @@ const savedTickerCardFilters = JSON.parse(localStorage.getItem("wbTickerCardFilt
 let tickerCardFilters = new Set(Array.isArray(savedTickerCardFilters)
   ? savedTickerCardFilters.filter((x) => TICKER_CARD_CATEGORIES.includes(x))
   : TICKER_CARD_CATEGORIES);
-let SYM = localStorage.getItem("wbSym") || null;
-let TF = localStorage.getItem("wbTf") || "5m";
+const tradeDeepLink = new URLSearchParams(location.search);
+let pendingTradeDeepLink = tradeDeepLink.get("trade");
+let SYM = tradeDeepLink.get("sym") || localStorage.getItem("wbSym") || null;
+let TF = pendingTradeDeepLink ? "1d" : localStorage.getItem("wbTf") || "5m";
 let ladderMode = "gex";
 let ladderDay = null;   // 本周历史 GEX 快照的选中日期(null=最新/Live);GEX 梯用当周到期结构
 let gexBucket = localStorage.getItem("wbGexBucket") || "near";  // 单到期=exp 日期串 · "near"=最近 · "all"=≤30d 聚合
@@ -73,6 +84,15 @@ const etOffsetMin = (ms) => {
 };
 const tconv = (ms) => Math.floor(ms / 1000) - etOffsetMin(ms) * 60;
 const etDay = (ms) => new Date(ms).toLocaleDateString("en-CA", { timeZone: ET });
+const tradeSessionDay = (ms) => {
+  const parts = Object.fromEntries(ET_OFF_FMT.formatToParts(ms)
+    .filter(part => part.type !== "literal").map(part => [part.type, Number(part.value)]));
+  const day = `${parts.year}-${String(parts.month).padStart(2, "0")}-${String(parts.day).padStart(2, "0")}`;
+  if (parts.hour < 20) return day;
+  const next = new Date(`${day}T00:00:00Z`);
+  next.setUTCDate(next.getUTCDate() + 1);
+  return next.toISOString().slice(0, 10);
+};
 
 /* ---------- 数据变换 ---------- */
 function researchOf(sym) { return RESEARCH?.tickers?.[sym] || {}; }
@@ -383,10 +403,15 @@ function initCharts() {
     { series: vsU, name: "VWAP +σ", color: "#fcd34d" },
     { series: vsL, name: "VWAP −σ", color: "#fcd34d" },
   ];
+  initTradeMarkerButtons();
   initHoverLegend();
   applyOverlayVis();  // 按 overlayOn 设置各叠加层可见性
   // 点击锚定 AVWAP:开启"点击锚定"后,点图上任一 bar 从那时刻加一条;点已有锚附近则删
   chart.subscribeClick((param) => {
+    if (typeof param.hoveredObjectId === "string" && tradeMarkerGroups.has(param.hoveredObjectId)) {
+      if (TF === "1d") openTradeNoteCard(tradeMarkerGroups.get(param.hoveredObjectId), param.point);
+      return; // 交易标记点击不能同时触发 AVWAP 锚定
+    }
     if (!avwapAdd || !avwapCtx || param.logical == null) return;
     const { bars } = avwapCtx;
     const i = Math.round(param.logical);
@@ -414,6 +439,198 @@ function initCharts() {
   ro.observe($("chart"));
   ro.observe($("ladder-box"));
   initLadderZoom();  // 梯纵向缩放/平移(K线随之对齐)
+}
+
+function renderTradeMarkers(bars, toChartTime) {
+  const fills = dedupeTradeFills((TRADE_JOURNAL.fills || []).filter((fill) => fill.underlying === SYM
+    && (tradeAccountFilter === "all" || tradeAccountKey(fill) === tradeAccountFilter)));
+  const groups = groupTradeFills({ fills, bars, tf: TF, dayOf: etDay, sessionDayOf: tradeSessionDay });
+  tradeMarkerGroups = new Map();
+  const layer = $("trade-marker-layer");
+  if (!layer) return;
+  const byTime = new Map(bars.map(bar => [bar[0], bar]));
+  const sellTimes = new Set(groups.filter(group => group.kind === "sell").map(group => group.barMs));
+  tradeMarkerLayout = groups.map(group => {
+    const id = `trade-marker:${TF}:${SYM}:${group.key}`;
+    tradeMarkerGroups.set(id, group);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "trade-marker-button";
+    button.dataset.kind = group.kind;
+    button.dataset.tradeMarker = id;
+    button.textContent = group.kind === "buy" ? "B" : group.kind === "sell" ? "S" : "O";
+    const hasReason = group.tradeIds.some(tradeId => String(TRADE_ANNOTATIONS.annotations?.[tradeId]?.reason || "").trim());
+    button.classList.toggle("has-reason", hasReason);
+    button.setAttribute("aria-label", `${SYM} ${etDay(group.barMs)} ${button.textContent}${hasReason ? " · 已有交易理由" : ""}${TF === "1d" ? " · 查看交易卡片" : ""}`);
+    const below = group.kind === "buy", bar = byTime.get(group.barMs);
+    return {button, id, time: toChartTime([group.barMs]), price: bar[below ? 3 : 2], high: bar[2], low: bar[3],
+      volume: bar[5], turnover: bar[5] * (bar[6] || (bar[2] + bar[3] + bar[4]) / 3),
+      offset: below ? 16 : -(16 + (group.kind === "option" && sellTimes.has(group.barMs) ? 22 : 0))};
+  });
+  layer.replaceChildren(...tradeMarkerLayout.map(item => item.button));
+  // Native canvas markers cannot animate hover/press. Use aligned DOM buttons.
+  candles.setMarkers([]);
+  scheduleTradeMarkerLayout();
+}
+
+function positionTradeMarkerButtons() {
+  const layer = $("trade-marker-layer");
+  if (!layer || !chart) return;
+  const width = chart.timeScale().width(), height = $("chart").clientHeight - chart.timeScale().height();
+  layer.style.width = `${width}px`;
+  layer.style.height = `${height}px`;
+  for (const item of tradeMarkerLayout) {
+    const x = chart.timeScale().timeToCoordinate(item.time);
+    const priceY = candles.priceToCoordinate(item.price), y = priceY == null ? null : priceY + item.offset;
+    const hidden = x == null || y == null || x < 10 || x > width - 10 || y < 10 || y > height - 10;
+    item.button.hidden = hidden;
+    if (!hidden) item.button.style.transform = `translate(${x - 10}px, ${y - 10}px)`;
+  }
+  const highlight = $("trade-candle-highlight"), volumeHighlight = $("trade-volume-highlight");
+  const hovered = tradeMarkerLayout.find(item => item.id === hoveredTradeMarker);
+  if (!highlight || !volumeHighlight || !hovered) {
+    if (highlight) highlight.hidden = true;
+    if (volumeHighlight) volumeHighlight.hidden = true;
+    return;
+  }
+  const x = chart.timeScale().timeToCoordinate(hovered.time);
+  const high = candles.priceToCoordinate(hovered.high), low = candles.priceToCoordinate(hovered.low);
+  if (x == null || high == null || low == null || x < 0 || x > width) {
+    highlight.hidden = true; volumeHighlight.hidden = true; return;
+  }
+  highlight.hidden = false;
+  highlight.style.transform = `translate(${x - 6}px, ${Math.min(high, low) - 4}px)`;
+  highlight.style.height = `${Math.max(12, Math.abs(low - high) + 8)}px`;
+  const activeVolume = volMode === "turnover" ? turnover : volume;
+  const activeValue = volMode === "turnover" ? hovered.turnover : hovered.volume;
+  const valueY = activeVolume.priceToCoordinate(activeValue), baseY = activeVolume.priceToCoordinate(0);
+  if (valueY == null || baseY == null) { volumeHighlight.hidden = true; return; }
+  const range = chart.timeScale().getVisibleLogicalRange();
+  const slot = range && range.to > range.from ? width / (range.to - range.from) : 8;
+  const barWidth = Math.max(3, Math.min(18, slot * .72));
+  volumeHighlight.hidden = false;
+  volumeHighlight.style.width = `${barWidth}px`;
+  volumeHighlight.style.height = `${Math.max(2, Math.abs(baseY - valueY))}px`;
+  volumeHighlight.style.transform = `translate(${x - barWidth / 2}px, ${Math.min(valueY, baseY)}px)`;
+}
+
+function scheduleTradeMarkerLayout() {
+  if (tradeMarkerFrame != null) return;
+  // Chart rendering is deferred: a second frame catches the final scale coordinates.
+  tradeMarkerFrame = requestAnimationFrame(() => {
+    positionTradeMarkerButtons();
+    tradeMarkerFrame = requestAnimationFrame(() => {
+      tradeMarkerFrame = null;
+      positionTradeMarkerButtons();
+    });
+  });
+}
+
+function initTradeMarkerButtons() {
+  const layer = $("trade-marker-layer");
+  if (!layer) return;
+  for (const type of ["pointerdown", "mousedown", "touchstart", "dblclick"]) {
+    layer.addEventListener(type, event => { if (event.target.closest("[data-trade-marker]")) event.stopPropagation(); });
+  }
+  layer.addEventListener("click", event => {
+    const button = event.target.closest("[data-trade-marker]");
+    if (!button) return;
+    event.stopPropagation();
+    const group = tradeMarkerGroups.get(button.dataset.tradeMarker);
+    if (TF === "1d" && group) {
+      const rect = $("chart").getBoundingClientRect(), marker = button.getBoundingClientRect();
+      openTradeNoteCard(group, {x: marker.left + marker.width / 2 - rect.left, y: marker.top + marker.height / 2 - rect.top});
+    }
+  });
+  layer.addEventListener("pointerover", event => {
+    const button = event.target.closest("[data-trade-marker]");
+    if (!button) return;
+    hoveredTradeMarker = button.dataset.tradeMarker;
+    scheduleTradeMarkerLayout();
+  });
+  layer.addEventListener("pointerout", event => {
+    const button = event.target.closest("[data-trade-marker]");
+    if (!button || event.relatedTarget?.closest?.("[data-trade-marker]") === button) return;
+    hoveredTradeMarker = null;
+    $("trade-candle-highlight").hidden = true;
+    $("trade-volume-highlight").hidden = true;
+  });
+  chart.timeScale().subscribeVisibleLogicalRangeChange(scheduleTradeMarkerLayout);
+  for (const type of ["pointermove", "pointerup", "wheel", "touchmove", "dblclick"]) {
+    $("chart").addEventListener(type, scheduleTradeMarkerLayout, {passive: true});
+  }
+  const resize = new ResizeObserver(scheduleTradeMarkerLayout);
+  resize.observe($("chart"));
+}
+
+function tradeAccountTone(account = "") {
+  const value = String(account).toLowerCase();
+  if (value.includes("takku")) return "takku";
+  if (value.includes("moomoo")) return "moomoo";
+  if (value === "rh-7159" || value.includes("hui")) return "hui";
+  return "default";
+}
+
+const tradeAccountLabel = (account = "") => account === "rh-7159" ? "hui-rh-7159" : account;
+
+const tradeFactNumber = (value) => Number.isFinite(Number(value))
+  ? Number(value).toLocaleString("en-US", { maximumFractionDigits: 4 }) : "—";
+const tradePriceNumber = (value) => Number.isFinite(Number(value))
+  ? Number(value).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "—";
+
+function tradeReasonValue(tradeIds) {
+  const notes = [...new Set(tradeIds.map(id => TRADE_ANNOTATIONS.annotations?.[id]?.reason || "").filter(Boolean))];
+  return { value: notes.length === 1 ? notes[0] : "", differs: notes.length > 1 };
+}
+
+function openTradeNoteCard(group, point) {
+  const card = $("trade-note-card"); if (!card) return;
+  const details = aggregateTradeDetails(group.fills, etDay);
+  const tradeIds = [...new Set(group.fills.map(fill => fill.trade_id).filter(Boolean))];
+  const note = tradeReasonValue(tradeIds);
+  card.innerHTML = `<div class="trade-note-head"><b>${esc(SYM)}</b><button type="button" data-trade-close aria-label="Close">×</button></div>
+    <ul class="trade-account-summary">${details.map(detail => {
+      const tone = tradeAccountTone(detail.account);
+      const side = detail.sides.join(" / ");
+      const contract = detail.instrument ? `${esc(detail.instrument)} · ` : "";
+      return `<li data-account-tone="${tone}"><time>${esc(detail.dates.join(" / "))}</time><span>${contract}${esc(side)} · ${esc(tradeFactNumber(detail.qty))} @ ${esc(tradePriceNumber(detail.averagePrice))} · ${esc(tradeAccountLabel(detail.account))}</span></li>`;
+    }).join("")}</ul>
+    <div class="trade-note-list"><section><label>交易理由<textarea rows="3" maxlength="5000" placeholder="${note.differs ? "这些成交已有不同理由；保存后将统一更新" : "为什么执行这些交易？"}">${esc(note.value)}</textarea></label><div class="trade-note-actions"><span role="status"></span><button type="button" data-trade-save>保存理由</button></div><div class="trade-link-editor" data-link-group-editor></div></section></div>`;
+  card.hidden = false;
+  card.querySelector(".trade-note-list section").dataset.tradeIds = JSON.stringify(tradeIds);
+  const trades = tradeIds.map(tradeId => ({tradeId, fills: group.fills.filter(fill => fill.trade_id === tradeId)}));
+  mountTradeLinkGroupEditor(card.querySelector("[data-link-group-editor]"), trades, document => {
+    TRADE_LINKS = document;
+    if (avwapCtx) renderTradeMarkers(avwapCtx.bars, avwapCtx.t);
+  });
+  const wrap = card.parentElement;
+  card.style.left = `${Math.max(8, Math.min((point?.x || 20) + 12, Math.max(8, wrap.clientWidth - 390)))}px`;
+  card.style.top = `${Math.max(8, (point?.y || 20) + 12)}px`;
+}
+
+async function saveTradeReason(section) {
+  const status = section.querySelector('[role="status"]'), button = section.querySelector("[data-trade-save]");
+  status.textContent = "保存中…"; button.disabled = true;
+  try {
+    const tradeIds = JSON.parse(section.dataset.tradeIds || "[]");
+    if (!tradeIds.length) throw Error("这组成交缺少交易 ID");
+    const headers = { "Content-Type": "application/json", ...(tradeAnnotationsEtag ? { "If-Match": tradeAnnotationsEtag } : { "If-None-Match": "*" }) };
+    const response = await fetch("/api/trade-annotations", { method: "PUT", headers,
+      body: JSON.stringify({ trade_ids: tradeIds, reason: section.querySelector("textarea").value }) });
+    const raw = await response.text();
+    let body = null;
+    if (raw) {
+      try { body = JSON.parse(raw); }
+      catch { throw Error(`本地服务返回了非 JSON 响应（HTTP ${response.status}）`); }
+    }
+    if (!response.ok) throw Error(body?.error || `本地服务请求失败（HTTP ${response.status}）`);
+    if (!body) throw Error("本地服务返回空响应，请重启 8642 服务后重试");
+    TRADE_ANNOTATIONS = body;
+    tradeAnnotationsEtag = response.headers.get("ETag");
+    if (avwapCtx) renderTradeMarkers(avwapCtx.bars, avwapCtx.t);
+    status.textContent = tradeIds.length > 1 ? `已保存至 ${tradeIds.length} 笔` : "已保存";
+  } catch (error) { status.textContent = `保存失败：${error.message}`; }
+  finally { button.disabled = false; }
 }
 
 /* 可勾选叠加层(K线/量常驻);AVWAP 由锚点选择器单独控制 */
@@ -450,6 +667,36 @@ function applyVolMode() {
   if (box) [...box.children].forEach((b) => b.classList.toggle("active", b.dataset.vm === volMode));
 }
 
+const tradeChartTimeKey = (time) => {
+  if (time && typeof time === "object" && "year" in time) {
+    return `${time.year}-${String(time.month).padStart(2, "0")}-${String(time.day).padStart(2, "0")}`;
+  }
+  return String(time);
+};
+
+function buildTradePositionMap(bars, toChartTime, daily) {
+  const fills = dedupeTradeFills((TRADE_JOURNAL.fills || [])
+    .filter(fill => fill.underlying === SYM && fill.kind === "equity"
+      && (tradeAccountFilter === "all" || tradeAccountKey(fill) === tradeAccountFilter)));
+  const result = new Map();
+  const width = TF === "1m" ? 60_000 : TF === "5m" ? 300_000 : TF === "15m" ? 900_000 : 86_400_000;
+  const snapshotRows = (TRADE_POSITION_SNAPSHOT?.positions || []).filter(position => position.kind === "equity"
+    && position.sym === SYM && (tradeAccountFilter === "all" || tradeAccountKey(position) === tradeAccountFilter));
+  const endingPosition = snapshotRows.reduce((sum, position) => sum + Number(position.qty || 0), 0);
+  const anchorMs = Date.parse(TRADE_POSITION_SNAPSHOT?.updated_at || "");
+  const positions = equityPositionsAtBars({ fills, bars, daily, dayOf: etDay,
+    sessionDayOf: tradeSessionDay, barWidth: width,
+    endingPosition: Number.isFinite(anchorMs) ? endingPosition : undefined, anchorMs });
+  bars.forEach((bar, index) => result.set(tradeChartTimeKey(toChartTime(bar)), positions[index]));
+  return result;
+}
+
+function tradePositionColor() {
+  if (tradeAccountFilter === "all") return "#e5e7eb";
+  const account = decodeURIComponent(tradeAccountFilter.split("|")[1] || "");
+  return { hui: "#c084fc", takku: "#7dd3fc", moomoo: "#fb923c" }[tradeAccountTone(account)] || "#e5e7eb";
+}
+
 /* hover 到某条线附近(纵向 ≤7px)才浮出它的名称+数值;不占右轴、默认隐藏 */
 function initHoverLegend() {
   const HIT = 7;  // 命中容差(像素)
@@ -459,6 +706,11 @@ function initHoverLegend() {
     if (!param.point || !param.time) { el.style.display = "none"; return; }
     const cy = param.point.y;
     const hits = [];
+    const position = tradePositionByTime.get(tradeChartTimeKey(param.time));
+    if (position != null) {
+      const integerPosition = Math.trunc(position);
+      hits.push({ color: tradePositionColor(), v: Object.is(integerPosition, -0) ? 0 : integerPosition, isPosition: true });
+    }
     for (const it of hoverSeries) {
       const d = param.seriesData.get(it.series);
       const v = d && (d.value ?? d.close);
@@ -489,7 +741,9 @@ function initHoverLegend() {
       }
     }
     if (!hits.length) { el.style.display = "none"; return; }
-    el.innerHTML = hits.map((h) => `<span style="color:${h.color}">● ${esc(h.name)} ${h.isVol ? Math.round(h.v).toLocaleString() : h.isMoney ? fmtMoney(h.v) : h.v.toFixed(2)}</span>`).join("<br>");
+    el.innerHTML = hits.map((h) => h.isPosition
+      ? `<span style="color:${h.color}">${h.v > 0 ? "+" : ""}${h.v.toLocaleString()}股</span>`
+      : `<span style="color:${h.color}">● ${esc(h.name)} ${h.isVol ? Math.round(h.v).toLocaleString() : h.isMoney ? fmtMoney(h.v) : h.v.toFixed(2)}</span>`).join("<br>");
     el.style.display = "block";
     const w = $("chart").clientWidth;
     el.style.left = Math.min(param.point.x + 14, w - 130) + "px";
@@ -499,10 +753,12 @@ function initHoverLegend() {
 
 /* ---------- 主图 ---------- */
 function renderChart() {
+  if ($("trade-note-card")) $("trade-note-card").hidden = true;
   let bars = barsFor(SYM, TF);
   const daily = TF === "1d";
   if (!daily && !showETH) bars = bars.filter((b) => isRTH(b[0]));  // 默认只画 RTH(去盘前盘后);VWAP/带/AVWAP 随之基于 RTH
   const t = (b) => daily ? etDay(b[0]) : tconv(b[0]);
+  tradePositionByTime = buildTradePositionMap(bars, t, daily);
   candles.setData(bars.map((b) => ({ time: t(b), open: b[1], high: b[2], low: b[3], close: b[4] })));
   volume.setData(bars.map((b) => ({ time: t(b), value: b[5], color: b[4] >= b[1] ? "#34d39955" : "#f8717155" })));
   // 成交额 = 量 × 每根 bar 均价(与 VWAP 同源:优先 b[6]=bar VWAP,回退典型价 (H+L+C)/3),= 该 bar 实际成交金额
@@ -521,6 +777,7 @@ function renderChart() {
   // Anchored VWAP:每个手动锚点一条线(按时间戳锚,跨周期一致);供点击锚定映射
   avwapCtx = { bars, t };
   renderAvwap(bars, t);
+  renderTradeMarkers(bars, t);
 
   // 关键价位线: gamma flip / Max Pain(名称也走 hover,不常驻)
   priceLines.forEach((l) => candles.removePriceLine(l));
@@ -535,6 +792,18 @@ function renderChart() {
 
   const visible = TF === "1d" ? 130 : TF === "1m" ? 200 : 160;
   chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, bars.length - visible), to: bars.length + 3 });
+  if (pendingTradeDeepLink && daily) {
+    const matching = [...tradeMarkerGroups.values()].filter(g => g.tradeIds.includes(pendingTradeDeepLink));
+    const group = matching.find(g => etDay(g.barMs) === tradeDeepLink.get("date")) || matching[0];
+    if (group) {
+      const index = bars.findIndex(b => b[0] === group.barMs);
+      if (index >= 0) chart.timeScale().setVisibleLogicalRange({from: Math.max(0,index-20),to:index+20});
+      openTradeNoteCard(group, {x:20,y:20});
+      pendingTradeDeepLink = null;
+    } else {
+      $("trade-import-status").textContent = "此交易没有对应的可用日线 K 线；请检查当前 ticker 和历史数据范围";
+    }
+  }
   renderLadder();  // 内含 VP 叠加;setVisibleLogicalRange 也会触发 subscribe 兜底
   renderIndSub();  // ATR / ADX 指标副图(与主图同源 bars)
   renderMacdSub(); // MACD 动量副图
@@ -811,6 +1080,7 @@ function renderWeekChips() {  // 本周每日 GEX 快照日期选择(仅当前�
 }
 
 function renderLadder() {
+  scheduleTradeMarkerLayout();
   renderWeekChips();   // 先校准 ladderDay(可能因换票被重置)再画
   const svg = $("ladder");
   if (!svg || !candles) return;
@@ -1637,6 +1907,98 @@ async function loadData(force = false) {
   // Portfolio/盈亏/打分 已迁到 portfolio 页(见 initPortfolioPanel);交易台不再加载渲染。
 }
 
+async function loadTradeJournal() {
+  try {
+    const [journalResponse, annotationsResponse, linksResponse, positionResponse] = await Promise.all([
+      fetch("/api/trade-journal", { cache: "no-store" }),
+      fetch("/api/trade-annotations", { cache: "no-store" }),
+      fetch("/api/trade-links", { cache: "no-store" }),
+      fetch(`data/portfolio.json?t=${Date.now()}`, { cache: "no-store" }),
+    ]);
+    if (!journalResponse.ok || !annotationsResponse.ok) throw Error("local trade API unavailable");
+    TRADE_JOURNAL = await journalResponse.json();
+    TRADE_ANNOTATIONS = await annotationsResponse.json();
+    tradeAnnotationsEtag = annotationsResponse.headers.get("ETag");
+    TRADE_LINKS = linksResponse.ok ? await linksResponse.json() : {links: []};
+    TRADE_POSITION_SNAPSHOT = positionResponse.ok ? await positionResponse.json() : null;
+    renderTradeAccountFilter();
+    renderTradeCoverage();
+  } catch {
+    TRADE_JOURNAL = { fills: [] }; TRADE_ANNOTATIONS = { annotations: {} }; tradeAnnotationsEtag = null;
+    TRADE_POSITION_SNAPSHOT = null;
+    renderTradeAccountFilter();
+    renderTradeCoverage();
+  }
+}
+
+const tradeAccountKey = (fill) => `${encodeURIComponent(fill.broker || "")}|${encodeURIComponent(fill.account || "")}`;
+
+function renderTradeAccountFilter() {
+  const select = $("trade-account-filter");
+  if (!select) return;
+  const accounts = new Map();
+  for (const fill of TRADE_JOURNAL.fills || []) {
+    const key = tradeAccountKey(fill);
+    if (!accounts.has(key)) accounts.set(key, `${fill.broker || "未知券商"} · ${tradeAccountLabel(fill.account || "未知账户")}`);
+  }
+  if (tradeAccountFilter !== "all" && !accounts.has(tradeAccountFilter)) {
+    tradeAccountFilter = "all";
+    localStorage.setItem("wbTradeAccount", "all");
+  }
+  select.innerHTML = `<option value="all">全部账户</option>${[...accounts.entries()]
+    .sort((a, b) => a[1].localeCompare(b[1], "zh-CN"))
+    .map(([key, label]) => {
+      const account = decodeURIComponent(key.split("|")[1] || "");
+      return `<option value="${esc(key)}" data-account-tone="${tradeAccountTone(account)}">${esc(label)}</option>`;
+    }).join("")}`;
+  select.value = tradeAccountFilter;
+  const selected = select.selectedOptions[0];
+  select.dataset.accountTone = selected?.dataset.accountTone || "default";
+}
+
+function tradeCoverageEnd() {
+  const times = (TRADE_JOURNAL.fills || []).map((fill) => Date.parse(fill.timestamp)).filter(Number.isFinite);
+  return times.length ? etDay(Math.max(...times)) : null;
+}
+
+function renderTradeCoverage() {
+  const element = $("trade-coverage-end");
+  if (!element) return;
+  const day = tradeCoverageEnd();
+  element.textContent = day ? `已回填至 ${day} ET` : "尚无本地成交记录";
+}
+
+function tradeImportReport(result) {
+  const sourceTimes = (result.sources || []).map((source) => {
+    const stamp = source.source_updated_at ? fmtDT(source.source_updated_at) : "时间未知";
+    return `${source.broker || source.file}: ${stamp}`;
+  });
+  const status = $("trade-import-status");
+  status.textContent = `同步完成 · 新增 ${result.inserted} · 重复 ${result.duplicates} · 冲突 ${result.conflicts} · 无效 ${result.invalid}${sourceTimes.length ? ` · 源 ${sourceTimes.join(" / ")}` : ""}`;
+  status.title = sourceTimes.join("\n");
+}
+
+async function syncTradeJournal() {
+  const button = $("trade-sync");
+  const status = $("trade-import-status");
+  button.disabled = true;
+  status.textContent = "正在同步本地成交记录…";
+  try {
+    const response = await fetch("/api/trade-journal/import", {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ mode: "incremental" }),
+    });
+    const result = await response.json();
+    if (!response.ok) throw Error(result.error || `HTTP ${response.status}`);
+    await loadTradeJournal();
+    tradeImportReport(result.import);
+    renderChart();
+  } catch (error) {
+    status.textContent = `同步失败: ${error.message}`;
+  } finally {
+    button.disabled = false;
+  }
+}
+
 /* 简易 fetch 文本 + CSV 解析(处理引号内逗号、BOM);失败→null */
 async function loadText(path) {
   try { const r = await fetch(path + "?t=" + Date.now()); if (!r.ok) throw 0; return await r.text(); }
@@ -1664,7 +2026,8 @@ function renderScorecards() {
   const rows = SCORES;
   if (!rows || rows.length < 2) { el.innerHTML = ""; return; }  // 公开站/无文件 → 不显示
   const head = rows[0];
-  const SCORE_COLS = [2, 3, 4];   // Operation / Leadership / Externality(去掉综合 + 估值)
+  const SCORE_COLS = ["Operation", "Leadership", "Externality"].map((name) => head.indexOf(name));
+  const UPDATED_COL = head.indexOf("Updated");
   const TH = { Operation: "经营", Leadership: "管理层", Externality: "外部" };
   // 底色:0/无=中性无色;正=绿、负=红,深浅按 |分|/5。
   const heat = (s) => {
@@ -1700,7 +2063,8 @@ function renderScorecards() {
     const dir = r[1];
     const dirCls = dir === "Short" ? "down" : dir === "Long" ? "up" : "muted";
     const dirTxt = dir === "Short" ? "空" : dir === "Long" ? "多" : "观";  // Watch=无仓位
-    return `<tr><td class="sc-tk"><b>${esc(r[0])}</b></td>`
+    const updated = UPDATED_COL >= 0 ? r[UPDATED_COL] : "";
+    return `<tr><td class="sc-tk"><b>${esc(r[0])}</b><small>${esc(updated || "待填写")}</small></td>`
       + `<td><span class="sc-dir ${dirCls}">${dirTxt}</span></td>`
       + SCORE_COLS.map((i) => { const p = parse(r[i]); return cell(p.s, p.why); }).join("")
       + `</tr>`;
@@ -1791,6 +2155,18 @@ function startPolling() {
 
 /* ---------- 交互绑定 ---------- */
 function initToolbar() {
+  $("trade-account-filter")?.addEventListener("change", (event) => {
+    tradeAccountFilter = event.target.value;
+    localStorage.setItem("wbTradeAccount", tradeAccountFilter);
+    event.target.dataset.accountTone = event.target.selectedOptions[0]?.dataset.accountTone || "default";
+    renderChart();
+  });
+  $("trade-sync")?.addEventListener("click", syncTradeJournal);
+  $("trade-note-card")?.addEventListener("click", (event) => {
+    if (event.target.closest("[data-trade-close]")) { $("trade-note-card").hidden = true; return; }
+    const save = event.target.closest("[data-trade-save]");
+    if (save) saveTradeReason(save.closest("[data-trade-ids]"));
+  });
   $("ticker-card-filter").addEventListener("change", (ev) => {
     const input = ev.target.closest("input[data-card-filter]");
     if (!input) return;
@@ -1957,7 +2333,7 @@ function initToolbar() {
   initControls();
   [...$("tf-chips").children].forEach((b) => b.classList.toggle("active", b.dataset.tf === TF));
   await loadCfg();       // 标的分组只在启动时载入,避免轮询覆盖未保存的改动
-  await loadData();
+  await Promise.all([loadData(), loadTradeJournal()]);
   renderAll();
   refreshRunStatus();
   startPolling();

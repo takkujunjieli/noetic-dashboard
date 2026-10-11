@@ -20,6 +20,7 @@ function Link-PrivateFile($local, $name) {
 @(
   "_rh_raw.json",
   "_takku_raw.json",
+  "_moomoo_raw.json",
   "portfolio.json",
   "pnl.json",
   "portfolio_history.json",

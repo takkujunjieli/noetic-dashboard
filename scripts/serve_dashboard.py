@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Serve the dashboard and one private transaction JSON per thesis (loopback only)."""
+"""Serve the dashboard and private transaction stores on loopback only."""
 import argparse
 import hashlib
 import json
@@ -15,6 +15,8 @@ from urllib.parse import unquote, urlsplit
 from zoneinfo import ZoneInfo
 
 from build_transaction_history import build_history
+from trade_journal import import_local_history, journal_summary, load_annotations, load_journal, update_annotations
+from trade_links import load_links, mutate_links
 
 ROOT = Path(__file__).resolve().parent.parent
 PRIVATE = ROOT.parent / "stock-dashboard-private" / "thesis_transactions"
@@ -64,9 +66,12 @@ def etag(data):
 
 
 class DashboardHandler(SimpleHTTPRequestHandler):
-    def __init__(self, *args, private_dir=PRIVATE, data_dir=None, **kwargs):
+    def __init__(self, *args, private_dir=PRIVATE, data_dir=None, journal_path=None, annotations_path=None, **kwargs):
         self.private_dir = Path(private_dir)
         self.data_dir = Path(data_dir) if data_dir else ROOT / "data"
+        self.journal_path = Path(journal_path) if journal_path else self.private_dir.parent / "trade_journal" / "journal.json"
+        self.annotations_path = Path(annotations_path) if annotations_path else self.journal_path.with_name("annotations.json")
+        self.links_path = self.journal_path.with_name("trade_links.json")
         super().__init__(*args, **kwargs)
 
     def reply(self, status, body, tag=None):
@@ -112,6 +117,16 @@ class DashboardHandler(SimpleHTTPRequestHandler):
         try:
             if path == "/api/transaction-history":
                 return self.reply(200, build_history(self.data_dir))
+            if path == "/api/trade-journal":
+                journal = load_journal(self.journal_path)
+                return self.reply(200, {"journal": journal_summary(journal), "fills": journal["fills"]})
+            if path == "/api/trade-links":
+                document = load_links(self.links_path)
+                return self.reply(200, document, etag(self.links_path.read_bytes()) if self.links_path.exists() else None)
+            if path == "/api/trade-annotations":
+                document = load_annotations(self.annotations_path)
+                raw = (json.dumps(document, ensure_ascii=False, indent=2) + "\n").encode()
+                return self.reply(200, document, etag(raw) if self.annotations_path.exists() else None)
             thesis_id, target = self.transaction_path()
             if not target.exists():
                 return self.reply(200, {"file": None, "path": str(target)})
@@ -123,10 +138,92 @@ class DashboardHandler(SimpleHTTPRequestHandler):
             self.reply(400, {"error": str(error)})
 
     def do_PUT(self):
+        if urlsplit(self.path).path == "/api/trade-annotations":
+            return self.mutate_annotation()
         self.mutate_file(delete=False)
+
+    def do_POST(self):
+        if urlsplit(self.path).path == "/api/trade-links":
+            return self.mutate_trade_links()
+        if not self.allowed(mutation=True):
+            return
+        if urlsplit(self.path).path != "/api/trade-journal/import":
+            return self.reply(404, {"error": "API not found"})
+        try:
+            length = int(self.headers.get("Content-Length", "0"))
+            if length < 0 or length > 20_000:
+                raise ValueError("导入请求超过 20 KB")
+            if length:
+                if self.headers.get("Content-Type", "").split(";")[0] != "application/json":
+                    raise ValueError("需要 JSON 请求")
+                body = json.loads(self.rfile.read(length))
+                if not isinstance(body, dict):
+                    raise ValueError("导入请求必须是 JSON object")
+            else:
+                body = {"mode": "incremental"}
+            mode = body.get("mode", "incremental")
+            if mode not in ("incremental", "backfill"):
+                raise ValueError("mode 必须是 incremental 或 backfill")
+            start = body.get("start") if mode == "backfill" else None
+            end = body.get("end") if mode == "backfill" else None
+            if mode == "backfill" and (start is None or end is None):
+                raise ValueError("区间回填需要开始和结束日期")
+            with LOCK:
+                journal, result = import_local_history(self.data_dir, self.journal_path, start, end)
+            self.reply(200, {"journal": journal_summary(journal), "import": result})
+        except (ValueError, TypeError, KeyError, OSError, json.JSONDecodeError) as error:
+            self.reply(400, {"error": str(error)})
 
     def do_DELETE(self):
         self.mutate_file(delete=True)
+
+    def mutate_trade_links(self):
+        if not self.allowed(mutation=True):
+            return
+        try:
+            length = int(self.headers.get("Content-Length", "0"))
+            if self.headers.get("Content-Type", "").split(";")[0] != "application/json" or not 0 < length <= 100_000:
+                raise ValueError("关联请求必须是 JSON，且小于 100 KB")
+            body = json.loads(self.rfile.read(length))
+            if not isinstance(body, dict):
+                raise ValueError("关联请求格式无效")
+            with LOCK:
+                previous = self.links_path.read_bytes() if self.links_path.exists() else None
+                valid = ((previous is not None and self.headers.get("If-Match") == etag(previous))
+                         or (previous is None and self.headers.get("If-None-Match") == "*"))
+                if not valid:
+                    return self.reply(409, {"error": "关联已被其他页面更新，请重新读取后再保存"})
+                document = mutate_links(self.links_path, body, load_journal(self.journal_path))
+                tag = etag(self.links_path.read_bytes())
+            self.reply(200, document, tag)
+        except (ValueError, TypeError, KeyError, AttributeError, OSError) as error:
+            self.reply(400, {"error": str(error)})
+
+    def mutate_annotation(self):
+        if not self.allowed(mutation=True):
+            return
+        try:
+            if self.headers.get("Content-Type", "").split(";")[0] != "application/json":
+                raise ValueError("需要 JSON 请求")
+            length = int(self.headers.get("Content-Length", "0"))
+            if not 0 < length <= 20_000:
+                raise ValueError("理由为空或超过请求上限")
+            body = json.loads(self.rfile.read(length))
+            with LOCK:
+                previous = self.annotations_path.read_bytes() if self.annotations_path.exists() else None
+                valid = ((previous is not None and self.headers.get("If-Match") == etag(previous))
+                         or (previous is None and self.headers.get("If-None-Match") == "*"))
+                if not valid:
+                    return self.reply(409, {"error": "交易理由已被其他页面或 agent 更新，请重新读取后再保存"})
+                trade_ids = body.get("trade_ids")
+                if trade_ids is None:
+                    trade_ids = [body.get("trade_id")]
+                document = update_annotations(trade_ids, body.get("reason"),
+                                              load_journal(self.journal_path), self.annotations_path)
+                content = (json.dumps(document, ensure_ascii=False, indent=2) + "\n").encode()
+            self.reply(200, document, etag(content))
+        except (ValueError, TypeError, KeyError, OSError, json.JSONDecodeError) as error:
+            self.reply(400, {"error": str(error)})
 
     def mutate_file(self, delete):
         if not self.allowed(mutation=True):
@@ -171,11 +268,15 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--port", type=int, default=8642)
     parser.add_argument("--private-dir", type=Path, default=PRIVATE)
+    parser.add_argument("--journal-path", type=Path,
+                        help="private canonical trade journal (default: sibling trade_journal/journal.json)")
     args = parser.parse_args()
-    handler = partial(DashboardHandler, directory=str(ROOT), private_dir=args.private_dir)
+    handler = partial(DashboardHandler, directory=str(ROOT), private_dir=args.private_dir,
+                      journal_path=args.journal_path)
     server = ThreadingHTTPServer(("127.0.0.1", args.port), handler)
     print(f"Dashboard: http://localhost:{args.port}/workflow.html", flush=True)
     print(f"Thesis transaction files: {args.private_dir}", flush=True)
+    print(f"Canonical trade journal: {args.journal_path or args.private_dir.parent / 'trade_journal' / 'journal.json'}", flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:

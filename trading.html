@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Short-Term Research Desk · Trading</title>
-  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/style.css?v=20261011-reason-glow">
   <link rel="stylesheet" href="assets/theme.css">
 </head>
 
@@ -103,12 +103,24 @@
       </div>
     </div>
 
+    <div class="trade-import-bar" id="trade-import-controls">
+      <span class="muted small" title="只读取本机 data/_*_raw.json；不会连接券商或自动运行">本地成交记录:</span>
+      <label>账户 <select id="trade-account-filter"><option value="all">全部账户</option></select></label>
+      <span class="trade-coverage muted small" id="trade-coverage-end">已回填至 —</span>
+      <button type="button" class="mini-btn" id="trade-sync">同步成交记录</button>
+      <span class="trade-import-status muted small" id="trade-import-status" role="status">仅同步本地历史</span>
+    </div>
+
     <!-- Main: candles + strike ladder -->
     <div class="wb-main">
       <div class="wb-chart">
         <div class="chart-wrap">
           <div id="chart"></div>
+          <div id="trade-candle-highlight" aria-hidden="true"></div>
+          <div id="trade-volume-highlight" aria-hidden="true"></div>
+          <div id="trade-marker-layer" aria-label="交易标记"></div>
           <div id="chart-legend"></div>
+          <aside id="trade-note-card" class="trade-note-card" hidden aria-label="Trade rationale"></aside>
         </div>
         <div class="sub-title muted small" id="macd-sub-title" style="display:none"></div>
         <div id="macd-sub" style="display:none"></div>
@@ -159,7 +171,7 @@
   </footer>
 
   <script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
-  <script type="module" src="assets/trading.js?v=20260928-all-tickers-full-data"></script>
+  <script type="module" src="assets/trading.js?v=20261011-position-label"></script>
 </body>
 
 </html>

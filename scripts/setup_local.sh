@@ -8,7 +8,7 @@ cd "$(dirname "$0")/.."
 PRIV="../stock-dashboard-private"
 [ -d "$PRIV" ] || { echo "✗ 缺 $PRIV —— 先把私有库 clone 到 noetic-dashboard 的同级目录"; exit 1; }
 mkdir -p data config research scripts
-for f in _rh_raw.json _takku_raw.json portfolio.json pnl.json portfolio_history.json monthly_returns.json trade_journal.json risk_stops.json completed_theses.json thesis_events.json robustness.json .px_cache.json rh_networth.json; do
+for f in _rh_raw.json _takku_raw.json _moomoo_raw.json portfolio.json pnl.json portfolio_history.json monthly_returns.json trade_journal.json risk_stops.json completed_theses.json thesis_events.json robustness.json .px_cache.json rh_networth.json; do
   [ -e "$PRIV/$f" ] || continue
   ln -sfn "../../stock-dashboard-private/$f" "data/$f" && echo "  data/$f → private/$f"
 done

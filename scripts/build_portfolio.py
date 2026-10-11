@@ -20,7 +20,7 @@ accounts 用带人名的 id/label(如 {"id":"mom-rh","label":"妈妈·个人"})�
 
 来源:
   Robinhood — Claude 调 robinhood-trading MCP 只读工具,归一后写 data/_rh_raw.json
-  moomoo    — scripts/fetch_moomoo.py(OpenD)写 data/_moomoo_raw.json
+  Moomoo    — 官方 moomoo-mcp 只读工具,归一后写 data/_moomoo_raw.json
   家庭成员   — 各人在自己的 Claude/脚本里用自己的登录导出 data/_<人名>_raw.json(同 schema)
 """
 import glob
