@@ -1,5 +1,5 @@
-﻿# AMD,方向=Watch 无仓位,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
+﻿# AMD,方向=多头 Long,更新=2026-10-10,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
 Feature,Score,Rationale
-Operation,2,EPYC 抢 Intel 份额+MI 放量;资产负债表干净/低杠杆/FCF 正;大额回购但 SBC 稀释偏高
-Leadership,3,Lisa Su 执行力/turnaround 杰出、信誉高、适应力强
+Operation,2,Q2'26 rev $11.54B +50%、Data Center $6.72B +107%、segment OP $2.10B/OPM 31% +3；H1 OCF $5.32B、capex仅$1.20B→FCF约$4.12B，cash+ST investments $13.1B vs debt $3.2B，资本效率强 +1；未来采购Q2'26 $30.3B远高于2025年底 $12.2B，暗示营收大增 +2；DC leases约$14B(Q2后新增$9.5B)增速很快 -1; 价值$192B以上的股权换 openai+meta 换取约 $220B–$260B 的累计收入和约 $65B–$85B 的业务净利润 -3
+Leadership,3,Lisa Su 十余年完成濒危AMD→Zen→EPYC持续抢Intel server份额→chiplet/TSMC→Instinct/Helios，跨多个产品周期持续执行，属于顶级职业经理人 +3
 Externality,2,"AI 加速器需求强但 NVDA 主导+云 ASIC 蚕食,竞争位第二、两头受压"

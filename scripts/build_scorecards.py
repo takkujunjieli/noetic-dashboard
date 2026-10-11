@@ -8,8 +8,9 @@
 输出到 research/scorecards/(随公开站点一起发布;个股分析非私密,仅 portfolio 部分内容本地私有)。"""
 import csv
 import json
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 OUT = Path(__file__).resolve().parent.parent / "research" / "scorecards"
 OUT.mkdir(parents=True, exist_ok=True)
@@ -55,9 +56,9 @@ STOCKS = {
   (-2, "rev +62%($234M)、GM 41.5% +2;Space Systems 多元 +1;FCF -$110M/季、2028前难转正 -2;股数+20%/年 -2;未来预计稀释15% -1"),
   (4, "Beck 创始人+Electron 50+ 发射 +2;美国国防关系深(SDA>$1.3B、NSSL上限$17B、HASTE) +2;欧洲 RL Germany/NZ本土 +1;创始人~10%但近期减持$286M +0;Neutron 反复跳票 -1"),
   (2, "商业+国防航天结构性高增、backlog $2.36B/90+任务 +2;SpaceX 之下第二梯队领先 +1;SpaceX绝对主导+成长股利率敏感 -1;散户 ~40-45% -0")]),
- "AMD": ("W", [
-  (2, "EPYC 抢 Intel 份额+MI 放量;资产负债表干净/低杠杆/FCF 正;大额回购但 SBC 稀释偏高"),
-  (3, "Lisa Su 执行力/turnaround 杰出、信誉高、适应力强"),
+ "AMD": ("L", [
+  (2, "Q2'26 rev $11.54B +50%、Data Center $6.72B +107%、segment OP $2.10B/OPM 31% +3；H1 OCF $5.32B、capex仅$1.20B→FCF约$4.12B，cash+ST investments $13.1B vs debt $3.2B，资本效率强 +1；未来采购Q2'26 $30.3B远高于2025年底 $12.2B，暗示营收大增 +2；DC leases约$14B(Q2后新增$9.5B)增速很快 -1; 价值$192B以上的股权换 openai+meta 换取约 $220B–$260B 的累计收入和约 $65B–$85B 的业务净利润 -3"),
+  (3, "Lisa Su 十余年完成濒危AMD→Zen→EPYC持续抢Intel server份额→chiplet/TSMC→Instinct/Helios，跨多个产品周期持续执行，属于顶级职业经理人 +3"),
   (2, "AI 加速器需求强但 NVDA 主导+云 ASIC 蚕食,竞争位第二、两头受压")]),
  "CRWV": ("S", [
   (-4, "Q2'26 rev $2.575B +112%、GM ~66%、adj EBITDA $1.51B(~59%)、backlog $104.2B +246%(Q3 初再+$25B)=看着很美 +3;债均利率 ~11%=光利息吃~1/4 营收、FY26 capex $35-39B(>2.5x 营收)+GPU 折旧快 -4;市值$55B/P/B 9.8/亏损无 P/E、EV ~$75-90B 对 ~$13B 营收+深负 FCF(TTM -$10.6B) -3"),
@@ -120,7 +121,10 @@ STOCKS = {
  "MRVL": ("W", [(None, ""), (None, ""), (None, "")]),
  "AVGO": ("W", [(None, ""), (None, ""), (None, "")]),
  "AXTI": ("W", [(None, ""), (None, ""), (None, "")]),
- "DELL": ("W", [(None, ""), (None, ""), (None, "")]),
+"DELL": ("L", [
+  (3, "Q2 FY27 rev $47.0B +58%、net income $4.13B +255%；ISG rev $31.8B +89%、OP $4.78B +225%、OPM 8.8→15.0%，AI server $16.4B +100%/H1 $32.5B +222%、Q2 orders $60.9B/backlog $95B，AI基础设施需求极强 +3；traditional server/network +122%，但增长主要来自ASP上升而非纯unit growth：企业refresh+AI/agentic CPU需求+Dell连续两季份额提升>10ppt，同时CPU/DRAM/NAND供应紧张导致demand>supply、disciplined pricing，存在真实需求也存在shortage pricing windfall +1；Q2 product GM 12.1→17.3%(+520bp)主要由disciplined pricing驱动，而AI-server mix本身仍稀释GM，因此当前15% ISG OPM不可直接normalized，供应恢复后ASP/GM可能回落 -2；但规模扩大带来强OpEx leverage：ISG rev +89%而SG&A/R&D仅+27%/+24%，部分margin改善具有结构性 +1；H1 net income $7.57B/OCF $6.31B/FCF约$4.1B，AI server造成inventory/A/R/financing receivables大量占用working capital但供应商AP部分融资，现金转换弱于利润增长 -1；H1回购$5.4B+dividend~$0.9B、SBC仅$0.37B，股东回报强 +1"),
+  (4, "Michael Dell创始人/CEO、持股约40.9%=极强owner alignment +2；1984创立→2013私有化→$67B EMC并购→VMware价值释放→去杠杆/大额回购→AI infrastructure转型，跨40年周期资本配置/适应能力强 +2"),
+  (2, "AI infrastructure超级周期，AI server backlog $95B，同时传统server进入多年refresh周期且AI/agentic workload额外拉动CPU compute +2；PowerEdge+Dell-IP storage+networking+DFS+全球enterprise sales/service形成rack-scale一站式部署能力，在enterprise/sovereign/neocloud客户中有真实渠道/集成壁垒 +2；但核心GPU/CPU/HBM价值主要由NVDA/AMD/Intel/SKH/MU获取，Dell仍是相对低GM system integrator，技术护城河明显弱于上游芯片公司 -1；HPE/Lenovo/Supermicro及Quanta/Wiwynn/Foxconn ODM Direct竞争，hyperscaler具备绕过Dell自建能力 -1；当前traditional server供不应求主要受CPU/DRAM/NAND紧张推动，供应恢复可能导致ASP/pricing power和GM normalization -1；AI cluster复杂化、liquid cooling/storage/networking需求提升系统集成价值，Dell规模/采购能力在短缺环境下反而扩大份额 +1")]),
  "RCL": ("W", [(None, ""), (None, ""), (None, "")]),
  "U": ("W", [(None, ""), (None, ""), (None, "")]),
  "CBRS": ("W", [(None, ""), (None, ""), (None, "")]),
@@ -132,29 +136,45 @@ ORDER = ["SKHY", "MU", "SNDK", "HOOD", "COHR", "GOOG", "NVDA", "CCL", "RKLB",
          "BE", "ASST", "PURR", "MOD", "STRL", "LITE", "TSLA", "FIG", "AAOI", "SPCX", "SOXX",
          "GLW", "ALAB", "SMCI", "IREN", "IGV", "ASTS", "MRVL", "AVGO", "AXTI", "DELL", "RCL", "U", "CBRS"]
 
+SUMMARY = OUT / "_summary.csv"
+previous_rows = {}
+if SUMMARY.exists():
+    try:
+        with SUMMARY.open(newline="", encoding="utf-8-sig") as fh:
+            previous_rows = {row["Ticker"]: row for row in csv.DictReader(fh)}
+    except (OSError, csv.Error, KeyError):
+        previous_rows = {}
+
+today = datetime.now(ZoneInfo("America/New_York")).strftime("%Y-%m-%d")
 summary_rows = []
 snapshot = {}                                                # 本次打分快照(供 IC 研究)
 for tk in ORDER:
     direction, items = STOCKS[tk]
+    cells = ["" if score is None else f"{score} ({rat})" for score, rat in items]     # 每维 = "分 (理由)"
+    scores = [score for score, _ in items]
+    complete = not any(score is None for score in scores)
+    previous = previous_rows.get(tk, {})
+    unchanged = (previous.get("Direction") == DIR_FULL[direction]
+                 and all(previous.get(feature, "") == cell for feature, cell in zip(FEATURES, cells)))
+    prior_updated = previous.get("Updated", "")
+    updated = prior_updated if complete and unchanged and prior_updated else (today if complete else "")
     with open(OUT / f"{tk}.csv", "w", newline="", encoding="utf-8-sig") as fh:
         w = csv.writer(fh)
         w.writerow([f"# {tk}", "方向=" + {"L": "多头 Long", "S": "空头 Short", "W": "Watch 无仓位"}[direction],
-                    "分值 -5~+5(0=中性,正=好/看多,负=差/看空)"])
+                    "更新=" + (updated or "待填写"), "分值 -5~+5(0=中性,正=好/看多,负=差/看空)"])
         w.writerow(["Feature", "Score", "Rationale"])
         for feat, (score, rat) in zip(FEATURES, items):
             w.writerow([feat, score, rat])
-    cells = ["" if score is None else f"{score} ({rat})" for score, rat in items]     # 每维 = "分 (理由)"
-    summary_rows.append([tk, DIR_FULL[direction], *cells])
-    scores = [s for s, _ in items]
-    if any(score is None for score in scores):
+    summary_rows.append([tk, DIR_FULL[direction], updated, *cells])
+    if not complete:
         continue  # 未完成分析，不生成可用于 IC 的分数
     snapshot[tk] = {"dir": direction,
                     "scores": dict(zip(FEATURES, scores)),
                     "mean": round(sum(scores) / len(scores), 3)}  # 聚合分(等权)= IC 的预测变量
 
-with open(OUT / "_summary.csv", "w", newline="", encoding="utf-8-sig") as fh:
+with SUMMARY.open("w", newline="", encoding="utf-8-sig") as fh:
     w = csv.writer(fh)
-    w.writerow(["Ticker", "Direction", *FEATURES])
+    w.writerow(["Ticker", "Direction", "Updated", *FEATURES])
     for row in summary_rows:
         w.writerow(row)
 
@@ -164,7 +184,6 @@ try:
     history = json.loads(HIST.read_text(encoding="utf-8")) if HIST.exists() else {}
 except (ValueError, OSError):
     history = {}
-today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 history[today] = {"features": FEATURES, "scores": snapshot}
 HIST.write_text(json.dumps(history, ensure_ascii=False, indent=1), encoding="utf-8")
 

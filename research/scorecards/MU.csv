@@ -1,4 +1,4 @@
-﻿# MU,方向=多头 Long,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
+﻿# MU,方向=多头 Long,更新=2026-10-10,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
 Feature,Score,Rationale
 Operation,3,"GM 85% +5;capex $27b→FY27 mid-$40B, 过半建厂 -1;HBM 客户集中(NVDA/cloud) -1"
 Leadership,0,unknown

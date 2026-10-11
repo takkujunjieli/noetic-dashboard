@@ -5,7 +5,7 @@ import { $, esc, loadJSON, loadFreshJSON, getPat, ghHeaders, REPO } from "./shar
 import { loadRetailData } from "./retail-data.mjs";
 import { buildSnapshot } from "./macd-research.mjs";
 import { decomposeFiveFactor } from "./five-factor.mjs";
-import { initScorecards } from "./trading.js";   // 个股分析 tab 复用交易台的 Scorecards 渲染(trading.js 自启动已守卫)
+import { initScorecards } from "./trading.js?v=20261010-scorecard-date";   // 个股分析 tab 复用交易台的 Scorecards 渲染(trading.js 自启动已守卫)
 
 const floatingTableHeaders = new Map();
 function installFloatingTableHeader(wrap, tableSelector, key) {
@@ -393,8 +393,8 @@ function coefBars(res) {
 /* ---------- Topic 1:熊市预测 ---------- */
 async function renderBearbull() {
   const J = await loadJSON("data/research_bearbull.json");
-  if (!J) { $("r-status").textContent = "缺 data/research_bearbull.json(在 factor-research 跑 export_web.py 生成)"; return; }
-  $("r-status").textContent = `Topic: 熊市预测 · 熊侧 · ${J.dates[0]}→${J.dates[J.dates.length - 1]} · ${J.dates.length} 月 · 模型在浏览器实时计算(L2-logistic, λ=${LAM})`;
+  if (!J) { $("bb-status").textContent = "缺 data/research_bearbull.json(在 factor-research 跑 export_web.py 生成)"; return; }
+  $("bb-status").textContent = `Topic: 熊市预测 · 熊侧 · ${J.dates[0]}→${J.dates[J.dates.length - 1]} · ${J.dates.length} 月 · 模型在浏览器实时计算(L2-logistic, λ=${LAM})`;
   const A = assemble(J, "bear", "market");
   const res = runModel(A, LAM);
   const res3 = runModel(assembleFeats(J, LEADING3, "bear", "market"), LAM);   // 3 变量领先基准
@@ -521,12 +521,12 @@ async function renderRetailflow() {
   const { data: J, source } = await loadRetailData(loadJSON);
   const set = (id, html) => { const el = $(id); if (el) el.innerHTML = html; };
   if (!J) {
-    $("r-status").textContent = "Topic: 散户订单流 · 缺 data/retailflow.json(在 Actions 跑 retailflow 工作流生成)";
+    $("rf-status").textContent = "Topic: 散户订单流 · 缺 data/retailflow.json(在 Actions 跑 retailflow 工作流生成)";
     ["rf-now", "rf-scatter", "rf-ic", "rf-series"].forEach((id) => set(id, `<span class="muted small">暂无数据:需在 Actions 跑 fetch_tick_flow + build_retailflow 生成 data/retailflow.json</span>`));
     return;
   }
   const d = J.dates, tks = J.tickers, D = J.data;
-  $("r-status").textContent = `Topic: 散户订单流 · ${d[0]}→${d[d.length - 1]} · ${tks.length} 票 × ${d.length} 天(${J.window_days || 30}d 滚动)· 更新 ${(J.updated || "").slice(0, 16)}${source ? ` · ${source}` : ""}`;
+  $("rf-status").textContent = `Topic: 散户订单流 · ${d[0]}→${d[d.length - 1]} · ${tks.length} 票 × ${d.length} 天(${J.window_days || 30}d 滚动)· 更新 ${(J.updated || "").slice(0, 16)}${source ? ` · ${source}` : ""}`;
 
   // ① 当前信号表(可在日历日间任选;默认最新)。只列有数据的日子。
   const validIdx = d.map((_, i) => i).filter((i) => tks.some((tk) => D[tk].netbuy[i] != null));
@@ -1349,7 +1349,6 @@ async function renderFiveFactor() {
     $("ff-status").textContent = "数据不可用";
     return;
   }
-  $("r-status").textContent = `Topic: Five-Factor Equity Return Decomposition · ${fiveFactorSnapshot.as_of} 静态快照 · SEC TTM fundamentals`;
   drawFiveFactorTable();
   document.querySelectorAll("[data-ff-period]").forEach((button) => { button.onclick = () => {
     fiveFactorPeriod = button.dataset.ffPeriod;
