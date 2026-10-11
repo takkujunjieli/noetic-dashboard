@@ -57,3 +57,9 @@
 .scenario-controls{max-width:220px;margin:12px 0}.scenario-input-table{min-width:760px}.scenario-input-table th{text-align:center}.scenario-input-table td{vertical-align:top;min-width:135px}.scenario-input-table label{margin:0;font-size:10px}.scenario-input-table input{min-width:105px}.scenario-pnl-table{min-width:680px}.scenario-pnl-table td{white-space:normal;min-width:120px}.scenario-pnl-table .hint{display:block;max-width:190px}.scenario-pnl-table tfoot{font-weight:600;background:var(--bg)}
 .kelly-policy-fields{max-width:360px;margin:12px 0}.kelly-allocation-table{min-width:900px}.kelly-scenario-table{min-width:680px;margin-top:14px}.kelly-allocation-inspector #activate-allocation{margin-top:10px}
 .uncertainty-pair{display:grid;grid-template-columns:minmax(82px,1fr) minmax(64px,.72fr);gap:6px}.uncertainty-pair label{min-width:0}.uncertainty-pair input{min-width:0!important;width:100%}.kelly-allocation-table .selected-quantile{color:var(--warn);background:color-mix(in srgb,var(--warn) 8%,transparent)}
+
+#wf-monitor-trades .table-wrap { max-width: 100%; overflow-x: auto; margin: 12px 0; }
+#wf-monitor-trades table { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 12px; }
+#wf-monitor-trades th, #wf-monitor-trades td { padding: 8px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+#wf-monitor-trades th { white-space: nowrap; background: var(--surface); }
+#wf-monitor-trades td:nth-child(7) { min-width: 140px; max-width: 260px; overflow-wrap: anywhere; }

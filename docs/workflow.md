@@ -233,3 +233,140 @@ Portfolio heatmap assignment is a separate view-level map (`riskGroups`). A symb
 **Source provenance:** GET `/api/transaction-history` runs `build_history` over local `data/_*_raw.json` at generation time, avoiding a stale intermediate file and the Portfolio 90-day cutoff. The thesis scope is every underlying in the frozen In Action Kelly Allocation, including a Bundle whose current target weight is 0. These paths point to the adjacent private repository. Raw files are accumulated from Robinhood read-only MCP refreshes: existing transaction history is retained and new executed fills are normalized/appended with deduplication; open orders are separate. This service does not call Robinhood or guarantee historical completeness. As checked on 2026-10-04, both raw files reported `source_updated_at=2026-09-30T20:52:44.754Z`; rebuilding a JSON must never be represented as a fresh broker sync. The earlier standalone `build_transaction_history.py` / Portfolio build remains available, but the new generation button reads current raw files directly.
 
 Checks: `node --test tests/attribution-transactions.test.mjs tests/kelly-allocation.test.mjs`; `python3 tests/test_thesis_transaction_store.py`; `node tests/attribution-transactions.browser.cjs` with a test server on 8643 and a temporary `--private-dir`.
+
+## Canonical trade journal · phase 1 (2026-10-09)
+
+`scripts/trade_journal.py` maintains the private append-only fill ledger at
+`../stock-dashboard-private/trade_journal/journal.json`. It reads every local
+`data/_*_raw.json` through `build_transaction_history.build_history`; it never
+contacts a broker. Run it directly, or call `POST /api/trade-journal/import` on
+the loopback dashboard service. `GET /api/trade-journal` returns the journal
+summary and normalized fills. Both API routes retain the existing localhost,
+same-origin and private-file protections.
+
+Each fill has a stable versioned `fill_id`. Broker execution IDs are preferred;
+rows without one use a canonical fingerprint of broker, account, normalized UTC
+timestamp, instrument, side, quantity, price and order ID. Reimport is
+idempotent. If an existing identity arrives with different facts, the importer
+reports a conflict and preserves the old fill. It never deletes or overwrites a
+fill. Import attempts are retained separately as a bounded audit trail.
+
+`trade_id` groups exact broker order IDs, allowing standard option legs from the
+same order to stay together. When no order ID exists, a fill remains its own
+trade rather than using a speculative time-based grouping. Standard readable
+contracts (`INTC 2026-11-06 120C`) and OCC symbols are parsed into underlying,
+expiry, strike, put/call and multiplier. Legacy incomplete option descriptions
+remain usable with `contract_details_complete: false`; missing terms are never
+invented.
+
+This journal is the future shared fact source for Trading markers and Workflow
+links. Human rationale and Workflow membership must live in separate records
+keyed by `trade_id` / `fill_id`, so importing or backfilling broker facts cannot
+overwrite notes. Existing per-Thesis transaction files and immutable Workflow
+snapshots remain unchanged in this phase.
+
+## Trading execution markers · phase 2 (2026-10-09)
+
+Trading loads the canonical journal only through the loopback API and renders
+fills for the selected watchlist ticker on 1m, 5m, 15m and daily candles. Equity
+buys and covers use green `B`; sells and short sales use red `S`; option orders
+use purple `O`. Multiple equity fills with the same direction in one candle show
+their absolute-quantity-weighted average fill price. Exact option order IDs keep
+their legs together and render a compact expiry/strike/right description; more
+than one option trade in a candle renders `O ×n` rather than averaging unlike
+contracts.
+
+Only daily markers open the rationale card. The card lists every durable
+`trade_id` represented by the clicked marker and its constituent fills. Reasons
+are stored separately at
+`../stock-dashboard-private/trade_journal/annotations.json` through
+`GET/PUT /api/trade-annotations`; they never modify journal facts. Writes are
+atomic, require ETag/If-Match (or If-None-Match on creation), reject orphan trade
+IDs and preserve reasons across journal imports. Marker clicks are routed before
+the existing AVWAP handler so they cannot accidentally create anchors.
+
+## Local trade synchronization · phase 3 (2026-10-10)
+
+Trading shows the latest ET fill date currently represented in the canonical
+journal and exposes one explicit “同步成交记录” action above the chart. The action
+scans all current `data/_*_raw.json` files and appends only unseen fills. The UI no
+longer asks for a date range after the initial history was backfilled. The range
+parameters remain supported by the import API for maintenance and tests. Sync never
+contacts a broker, runs on a timer, deletes an existing fill, or changes a saved
+rationale.
+
+The result reports inserted fills, duplicates, identity conflicts, invalid rows,
+and each raw source's broker observation timestamp. Every attempt remains in the
+journal audit trail. After success, Trading reloads both the canonical journal and
+the separate annotation store, updates the displayed coverage date, then redraws
+the selected chart so new markers are visible immediately.
+
+## Execution links · phase 4A (2026-10-10)
+
+Daily B/S/O cards support association with a local unarchived Workflow Case,
+role selection (entry/add/reduce/exit/hedge/roll/adjust), per-fill quantity allocation,
+editing, and unlinking. Non-hedge associations require the fill underlying in the
+Case's In Action Allocation. Hedge explicitly allows another underlying. The
+picker includes local, non-demo Cases and labels out-of-scope choices. Equity
+quantities may be fractional; option quantities must be integer contracts. The
+service checks the sum of active allocations across Cases against each immutable
+fill's quantity. Linked chart markers carry `↗`.
+
+`../stock-dashboard-private/trade_journal/trade_links.json` is the authoritative
+association store. `GET/POST /api/trade-links` uses the same localhost protections,
+atomic writes, and ETag/If-Match creation/update checks as rationale storage. Each
+link/update/unlink appends a durable event, retaining the previous link payload.
+The materialized `links` list is the latest view. Client operation IDs make retries
+idempotent. Editing cannot change a link's Case or trade identity; reassignment
+requires unlinking and creating a new link.
+
+Workflow Monitor v2 stores only frozen association references under
+`nodes.positions.data.executionLinks`: exact fill IDs, allocated quantities,
+role, link/event identity and source journal/link revisions. Every association
+change creates a Workflow event and immutable snapshot. `trade-link-client.js`
+replays missing private events into the browser's Workflow on opening/reloading
+Monitor (or its explicit refresh action), recovering from a crash between the
+server write and the local snapshot write. It checks localStorage before writing
+and marks affected Cases unsynced; GitHub publishing still requires the existing
+manual sync action. Missing or archived local Cases are never mutated. If the
+private association succeeds but projection fails, the card reports that the
+Workflow needs recovery. Workflow currently remains browser-origin-specific;
+open Trading and Workflow at the same hostname and port.
+
+Monitor reads journal facts for exactly the fill IDs frozen in its current or
+historical snapshot. Later backfills cannot silently expand an old association.
+Its table shows ET date, contract, side, allocated quantity, execution price, role,
+current saved rationale and association status. Historical rationale is explicitly
+labeled as current (notes are a separate mutable store). Monitor rows link to
+`trading.html?sym=...&tf=1d&date=...&trade=...`; Trading selects the ticker and daily
+chart, locates the trade, and opens its card. If historical candles are unavailable,
+it shows a range warning. Historical and archived Monitor views are read-only.
+Original per-Thesis Attribution transaction files remain independent in 4A.
+
+Checks: `node --test tests/trade-link.test.mjs tests/trade-markers.test.mjs`;
+`python3 -m unittest discover -s tests -p test_trade_links.py`;
+`tests/trade-links.browser.cjs` requires an isolated test journal/service on 8643.
+The browser suite uses isolated Chrome storage and synthetic fills, covering
+create/edit/unlink, both navigation directions, immutable history and recovery.
+Existing `tests/workflow.test.mjs` has four pre-existing failures reproduced using
+HEAD's unmodified model with the current dependent modules (probability defaults,
+legacy Delta fixtures, and legacy construction fixtures).
+
+
+## Execution marker appearance (2026-10-10)
+
+Trading execution markers now use 24px DOM buttons aligned to candle high/low
+and chart time coordinates. Each button contains only B, S, or O inside a white
+circle; prices, contract summaries, arrow shapes, counts, and association arrows
+are omitted from the chart. Full facts remain available in daily rationale cards.
+Buttons transition their background over 160ms: white to light gray on hover,
+and darker gray while pressed. The overlay tracks time/price zoom, chart resize
+and timeframe changes, clips off-screen markers, and stacks sell/option circles
+when they share a candle. Button pointer events cannot create AVWAP anchors or
+start chart drags. Only daily clicks open cards.
+
+Check: `tests/trade-marker-buttons.browser.cjs` uses mocked private API responses
+and an isolated browser context to verify letters, shape, all three colors,
+transition duration, daily card behavior and AVWAP isolation.
+
+Marker color update: B uses translucent green, S translucent red, and O translucent white. Hover and pressed states deepen each tint, preserving the 160ms background transition.

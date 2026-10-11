@@ -1,3 +1,4 @@
+import {validateExecutionLinks} from './trade-link-model.mjs';
 import {emptyScenarioUnderwriting,returnInputError,scenarioUnderwritingError,captureReturnBasis,validateReturnBasis,numeric} from './expected-return.mjs?v=20260929-2';
 import {structureDraft,structureError,ticker,structureExposure,positionLabel,candidateDraft} from './trade-structure.mjs';
 import { validateAttributionEvidence } from './attribution-link.mjs';
@@ -191,7 +192,7 @@ export function validateStore(store){
   if(!c||typeof c.id!=='string'||typeof c.title!=='string'||typeof c.symbol!=='string'||typeof c.horizon!=='string'||typeof c.archived!=='boolean'||(c.activeThesis!=null&&typeof c.activeThesis!=='boolean')||!Number.isInteger(c.revision)||c.revision<1)throw Error('实例内容不完整');
   if(c.linkedSymbols!=null&&(!Array.isArray(c.linkedSymbols)||c.linkedSymbols.some(x=>typeof x!=='string')))throw Error('关联标的格式无效');
   if(c.sourceLink!=null&&(c.sourceLink.kind!=='risk-policy'||typeof c.sourceLink.name!=='string'||!Array.isArray(c.sourceLink.warnings)||c.sourceLink.warnings.some(x=>typeof x!=='string')))throw Error('数据来源关联格式无效');
-  for(const [key,def] of Object.entries(NODES)){const n=c.nodes?.[key];if(!n||!Object.hasOwn(c.stateVersion===2?def.states:LEGACY_NODES[key].states,n.state)||!n.data||typeof n.data!=='object'||Array.isArray(n.data))throw Error('节点状态无效');for(const [field,value] of Object.entries(n.data))if(!['legs','positions','sizing','accountSnapshot','binding','sync','evidence','candidate','scenarios'].includes(field)&&!['string','number'].includes(typeof value))throw Error('节点字段格式无效');}
+  for(const [key,def] of Object.entries(NODES)){const n=c.nodes?.[key];if(!n||!Object.hasOwn(c.stateVersion===2?def.states:LEGACY_NODES[key].states,n.state)||!n.data||typeof n.data!=='object'||Array.isArray(n.data))throw Error('节点状态无效');for(const [field,value] of Object.entries(n.data))if(!['legs','positions','sizing','accountSnapshot','binding','sync','evidence','candidate','scenarios','executionLinks'].includes(field)&&!['string','number'].includes(typeof value))throw Error('节点字段格式无效');}
   if(c.stateVersion===2&&['expectation','rationale','verification','invalidation'].some(k=>typeof c.nodes.hypothesis.data[k]!=='string'))throw Error('论点字段格式无效');
   if(c.stateVersion!=null&&c.stateVersion!==2)throw Error('节点版本不支持');
   const risk=c.nodes.risk.data;
@@ -209,8 +210,9 @@ export function validateStore(store){
   if(c.performance){validateReturnBasis(c.performance.basis);if(!c.archived||!numeric(c.performance.actualNet)||!Number.isFinite(Date.parse(c.performance.completedAt)))throw Error('实际收益快照格式无效');}
   validateAttributionEvidence(c.nodes.attribution.data.evidence);
   if(c.nodes.attribution.data.transactionFile){const file=parseTransactionFile(c.nodes.attribution.data.transactionFile);if(file.thesis.id!==c.id)throw Error('交易历史文件不属于此 thesis');}
-  if(c.positionNodeVersion!=null&&c.positionNodeVersion!==1)throw Error('Monitor 版本不支持');
+  if(c.positionNodeVersion!=null&&![1,2].includes(c.positionNodeVersion))throw Error('Monitor 版本不支持');
   if(c.positionNodeVersion===1&&Object.keys(c.nodes.positions.data).length)throw Error('Monitor 必须保持为空');
+  if(c.positionNodeVersion===2){if(Object.keys(c.nodes.positions.data).some(k=>k!=='executionLinks'))throw Error('Monitor 字段无效');validateExecutionLinks(c.nodes.positions.data.executionLinks);}
   if(c.designFrozen!=null&&typeof c.designFrozen!=='boolean')throw Error('方案冻结标记无效');
   if(c.design!=null){
    const d=c.design;if(d.version!==1||!Array.isArray(d.plans)||d.plans.length>30||typeof d.selectedId!=='string'||typeof d.activeId!=='string')throw Error('方案列表格式无效');
@@ -243,7 +245,7 @@ export function validateStore(store){
  for(const c of result.cases)if(typeof c.activeThesis!=='boolean'){c.activeThesis=false;record(c,'迁移 Thesis 状态','hypothesis','初始化为 Offline；历史快照保持不变');}
  // Position Management is intentionally reset to an empty reserved node. The explicit reset
  // also scrubs historical snapshots so replay cannot surface removed fields or bindings.
- for(const c of result.cases){let changed=c.positionNodeVersion!==1;c.positionNodeVersion=1;
+ for(const c of result.cases){if(c.positionNodeVersion===2)continue;let changed=c.positionNodeVersion!==1;c.positionNodeVersion=1;
   for(const e of c.events){const p=e.snapshot.nodes.positions,emptyState=e.snapshot.stateVersion===2?'pending':LEGACY_NODES.positions.initial;if(e.snapshot.positionNodeVersion!==1||Object.keys(p.data||{}).length||p.state!==emptyState){e.snapshot.positionNodeVersion=1;p.data={};p.state=emptyState;changed=true;}}
   const p=c.nodes.positions;if(Object.keys(p.data||{}).length||p.state!=='pending'){p.data={};p.state='pending';changed=true;}
   if(changed)record(c,'清空 Position Management','positions','移除全部持仓字段与归属；保留空节点供后续重新设计');
