@@ -1,83 +1,41 @@
 {
- "updated_at": "2026-10-11T00:21:28+00:00",
+ "updated_at": "2026-10-12T00:39:54+00:00",
  "items": [
   {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Better Artificial Intelligence Stock: Arm vs. Marvell Technology",
-   "link": "https://www.fool.com/coverage/better-buy/2026/10/10/better-artificial-intelligence-stock-arm-vs-marvell-technology/?source=iedfolrf0000001",
-   "published": "2026-10-10T23:11:50",
-   "summary": "The article compares Arm Holdings and Marvell Technology as AI infrastructure plays. Arm dominates smartphone processor architecture with 93.88% gross margins but faces competition from custom silicon development. Marvell leads data center connectivity with 32.6% net margins and …",
-   "tickers": [
-    "MRVL",
-    "NVDA",
-    "INTC",
-    "AVGO"
-   ],
-   "sentiment": "positive"
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "Free Cash Flow: NVIDIA vs reddit",
+   "link": "https://www.reddit.com/r/stocks/comments/1x3nq83/free_cash_flow_nvidia_vs_reddit/",
+   "published": "2026-10-12T00:19:45+00:00",
+   "summary": "In the first half of 2026, NVIDIA generated about 75 billion in cash. It deployed this capital to invest in everything needed to further grow the business and also to return money to shareholders: 43% (35bn) went to investments, 26% (21bn) to reducing the share count, 16% (13bn) …",
+   "rank": 1
   },
   {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Can CoreWeave Unseat Amazon Web Services as the Top Cloud Provider?",
-   "link": "https://www.fool.com/investing/2026/10/10/can-coreweave-unseat-amazon-web-services-as-the-to/?source=iedfolrf0000001",
-   "published": "2026-10-10T23:10:00",
-   "summary": "CoreWeave is a rapidly growing AI-focused cloud provider expanding at 112% year-over-year, compared to AWS's 37% growth. However, AWS maintains a massive 20x size advantage with $42.2B in quarterly revenue versus CoreWeave's $2.1B. At current growth rates, it would take CoreWeave…",
-   "tickers": [
-    "CRWV"
-   ],
-   "sentiment": "positive"
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "As a Nike shareholder I am worried about the Jordan brand",
+   "link": "https://www.reddit.com/r/stocks/comments/1x3jx0l/as_a_nike_shareholder_i_am_worried_about_the/",
+   "published": "2026-10-11T21:22:44+00:00",
+   "summary": "It’s kinda scary to me that Jordan accounted for 13 % of Nike’s total revenue in Q1. It’s a huge chunk. It’s the part of their business that I have the least confidence in. The Nike brand I consider immortal and while Converse has been on a downward spiral for years, I’m convince…",
+   "rank": 7
   },
   {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "VOO Doesn't Hold SpaceX, Taiwan Semiconductor, Samsung Electronics, SK Hynix, or ASML. Meet the Vanguard ETF That Does.",
-   "link": "https://www.fool.com/investing/2026/10/10/voo-doesnt-own-spacex-taiwan-semiconductor-samsung/?source=iedfolrf0000001",
-   "published": "2026-10-10T20:31:33",
-   "summary": "The Vanguard S&P 500 ETF (VOO) excludes major AI-related semiconductor companies like SpaceX, Taiwan Semiconductor, Samsung Electronics, SK Hynix, and ASML due to S&P 500 inclusion rules requiring 12 months of public trading. The Vanguard Total World Stock ETF (VT) offers broader…",
-   "tickers": [
-    "SPCX",
-    "SKHY"
-   ],
-   "sentiment": "neutral"
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "META. Starting to look for good entries for puts. This company is a joke",
+   "link": "https://www.reddit.com/r/stocks/comments/1x3gzs7/meta_starting_to_look_for_good_entries_for_puts/",
+   "published": "2026-10-11T19:23:28+00:00",
+   "summary": "Nearly two trillion market cap. New AI model that absolutely violates Reddit scraping rules, disregards its consumers, and is setting money on fire to “capture” market share in the AI space. Unless the compute cost comes down by several orders of operation there is no way they ar…",
+   "rank": 9
   },
   {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Firefly Aerospace vs. Rocket Lab: Which Industrials Stock Is a Better Buy in 2026?",
-   "link": "https://www.fool.com/coverage/better-buy/2026/10/10/firefly-aerospace-vs-rocket-lab-which-industrials-stock-is-a-better-buy-in-2026/?source=iedfolrf0000001",
-   "published": "2026-10-10T20:30:02",
-   "summary": "Firefly Aerospace and Rocket Lab represent competing approaches in the commercial space industry. Firefly delivers hypergrowth (163% revenue increase) but faces significant cash burn ($237.8M negative FCF) and customer concentration risks, with only 2 years of cash runway. Rocket…",
-   "tickers": [
-    "RKLB"
-   ],
-   "sentiment": "neutral"
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Where Will Credo Technology Be in 3 Years?",
-   "link": "https://www.fool.com/investing/2026/10/10/where-will-credo-technology-be-in-3-years/?source=iedfolrf0000001",
-   "published": "2026-10-10T20:11:00",
-   "summary": "Credo Technology is experiencing rapid growth in AI data center networking, with revenue expected to triple by fiscal 2028 as hyperscalers increase capital spending. The company specializes in high-performance cables and networking solutions that prevent costly GPU cluster disrup…",
-   "tickers": [
-    "NVDA",
-    "AVGO",
-    "MRVL"
-   ],
-   "sentiment": "positive"
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Redwire vs. Rocket Lab: Which Industrials Stock Is a Better Buy in 2026?",
-   "link": "https://www.fool.com/coverage/better-buy/2026/10/10/redwire-vs-rocket-lab-which-industrials-stock-is-a-better-buy-in-2026/?source=iedfolrf0000001",
-   "published": "2026-10-10T19:30:02",
-   "summary": "Both Redwire and Rocket Lab are unprofitable space infrastructure companies with strong revenue growth but significant cash burn. Redwire specializes in mission-critical components for defense and civil agencies, while Rocket Lab offers end-to-end launch services and satellite ma…",
-   "tickers": [
-    "RKLB"
-   ],
-   "sentiment": "neutral"
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "Fresh money today: TSLA or AVGO",
+   "link": "https://www.reddit.com/r/stocks/comments/1x39ynq/fresh_money_today_tsla_or_avgo/",
+   "published": "2026-10-11T14:43:38+00:00",
+   "summary": "Real decision I'm working through this month: a lump of fresh money into exactly one of these two. AVGO- AI semiconductor revenue $16.7B last quarter, up 221% YoY. Trades at roughly 21x next-year forward earnings; consensus target ~$527. It's sitting below its 50- and 200-day ave…",
+   "rank": 2
   },
   {
    "source": "r/stocks 热帖",
@@ -86,55 +44,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1x2nogg/what_do_you_realistically_expect_from_envx_by_the/",
    "published": "2026-10-10T19:23:05+00:00",
    "summary": "$ENVX I’m trying to map out what could actually happen between now and the end of 2027. We still have the final smartphone qualification test, a potential production order, samples to a second OEM, the eyewear ramp, and the Korea defense capacity expansion expected around mid-202…",
-   "rank": 8
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "2 Cryptocurrencies Poised to Surge 100% in the Coming Years That Savvy Investors Are Already Buying",
-   "link": "https://www.fool.com/investing/2026/10/10/2-cryptocurrencies-poised-to-surge-100-in-the-comi/?source=iedfolrf0000001",
-   "published": "2026-10-10T19:21:00",
-   "summary": "Zcash and Hyperliquid are positioned for potential 100% gains by 2029-2030, with backing from prominent investors. Zcash, a privacy-focused coin similar to Bitcoin, has support from Winklevoss Capital and Naval Ravikant. Hyperliquid, a decentralized exchange for perpetual futures…",
-   "tickers": [
-    "PURR"
-   ],
-   "sentiment": "positive"
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Is It Too Late to Buy Palantir Stock?",
-   "link": "https://www.fool.com/investing/2026/10/10/is-it-too-late-to-buy-palantir-stock/?source=iedfolrf0000001",
-   "published": "2026-10-10T18:30:00",
-   "summary": "Palantir Technologies has gained over 1,000% in three years and continues strong growth through its AI Platform (AIP) that helps organizations turn data into actionable insights. The company closed 220 deals worth $3.37 billion in Q2 and is expanding partnerships with major tech …",
-   "tickers": [
-    "NVDA"
-   ],
-   "sentiment": "positive"
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Here's the 1 Thing I'd Wait to See Before Buying SpaceX Stock.",
-   "link": "https://www.fool.com/investing/2026/10/10/heres-the-1-thing-id-wait-to-see-before-buying-spa/?source=iedfolrf0000001",
-   "published": "2026-10-10T17:05:00",
-   "summary": "SpaceX stock has declined from its IPO high despite strong growth prospects in Starlink and Starship. However, the company's AI business segment is a major concern, with operating losses widening from $2.46 billion to $3.73 billion in H1 2026, erasing Starlink's $2.84 billion ope…",
-   "tickers": [
-    "SPCX"
-   ],
-   "sentiment": "negative"
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "AST SpaceMobile Has $3.7 Billion in Liquidity and No Commercial Revenue. Here's How to Value That.",
-   "link": "https://www.fool.com/investing/2026/10/10/ast-spacemobile-has-37-billion-in-liquidity-and-no/?source=iedfolrf0000001",
-   "published": "2026-10-10T16:05:00",
-   "summary": "AST SpaceMobile, a LEO satellite developer with a $15.3 billion market cap, currently generates no commercial revenue despite holding $3.7 billion in liquidity. The company relies on government contracts and prepayments from telecom partners. However, analysts project significant…",
-   "tickers": [
-    "ASTS"
-   ],
-   "sentiment": "positive"
+   "rank": 10
   },
   {
    "source": "r/stocks 热帖",
@@ -143,7 +53,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1x2itg5/rstocks_weekly_thread_on_meme_stocks_saturday_oct/",
    "published": "2026-10-10T16:00:18+00:00",
    "summary": "The meme stock scheduled posts will now run weekly and post Saturday afternoon and won't be a sticky; you're probably seeing this because automod sent you here! Full list of meme stocks here. This will be updated every once in a while. Welcome traders who just can't help them sel…",
-   "rank": 7
+   "rank": 11
   },
   {
    "source": "r/stocks 热帖",
@@ -152,7 +62,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1x2iamb/can_asts_actually_compete_with_spacex_long_term/",
    "published": "2026-10-10T15:38:10+00:00",
    "summary": "**This post has nothing to do with Elon's politics. Purely business. I own ASTS and can hold for 5+ years. But honestly I don’t fully understand how it stacks up against what SpaceX is doing. I know AST has AT&amp;T and Verizon as partners. How much protection does that actually …",
-   "rank": 2
+   "rank": 4
   },
   {
    "source": "r/stocks 热帖",
@@ -161,62 +71,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1x2i763/gral_discussion_diversification_away_from_ai_trade/",
    "published": "2026-10-10T15:34:01+00:00",
    "summary": "I am trying to ensure I diversity a bit into opportunities that are not just AI driven. $GRAL stock price IMO is ahead of itself in short term b/c of a favorable FDA advisory committee outcome last month that looks like it will clear the path for FDA approval early 2027. But look…",
-   "rank": 5
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Cathie Wood Just Cut Her SpaceX Position. Is It Time to Sell?",
-   "link": "https://www.fool.com/investing/2026/10/10/cathie-wood-just-cut-her-spacex-position/?source=iedfolrf0000001",
-   "published": "2026-10-10T15:33:00",
-   "summary": "Cathie Wood's Ark Invest sold approximately 55,000 shares of SpaceX from its Next Generation Technology ETF, marking the first reduction since SpaceX went public in June. The sale represents only 0.4% of the ETF's position and is likely a routine rebalancing rather than a loss of…",
-   "tickers": [
-    "SPCX",
-    "TSLA"
-   ],
-   "sentiment": "positive"
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Like Meta's Muse AI Agents? 4 AI Semiconductor Stocks Set to Benefit From the Rise of AI Agents.",
-   "link": "https://www.fool.com/investing/2026/10/10/like-metas-muse-ai-agents-4-ai-semiconductor-stock/?source=iedfolrf0000001",
-   "published": "2026-10-10T15:30:00",
-   "summary": "The rise of AI agents is expected to drive explosive growth in the data center CPU market, projected to grow from $61.4 billion in 2025 to $210.6 billion by 2030. As AI agents require more CPUs relative to GPUs, semiconductor companies positioned in server CPU manufacturing and I…",
-   "tickers": [
-    "AMD",
-    "INTC",
-    "NVDA"
-   ],
-   "sentiment": "positive"
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Coinbase CEO Brian Armstrong Just Doubled Down On His $400,000 Price Target for Bitcoin. Here's Why He's Wrong.",
-   "link": "https://www.fool.com/investing/2026/10/10/coinbase-ceo-brian-armstrong-bitcoin-update/?source=iedfolrf0000001",
-   "published": "2026-10-10T15:27:00",
-   "summary": "Coinbase CEO Brian Armstrong reaffirmed his $400,000 Bitcoin price target by 2030 during a podcast interview, citing the cryptocurrency's four-year halving cycle. However, the article argues this target is unrealistic, requiring 48.2% annual compounding over four years and a mark…",
-   "tickers": [
-    "COIN"
-   ],
-   "sentiment": "negative"
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Broadcom vs. Intel: Which Chip Stock Is a Better Buy in 2026?",
-   "link": "https://www.fool.com/coverage/better-buy/2026/10/10/broadcom-vs-intel-which-chip-stock-is-a-better-buy-in-2026/?source=iedfolrf0000001",
-   "published": "2026-10-10T15:15:02",
-   "summary": "Broadcom and Intel represent contrasting strategies in semiconductors: Broadcom dominates AI accelerators with strong profitability (36% net margin, $64B revenue), while Intel pursues a foundry turnaround with negative free cash flow (-$4.9B) but promising partnerships with Space…",
-   "tickers": [
-    "AVGO",
-    "INTC",
-    "AMD",
-    "NVDA",
-    "TSLA"
-   ],
-   "sentiment": "positive"
+   "rank": 8
   },
   {
    "source": "r/stocks 热帖",
@@ -225,69 +80,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1x2gpvl/anyone_here_doing_the_big_nflx_comeback_run/",
    "published": "2026-10-10T14:30:40+00:00",
    "summary": "Greetings, anyone here doing the big NFLX comeback run? I just bought 10 calls for 30 days out. I think it's way overdue for a 10% + pop at earnings. It had 5 straight days of gains, and then pulled back on Friday due to profit taking. People are talking about it going back over …",
-   "rank": 4
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Here's What a $10,000 Investment in Broadcom Stock Could Be Worth in 5 Years. (Hint: It Could Be 1 of the Best AI Stocks to Buy Today.)",
-   "link": "https://www.fool.com/investing/2026/10/10/what-10k-invest-broadcom-stock-worth-ai-buy/?source=iedfolrf0000001",
-   "published": "2026-10-10T14:20:00",
-   "summary": "Broadcom is positioned as a leading AI infrastructure play with strong growth prospects in data center networking and custom AI ASICs. The company projects ASIC revenue will double to $115 billion next year and double again to $230 billion by fiscal 2028. Analysts estimate a $10,…",
-   "tickers": [
-    "AVGO"
-   ],
-   "sentiment": "positive"
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Is the Vanguard Information Technology ETF Still the Best Tech ETF for Long-Term Investors? Here's What the Data Says.",
-   "link": "https://www.fool.com/investing/2026/10/10/vanguard-technology-etf-long-term-investors/?source=iedfolrf0000001",
-   "published": "2026-10-10T13:30:00",
-   "summary": "The Vanguard Information Technology ETF (VGT) has delivered exceptional returns of 839% over the past decade with a 25.1% annualized gain, outperforming the Invesco QQQ Trust's 586% return and 21.3% annualized gain. With a low expense ratio of 0.09% and $170 billion in assets, VG…",
-   "tickers": [
-    "NVDA"
-   ],
-   "sentiment": "positive"
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "AI Data Centers Are Power Hungry. These 6 Power and Cooling Stocks Could Benefit Through 2030.",
-   "link": "https://www.fool.com/investing/2026/10/10/ai-data-centers-are-power-hungry-these-6-power-and/?source=iedfolrf0000001",
-   "published": "2026-10-10T13:15:00",
-   "summary": "AI power demand is expected to double between 2024 and 2030, reaching 945 terawatt-hours annually. This massive growth in electricity consumption presents significant investment opportunities across the power and cooling supply chain, benefiting companies that provide fuel cells,…",
-   "tickers": [
-    "BE",
-    "GEV"
-   ],
-   "sentiment": "positive"
-  },
-  {
-   "source": "Massive · GlobeNewswire Inc.",
-   "category": "news",
-   "title": "Vannor Launches Agentic Marketing After AI Agents Drive 30-Fold Increase in First-Page Google Rankings",
-   "link": "https://www.globenewswire.com/news-release/2026/10/10/3378437/0/en/vannor-launches-agentic-marketing-after-ai-agents-drive-30-fold-increase-in-first-page-google-rankings.html",
-   "published": "2026-10-10T11:33:00",
-   "summary": "Vannor launched its agentic marketing platform featuring autonomous AI agents that manage end-to-end marketing workflows on proprietary NVIDIA infrastructure. The company reported a 30-fold increase in first-page Google rankings and a 554% increase in weekly search impressions wi…",
-   "tickers": [
-    "NVDA"
-   ],
-   "sentiment": "positive"
-  },
-  {
-   "source": "Massive · The Motley Fool",
-   "category": "news",
-   "title": "Warren Buffett Is Sending Shockwaves Through Wall Street With This Warning. Here’s What History Says May Happen Next.",
-   "link": "https://www.fool.com/investing/2026/10/10/warren-buffett-is-sending-shockwaves-through-wall-street-with-this-warning-here-s-what-history-says-may-happen-next/?source=iedfolrf0000001",
-   "published": "2026-10-10T10:05:02",
-   "summary": "Warren Buffett warned that excessive 'gambling' in the stock market and high valuations similar to pre-dot-com crash levels could lead to a market pullback. Despite the S&P 500's 78% gain over three years driven by AI enthusiasm, Buffett advises investors to focus on quality stoc…",
-   "tickers": [
-    "MU",
-    "SNDK"
-   ],
-   "sentiment": "negative"
+   "rank": 5
   },
   {
    "source": "r/stocks 热帖",
@@ -305,28 +98,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1x2a9dn/anthropic_145b_raised_2t_ipo_target_what_profit/",
    "published": "2026-10-10T08:41:41+00:00",
    "summary": "Strip it back: investors have put roughly ~$145B into Anthropic since 2021. It’s now reportedly targeting a $2T valuation at IPO, about 14x every dollar ever invested. I know tech isn’t valued on capital raised. It’s valued on future earnings. But a big chunk of that ~$145B has a…",
-   "rank": 1
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "Right now MRVL is my FAVORITE stock by far",
-   "link": "https://www.reddit.com/r/stocks/comments/1x2a681/right_now_mrvl_is_my_favorite_stock_by_far/",
-   "published": "2026-10-10T08:35:58+00:00",
-   "summary": "After their updated guidance on investor day last week what’s not to love? 58% annualized revenue growth from now to 2030 at the midpoint 😮 And the reason I like the stock now is because NONE OF THIS IS PRICED IN. I say let the people keep talking about an AI bubble and I say the…",
-   "rank": 16
-  },
-  {
-   "source": "Massive · Zacks Investment Research",
-   "category": "news",
-   "title": "A Guide to Low-Cost ETFs",
-   "link": "https://www.zacks.com/stock/news/3004244/a-guide-to-low-cost-etfs?cid=CS-ZC-FT-etf_education-3004244",
-   "published": "2026-10-10T08:19:00",
-   "summary": "The article explains how expense ratios significantly impact ETF returns over time, even when differences seem small. A 0.40% fee difference can result in tens of thousands of dollars in lost gains over 30 years. The piece highlights five lowest-cost ETFs across different investm…",
-   "tickers": [
-    "NVDA"
-   ],
-   "sentiment": "neutral"
+   "rank": 3
   },
   {
    "source": "r/stocks 热帖",
@@ -335,7 +107,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1x24b13/does_mus_quarter_actually_help_sndk/",
    "published": "2026-10-10T02:53:08+00:00",
    "summary": "Micron reported late last month and it was a record year. On the call Mehrotra said memory and storage should be tighter in 2027 and 2028 than they were in 2026. The part everyone keeps posting is HBM. That revenue grew faster than the whole company, and most of their 2027 HBM is…",
-   "rank": 9
+   "rank": 13
   },
   {
    "source": "r/stocks 热帖",
@@ -344,7 +116,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1x1unmw/snxx_dca_if_i_buy_more_at_lower_cost_138_am_i/",
    "published": "2026-10-09T19:31:45+00:00",
    "summary": "I previously put $5000 on SNXX and my average cost was $34.4 roughly this was way back in June at all Time high, but now it has gone down due to the decay and I’ve lost about $3000 by now in the hopes of waiting for it to rise up. If I do a dollar cost average today when the stoc…",
-   "rank": 13
+   "rank": 16
   },
   {
    "source": "CNBC Markets",
@@ -361,16 +133,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1x1r6oj/microsoft_stock_after_green_card_news/",
    "published": "2026-10-09T17:17:50+00:00",
    "summary": "There was some recent news that would impact Microsoft ability to sponsor green card to many of its employees: &quot;The US government will not process any new or pending Permanent Labor Certification Program (PERM) applications from Microsoft or the seven other companies, Secret…",
-   "rank": 10
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "New Companies that Utilize AI at the core of their business model",
-   "link": "https://www.reddit.com/r/stocks/comments/1x1lza0/new_companies_that_utilize_ai_at_the_core_of/",
-   "published": "2026-10-09T13:53:57+00:00",
-   "summary": "I have been searching like a mad man for relatively new companies that utilize AI at the core of their business models. It is very clear that LLMs and all the associated hardware and infrastructure is the first big wave of AI. I believe it’s just as clear that companies utilizing…",
-   "rank": 17
+   "rank": 14
   },
   {
    "source": "CNBC Markets",
@@ -387,7 +150,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1x1kvo6/trump_purchased_up_to_5_million_of_spacex_bonds/",
    "published": "2026-10-09T13:06:38+00:00",
    "summary": "https://www.cnn.com/2026/10/08/investing/trump-5-million-dollars-spacex-bonds Just two days before launching an effort to slash red tape for commercial space transportation, President Donald Trump last month purchased up to $5 million of bonds issued by SpaceX, a major federal co…",
-   "rank": 3
+   "rank": 6
   },
   {
    "source": "r/stocks 热帖",
@@ -396,7 +159,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1x1k5qi/openai_brings_in_about_50b_a_year_it_signed_up_to/",
    "published": "2026-10-09T12:32:48+00:00",
    "summary": "The FT says OpenAI's annualized revenue is about $50B, not the ~$70B everyone was passing around. CNBC and CNN's follow-ups say it's gross vs net, not lost sales.. Accountants, please calm down. Oracle fell 5.5% anyway, about $24B gone in a day over what's basically a footnote. E…",
-   "rank": 6
+   "rank": 12
   },
   {
    "source": "r/stocks 热帖",
@@ -405,7 +168,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1x1gv8s/rstocks_daily_discussion_fundamentals_friday_oct/",
    "published": "2026-10-09T09:30:11+00:00",
    "summary": "This is the daily discussion, so anything stocks related is fine, but the theme for today is on fundamentals, but if fundamentals aren't your thing then just ignore the theme. Some helpful day to day links, including news: Finviz for charts, fundamentals, and aggregated news on i…",
-   "rank": 15
+   "rank": 19
   },
   {
    "source": "r/stocks 热帖",
@@ -414,7 +177,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1x136gz/spacex_takes_aim_at_us_wireless_carriers_with/",
    "published": "2026-10-08T21:20:46+00:00",
    "summary": "$SPCX has agreed to acquire Grain Management’s nationwide portfolio of 800 MHz low-band spectrum licenses, a move the company says will pave the way for Starlink to become a major mobile carrier in the U.S. Elon Musk called it “the last critical piece of the spectrum puzzle neede…",
-   "rank": 12
+   "rank": 17
   },
   {
    "source": "r/stocks 热帖",
@@ -423,7 +186,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1x0z6vg/nvidia_oracle_coreweave_and_other_ai_stocks_sink/",
    "published": "2026-10-08T18:47:56+00:00",
    "summary": "Shares of Nvidia, Oracle, CoreWeave and other artificial intelligence names sank lower on Thursday after the market learned more details about OpenAI’s revenue. OpenAI told investors that it hit roughly $50 billion in annualized revenue at the end of September, CNBC confirmed, lo…",
-   "rank": 14
+   "rank": 18
   },
   {
    "source": "CNBC Markets",
@@ -440,25 +203,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1x0x3qh/openais_annualized_revenue_nears_50b_far_below/",
    "published": "2026-10-08T17:29:25+00:00",
    "summary": "OpenAI recently told investors its annualized revenue was approaching $50B at the end of September, roughly $20B below the figure widely reported last month. The discrepancy reportedly stems from differences in how OpenAI and Anthropic calculate revenue. Anthropic includes sales …",
-   "rank": 11
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "Samsung forecasts record third-quarter profit of $80 billion for the first time in history - Operating profit jumped 782%",
-   "link": "https://www.reddit.com/r/stocks/comments/1x0bcf0/samsung_forecasts_record_thirdquarter_profit_of/",
-   "published": "2026-10-07T23:11:54+00:00",
-   "summary": "Samsung Electronics on Thursday reported third-quarter preliminary operating profit of 107.40 trillion won ($80.2 billion), surging past 100 trillion won for the first time in the company’s history as booming demand for artificial intelligence continues to fuel its chips business…",
-   "rank": 19
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "Data shows that the 10-year Treasury yield is above 5.3% and crude oil prices are above $100, so why is the market sell-off so weak today?",
-   "link": "https://www.reddit.com/r/stocks/comments/1x07jr6/data_shows_that_the_10year_treasury_yield_is/",
-   "published": "2026-10-07T20:35:56+00:00",
-   "summary": "Today, all three major market indices opened lower. There were many reasons for the market weakness, such as: The 10-year Treasury yield broke through 5.3%, oil prices returned above $100, and the latest Federal Reserve meeting minutes hinted at a possible future interest rate hi…",
-   "rank": 18
+   "rank": 15
   },
   {
    "source": "CNBC Markets",
@@ -531,14 +276,6 @@
    "link": "https://www.cnbc.com/2026/10/02/jobs-report-september-2026.html",
    "published": "2026-10-02T13:45:58+00:00",
    "summary": "Nonfarm payrolls rose by just 29,000 in September, well below the 84,000 forecast, and the unemployment rate rose to 4.2%, the Bureau of Labor Statistics said."
-  },
-  {
-   "source": "CNBC Markets",
-   "category": "news",
-   "title": "The September jobs report will be released Friday. Here's what to expect",
-   "link": "https://www.cnbc.com/2026/10/01/the-september-jobs-report-will-be-released-friday-heres-what-to-expect.html",
-   "published": "2026-10-01T18:55:02+00:00",
-   "summary": "Wall Street is looking for job growth of 84,000 to close out the summer."
   }
  ],
  "errors": [
@@ -549,6 +286,10 @@
   {
    "source": "Reddit",
    "error": "匿名 JSON 被拒,已回退 RSS — 社区帖按 hot 榜排名排序但无点赞/评论数;配置 OAuth 可显示数值,见 README"
+  },
+  {
+   "source": "Massive News",
+   "error": "401 Client Error: Unauthorized for url: https://api.massiveprivateserver.site/v2/reference/news?apiKey=ma_7ungVgJVpdgcb99JWduZVNd6avF0cIZI&limit=100&sort=published_utc&order=desc&published_utc.gte=2026-10-02T00%3A39%3A16Z"
   }
  ]
 }
