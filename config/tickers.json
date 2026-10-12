@@ -55,7 +55,6 @@
     "CRWV"
   ],
   "uncertain": [
-    "MSTR",
     "GEV",
     "RKLB"
   ],
@@ -87,6 +86,7 @@
     "BE",
     "COIN",
     "INTC",
-    "PURR"
+    "PURR",
+    "MSTR"
   ]
 }
