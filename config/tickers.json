@@ -52,8 +52,7 @@
     "COHR",
     "MRVL",
     "AVGO",
-    "CRWV",
-    "PURR"
+    "CRWV"
   ],
   "uncertain": [
     "MSTR",
@@ -87,6 +86,7 @@
     "ORCL",
     "BE",
     "COIN",
-    "INTC"
+    "INTC",
+    "PURR"
   ]
 }
