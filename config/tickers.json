@@ -53,7 +53,6 @@
     "MRVL",
     "AVGO",
     "CRWV",
-    "INTC",
     "PURR"
   ],
   "uncertain": [
@@ -87,6 +86,7 @@
     "LITE",
     "ORCL",
     "BE",
-    "COIN"
+    "COIN",
+    "INTC"
   ]
 }
