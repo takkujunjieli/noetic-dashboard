@@ -2,7 +2,6 @@
   "_note": "Single source of truth for tickers. Every watchlist ticker gets full research data; deep/uncertain/neutral only store the four trading-desk card categories.",
   "watchlist": [
     "AMD",
-    "CCL",
     "SNDK",
     "TSLA",
     "HOOD",
@@ -78,7 +77,6 @@
     "PANW",
     "SMCI",
     "U",
-    "CCL",
     "LITE",
     "ORCL",
     "BE",
