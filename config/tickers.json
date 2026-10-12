@@ -52,7 +52,6 @@
     "COHR",
     "MRVL",
     "AVGO",
-    "COIN",
     "CRWV",
     "INTC",
     "PURR"
@@ -87,6 +86,7 @@
     "CCL",
     "LITE",
     "ORCL",
-    "BE"
+    "BE",
+    "COIN"
   ]
 }
