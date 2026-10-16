@@ -3,7 +3,7 @@ import { workflowArchiveHTML } from './attribution-journal.js';
 import { $, esc, loadJSON, loadFreshJSON, getPat, setPat, ghHeaders, REPO } from "./shared.js";
 import { mountLegacyRiskControl } from "./risk-control.js";
 import { estimatePositionRisk } from "./risk-budget.mjs";
-import {readActiveNebulaCatalog,nebulaRiskModels,setHeatmapAssignment} from './workflow-risk-bridge.mjs?v=20261004-1';
+import {readActiveNebulaCatalog,nebulaRiskModels,setHeatmapAssignment} from './workflow-risk-bridge.mjs?v=20261015-risk-budget';
 const LWC = window.LightweightCharts;
 
 /* 账户风险控制 · 仓位计算器 + thesis 管理(UI 称 Thesis;历史数据键沿用 bundles/default_bundle
@@ -340,7 +340,7 @@ export async function renderRiskExposure() {
   const arrow = (k) => SORT.key === k ? (SORT.dir < 0 ? " ↓" : " ↑") : "";
   const sth = (k, label, driven = false) => `<th class="rk-sort${driven ? " rk-thesis-driven" : ""}" data-k="${k}" style="cursor:pointer;user-select:none;white-space:nowrap">${label}${arrow(k)}</th>`;
   const body = disp.map((r) => `<tr>
-    <td class="sc-tk"><b>${esc(r.sym)}</b> <span class="sc-dir ${r.long ? "up" : "down"}">${r.isOpt ? "期" : r.long ? "多" : "空"}</span>${r.model?.running?` <span class="sc-dir">Q${r.model.quantile}</span>`:''}</td>
+    <td class="sc-tk"><b>${esc(r.sym)}</b> <span class="sc-dir ${r.long ? "up" : "down"}">${r.isOpt ? "期" : r.long ? "多" : "空"}</span>${r.model?.running?` <span class="sc-dir">Risk Budget</span>`:''}</td>
     <td>${grpSelect(r)}</td><td>${r.qty}</td><td>$${r.price != null ? r.price.toFixed(2) : "—"}</td>
     <td class="muted">$${r.cost != null ? r.cost.toFixed(2) : "—"}</td>
     ${cell(r.posPct.toFixed(1) + "%", r.targetCapital>0 ? Math.min(r.mktValue/r.targetCapital,1) : null)}
@@ -354,7 +354,7 @@ export async function renderRiskExposure() {
     <tr>${sth("sym", "标的")}${sth("bundleName", "Thesis")}<th>股数</th><th>现价</th><th>成本</th>${sth("posPct", "仓位%")} ${sth("pnlPct", "浮盈%")}
         <th class="rk-thesis-driven">止损</th>${sth("distPct", "距止损%", true)}<th class="rk-thesis-driven">止盈</th><th class="rk-thesis-driven">距止盈%</th>
         ${sth("riskPct", "在险%", true)}${sth("toTarget", "距目标", true)}</tr>${body}</table></div>
-    <div class="muted small" style="margin-top:8px"><b>Thesis 下拉菜单只显示 Workflow 中同步过的 Active Nebula；空白表示尚未对齐。</b><br>正股止盈价=持仓成本价×(1+对应 Underlying 的 Bull Case Price Move%)；手填值优先。期权不使用底层涨跌幅直接推算权利金止盈价。在险%=当前持仓按 Bear Scenario 估计的亏损÷账户净值。距目标=(Kelly Target Capital−Current Capital)÷现价，保留 1 位小数；<span class="up">绿色=顺方向补 Exposure</span>，<span class="down">红色=逆方向减 Exposure</span>。Q25/Q50/Q100 表示该 Running Kelly Node 当前采用的 Target Quantile。</div>`;
+    <div class="muted small" style="margin-top:8px"><b>Thesis 下拉菜单只显示 Workflow 中同步过的 Active Nebula；空白表示尚未对齐。</b><br>正股止盈价=持仓成本价×(1+对应 Underlying 的 Bull Case Price Move%)；手填值优先。期权不使用底层涨跌幅直接推算权利金止盈价。在险%=当前持仓按 Bear Scenario 估计的亏损÷账户净值。距目标=(Risk Budget Target Capital−Current Capital)÷现价，保留 1 位小数；<span class="up">绿色=顺方向补 Exposure</span>，<span class="down">红色=逆方向减 Exposure</span>。Risk Budget 先用 Kelly 计算 Bundle 相对权重，再由 Nebula 的最大 At-Risk 决定总账户比例。</div>`;
 
   const totalPct = totalHeat / equity * 100;
   const accountLabel = acctSel === "ALL" ? "全部账户" : ((accounts.find((a) => a.id === acctSel) || {}).label || acctSel);

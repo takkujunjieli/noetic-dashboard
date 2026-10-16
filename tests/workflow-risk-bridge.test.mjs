@@ -1,37 +1,38 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {activeNebulaCatalog,nebulaRiskModels,setHeatmapAssignment} from '../assets/workflow-risk-bridge.mjs';
-import {createCase,savePlan,saveNode,setPlanFrozen} from '../assets/workflow-model.mjs';
+import {createCase,savePlan,saveNode,setActiveAllocation,setPlanFrozen} from '../assets/workflow-model.mjs';
 import {newStructureLeg} from '../assets/trade-structure.mjs';
+import {riskBudgetAllocation} from '../assets/kelly-allocation.mjs';
 
-test('active catalog and heatmap model expose quantile, Bear return and Kelly target capital',()=>{
- const c=createCase({title:'Active'});c.activeThesis=true;c.nodes.risk.state='running';
+function activeCase(title='Active'){
+ const c=createCase({title});c.activeThesis=true;c.nodes.risk.state='running';
  const construction={structureVersion:1,template:'stock',candidate:{underlying:'MU',instrument:'stock',referenceCapital:10000},legs:[{...newStructureLeg('stock','long',100),underlying:'MU',entry:100,underlyingPrice:100}]};
  const id=savePlan(c,null,'',construction),moves=priceMove=>({[id]:{priceMove,priceMoveRange:0,ivChange:0,ivChangeRange:0}});
  saveNode(c,'returns',{scenarioVersion:1,daysForward:0,scenarios:[{id:'bull',name:'Bull',probability:55,probabilityRange:0,moves:moves(20)},{id:'base',name:'Base',probability:0,probabilityRange:0,moves:moves(0)},{id:'bear',name:'Bear',probability:45,probabilityRange:0,moves:moves(-20)}]});
- saveNode(c,'risk',{allocationVersion:1,targetQuantile:50});
- const archived=createCase({title:'Archived'});archived.activeThesis=true;archived.archived=true;
+ saveNode(c,'risk',{allocationVersion:2,thesisAtRiskLimitPct:1,atrStopMultiple:2.5});setActiveAllocation(c,riskBudgetAllocation(c,c.nodes.risk.data,{MU:2}));return {c,id};
+}
+
+test('active catalog exposes account-independent target fractions and Portfolio dollarizes them',()=>{
+ const {c}=activeCase(),archived=createCase({title:'Archived'});archived.activeThesis=true;archived.archived=true;
  const catalog=activeNebulaCatalog({cases:[c,archived]},'2026-09-29T00:00:00Z');assert.deepEqual(catalog.cases.map(x=>x.title),['Active']);
- const model=nebulaRiskModels(c,50000)[0];assert.equal(model.underlying,'MU');assert.equal(model.quantile,50);assert.equal(model.running,true);assert.equal(model.bullPriceMove,20);assert.ok(Math.abs(model.targetCapital-25000)<5);assert.ok(Math.abs(model.bearReturn+.2)<1e-9);
+ const small=nebulaRiskModels(c,50000,{MU:2})[0],large=nebulaRiskModels(c,100000,{MU:2})[0];
+ assert.equal(small.underlying,'MU');assert.equal(small.running,true);assert.equal(small.bullPriceMove,20);assert.ok(Math.abs(small.targetFraction-.05)<1e-9);assert.ok(Math.abs(small.targetCapital-2500)<1e-6);assert.ok(Math.abs(large.targetCapital-5000)<1e-6);assert.equal(small.targetFraction,large.targetFraction);assert.ok(Math.abs(small.bearReturn+.2)<1e-9);
 });
 
-test('heatmap applies the same ATR thesis-risk constraint as Workflow',()=>{
- const c=createCase({title:'ATR constrained'});c.activeThesis=true;
- const construction={structureVersion:1,template:'stock',candidate:{underlying:'RKLB',instrument:'stock',referenceCapital:10000},legs:[{...newStructureLeg('stock','long',100),underlying:'RKLB',entry:100,underlyingPrice:100}]};
- const id=savePlan(c,null,'',construction),moves=priceMove=>({[id]:{priceMove,priceMoveRange:0,ivChange:0,ivChangeRange:0}});
- saveNode(c,'returns',{scenarioVersion:1,daysForward:0,scenarios:[{id:'bull',name:'Bull',probability:55,probabilityRange:0,moves:moves(20)},{id:'base',name:'Base',probability:0,probabilityRange:0,moves:moves(0)},{id:'bear',name:'Bear',probability:45,probabilityRange:0,moves:moves(-20)}]});
- saveNode(c,'risk',{allocationVersion:1,targetQuantile:25,thesisAtRiskLimitPct:.5,atrReviewMultiple:1.5,atrHardStopMultiple:2.5});
- const constrained=nebulaRiskModels(c,100000,{RKLB:2})[0],missingAtr=nebulaRiskModels(c,100000,{})[0];
- assert.ok(constrained.targetFraction>0&&constrained.targetFraction<.5);assert.ok(constrained.targetCapital>0&&constrained.targetCapital<50000);assert.equal(missingAtr.targetCapital,null);assert.match(missingAtr.constraintIssue,/缺少 ATR/);
+test('Portfolio dollarizes the frozen Risk Budget and does not recalculate it from later ATR or policy edits',()=>{
+ const {c}=activeCase('Frozen budget'),before=nebulaRiskModels(c,100000,{MU:2})[0];
+ c.nodes.risk.data.thesisAtRiskLimitPct=9;
+ const noAtr=nebulaRiskModels(c,100000,{})[0],changedAtr=nebulaRiskModels(c,100000,{MU:20})[0];
+ assert.ok(before.targetFraction>0);assert.equal(noAtr.targetFraction,before.targetFraction);assert.equal(changedAtr.targetFraction,before.targetFraction);assert.equal(noAtr.targetCapital,before.targetCapital);assert.equal(noAtr.constraintIssue,'');
 });
 
-test('heatmap assignment is freely mutable and cannot rewrite frozen Workflow ownership or In Action Kelly',()=>{
+test('heatmap assignment is freely mutable and cannot rewrite frozen Workflow ownership or In Action Risk Budget',()=>{
  const c=createCase({title:'Frozen owner'}),construction={structureVersion:1,template:'stock',candidate:{underlying:'AMD',instrument:'stock',referenceCapital:10000},legs:[{...newStructureLeg('stock','long',100),underlying:'AMD',entry:100,underlyingPrice:100}]};
  const id=savePlan(c,null,'',construction);setPlanFrozen(c,id,true);
- c.design.allocation={method:'multivariate-kelly',inAction:true,at:'2026-10-04T12:00:00Z',items:[{bundleId:id,name:'AMD',underlying:'AMD',fraction:.25}]};
+ c.design.allocation={method:'risk-budget-kelly',inAction:true,at:'2026-10-04T12:00:00Z',items:[{bundleId:id,name:'AMD',underlying:'AMD',fraction:.25}]};
  const workflowBefore=JSON.stringify(c),allocationBefore=JSON.stringify(c.design.allocation),planBefore=JSON.stringify(c.design.plans[0]);
- let groups=setHeatmapAssignment({},'AMD','Other thesis');
- assert.deepEqual(groups,{AMD:'Other thesis'});
+ let groups=setHeatmapAssignment({},'AMD','Other thesis');assert.deepEqual(groups,{AMD:'Other thesis'});
  groups=setHeatmapAssignment(groups,'AMD','Third thesis');assert.deepEqual(groups,{AMD:'Third thesis'});
  groups=setHeatmapAssignment(groups,'AMD','');assert.deepEqual(groups,{});
  assert.equal(JSON.stringify(c),workflowBefore);assert.equal(JSON.stringify(c.design.allocation),allocationBefore);assert.equal(JSON.stringify(c.design.plans[0]),planBefore);
