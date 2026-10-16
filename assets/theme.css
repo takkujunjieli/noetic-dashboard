@@ -75,8 +75,6 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
 .chips:not(.seg) button { border-radius: 8px; }
 .card { border-radius: 12px; }
 .mini-card.active { background: rgba(155, 170, 192, .10); }
-.mc-water { background: rgba(155, 170, 192, .16); border-top-color: rgba(155, 170, 192, .32); }
-.mc-vol { color: var(--muted); }
 .today-row { background: rgba(154, 232, 205, .06); }
 .sc-head > b, .pf-cal-head > b, .pf-pnl > summary { color: var(--mint); font-weight: 500; }
 [hidden] { display: none !important; }

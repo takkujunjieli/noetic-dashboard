@@ -1,4 +1,4 @@
-import {mountTradeLinkGroupEditor} from './trade-link-ui.js?v=20261010-group-links';
+import {mountTradeLinkGroupEditor} from './trade-link-ui.js?v=20261015-auto-thesis';
 /* 交易台 — 单票工作台:K线主图 + 共享价格轴行权价梯 + 期权面板 + 采集控制
    图表库: TradingView lightweight-charts v4(CDN,全局 LightweightCharts) */
 import {
@@ -18,7 +18,8 @@ let tradeMarkerLayout = [], tradeMarkerFrame = null, hoveredTradeMarker = null;
 let tradePositionByTime = new Map();
 let TRADE_LINKS = {links: []};
 let tradeAccountFilter = localStorage.getItem("wbTradeAccount") || "all";
-let scoreSortCol = null, scoreSortDir = -1;  // Scorecards:首次点击按高分→低分
+let scoreSortCol = "ticker", scoreSortDir = 1;  // Scorecards:默认按 ticker A→Z；评分首次点击高→低
+let scoreDirectionFilter = "all";
 let pfCalMode = localStorage.getItem("pfCalMode") || "realized";   // 月历:realized 已实现$ / total 总$(精确优先,缺则估) / ret 收益率% / log 对数收益(估)
 let pfFilter = null;          // Portfolio 饼图选中的 sym → 控制饼图中心显示
 let pfAccount = null;         // Portfolio 选中的账户 id(null=全部账户)
@@ -445,6 +446,14 @@ function renderTradeMarkers(bars, toChartTime) {
   const fills = dedupeTradeFills((TRADE_JOURNAL.fills || []).filter((fill) => fill.underlying === SYM
     && (tradeAccountFilter === "all" || tradeAccountKey(fill) === tradeAccountFilter)));
   const groups = groupTradeFills({ fills, bars, tf: TF, dayOf: etDay, sessionDayOf: tradeSessionDay });
+  const dailyReasonIds = new Map();
+  if (TF === "1d") {
+    for (const group of groups) {
+      const ids = dailyReasonIds.get(group.barMs) || [];
+      dailyReasonIds.set(group.barMs, [...new Set([...ids, ...group.tradeIds])]);
+    }
+  }
+  for (const group of groups) group.reasonTradeIds = dailyReasonIds.get(group.barMs) || group.tradeIds;
   tradeMarkerGroups = new Map();
   const layer = $("trade-marker-layer");
   if (!layer) return;
@@ -459,7 +468,7 @@ function renderTradeMarkers(bars, toChartTime) {
     button.dataset.kind = group.kind;
     button.dataset.tradeMarker = id;
     button.textContent = group.kind === "buy" ? "B" : group.kind === "sell" ? "S" : "O";
-    const hasReason = group.tradeIds.some(tradeId => String(TRADE_ANNOTATIONS.annotations?.[tradeId]?.reason || "").trim());
+    const hasReason = group.reasonTradeIds.some(tradeId => String(TRADE_ANNOTATIONS.annotations?.[tradeId]?.reason || "").trim());
     button.classList.toggle("has-reason", hasReason);
     button.setAttribute("aria-label", `${SYM} ${etDay(group.barMs)} ${button.textContent}${hasReason ? " · 已有交易理由" : ""}${TF === "1d" ? " · 查看交易卡片" : ""}`);
     const below = group.kind === "buy", bar = byTime.get(group.barMs);
@@ -579,15 +588,19 @@ const tradePriceNumber = (value) => Number.isFinite(Number(value))
   ? Number(value).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "—";
 
 function tradeReasonValue(tradeIds) {
-  const notes = [...new Set(tradeIds.map(id => TRADE_ANNOTATIONS.annotations?.[id]?.reason || "").filter(Boolean))];
-  return { value: notes.length === 1 ? notes[0] : "", differs: notes.length > 1 };
+  const notes = tradeIds.map((id, index) => {
+    const annotation = TRADE_ANNOTATIONS.annotations?.[id];
+    return { value: String(annotation?.reason || "").trim(), updatedAt: Date.parse(annotation?.updated_at || "") || 0, index };
+  }).filter(note => note.value).sort((a, b) => b.updatedAt - a.updatedAt || a.index - b.index);
+  return { value: notes[0]?.value || "", saved: notes.length > 0 };
 }
 
 function openTradeNoteCard(group, point) {
   const card = $("trade-note-card"); if (!card) return;
   const details = aggregateTradeDetails(group.fills, etDay);
   const tradeIds = [...new Set(group.fills.map(fill => fill.trade_id).filter(Boolean))];
-  const note = tradeReasonValue(tradeIds);
+  const reasonTradeIds = group.reasonTradeIds || tradeIds;
+  const note = tradeReasonValue(reasonTradeIds);
   card.innerHTML = `<div class="trade-note-head"><b>${esc(SYM)}</b><button type="button" data-trade-close aria-label="Close">×</button></div>
     <ul class="trade-account-summary">${details.map(detail => {
       const tone = tradeAccountTone(detail.account);
@@ -595,9 +608,9 @@ function openTradeNoteCard(group, point) {
       const contract = detail.instrument ? `${esc(detail.instrument)} · ` : "";
       return `<li data-account-tone="${tone}"><time>${esc(detail.dates.join(" / "))}</time><span>${contract}${esc(side)} · ${esc(tradeFactNumber(detail.qty))} @ ${esc(tradePriceNumber(detail.averagePrice))} · ${esc(tradeAccountLabel(detail.account))}</span></li>`;
     }).join("")}</ul>
-    <div class="trade-note-list"><section><label>交易理由<textarea rows="3" maxlength="5000" placeholder="${note.differs ? "这些成交已有不同理由；保存后将统一更新" : "为什么执行这些交易？"}">${esc(note.value)}</textarea></label><div class="trade-note-actions"><span role="status"></span><button type="button" data-trade-save>保存理由</button></div><div class="trade-link-editor" data-link-group-editor></div></section></div>`;
+    <div class="trade-note-list"><section><label><span data-reason-label>${note.saved ? "交易理由（已保存，可编辑）" : "交易理由"}</span><textarea rows="3" maxlength="5000" placeholder="为什么执行这些交易？">${esc(note.value)}</textarea></label><div class="trade-note-actions"><span role="status"></span><button type="button" data-trade-save>${note.saved ? "更新理由" : "保存理由"}</button></div><div class="trade-link-editor" data-link-group-editor></div></section></div>`;
   card.hidden = false;
-  card.querySelector(".trade-note-list section").dataset.tradeIds = JSON.stringify(tradeIds);
+  card.querySelector(".trade-note-list section").dataset.tradeIds = JSON.stringify(reasonTradeIds);
   const trades = tradeIds.map(tradeId => ({tradeId, fills: group.fills.filter(fill => fill.trade_id === tradeId)}));
   mountTradeLinkGroupEditor(card.querySelector("[data-link-group-editor]"), trades, document => {
     TRADE_LINKS = document;
@@ -628,6 +641,9 @@ async function saveTradeReason(section) {
     TRADE_ANNOTATIONS = body;
     tradeAnnotationsEtag = response.headers.get("ETag");
     if (avwapCtx) renderTradeMarkers(avwapCtx.bars, avwapCtx.t);
+    const note = tradeReasonValue(tradeIds);
+    section.querySelector("[data-reason-label]").textContent = note.saved ? "交易理由（已保存，可编辑）" : "交易理由";
+    button.textContent = note.saved ? "更新理由" : "保存理由";
     status.textContent = tradeIds.length > 1 ? `已保存至 ${tradeIds.length} 笔` : "已保存";
   } catch (error) { status.textContent = `保存失败：${error.message}`; }
   finally { button.disabled = false; }
@@ -1341,6 +1357,11 @@ function realizedVol(bars, n = 20) {
 function renderOptPanel() {
   const d = researchOf(SYM);
   const o = d.options;
+  if (RESEARCH?.data_mode === "equity_only") {
+    $("opt-src").textContent = "(暂停更新)";
+    $("opt-panel").innerHTML = `<div class="card empty">仅正股模式 · Option 数据未请求或更新</div>`;
+    return;
+  }
   $("opt-src").textContent = RESEARCH?.options_source ? `(${RESEARCH.options_source === "massive" ? "Massive" : "Yahoo"} · ${o?.contracts ?? 0} ctr)` : "";
   if (!o) { $("opt-panel").innerHTML = `<div class="card empty">No options data — start a collection</div>`; return; }
 
@@ -1902,32 +1923,54 @@ async function loadData(force = false) {
     loadFreshJSON("data/gex_week.json"),
     wantBars ? loadFreshJSON("data/bars_intraday.json") : Promise.resolve(null),
   ]);
-  RESEARCH = research; GEX = gex; GEXH = gexh; WEEK = week;
+  RESEARCH = research;
+  if (research?.data_mode === "equity_only") {
+    GEX = { tickers: {}, errors: [] };
+    GEXH = { points: [] };
+    WEEK = { days: {} };
+  } else {
+    GEX = gex; GEXH = gexh; WEEK = week;
+  }
   if (wantBars && bars) { BARS = bars; lastBarsAt = Date.now(); }  // 拉失败保留旧 bars,下轮重试
   // Portfolio/盈亏/打分 已迁到 portfolio 页(见 initPortfolioPanel);交易台不再加载渲染。
 }
 
 async function loadTradeJournal() {
   try {
-    const [journalResponse, annotationsResponse, linksResponse, positionResponse] = await Promise.all([
+    const [journalResponse, annotationsLoaded, linksResponse, positionResponse] = await Promise.all([
       fetch("/api/trade-journal", { cache: "no-store" }),
-      fetch("/api/trade-annotations", { cache: "no-store" }),
+      refreshTradeAnnotations(),
       fetch("/api/trade-links", { cache: "no-store" }),
       fetch(`data/portfolio.json?t=${Date.now()}`, { cache: "no-store" }),
     ]);
-    if (!journalResponse.ok || !annotationsResponse.ok) throw Error("local trade API unavailable");
+    if (!journalResponse.ok) throw Error("local trade API unavailable");
     TRADE_JOURNAL = await journalResponse.json();
-    TRADE_ANNOTATIONS = await annotationsResponse.json();
-    tradeAnnotationsEtag = annotationsResponse.headers.get("ETag");
+    if (!annotationsLoaded) console.warn("Trade annotations unavailable; preserving the last loaded reasons.");
     TRADE_LINKS = linksResponse.ok ? await linksResponse.json() : {links: []};
     TRADE_POSITION_SNAPSHOT = positionResponse.ok ? await positionResponse.json() : null;
     renderTradeAccountFilter();
     renderTradeCoverage();
   } catch {
-    TRADE_JOURNAL = { fills: [] }; TRADE_ANNOTATIONS = { annotations: {} }; tradeAnnotationsEtag = null;
+    TRADE_JOURNAL = { fills: [] };
     TRADE_POSITION_SNAPSHOT = null;
     renderTradeAccountFilter();
     renderTradeCoverage();
+  }
+}
+
+async function refreshTradeAnnotations(render = false) {
+  try {
+    const response = await fetch("/api/trade-annotations", { cache: "no-store" });
+    if (!response.ok) throw Error(`HTTP ${response.status}`);
+    const body = await response.json();
+    if (!body || typeof body.annotations !== "object") throw Error("invalid annotation document");
+    TRADE_ANNOTATIONS = body;
+    tradeAnnotationsEtag = response.headers.get("ETag");
+    if (render && avwapCtx) renderTradeMarkers(avwapCtx.bars, avwapCtx.t);
+    return true;
+  } catch (error) {
+    console.warn("Unable to refresh trade annotations; preserving the last loaded reasons.", error);
+    return false;
   }
 }
 
@@ -2049,15 +2092,25 @@ function renderScorecards() {
     const mark = scoreSortCol === i ? (scoreSortDir > 0 ? "↑" : "↓") : "↕";
     return `<button class="rf-sort-btn" data-sc-sort="${i}" title="点击切换升降序">${esc(TH[head[i]] ?? head[i])}<span>${mark}</span></button>`;
   };
-  const th = `<th>标的</th><th></th>` + SCORE_COLS.map((i) => `<th>${sortButton(i)}</th>`).join("");
-  const displayRows = rows.slice(1).filter((r) => r.length > 1 && r[0]);
-  if (scoreSortCol != null) displayRows.sort((a, b) => {
+  const tickerMark = scoreSortCol === "ticker" ? (scoreSortDir > 0 ? "↑" : "↓") : "↕";
+  const th = `<th><button class="rf-sort-btn" data-sc-sort="ticker" title="按标的字母序排序">标的<span>${tickerMark}</span></button></th><th></th>`
+    + SCORE_COLS.map((i) => `<th>${sortButton(i)}</th>`).join("");
+  const allRows = rows.slice(1).filter((r) => r.length > 1 && r[0]);
+  const directions = ["Long", "Short", "Watch"];
+  const counts = Object.fromEntries(directions.map((direction) => [direction, allRows.filter((r) => r[1] === direction).length]));
+  const filters = [["all", "全部", allRows.length], ...directions.map((direction) => [direction, direction, counts[direction]])]
+    .map(([value, label, count]) => `<button class="tab${scoreDirectionFilter === value ? " active" : ""}" data-sc-direction="${value}" aria-pressed="${scoreDirectionFilter === value}">${label} <span>${count}</span></button>`)
+    .join("");
+  const displayRows = allRows.filter((r) => scoreDirectionFilter === "all" || r[1] === scoreDirectionFilter);
+  displayRows.sort((a, b) => {
+    const tickerOrder = a[0].localeCompare(b[0], "en", { sensitivity: "base" });
+    if (scoreSortCol === "ticker") return tickerOrder * scoreSortDir;
     const av = parse(a[scoreSortCol]).s, bv = parse(b[scoreSortCol]).s;
     const aMissing = Number.isNaN(av), bMissing = Number.isNaN(bv);
-    if (aMissing && bMissing) return a[0].localeCompare(b[0]);
+    if (aMissing && bMissing) return tickerOrder;
     if (aMissing) return 1;
     if (bMissing) return -1;
-    return (av - bv) * scoreSortDir || a[0].localeCompare(b[0]);
+    return (av - bv) * scoreSortDir || tickerOrder;
   });
   const body = displayRows.map((r) => {
     const dir = r[1];
@@ -2068,16 +2121,22 @@ function renderScorecards() {
       + `<td><span class="sc-dir ${dirCls}">${dirTxt}</span></td>`
       + SCORE_COLS.map((i) => { const p = parse(r[i]); return cell(p.s, p.why); }).join("")
       + `</tr>`;
-  }).join("");
+  }).join("") || `<tr><td colspan="5" class="muted sc-empty">该类别暂无标的</td></tr>`;
   el.innerHTML = `<div class="card"><div class="sc-head"><b>Scorecards</b> `
     + `<span class="muted small">本地 · 3 维单分(-5~+5,0=中性/正好负差),理由直显。经营/管理层/外部=质量维度。多头看高、空头看低;★需数据校准 ⚠身份存疑</span></div>`
+    + `<div class="ff-controls sc-filters"><span class="muted small">类别</span>${filters}</div>`
     + `<div class="sc-wrap"><table class="bt-table sc-table"><thead><tr>${th}</tr></thead><tbody>${body}</tbody></table></div></div>`;
   el.querySelectorAll("[data-sc-sort]").forEach((button) => { button.onclick = () => {
-    const col = Number(button.dataset.scSort);
+    const col = button.dataset.scSort === "ticker" ? "ticker" : Number(button.dataset.scSort);
     if (scoreSortCol === col) scoreSortDir *= -1;
-    else { scoreSortCol = col; scoreSortDir = -1; }
+    else { scoreSortCol = col; scoreSortDir = col === "ticker" ? 1 : -1; }
     renderScorecards();
   }; });
+  el.querySelectorAll("[data-sc-direction]").forEach((button) => { button.onclick = () => {
+    scoreDirectionFilter = button.dataset.scDirection;
+    renderScorecards();
+  }; });
+  window.dispatchEvent(new CustomEvent("scorecards-rendered"));
 }
 
 /* Portfolio 页入口:portfolio.js import 调用。加载数据 + 渲染 Portfolio/Scorecards + 挂交互监听。 */
@@ -2125,16 +2184,22 @@ function renderAll(keepRange = false) {
   renderErrors();
   if (lr) chart.timeScale().setVisibleLogicalRange(lr);
   const upd = RESEARCH?.updated_at || GEX?.updated_at;
+  const equitySource = RESEARCH?.equity_source?.startsWith("alpaca_sip_delayed")
+    ? `Alpaca delayed SIP${RESEARCH.equity_source.includes("yahoo_fallback") ? " + Yahoo fallback" : ""}`
+    : "Yahoo equities";
   $("poll-status").textContent = (upd ? `Data ${fmtDT(upd)}` : "No data")
+    + (RESEARCH?.data_mode === "equity_only" ? ` · ${equitySource} only` : "")
     + ` · auto-refresh (${marketWindow() ? (getPat() ? "20s" : "2m, add PAT to speed up") : "off-hours 15m"})`;
 }
 
 async function refreshData(force = false) {
-  await loadData(force);
+  await Promise.all([loadData(force), refreshTradeAnnotations()]);
   renderAll(true);
   refreshRunStatus();
   startPolling(); // 每次刷新后按当前时段重排下一次
 }
+
+window.addEventListener("focus", () => refreshTradeAnnotations(true));
 
 /* 时段感知轮询:盘中(ET 9:25-16:10 工作日)60秒(PAT)/5分钟(匿名);盘外 30 分钟 */
 function marketWindow() {

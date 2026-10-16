@@ -1,4 +1,4 @@
-import {KEY,validateStore,record} from './workflow-model.mjs?v=20261010-links';
+import {KEY,validateStore,record} from './workflow-model.mjs?v=20261015-no-signal';
 import {applyExecutionEvent,TRADE_ROLES} from './trade-link-model.mjs';
 import {thesisUnderlyings} from './attribution-transactions.mjs';
 import {readUnsyncedNebulae,writeUnsyncedNebulae} from './workflow-sync.js?v=20260929-3';
@@ -25,7 +25,7 @@ export function reconcileTradeLinks(document, storage=localStorage) {
     const c=store.cases.find(c=>c.id===event.link.workflow_case_id);
     if(!c||c.archived)continue;
     if(applyExecutionEvent(c,event)){
-      record(c,event.action==='unlink'?'解除成交关联':'关联成交 · '+TRADE_ROLES[event.link.role],'positions',event.link.trade_id+' · '+event.action);
+      record(c,event.action==='unlink'?'解除成交关联':'自动关联成交', 'positions',event.link.trade_id+' · '+event.action);
       changed=true;
     }
   }
