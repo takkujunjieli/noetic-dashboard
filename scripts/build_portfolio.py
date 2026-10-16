@@ -24,6 +24,7 @@ accounts 用带人名的 id/label(如 {"id":"mom-rh","label":"妈妈·个人"})�
   家庭成员   — 各人在自己的 Claude/脚本里用自己的登录导出 data/_<人名>_raw.json(同 schema)
 """
 import glob
+import argparse
 import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -80,6 +81,10 @@ def _txn(t: dict) -> dict:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--skip-monthly", action="store_true",
+                        help="Daily broker sync: rebuild positions and trade diagnostics without touching monthly_returns.json")
+    args = parser.parse_args()
     from build_transaction_history import write_history
     write_history(DATA)
     now_dt = datetime.now(timezone.utc)
@@ -138,7 +143,7 @@ def main() -> None:
     # 失败不影响持仓构建。要更新公开站,build 后照常 commit + push + deploy。
     try:
         import analyze_pnl
-        analyze_pnl.emit_json()
+        analyze_pnl.emit_json(update_monthly=not args.skip_monthly)
     except Exception as e:  # noqa: BLE001
         print(f"pnl.json 生成跳过: {e}")
 
@@ -146,7 +151,7 @@ def main() -> None:
     # 网络慢/失败不影响持仓构建。新加的票从此自动带 ATR,不必再单独跑 fetch_atr.py。
     try:
         import fetch_atr
-        fetch_atr.main()
+        fetch_atr.main([])
     except Exception as e:  # noqa: BLE001
         print(f"atr.json 生成跳过: {e}")
 

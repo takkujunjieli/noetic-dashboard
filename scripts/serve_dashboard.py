@@ -72,6 +72,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
         self.journal_path = Path(journal_path) if journal_path else self.private_dir.parent / "trade_journal" / "journal.json"
         self.annotations_path = Path(annotations_path) if annotations_path else self.journal_path.with_name("annotations.json")
         self.links_path = self.journal_path.with_name("trade_links.json")
+        self.broker_pnl_path = self.journal_path.with_name("broker_pnl.json")
         super().__init__(*args, **kwargs)
 
     def reply(self, status, body, tag=None):
@@ -127,6 +128,13 @@ class DashboardHandler(SimpleHTTPRequestHandler):
                 document = load_annotations(self.annotations_path)
                 raw = (json.dumps(document, ensure_ascii=False, indent=2) + "\n").encode()
                 return self.reply(200, document, etag(raw) if self.annotations_path.exists() else None)
+            if path == "/api/broker-pnl":
+                if not self.broker_pnl_path.exists():
+                    return self.reply(200, {"schema":"broker-realized-pnl","version":1,"updated_at":None,"events":[]})
+                document = json.loads(self.broker_pnl_path.read_bytes())
+                if document.get("schema") != "broker-realized-pnl" or document.get("version") != 1 or not isinstance(document.get("events"), list):
+                    raise ValueError("券商 P&L ledger 格式无效")
+                return self.reply(200, document)
             thesis_id, target = self.transaction_path()
             if not target.exists():
                 return self.reply(200, {"file": None, "path": str(target)})

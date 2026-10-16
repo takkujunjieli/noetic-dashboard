@@ -5,7 +5,8 @@
   Short Interest(双周) + Short Volume(每日) · 期权链指标(premium/OI变化/Max Pain)
 
 数据源:
-  股票 — Massive API(https://massive.com,原 Polygon)。Stocks Advanced: 实时、无限速。
+  股票 — 正股模式优先 Alpaca 免费延迟 SIP(全市场),失败或未配置时回退 Yahoo；
+         完整模式使用 Massive API(https://massive.com,原 Polygon)。
   期权 — Massive /v3/snapshot/options 需要 Options 套餐;无权限时自动回退雅虎期权链。
   K 线在 Massive 失败时也回退雅虎(5分钟)。
 
@@ -33,6 +34,14 @@ ROOT = Path(__file__).resolve().parent.parent
 KEY = os.environ.get("MASSIVE_API_KEY", "").strip()
 BASE = os.environ.get("MASSIVE_BASE_URL", "https://api.massive.com").rstrip("/")
 HEADERS = {"Authorization": f"Bearer {KEY}"}
+EQUITY_ONLY = os.environ.get("EQUITY_ONLY", "").lower() in ("1", "true", "yes")
+ALPACA_KEY = (os.environ.get("ALPACA_API_KEY") or os.environ.get("APCA_API_KEY_ID") or "").strip()
+ALPACA_SECRET = (os.environ.get("ALPACA_API_SECRET") or os.environ.get("APCA_API_SECRET_KEY") or "").strip()
+ALPACA_BASE = os.environ.get("ALPACA_DATA_URL", "https://data.alpaca.markets").rstrip("/")
+ALPACA_DELAY_MINUTES = max(16, int(os.environ.get("ALPACA_DELAY_MINUTES", "30")))
+ALPACA_FEED = os.environ.get("ALPACA_FEED", "sip").strip().lower() or "sip"
+ALPACA_HEADERS = {"APCA-API-KEY-ID": ALPACA_KEY, "APCA-API-SECRET-KEY": ALPACA_SECRET}
+ALPACA_ENABLED = bool(ALPACA_KEY and ALPACA_SECRET)
 # 实测网关对 REST 不限流(期权/股票突发 200+ 并发零 429),仅留极小礼貌间隔,不滥用服务器。
 # 50/min 是期权 websocket 上限,与我们纯 REST 无关。
 SLEEP = float(os.environ.get("MASSIVE_SLEEP", "0.08"))
@@ -58,7 +67,11 @@ INTRADAY_SPECS = [("bars_1m", 1, "minute", 3, "1m", "3d", 2200),
 
 def redact(exc) -> str:
     """报错里可能带完整 URL(含 apiKey 查询参数),公开仓库的日志必须脱敏。"""
-    return str(exc).replace(KEY, "***") if KEY else str(exc)
+    text = str(exc)
+    for secret in (KEY, ALPACA_KEY, ALPACA_SECRET):
+        if secret:
+            text = text.replace(secret, "***")
+    return text
 
 
 def pct_rank(hist: list, val, minn: int = 10) -> int | None:
@@ -205,6 +218,62 @@ def bars_yahoo(sym: str, interval: str, period: str, keep: int = BAR_KEEP) -> li
              round(float(r["Low"]), 4), round(float(r["Close"]), 4),
              int(r["Volume"]), None]
             for ts, r in df.iterrows()][-keep:]
+
+
+def merge_bars(old: list, new: list, keep: int = BAR_KEEP) -> list:
+    """按毫秒时间戳覆盖合并，供延迟源滚动修正最近的 bar。"""
+    merged = {int(row[0]): row for row in (old or []) if row}
+    merged.update({int(row[0]): row for row in (new or []) if row})
+    return [merged[t] for t in sorted(merged)][-keep:]
+
+
+def fetch_alpaca_bars(symbols: list[str], timeframe: str, days: int,
+                      keep: int = BAR_KEEP, now: datetime | None = None) -> dict[str, list]:
+    """批量获取延迟 SIP K 线并处理分页，返回 {ticker: bars}。"""
+    if not ALPACA_ENABLED:
+        return {}
+    now = now or datetime.now(timezone.utc)
+    end = now - timedelta(minutes=ALPACA_DELAY_MINUTES)
+    start = end - timedelta(days=days)
+    params = {
+        "symbols": ",".join(symbols),
+        "timeframe": timeframe,
+        "start": start.isoformat(timespec="seconds").replace("+00:00", "Z"),
+        "end": end.isoformat(timespec="seconds").replace("+00:00", "Z"),
+        "adjustment": "all",
+        "feed": ALPACA_FEED,
+        "sort": "asc",
+        "limit": 10000,
+    }
+    url = f"{ALPACA_BASE}/v2/stocks/bars"
+    out: dict[str, list] = {sym: [] for sym in symbols}
+    page_token = None
+    while True:
+        if page_token:
+            params["page_token"] = page_token
+        resp = None
+        for attempt in range(4):
+            resp = requests.get(url, params=params, headers=ALPACA_HEADERS, timeout=REQ_TIMEOUT)
+            if resp.status_code != 429:
+                break
+            retry_after = resp.headers.get("Retry-After")
+            time.sleep(float(retry_after) if retry_after else 2 ** attempt)
+        if resp is None:
+            raise RuntimeError("Alpaca 请求未返回响应")
+        resp.raise_for_status()
+        data = resp.json()
+        for sym, rows in (data.get("bars") or {}).items():
+            dest = out.setdefault(sym, [])
+            for r in rows or []:
+                ts = datetime.fromisoformat(r["t"].replace("Z", "+00:00"))
+                dest.append([
+                    int(ts.timestamp() * 1000), r["o"], r["h"], r["l"], r["c"],
+                    int(r.get("v") or 0), r.get("vw"),
+                ])
+        page_token = data.get("next_page_token")
+        if not page_token:
+            break
+    return {sym: rows[-keep:] for sym, rows in out.items() if rows}
 
 
 def fetch_short(sym: str) -> dict:
@@ -1036,13 +1105,19 @@ def extras_fresh(old: dict, now: datetime) -> bool:
         return False
 
 
-def _prefetch_ticker(sym: str, snapshots: dict, old_bars: dict, skip_extras: bool) -> dict:
+def _prefetch_ticker(sym: str, snapshots: dict, old_bars: dict, skip_extras: bool,
+                     alpaca_sets: dict | None = None) -> dict:
     """阶段1(线程池并发):纯网络抓取,只读、建局部数据,不碰任何全局。
     抓 K线×3(+ 非skip 时日线/short/vol/news)+ 期权链;错误收进本票列表返回。"""
     errs, bar_entry = [], dict(old_bars)
+    use_massive = bool(KEY) and not EQUITY_ONLY
     for key_name, mult, timespan, days, y_iv, y_pd, keep in INTRADAY_SPECS:
         bars, suf = None, key_name.split("_")[1]
-        if KEY:
+        alpaca_rows = ((alpaca_sets or {}).get(key_name) or {}).get(sym)
+        if alpaca_rows:
+            bars = merge_bars(old_bars.get(key_name) or [], alpaca_rows, keep)
+            bar_entry[f"src_{suf}"] = f"alpaca_{ALPACA_FEED}_delayed"
+        if use_massive:
             try:
                 bars = fetch_bars(sym, mult, timespan, days, keep); bar_entry[f"src_{suf}"] = "massive"
             except Exception as exc:  # noqa: BLE001
@@ -1057,8 +1132,12 @@ def _prefetch_ticker(sym: str, snapshots: dict, old_bars: dict, skip_extras: boo
 
     bars_d = src_d = None
     extras = {}
-    if not skip_extras:
-        if KEY:
+    alpaca_daily = ((alpaca_sets or {}).get("bars_d") or {}).get(sym)
+    if alpaca_daily:
+        bars_d = alpaca_daily
+        src_d = f"alpaca_{ALPACA_FEED}_delayed"
+    if not skip_extras and not bars_d:
+        if use_massive:
             try:
                 bars_d = fetch_bars(sym, 1, "day", 183, 200); src_d = "massive"
             except Exception as exc:  # noqa: BLE001
@@ -1068,7 +1147,7 @@ def _prefetch_ticker(sym: str, snapshots: dict, old_bars: dict, skip_extras: boo
                 bars_d = bars_yahoo(sym, "1d", "6mo", 200); src_d = "yahoo"
             except Exception as exc:  # noqa: BLE001
                 errs.append(f"{sym} bars_d(yahoo): {redact(exc)}")
-        if KEY:
+        if use_massive:
             for fn, k, label in ((fetch_short, "short", "short interest"),
                                  (fetch_short_volume, "short_vol", "short volume"),
                                  (fetch_ticker_ref, "ref", "单票详情"),
@@ -1082,7 +1161,7 @@ def _prefetch_ticker(sym: str, snapshots: dict, old_bars: dict, skip_extras: boo
         or (bar_entry.get("bars_1m") or bar_entry.get("bars_5m") or [[0] * 5])[-1][4] or None
 
     contracts, osrc = None, None
-    if KEY:
+    if use_massive:
         try:
             contracts = options_massive(sym, spot); osrc = "massive"
         except requests.HTTPError as exc:
@@ -1090,7 +1169,7 @@ def _prefetch_ticker(sym: str, snapshots: dict, old_bars: dict, skip_extras: boo
                 errs.append(f"{sym} 期权(massive): {redact(exc)}")  # 401/403=无套餐,静默回退
         except Exception as exc:  # noqa: BLE001
             errs.append(f"{sym} 期权(massive): {redact(exc)}")
-    if contracts is None:
+    if contracts is None and not EQUITY_ONLY:
         try:
             contracts = options_yahoo(sym); osrc = osrc or "yahoo"
         except Exception as exc:  # noqa: BLE001
@@ -1113,7 +1192,9 @@ def main(tickers: list | None = None, merge: bool = False) -> None:
     prev = load_json(ROOT / "data" / "research.json", {}) if merge else {}
     out = {"updated_at": now_iso, "snapshots": {},
            "tickers": dict(prev.get("tickers") or {}),
-           "errors": [], "options_source": prev.get("options_source")}
+           "errors": [], "options_source": None if EQUITY_ONLY else prev.get("options_source")}
+    if EQUITY_ONLY:
+        out["data_mode"] = "equity_only"
     gex_prev = load_json(ROOT / "data" / "gex.json", {}) if merge else {}
     gex_out = {"updated_at": now_iso,
                "tickers": dict(gex_prev.get("tickers") or {}), "errors": []}
@@ -1121,6 +1202,20 @@ def main(tickers: list | None = None, merge: bool = False) -> None:
     bars_prev = load_json(ROOT / "data" / "bars_intraday.json", {}) if merge else {}
     bars_out = {"updated_at": now_iso,
                 "tickers": dict(bars_prev.get("tickers") or {}), "errors": []}
+
+    # Alpaca 的多 ticker endpoint 按粒度批量拉取。失败时不终止本轮，后面的
+    # per-ticker 逻辑会自动退回 Yahoo。日线也批量获取，供 prev close/ADV 使用。
+    alpaca_sets: dict[str, dict] = {}
+    if EQUITY_ONLY and ALPACA_ENABLED:
+        alpaca_specs = [(key_name, f"{mult}Min", days, keep)
+                         for key_name, mult, timespan, days, _yiv, _ypd, keep in INTRADAY_SPECS
+                         if timespan == "minute"]
+        alpaca_specs.append(("bars_d", "1Day", 183, 200))
+        for key_name, timeframe, days, keep in alpaca_specs:
+            try:
+                alpaca_sets[key_name] = fetch_alpaca_bars(targets, timeframe, days, keep, now)
+            except Exception as exc:  # noqa: BLE001
+                out["errors"].append(f"Alpaca {key_name}: {redact(exc)}")
 
     oi_path = ROOT / "data" / "oi_prev.json"
     oi_all = load_json(oi_path, {}).get("oi", {})
@@ -1140,7 +1235,7 @@ def main(tickers: list | None = None, merge: bool = False) -> None:
     profile_today: dict = {}  # EOD GEX 形状快照(week/2wk/30d 各档 by_strike),按日期分区落 Parquet,供墙-引力研究
 
     # 全 watchlist 实时快照(1 次调用,批模式下也整表刷新)
-    if KEY:
+    if KEY and not EQUITY_ONLY:
         try:
             out["snapshots"] = fetch_snapshots(watchlist)
         except Exception as exc:  # noqa: BLE001
@@ -1154,7 +1249,8 @@ def main(tickers: list | None = None, merge: bool = False) -> None:
     with ThreadPoolExecutor(max_workers=PREFETCH_WORKERS) as ex:
         futs = {ex.submit(_prefetch_ticker, sym, out["snapshots"],
                           (bars_prev.get("tickers") or {}).get(sym, {}) if merge else {},
-                          extras_fresh((prev.get("tickers") or {}).get(sym, {}) if merge else {}, now)): sym
+                          extras_fresh((prev.get("tickers") or {}).get(sym, {}) if merge else {}, now),
+                          alpaca_sets): sym
                 for sym in targets}
         for fut in futs:
             sym = futs[fut]
@@ -1174,7 +1270,10 @@ def main(tickers: list | None = None, merge: bool = False) -> None:
         skip_extras = extras_fresh(old, now)
         bar_entry = r["bar_entry"]
         bars_out["tickers"][sym] = bar_entry
-        entry = {"asof": now_iso}
+        entry = dict(old) if EQUITY_ONLY else {}
+        entry["asof"] = now_iso
+        if EQUITY_ONLY:
+            entry.pop("options", None)
         if r["bars_d"]:
             entry["bars_d"] = r["bars_d"]; entry["src_d"] = r["src_d"]
         entry["vwap"] = session_vwap(bar_entry.get("bars_1m") or [])
@@ -1197,6 +1296,24 @@ def main(tickers: list | None = None, merge: bool = False) -> None:
 
         # 近期日均量(EWMA span=20),%ADV/maxpain 用它替代滞后 3 周的 short.avg_daily_volume
         entry["adv20"] = ewma_adv(entry.get("bars_d"), 20, now.date())
+
+        if EQUITY_ONLY:
+            minute_bars = bar_entry.get("bars_1m") or bar_entry.get("bars_5m") or []
+            if minute_bars:
+                last = minute_bars[-1]
+                prev_close = ((entry.get("bars_d") or [])[-2][4]
+                              if len(entry.get("bars_d") or []) >= 2 else None)
+                change = last[4] - prev_close if prev_close else None
+                last_day = et_day(datetime.fromtimestamp(last[0] / 1000, tz=timezone.utc).isoformat())
+                day_volume = sum(b[5] for b in minute_bars
+                                 if et_day(datetime.fromtimestamp(b[0] / 1000, tz=timezone.utc).isoformat()) == last_day)
+                out["snapshots"][sym] = {
+                    "price": last[4], "prev_close": prev_close, "day_vol": day_volume,
+                    "chg": round(change, 4) if change is not None else None,
+                    "chg_pct": round(change / prev_close * 100, 4) if change is not None and prev_close else None,
+                    "source": bar_entry.get("src_1m") or bar_entry.get("src_5m") or "unknown",
+                    "asof": datetime.fromtimestamp(last[0] / 1000, tz=timezone.utc).isoformat(),
+                }
 
         if r["options_source"] == "massive":
             out["options_source"] = "massive"
@@ -1260,6 +1377,25 @@ def main(tickers: list | None = None, merge: bool = False) -> None:
         done = [k for k in ("bars_1m", "bars_5m", "bars_15m") if bar_entry.get(k)] \
             + [k for k in ("ind", "short", "short_vol", "news", "options") if entry.get(k)]
         print(f"✓ {sym}: {'/'.join(done) or '无数据'}{'(低频层沿用)' if skip_extras else ''}")
+
+    if EQUITY_ONLY:
+        sources = {entry.get(f"src_{interval}")
+                   for entry in bars_out["tickers"].values() if isinstance(entry, dict)
+                   for interval in ("1m", "5m", "15m")}
+        sources.discard(None)
+        if any(str(src).startswith("alpaca_") for src in sources):
+            out["equity_source"] = f"alpaca_{ALPACA_FEED}_delayed"
+            if "yahoo" in sources:
+                out["equity_source"] += "+yahoo_fallback"
+            out["equity_delay_minutes"] = ALPACA_DELAY_MINUTES
+        else:
+            out["equity_source"] = "yahoo"
+        (ROOT / "data" / "research.json").write_text(json.dumps(out, ensure_ascii=False, indent=1))
+        (ROOT / "data" / "bars_intraday.json").write_text(
+            json.dumps(bars_out, ensure_ascii=False, separators=(",", ":")))
+        print(f"已写入 research/bars_intraday(仅正股 · {out['equity_source']}, 本批 {len(targets)} 只, "
+              f"错误 {len(out['errors'])} 条); GEX/Options 未请求、未更新")
+        return
 
     if not KEY:
         out["errors"].append("未设置 MASSIVE_API_KEY:快照/指标/short 未抓取,K线与期权走雅虎回退")

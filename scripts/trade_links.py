@@ -5,9 +5,6 @@ from pathlib import Path
 from trade_journal import _atomic_write, _utc_now
 import json
 
-ROLES = ('entry', 'add', 'reduce', 'exit', 'hedge', 'roll', 'adjust')
-
-
 def load_links(path: Path):
     if not path.exists():
         return {'schema': 'trade-links', 'version': 1, 'revision': 0, 'events': [], 'links': []}
@@ -39,9 +36,6 @@ def mutate_links(path, body, journal):
             raise ValueError('请选择有效且未归档的 Workflow')
         if existing and existing['workflow_case_id'] != case['id']:
             raise ValueError('请先解除旧关联，再关联其他 Workflow')
-        role = body.get('role')
-        if role not in ROLES:
-            raise ValueError('交易角色无效')
         fills = {f['fill_id']: f for f in journal['fills']}
         allocations = body.get('allocations')
         if not isinstance(allocations, list) or not allocations:
@@ -63,12 +57,12 @@ def mutate_links(path, body, journal):
             used = sum(a['quantity'] for link in document['links'] if link['status'] == 'active' and (not existing or link['link_id'] != existing['link_id']) for a in link['allocations'] if a['fill_id'] == fid)
             if used + quantity > fill['qty'] + 1e-9:
                 raise ValueError('分配数量超过该成交剩余可分配数量')
-            if role != 'hedge' and fill['underlying'] not in case.get('underlyings', []):
+            if fill['underlying'] not in case.get('underlyings', []):
                 raise ValueError('成交标的不属于该 Workflow 的 In Action Allocation')
         link = {'link_id': existing['link_id'] if existing else 'link:v1:' + uuid.uuid4().hex,
                 'trade_id': trade_id, 'fill_ids': [a['fill_id'] for a in allocations],
                 'workflow_case_id': case['id'], 'workflow_title': case['title'], 'node': 'positions',
-                'role': role, 'allocations': allocations, 'status': 'active',
+                'allocations': allocations, 'status': 'active',
                 'journal_revision': journal['revision'], 'workflow_revision': case['revision'],
                 'created_at': existing['created_at'] if existing else _utc_now()}
     link['updated_at'] = _utc_now()

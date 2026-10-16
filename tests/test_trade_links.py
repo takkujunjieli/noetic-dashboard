@@ -19,8 +19,8 @@ class TradeLinksTest(unittest.TestCase):
             root=Path(directory)
             journal,_=import_rows([equity(qty=10)],root/'journal.json')
             fill=journal['fills'][0]
-            body={'action':'link','operation_id':'one','trade_id':fill['trade_id'],'role':'hedge',
-                  'workflow_case':{'id':'case-a','title':'test','revision':1,'archived':False,'underlyings':[]},
+            body={'action':'link','operation_id':'one','trade_id':fill['trade_id'],
+                  'workflow_case':{'id':'case-a','title':'test','revision':1,'archived':False,'underlyings':['DELL']},
                   'allocations':[{'fill_id':fill['fill_id'],'quantity':2}]}
             server=ThreadingHTTPServer(('127.0.0.1',0),partial(DashboardHandler,directory=str(root),journal_path=root/'journal.json'))
             thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
@@ -47,7 +47,7 @@ class TradeLinksTest(unittest.TestCase):
             fill=journal['fills'][0]
             update_annotation(fill['trade_id'],'keep reason',journal,root/'annotations.json')
             path=root/'trade_links.json'
-            body={'action':'link','operation_id':'one','trade_id':fill['trade_id'],'role':'entry',
+            body={'action':'link','operation_id':'one','trade_id':fill['trade_id'],
                   'workflow_case':{'id':'case-a','title':'test','revision':1,'archived':False,'underlyings':['DELL']},
                   'allocations':[{'fill_id':fill['fill_id'],'quantity':6}]}
             doc=mutate_links(path,body,journal)
@@ -68,14 +68,13 @@ class TradeLinksTest(unittest.TestCase):
             root=Path(directory)
             journal,_=import_rows([equity(kind='option',sym='DELL 2026-11-06 120C',qty=2)],root/'journal.json')
             fill=journal['fills'][0]
-            body={'action':'link','operation_id':'one','trade_id':fill['trade_id'],'role':'entry',
+            body={'action':'link','operation_id':'one','trade_id':fill['trade_id'],
                   'workflow_case':{'id':'case-a','title':'test','revision':1,'archived':False,'underlyings':['DELL']},
                   'allocations':[{'fill_id':fill['fill_id'],'quantity':.5}]}
             with self.assertRaisesRegex(ValueError,'整数'):mutate_links(root/'links.json',body,journal)
             body['allocations'][0]['quantity']=1
             body['workflow_case']['underlyings']=[]
             with self.assertRaisesRegex(ValueError,'In Action'):mutate_links(root/'links.json',body,journal)
-            body['role']='hedge'
-            self.assertEqual(mutate_links(root/'links.json',body,journal)['revision'],1)
+            with self.assertRaisesRegex(ValueError,'In Action'):mutate_links(root/'links.json',body,journal)
 
 if __name__=='__main__':unittest.main()

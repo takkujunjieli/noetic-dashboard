@@ -12,7 +12,7 @@
 | 分页 | 内容 | 数据源 |
 |---|---|---|
 | 🏠 主页 | ticker set 切换 + 行情 + EPS + 分析师评级 | Finnhub |
-| 📈 个股 | 5 分钟 K 线(OHLCV)、Short Interest | Massive |
+| 📈 个股 | 1/5/15 分钟 K 线(OHLCV) | Alpaca 延迟 SIP(Yahoo 回退) |
 | 🎯 期权 | C/P Premium、成交量、OI 及变化、ATM IV、盘中 GEX | Massive(未配置回退雅虎) |
 | 📰 新闻 | 财报日历、宏观/市场 RSS、公司新闻 | Finnhub + RSS |
 | 💬 社区 | Reddit(按热度)、X/雪球(RSSHub)、YouTube | RSS |
@@ -27,6 +27,17 @@
 `gh secret set MASSIVE_API_KEY`。免费版限速 5 次/分钟、K 线为盘后数据;
 Stocks Starter($29/月)起为盘中 15 分钟延迟;期权链快照需 Options Starter,
 未开通时期权指标自动回退雅虎期权链(免费)。
+
+**Alpaca key(正股 K 线)**: 免费注册后把 key/secret 配置为 GitHub Actions secrets：
+
+```bash
+gh secret set ALPACA_API_KEY
+gh secret set ALPACA_API_SECRET
+```
+
+采集使用延迟 30 分钟的 SIP 全市场数据，每 30 分钟批量更新全部 ticker；请求失败或未配置
+凭据时自动回退 Yahoo。脚本也兼容 Alpaca 标准环境变量 `APCA_API_KEY_ID` 和
+`APCA_API_SECRET_KEY`。
 
 ## 快速开始
 
@@ -134,17 +145,17 @@ P&L ≈ Delta × ΔS + 1/2 × Gamma × ΔS² + Vega × ΔIV + Theta × Days Forw
 
 旧的 Expected Net、Average Loss、Win Rate × Payoff Ratio 输入和图表已从当前界面移除。历史 snapshot 仍保留旧数据的读取兼容性。
 
-原 `Risk Budget` Star 已替换为 `Kelly Allocation`。它读取同一张联合情景矩阵，求解多变量 Full Kelly：
+`Risk Budget` Star 读取同一张联合情景矩阵，求解多变量 Full Kelly：
 
 ```text
 maximize Σ pᵢ log(1 + Σ fⱼrᵢⱼ)
 subject to fⱼ ≥ 0, Σfⱼ ≤ 1, 1 + Σfⱼrᵢⱼ > 0
 ```
 
-用户只额外填写 Kelly Bankroll。系统输出各 Bundle 的 Full Kelly 比例、Target Capital、相对 Reference Capital 的 Scale，以及按相同比例缩放后的 Delta / Gamma / Vega / Theta；还会显示各联合情景下的组合收益、P&L 和 Survival Wealth。结果可以冻结为 `In Action Kelly Allocation`。
+Full Kelly 的绝对仓位不会直接执行；系统只将正 Kelly 解归一化为 Bundle 之间的相对权重。用户填写 `Thesis At-Risk Limit` 与一个 `ATR Stop Multiple`：ATR Stop Risk 对每个 Bundle 分别计算现价上下一个 ATR 距离中的较差损失，再按 Kelly 权重相加；Scenario Risk 保留用户定义的 Bull / Base / Bear 联合相对走势，在每个联合情景内聚合后取最坏损失。两者较大值决定整个 Nebula 的账户仓位比例。
 
-### 第二阶段：Uncertainty-aware Kelly
+Workflow 不输入账户 Capital Base，只冻结各 Bundle 的目标账户比例为 `In Action Risk Budget`。Portfolio 选择账户后再将比例换算为目标美元和数量。当前阶段不包含 Tail Risk 或跨 Nebula Risk Governor。
 
-Scenario Underwriting 的 Probability、Price Move 和期权 IV Change 均支持可选的 `±` 不确定区间。中心值仍用于 Point Estimate；存在任一不确定区间时，系统执行 500 次可复现的 Monte Carlo 均匀采样，每次重新归一化三种情景概率、重新计算 Greek P&L 并重新求多变量 Kelly。
+### Uncertainty-aware Kelly 权重
 
-Kelly Allocation 同时显示 Point Full Kelly、Q25、Q50 和 Q100。用户可选择其中一个分位作为 Target Quantile；Target Capital、Scale、目标 Greeks、情景收益及 In Action snapshot 全部使用所选 allocation。未填写任何区间时，三个分位都退化为确定性的 Full Kelly。ATR mandatory re-underwrite 属于下一阶段。
+Scenario Underwriting 的 Probability、Price Move 和期权 IV Change 均支持可选的 `±` 不确定区间。存在任一不确定区间时，系统执行 500 次固定种子的均匀采样，将所有采样得到的 Bull / Base / Bear 状态合并为一个联合分布，再求解一次多变量 Kelly。这样得到一组内部一致的 Bundle 相对权重，避免分别取各 Bundle 分位数后拼成一个并不存在的组合。

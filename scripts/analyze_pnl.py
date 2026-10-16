@@ -399,7 +399,7 @@ def window_stats(ev, start=None, as_of=None, capital=0.0):
     return {"metrics": metrics, "trades": trades}
 
 
-def emit_json():
+def emit_json(update_monthly=True):
     all_ev = []
     labels = {}
     for rf in RAW_FILES:
@@ -444,7 +444,7 @@ def emit_json():
            "as_of": as_of, "risk_free_annual": RISK_FREE_ANNUAL, "accounts": accounts}
     (ROOT / "data/pnl.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"data/pnl.json: {len(accounts)} 账户 · as_of {as_of} · 窗口 {list(windows)}")
-    bf = backfill_hui_monthly_snapshots()
+    bf = backfill_hui_monthly_snapshots() if update_monthly else None
     if bf:
         print(f"data/monthly_returns.json: hui backfill {bf['months']} 月 · 最新 {bf['latest_ym']} · 新拉价格 {len(bf['fetched_prices'])} 只")
 

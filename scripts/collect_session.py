@@ -3,7 +3,8 @@
 
 行为:
   - 周末直接退出;开盘前(ET 9:30)等待,收盘(ET 16:00)后结束
-  - watchlist 按 BATCH 只一批轮转,一批 = 快照 + 1m/5m K线 + 期权链 + GEX;
+  - EQUITY_ONLY=1 时优先用 Alpaca 延迟 SIP 更新正股 K线,失败/无 key 回退 Yahoo;
+  - 否则 watchlist 每轮抓快照 + 1m/5m K线 + 期权链 + GEX;
     指标/short/新闻/日线由 fetch_research 的低频层控制(默认每小时)
   - 每批 git commit + push,前端轮询即可看到最新数据
   - 接近 Actions 单 job 6h 上限时自动续派一个 run 接力
@@ -27,6 +28,8 @@ BATCH = int(os.environ.get("BATCH") or 3)
 PRECISE_ET = dtime(int(os.environ.get("PRECISE_HOUR", "12")), 0)
 ONCE = (os.environ.get("ONCE") or "").lower() == "true"
 END_OVERRIDE = (os.environ.get("END") or "").strip()
+EQUITY_ONLY = (os.environ.get("EQUITY_ONLY") or "").lower() in ("1", "true", "yes")
+EQUITY_INTERVAL_SECONDS = int(os.environ.get("EQUITY_INTERVAL_SECONDS") or 1800)
 MAX_SECONDS = 18600  # 5h10m,留出续派与收尾余量(job 上限 6h)
 
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -92,7 +95,7 @@ def main() -> None:
                             "-f", f"end={END_OVERRIDE}"], cwd=ROOT)
             return
         # 盘中 PRECISE_ET(默认 ET 12:00)后的第一轮跑一次逐笔精确层,让 top-N 符号反映今天
-        precise_now = not ONCE and not did_precise and datetime.now(ET).time() >= PRECISE_ET
+        precise_now = not EQUITY_ONLY and not ONCE and not did_precise and datetime.now(ET).time() >= PRECISE_ET
         if precise_now:
             os.environ["FLOW_PRECISE"] = "1"
             print(f"本轮启用精确层(逐笔 Lee-Ready,ET {datetime.now(ET).strftime('%H:%M')})")
@@ -110,6 +113,14 @@ def main() -> None:
         rounds += 1
         if ONCE or (end_utc and utc_now() >= end_utc):
             break
+        if EQUITY_ONLY:
+            wait = max(0, EQUITY_INTERVAL_SECONDS - (time.time() - t0))
+            if end_utc:
+                wait = min(wait, max(0, (end_utc - utc_now()).total_seconds()))
+            if wait:
+                source = "Alpaca 延迟 SIP" if fetch_research.ALPACA_ENABLED else "Yahoo 回退"
+                print(f"{source}正股模式: {wait:.0f}s 后更新下一轮")
+                time.sleep(wait)
     print(f"会话结束,共 {rounds} 轮")
 
 

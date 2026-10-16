@@ -12,7 +12,7 @@
 | 本地看页面 | `python3 scripts/serve_dashboard.py --port 8642` → `http://localhost:8642/trading.html`(不要用 `python3 -m http.server`；它没有交易文件 API。ES module 有缓存,看不到改动就 `Cmd+Shift+R`) |
 | 公开站 | https://takkujunjieli.github.io/ai-dashboard/ |
 | **改了前端要上线** | commit + push main → **必须** `gh workflow run deploy.yml`(push 本身不部署,见 §9) |
-| 刷新持仓 | Codex 调券商只读 MCP → 归一 → `python3 scripts/build_portfolio.py`(本地,见 §7) |
+| 刷新持仓与交易 | Codex 调三个券商只读 MCP → 归一、增量合并 → `.venv/bin/python scripts/build_portfolio.py --skip-monthly`(本地,见 §7) |
 | 改个股打分 | 改**私有库**的 `build_scorecards.py` → `python3 scripts/build_scorecards.py`(见 §8) |
 | 盘中 K 线不更新 | GitHub cron 偶发跳过 → `gh workflow run gex.yml` 手动启动(见 §12) |
 | push 前 | 先 `gh auth switch --user takkujunjieli`(个人仓库,见 §12) |
@@ -65,6 +65,7 @@ GitHub Pages(deploy.yml 用 workflow 部署 main)
 | 源 | 用途 | 认证 |
 |---|---|---|
 | **Finnhub** | 行情/EPS/财报日历/公司新闻 | `FINNHUB_API_KEY`(secret) |
+| **Alpaca** | 正股 1m/5m/15m K线(延迟 SIP,全市场) | `ALPACA_API_KEY` + `ALPACA_API_SECRET`(secrets) |
 | **Massive**(原 Polygon) | K线/short interest/期权链/GEX | `MASSIVE_API_KEY` + **自定义网关** `MASSIVE_BASE_URL`(仓库变量,见 §12 安全) |
 | **Yahoo**(yfinance / v8 chart) | 期权链回退 + GEX 现算 + 指数价格(rates) | 无(零注册) |
 | **FRED** | US 10/30Y 国债收益率日频 | **免 key**(`fredgraph.csv` 端点) |
@@ -80,6 +81,7 @@ GitHub Pages(deploy.yml 用 workflow 部署 main)
 | `research.json` | 每票深度:K线/short/期权面板指标/指标/新闻 | ✅ |
 | `gex.json` / `gex_daily` / `gex_week` / `gex_history` | GEX 按行权价/到期/净GEX/flip/墙 | ✅ |
 | `iv_obs.json` | IV 期权链观测(每档 strike/CP/delta/IV/价格) | ✅ |
+| `reference_iv.json` | Workflow Bundle 使用的本地 Moomoo Reference IV 快照；`tickers.<SYMBOL>.reference_iv` 使用小数（53% = 0.53） | ✅ |
 | `bars_intraday.json` | 盘中 K 线 | ✅ |
 | `flow_*` / `oi_*` | Lee-Ready 逐笔主动买卖、OI 变化对账 | ✅ |
 | `holdings13f.json` | 精选机构 13F 持仓 | ✅ |
@@ -90,7 +92,7 @@ GitHub Pages(deploy.yml 用 workflow 部署 main)
 | **`portfolio.json`** | 券商持仓合并 | ❌ gitignore(本地) |
 | **`pnl.json`** | 盈亏诊断 | ❌ gitignore(本地) |
 | **`portfolio_history.json`** | 持仓快照历史 | ❌ gitignore(本地) |
-| **`_rh_raw.json` / `_takku_raw.json` / `_moomoo_raw.json`** | 券商原料 | ❌ **符号链接 → 私有库** |
+| **`_rh_raw.json` / `_takku_raw.json` / `_moomoo_raw.json`** | 券商原料 | ❌ gitignore(本地文件；不是符号链接) |
 | `atr.json` | ATR14 指标(风险敞口止损) | ✅ |
 
 ---
@@ -98,7 +100,7 @@ GitHub Pages(deploy.yml 用 workflow 部署 main)
 ## 5. 前端
 
 - **无构建**:`assets/*.js` 是原生 ES module。每页一个入口(`app.js`/`trading.js`/`research.js`/`strategy.js`),都 `import from "./shared.js"`。
-- **`shared.js` 关键常量 `REPO = "takkujunjieli/ai-dashboard"`**:前端走 contents API 拉 `data` 分支就靠它。**改仓库名必须同步改它**,否则盘中数据 404(见 §12 改名踩坑)。
+- **`shared.js` 关键常量 `REPO = "takkujunjieli/noetic-dashboard"`**:前端走 contents API 拉 `data` 分支就靠它。**改仓库名必须同步改它**,否则盘中数据 404(见 §12 改名踩坑)。
 - 两个取数函数:
   - `loadJSON(path)` = `fetch(相对路径)` → Pages/main 上的 EOD 基线。**portfolio.json、rates.json 等走这个**。
   - `loadFreshJSON(path)` = `fetch(api.github.com/repos/${REPO}/contents/${path}?ref=data)`(盘中高频数据只在 `data` 分支),带 PAT 认证(5000/h)否则匿名(60/h),失败回退 `loadJSON`。
@@ -113,13 +115,14 @@ GitHub Pages(deploy.yml 用 workflow 部署 main)
 
 ```
 ~/personal-projects/
-├── ai-dashboard/                 ← 公开库 takkujunjieli/ai-dashboard(部署到 Pages)
-│   ├── data/_rh_raw.json         ─┐ 符号链接(相对 ../../),gitignore
-│   ├── data/_takku_raw.json      ─┤
-│   ├── data/_moomoo_raw.json     ─┤
+├── noetic-dashboard/             ← 公开库 takkujunjieli/noetic-dashboard(部署到 Pages)
+│   ├── data/_rh_raw.json          本地 gitignore 文件
+│   ├── data/_takku_raw.json       本地 gitignore 文件
+│   ├── data/_moomoo_raw.json      本地 gitignore 文件
+│   ├── data/portfolio.json      ─┐ 符号链接(相对 ../../),gitignore
 │   ├── research/scorecards       ─┤
 │   └── scripts/build_scorecards.py ┘
-│         全部 → ../../stock-dashboard-private/...
+│         符号链接 → ../../stock-dashboard-private/...
 │
 └── stock-dashboard-private/      ← 私有库 takkujunjieli/stock-dashboard-private(**未改名**)
     ├── _rh_raw.json              券商原料(hui)
@@ -129,24 +132,22 @@ GitHub Pages(deploy.yml 用 workflow 部署 main)
     └── scorecards/               每股 <TK>.csv + _summary.csv
 ```
 
-- **符号链接是相对路径 `../../stock-dashboard-private/...`**,不含公开库名 → 公开库改名不影响链接。
-- **符号链接被 gitignore**(公开库),所以**不随 git 同步**:换新机器要 clone 两个库后**手动重建链接**:
+- **上述符号链接是相对路径 `../../stock-dashboard-private/...`**,不含公开库名 → 公开库改名不影响链接。三份 `data/_*_raw.json` 当前是普通本地文件，不通过链接同步；私有库同名文件不可假定与其自动一致。
+- **符号链接被 gitignore**(公开库),所以**不随 git 同步**:换新机器要 clone 两个库后**手动重建所需链接**:
   ```bash
   cd ai-dashboard
   ln -s ../../stock-dashboard-private/scorecards research/scorecards
   ln -s ../../stock-dashboard-private/build_scorecards.py scripts/build_scorecards.py
-  ln -s ../../stock-dashboard-private/_rh_raw.json data/_rh_raw.json
-  ln -s ../../stock-dashboard-private/_takku_raw.json data/_takku_raw.json
-  ln -s ../../stock-dashboard-private/_moomoo_raw.json data/_moomoo_raw.json
+  ln -s ../../stock-dashboard-private/portfolio.json data/portfolio.json
   ```
 - 公开库 `.gitignore` 挡下的私有内容:`data/portfolio.json`、`data/pnl.json`、`data/portfolio_history.json`、`data/_*_raw.json`、`research/`、`analysis/`、`scripts/build_scorecards.py`。`data/atr.json` 随仓库跟踪,供风险敞口页计算默认止损。
-- 私有库改分/刷新后要**单独 push 私有库**才同步远端(见 §7/§8)。
+- 私有库改分/刷新后如需同步到其他设备，须在用户明确要求时再 commit、push 私有库；不得自动提交或推送(见 §7/§8)。
 
 ---
 
 ## 7. Portfolio 子系统
 
-**数据流**:Robinhood / Moomoo 只读 MCP → 归一 → `data/_<broker>_raw.json`(私有库) → `build_portfolio.py` → `portfolio.json` + `pnl.json`(本地 gitignore) → 交易台 💼 面板读。
+**数据流**:Robinhood / Moomoo 只读 MCP → 归一 → `data/_<broker>_raw.json`(本地 gitignore) → `build_portfolio.py` → `portfolio.json` + `pnl.json`(本地 gitignore) → 交易台 💼 面板读。
 
 - **Robinhood MCP 是只读**:`.claude/settings.json` 的 `permissions.deny` 硬禁 19 个写工具(下单/撤单/行权/review + watchlist/scan 增改),harness 强制拦截。**Claude 绝不下单/经手凭证**。
 - **一个 MCP 连接 = 一个 Robinhood 登录**。当前两个账户是**两套独立登录**:
@@ -156,8 +157,11 @@ GitHub Pages(deploy.yml 用 workflow 部署 main)
 - **Moomoo 是独立券商连接**：`moomoo-mcp` OAuth 对应 `Moomoo·保证金`（id `moomoo-8609`，账户 `283445329742098609`，尾号 `8609`）。仅纳入真实账户；模拟账户与所有昵称为 Agentic 的账户一律忽略。刷新时显式传该 account id。
 - **Moomoo 刷新**：依次读取资金、持仓、活跃订单、成交历史；写入私有库 `_moomoo_raw.json`。正股空仓 qty/市值为负；期权成交价和市值须按 100 股乘数归一。只读 MCP 不得调用下单、改单或撤单工具。
 - **刷新单账户的正确做法(别毁 PnL)**:MCP 拉的是**当前持仓 + 近端订单**,不是全历史;而 `analyze_pnl.py` 按**整段交易史**算已实现盈亏。所以**绝不能整份覆盖 raw**,要**合并**:保留旧 raw 全历史交易,只 append 上次最后一笔之后的新成交(按 ts秒+sym+side+qty+price **去重**),positions 换最新快照。side 用 Robinhood **原始值**(buy/sell/sell_short/buy_to_cover)与基线一致。
+
+- **两条独立流程**：用户不定期说“更新三个账户的持仓和交易数据”时，只做当次 MCP 持仓、行情、增量成交及官方已实现 P&L 同步；可读取当前账户总值作来源信息，但**不计算、不回填月末净值，也不改 `monthly_returns.json`**。每月只有用户明确提出月末账户净值计算或回填时，才单独处理月历。日常构建必须加 `--skip-monthly`。
+- **三账户持仓 / 成交 / 已实现 P&L 同步**：先用 `scripts/normalize_broker_mcp.py` 将每个 MCP 响应归一为各自账户的 snapshot，先执行 `python3 scripts/merge_broker_snapshot.py <raw> <snapshot> --dry-run`，确认后移除 `--dry-run`。持仓与开放订单是该账户的最新替换快照；`transactions` 只按 `execution_id`（Moomoo 为 `deal_id` 写入该字段）或不可变成交事实追加。官方已实现 P&L 必须单独归一后执行 `python3 scripts/merge_broker_pnl.py ../stock-dashboard-private/trade_journal/broker_pnl.json <pnl-snapshot> --dry-run`，确认后正式合并；该 ledger 不得由 fills 推算。Moomoo 账户号超过 JavaScript 安全整数范围，输入与快照中必须保留为精确字符串，不能转为 JS Number。
 - `build_portfolio.py`:合并各 `_*_raw.json` → `portfolio.json`(含 accounts 列表供 UI 下拉);交易明细裁到最近 `TX_KEEP_DAYS=90` 天;末尾自动调 `analyze_pnl.py` 生成 `pnl.json`。
-- **持仓不公开**(2026-08 改回私有):刷新后只需重建本地文件,**不 push、不 deploy**(公开站不显示持仓)。但券商原料的改动要 **push 私有库**留存。
+- **持仓不公开**(2026-08 改回私有):刷新后只需重建本地文件,**不自动 commit、push 或 deploy**(公开站不显示持仓)。券商原料留存在本地；用户要求跨设备同步时再提交和推送私有库。
 - **positions 过滤规则**:raw 保留完整持仓；风险热力图在显示层隐藏 `|qty|<=1` 股的股票，期权不受此限制。所有昵称为 Agentic 的账户在账户选择阶段直接排除。
 - **面板特性**(`trading.js` renderPortfolio):账户下拉筛选、多头/空头**双饼图**(空头按 |市值| 分块)、跨账户**同 sym 合并**、交易明细种类(正股/期权)+持仓变化列+分页(20/页)。
 
@@ -166,13 +170,13 @@ GitHub Pages(deploy.yml 用 workflow 部署 main)
 
 ### 7.1 MCP 刷新必须落盘并验收（2026-09-17 修订）
 
-- 实际工作目录是本仓库；券商原料位于相邻私有库 `../stock-dashboard-private/`，通过 `data/_rh_raw.json` / `data/_takku_raw.json` / `data/_moomoo_raw.json` 链接读取。其他目录的 handoff 或聊天摘要不会更新页面。
+- 实际工作目录是本仓库；券商原料是本地 gitignore 文件 `data/_rh_raw.json` / `data/_takku_raw.json` / `data/_moomoo_raw.json`，页面产物 `data/portfolio.json` 则链接到相邻私有库。其他目录的 handoff 或聊天摘要不会更新页面。
 - 先枚举账户，自动忽略所有昵称为 `Agentic` 的账户及 Moomoo 模拟账户。Takku 必须匹配尾号 `2566`，hui 必须匹配 `7159`，Moomoo 必须匹配账户 `283445329742098609`（尾号 `8609`）；每个账户接口显式传入选定账户号。不可读取时停止，不能用 Agentic 或模拟账户的零余额替代。交易权限标志为 false 不代表禁止只读查询。
-- 每次刷新：账户净值、现金/借记余额、购买力；完整正股/期权/加密持仓；每个持仓的数量、成本、行情及行情时间；未结订单、上次水位之后的成交；已实现 P&L 与分页历史。不可用端点记录原因，不能记作零。
+- 日常刷新：当前账户总值、现金/借记余额、购买力（仅作来源信息，不作月末锚点）；完整正股/期权/加密持仓；每个持仓的数量、成本、行情及行情时间；未结订单、上次水位之后的成交；已实现 P&L 与分页历史。不可用端点记录原因，不能记作零。
 - **月末净值不可推算**：每个账户的月末 `netliq` 只能由用户明确指定的对应券商 MCP 实际读取后人工落入 `monthly_returns.json`（或用户提供的券商实际值）。不得用交易历史、价格、持仓或当前净值反推；不得覆盖已标记为 `manual_mcp_month_end` 的快照。若净入金仍是 `pending_deposits`、尚未包含在 `total_value`，仅记录待结算状态，不能先从月收益扣除。
-- 写入对应私有 raw：替换目标账户 positions；更新 accounts[].equity、顶层和账户级 `source_updated_at`（实际券商拉取时间）；行情时间单独保存。历史 transactions 必须保留并增量去重，不能用近端订单覆盖整段历史；未成交订单不计入成交。
+- 写入对应的本地 gitignore raw：替换目标账户 positions；更新 accounts[].equity、顶层和账户级 `source_updated_at`（实际券商拉取时间）；行情时间单独保存。历史 transactions 必须保留并增量去重，不能用近端订单覆盖整段历史；未成交订单不计入成交。
 - 保留完整持仓原料；风险热力图按既有规则隐藏绝对数量不超过 1 股的股票。因此完整原料数量与热力图行数可以不同。Agentic 是账户级排除规则，与小仓位显示规则无关。
-- 本机使用 `.venv/bin/python scripts/build_portfolio.py`（系统 Python 缺 requests，会跳过 ATR），确认 portfolio.json、portfolio_history.json、pnl.json 及 ATR 依赖的实际输出；检查日志中的跳过/错误。构建时间 updated_at 不能冒充 source_updated_at。
+- 日常同步本机使用 `.venv/bin/python scripts/build_portfolio.py --skip-monthly`（系统 Python 缺 requests，会跳过 ATR），确认 portfolio.json、portfolio_history.json、pnl.json 及 ATR 依赖的实际输出，并核对 `monthly_returns.json` 未变；检查日志中的跳过/错误。构建时间 updated_at 不能冒充 source_updated_at。
 - 验收网页实际请求的 `data/portfolio.json`：目标账户 source_updated_at 非空，持仓数量/成本与 raw 一致，已清仓标的消失；选择相应账户验证「券商源更新」及风险热力图。必须刷新页面让内存中的旧数据重新加载。
 - 只有落盘、重建、网页数据验证全部完成，才能报告同步成功。仅调用 MCP、修改 handoff 或记录 SUCCESS 均不算页面已更新。
 - 不修改其他账户的来源时间；不把账户数据写入公开仓库或部署产物。
@@ -217,7 +221,7 @@ GitHub Pages(deploy.yml 用 workflow 部署 main)
 
 ## 11. Secrets & Variables(仓库设置)
 
-- **Secrets**:`FINNHUB_API_KEY`、`MASSIVE_API_KEY`、`REDDIT_CLIENT_ID`、`REDDIT_CLIENT_SECRET`
+- **Secrets**:`FINNHUB_API_KEY`、`ALPACA_API_KEY`、`ALPACA_API_SECRET`、`MASSIVE_API_KEY`、`REDDIT_CLIENT_ID`、`REDDIT_CLIENT_SECRET`
 - **Variables**:`MASSIVE_BASE_URL`(Massive 自定义网关地址)
 - FRED、Yahoo 免 key。
 
@@ -245,8 +249,8 @@ GitHub Pages(deploy.yml 用 workflow 部署 main)
 # 本地起 server
 python3 scripts/serve_dashboard.py --port 8642
 
-# 刷新持仓(Claude 侧:调 RH 只读 MCP 归一后)→ 重建本地
-python3 scripts/build_portfolio.py            # → portfolio.json + pnl.json(本地)
+# 按需刷新三账户持仓、成交和已实现 P&L：先经 MCP 归一、增量合并，再重建；不碰月历
+.venv/bin/python scripts/build_portfolio.py --skip-monthly
 
 # 改分并重建(改私有库 build_scorecards.py 后)
 python3 scripts/build_scorecards.py           # → 私有库 scorecards/*.csv
@@ -275,4 +279,4 @@ gh workflow run gex.yml
 
 ### Attribution 交易文件（2026-10-04）
 
-使用 `scripts/serve_dashboard.py` 提供本地文件接口。每个 thesis 只写私有库的 `thesis_transactions/<thesis-id>.json`；页面查询和 agent 读写共用此文件，不下载、不把 transactions 复制进 Workflow。筛选使用已冻结 In Action Kelly Allocation 中的全部 underlying，包括当前目标权重为 0 的 Bundle；候选 Bundle、旧归属不参与。生成按钮读取本地 raw，**不会实时刷新 Robinhood**。详见 `docs/workflow.md` 的 Attribution transaction store。保持原页面的 hostname/port，避免改变 localStorage scope。
+使用 `scripts/serve_dashboard.py` 提供本地文件接口。每个 thesis 只写私有库的 `thesis_transactions/<thesis-id>.json`；页面查询和 agent 读写共用此文件，不下载、不把 transactions 复制进 Workflow。筛选使用已冻结 In Action Risk Budget 中的全部 underlying，包括当前目标权重为 0 的 Bundle；旧 Kelly 快照保持兼容，候选 Bundle、旧归属不参与。生成按钮读取本地 raw，**不会实时刷新 Robinhood**。详见 `docs/workflow.md` 的 Attribution transaction store。保持原页面的 hostname/port，避免改变 localStorage scope。
