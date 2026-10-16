@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {portfolioBundleDrafts} from '../assets/portfolio-autofill.mjs';
+import {latestReferenceIv,localReferenceIv,portfolioBundleDrafts} from '../assets/portfolio-autofill.mjs';
 import {bundleMetrics} from '../assets/trade-structure.mjs';
 
 const at='2026-09-29T14:00:00Z';
@@ -23,4 +23,15 @@ test('local assignment overrides file and exact option assignment overrides Unde
  const c={title:'local'},policy={assignments:{MU:'file','MU 2026-12-18 110C':'other'}},local={MU:'local'};
  const result=portfolioBundleDrafts(c,portfolio,policy,local);
  assert.equal(result.matchedPositions,1);assert.equal(result.bundles[0].construction.legs[0].type,'stock');
+});
+
+test('latest local ATM IV becomes Bundle Reference IV with source metadata',()=>{
+ const source=latestReferenceIv({'2026-09-28':{MU:{atm_iv:.35,atm_iv_dte:20}},'2026-09-29':{MU:{atm_iv:.42,atm_iv_dte:20}}});
+ const c={title:'memory thesis',sourceLink:{}},result=portfolioBundleDrafts(c,portfolio,{assignments:{MU:'memory thesis'}},{},source),candidate=result.bundles[0].construction.candidate;
+ assert.equal(candidate.referenceIv,.42);assert.equal(candidate.referenceIvAt,'2026-09-29');assert.equal(candidate.referenceIvDte,20);assert.equal(bundleMetrics(result.bundles[0].construction).referenceIv,.42);
+});
+
+test('Moomoo local reference IV database is normalized without a browser API call',()=>{
+ const source=localReferenceIv({updated_at:at,source:'moomoo',tickers:{mu:{reference_iv:.53,observed_at:at,dte:15}}});
+ assert.deepEqual(source.MU,{iv:.53,at,dte:15});
 });

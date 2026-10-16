@@ -11,14 +11,14 @@ export function easternTime(value){
 }
 export function thesisUnderlyings(c){
  const allocation=c.design?.allocation;
- if(!allocation?.inAction||!['multivariate-kelly','monte-carlo-kelly'].includes(allocation.method))throw Error('请先设置 In Action Kelly Allocation');
+ if(!allocation?.inAction||!['multivariate-kelly','monte-carlo-kelly','risk-budget-kelly'].includes(allocation.method))throw Error('请先设置 In Action Risk Budget');
  const symbols=[];
  for(const item of allocation.items||[]){
   // Older Kelly snapshots stored the frozen underlying in `name`.
   // Allocation membership, rather than its current target weight, defines the thesis scope.
   // Never resolve via mutable candidate plans, imported symbols or Portfolio assignments.
   const symbol=item.underlying??item.name;
-  if(typeof symbol!=='string'||!symbol.trim()||!/^[A-Z0-9.\-]{1,24}$/i.test(symbol.trim()))throw Error('In Action Kelly Allocation 缺少明确的 underlying，请重新设置配置');
+  if(typeof symbol!=='string'||!symbol.trim()||!/^[A-Z0-9.\-]{1,24}$/i.test(symbol.trim()))throw Error('In Action Risk Budget 缺少明确的 underlying，请重新设置配置');
   symbols.push(ticker({underlying:symbol}));
  }
  return [...new Set(symbols)].sort();
@@ -41,7 +41,7 @@ function underlyingOf(row){
 }
 export function createTransactionFile(c,history,{start,end}){
  const range=transactionRange(start,end),underlyings=thesisUnderlyings(c);
- if(!underlyings.length)throw Error('In Action Kelly Allocation 没有 underlying 配置');
+ if(!underlyings.length)throw Error('In Action Risk Budget 没有 underlying 配置');
  if(history?.version!==1||!Array.isArray(history.transactions)||!Array.isArray(history.sources)||!timestampValid(history.generated_at))throw Error('完整交易历史不可用，请先运行 scripts/build_transaction_history.py');
  const wanted=new Set(underlyings),transactions=[];
  for(const row of history.transactions){

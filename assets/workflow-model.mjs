@@ -1,10 +1,10 @@
 import {validateExecutionLinks} from './trade-link-model.mjs';
-import {emptyScenarioUnderwriting,returnInputError,scenarioUnderwritingError,captureReturnBasis,validateReturnBasis,numeric} from './expected-return.mjs?v=20260929-2';
+import {emptyScenarioUnderwriting,returnInputError,scenarioUnderwritingError,captureReturnBasis,validateReturnBasis,numeric} from './expected-return.mjs?v=20261015-atr-uncertainty';
 import {structureDraft,structureError,ticker,structureExposure,positionLabel,candidateDraft} from './trade-structure.mjs';
 import { validateAttributionEvidence } from './attribution-link.mjs';
 import { parseTransactionFile } from './attribution-transactions.mjs?v=20261004-3';
 import { allocationIssues } from "./risk-budget.mjs";
-import {emptyKellyPolicy,kellyPolicyError} from './kelly-allocation.mjs?v=20260930-3';
+import {emptyKellyPolicy,kellyPolicyError} from './kelly-allocation.mjs?v=20261015-atr-uncertainty';
 // Standalone workflow domain. No dependencies on dashboard data or broker credentials.
 export const VERSION = 1;
 export const KEY = 'research-desk.workflow.v1';
@@ -13,18 +13,18 @@ const LEGACY_NODES = {
  signal:{name:'Signal',cn:'信号与触发',initial:'unconfigured',states:{unconfigured:['watching'],watching:['triggered','expired'],triggered:['stale','watching'],stale:['watching'],expired:['watching']}},
  returns:{name:'Scenario Underwriting',cn:'联合情景承保',initial:'pending',states:{pending:['evaluated'],evaluated:['reassess'],reassess:['evaluated']}},
  construction:{name:'Portfolio Construction',cn:'组合构建',initial:'draft',states:{draft:['feasible'],feasible:['baseline','revise'],baseline:['revise'],revise:['feasible']}},
- risk:{name:'Kelly Allocation',cn:'凯利配置',initial:'unchecked',states:{unchecked:['within','breached'],within:['recheck','breached'],breached:['recheck'],recheck:['within','breached']}},
+ risk:{name:'Risk Budget',cn:'风险预算',initial:'unchecked',states:{unchecked:['within','breached'],within:['recheck','breached'],breached:['recheck'],recheck:['within','breached']}},
  positions:{name:'Monitor',cn:'盘中监控',initial:'unlinked',states:{unlinked:['active','closed'],active:['adjusting','exiting','closed'],adjusting:['active','exiting','closed'],exiting:['active','closed'],closed:[]}},
  attribution:{name:'Attribution',cn:'归因与归档',initial:'reconcile',states:{reconcile:['review'],review:['reviewed'],reviewed:['review','archived'],archived:[]}}
 };
 export const LABELS = {pending:'pending',running:'running'};
-export const NODES = Object.fromEntries(Object.entries(LEGACY_NODES).map(([key,n])=>[key,{name:n.name,cn:n.cn,initial:'pending',states:{pending:['running'],running:['pending']}}]));
+export const NODES = Object.fromEntries(Object.entries(LEGACY_NODES).filter(([key])=>key!=='signal').map(([key,n])=>[key,{name:n.name,cn:n.cn,initial:'pending',states:{pending:['running'],running:['pending']}}]));
 export function displayState(state){return ['draft','unconfigured','pending','unchecked','unlinked','reconcile'].includes(state)?'pending':'running';}
 export function hypothesisFields(data){
  return {expectation:data.expectation??(data.target!==''&&data.target!=null?`预期标的涨跌幅 ${data.target}%`:''),rationale:data.rationale??'',verification:data.verification??'',invalidation:data.invalidation??''};
 }
 export const LAYERS = [
- {name:'Alpha Research',cn:'超额收益研究层',nodes:['hypothesis','signal']},
+ {name:'Alpha Research',cn:'超额收益研究层',nodes:['hypothesis']},
  {name:'Portfolio Design & Risk Allocation',cn:'组合设计与风险配置层',nodes:['returns','construction','risk']},
  {name:'Monitoring',cn:'盘中监控层',nodes:['positions']},
  {name:'Performance Attribution',cn:'绩效归因层',nodes:['attribution']}
@@ -36,7 +36,6 @@ export function createCase({title,symbol='',horizon='',rationale='',demo=false})
  const c={id:uid(),title:title.trim(),symbol:symbol.trim().toUpperCase(),horizon,demo,createdAt:now(),updatedAt:now(),revision:0,stateVersion:2,positionNodeVersion:1,archived:false,activeThesis:false,nodes:{},events:[]};
  for(const [key,node] of Object.entries(NODES)) c.nodes[key]={state:node.initial,data:{}};
  Object.assign(c.nodes.hypothesis.data,{expectation:'',rationale,verification:'',invalidation:''});
- Object.assign(c.nodes.signal.data,{indicator:'MACD 金叉',condition:'',expires:'',evidence:''});
  c.nodes.returns.data=emptyScenarioUnderwriting();
  Object.assign(c.nodes.construction.data,{structureVersion:1,template:'custom',evaluationDate:horizon,legs:[]});
  c.nodes.risk.data=emptyKellyPolicy();
@@ -120,8 +119,8 @@ export function saveNode(c,key,data,reason='更新节点内容'){
  if(c.archived)throw Error('归档实例只读');
  if(key==='attribution'&&data.transactionFile){const file=parseTransactionFile(data.transactionFile);if(file.thesis.id!==c.id)throw Error('交易历史文件不属于此 thesis');}
 
- if(key==='returns'){const error=data?.scenarioVersion===1?scenarioUnderwritingError(data,c.design?.plans||[]):returnInputError(data);if(error)throw Error(error);}
- if(key==='risk'&&data?.allocationVersion===1){const error=kellyPolicyError(c,data);if(error)throw Error(error);}
+ if(key==='returns'){const error=[1,2,3].includes(data?.scenarioVersion)?scenarioUnderwritingError(data,c.design?.plans||[]):returnInputError(data);if(error)throw Error(error);}
+ if(key==='risk'&&[1,2].includes(data?.allocationVersion)){const error=kellyPolicyError(c,data);if(error)throw Error(error);}
  if(key==='positions')throw Error('Monitor 当前为空节点，暂不保存字段');
  if(key==='construction'){const error=data.structureVersion===1?structureError(data):legError(data.legs);if(error)throw Error(error);}
  if(JSON.stringify(c.nodes[key].data)===JSON.stringify(data))return false;
@@ -135,7 +134,7 @@ export function saveNode(c,key,data,reason='更新节点内容'){
 }
 const DESIGN_KEYS=['construction'];
 export function emptyDesign(horizon=''){
- return {construction:{structureVersion:1,greekScale:10000,template:'stock',evaluationDate:horizon,candidate:{version:1,underlying:'',instrument:'stock',referenceCapital:'',targetDte:'',longDelta:'',shortDelta:'',plannedEntry:''},legs:[]}};
+ return {construction:{structureVersion:1,greekScale:10000,template:'stock',evaluationDate:horizon,candidate:{version:1,underlying:'',instrument:'stock',referenceCapital:'',referenceIv:'',referenceIvAt:'',referenceIvDte:'',targetDte:'',longDelta:'',shortDelta:'',plannedEntry:''},legs:[]}};
 }
 export function initializePlans(c){
  const id='legacy-'+c.id,plan={id,name:'现有方案',...Object.fromEntries(DESIGN_KEYS.map(k=>[k,clone(c.nodes[k].data)]))};
@@ -162,13 +161,12 @@ export function setActiveAllocation(c,result){
  writable(c);
  if(result?.complete&&Array.isArray(result.bundles)){
   if(result.constraintIssue)throw Error(result.constraintIssue);
-  const items=result.bundles.map(({bundleId,name,underlying,fullFraction,fraction,q25,q50,q100,atr,stopMove,stopPrice,estimatedStopRiskFraction})=>({bundleId,name,underlying:underlying||name,fullFraction,fraction,q25,q50,q100,atr,stopMove,stopPrice,estimatedStopRiskFraction}));
-  const scenarios=result.scenarios.map(({id,name,probability,portfolioReturn,wealth})=>({id,name,probability,portfolioReturn,wealth}));
-  c.design.allocation={method:result.uncertaintyAware?'monte-carlo-kelly':'multivariate-kelly',inAction:true,at:now(),allocatedFraction:result.allocatedFraction,cashFraction:result.cashFraction,expectedLogGrowth:result.expectedLogGrowth,thesisAtRiskLimitPct:result.atRiskLimitPct,atrReviewMultiple:result.reviewMultiple,atrHardStopMultiple:result.hardStopMultiple,estimatedStopRiskPct:result.estimatedStopRiskFraction*100,atrRiskScale:result.riskScale,items,scenarios,monteCarlo:result.monteCarlo?{samples:result.monteCarlo.samples,quantile:result.targetQuantile/100}:null};
-  const capital=result.bankroll*result.allocatedFraction,expectedNet=result.scenarios.reduce((sum,row)=>sum+row.probability*row.pnl,0);
-  if(capital>0)c.returnBasis={planId:'kelly-allocation',planName:'Kelly Allocation',expectedNet,capital,expectedDate:c.horizon||'',rate:expectedNet/capital*100,at:c.design.allocation.at};
+  const items=result.bundles.map(({bundleId,name,underlying,fullFraction,kellyFraction,weight,fraction,atr,stopDistance,downStopPrice,upStopPrice,adverseStopDirection,stopRiskRate,estimatedStopRiskFraction})=>({bundleId,name,underlying:underlying||name,fullFraction,kellyFraction,weight,fraction,atr,stopDistance,downStopPrice,upStopPrice,adverseStopDirection,stopRiskRate,estimatedStopRiskFraction}));
+  const scenarios=result.scenarios.map(({id,name,probability,weightReturn,portfolioReturn,wealth})=>({id,name,probability,weightReturn,portfolioReturn,wealth}));
+  c.design.allocation={method:'risk-budget-kelly',inAction:true,at:now(),allocatedFraction:result.allocatedFraction,cashFraction:result.cashFraction,expectedLogGrowth:result.expectedLogGrowth,kellyExpectedLogGrowth:result.kellyExpectedLogGrowth,thesisAtRiskLimitPct:result.atRiskLimitPct,atrStopMultiple:result.atrStopMultiple,stopRiskRate:result.stopRiskRate,scenarioRiskRate:result.scenarioRiskRate,effectiveLossRate:result.effectiveLossRate,bindingRisk:result.bindingRisk,estimatedStopRiskPct:result.estimatedStopRiskFraction*100,items,scenarios,monteCarlo:result.monteCarlo?{samples:result.monteCarlo.samples}:null};
+  delete c.returnBasis;
   const active=result.bundles.filter(x=>x.fraction>0).map(x=>`${x.name} ${Number(x.fraction*100).toFixed(2)}%`).join('；');
-  record(c,'设置 In Action Kelly Allocation','risk',active||'Target Allocation 0% · 保持现金');return;
+  record(c,'设置 In Action Risk Budget','risk',active||'Target Allocation 0% · 保持现金');return;
  }
  if(!result||!Array.isArray(result.allocations)||!result.allocations.some(x=>x.quantity>0))throw Error('当前没有可执行的优化数量');
  c.design.allocation={inAction:true,at:now(),items:clone(result.allocations),riskBudget:result.riskBudget,usedRisk:result.usedRisk,usedCapital:result.usedCapital,expected:result.expected,dollarDelta:result.dollarDelta};
@@ -179,10 +177,9 @@ export function deletePlan(c,id){writable(c);const p=c.design.plans.find(p=>p.id
 export function planView(c,id){const copy=clone(c),p=c.design?.plans.find(p=>p.id===id);if(p)for(const key of DESIGN_KEYS)copy.nodes[key].data=clone(p[key]);return copy;}
 export function demoCase(){const horizon=new Date(Date.now()+30*86400000).toISOString().slice(0,10),c=createCase({title:'A 股票 · 一个月上涨 10%',symbol:'A',horizon,demo:true,rationale:'模拟：产品催化与盈利预期上修。所有价格、概率、Greeks 都是假设值。'});
  Object.assign(c.nodes.hypothesis.data,{expectation:'一个月内股价上涨约 10%',verification:'催化兑现，股价向目标区间运行',invalidation:'催化未兑现，或关键支撑失效'});c.nodes.hypothesis.state='running';
- Object.assign(c.nodes.signal.data,{condition:'日线收盘 MACD 上穿信号线，次日确认',expires:horizon,evidence:'模拟：日线金叉已确认'});c.nodes.signal.state='running';
  c.nodes.returns.data=emptyScenarioUnderwriting();
  c.nodes.construction.data.legs=[{type:'stock',side:'long',qty:20,entry:100,strike:'',expiry:'',delta:'',gamma:'',theta:'',vega:''},{type:'put',side:'short',qty:1,entry:3,strike:100,expiry:horizon,delta:4500,gamma:300,theta:400,vega:1000},{type:'put',side:'long',qty:1,entry:1,strike:95,expiry:horizon,delta:2500,gamma:200,theta:300,vega:800}];c.nodes.construction.data.legs=c.nodes.construction.data.legs.map(l=>({...l,underlying:'A',iv:'',quoteAt:'',underlyingPrice:''}));c.nodes.construction.state='running';c.nodes.returns.state='running';
- c.nodes.risk.data={allocationVersion:1,targetQuantile:25};c.nodes.risk.state='running';
+ c.nodes.risk.data={allocationVersion:2,thesisAtRiskLimitPct:'',atrStopMultiple:2.5};c.nodes.risk.state='running';
  initializePlans(c);
  record(c,'加载模拟方案','construction','Long stock + bull put spread；未关联任何实际持仓');return c;}
 export function validateStore(store){
@@ -222,7 +219,7 @@ export function validateStore(store){
     const test=clone(c);delete test.design;for(const key of DESIGN_KEYS)test.nodes[key].data=p[key];body(test);
    }
    if((d.plans.length&&!ids.has(d.selectedId))||(!d.plans.length&&d.selectedId)||(d.activeId&&!ids.has(d.activeId)))throw Error('方案引用无效');
-   if(d.allocation!=null){const a=d.allocation,kelly=['multivariate-kelly','monte-carlo-kelly'].includes(a.method);if(typeof a!=='object'||!Array.isArray(a.items)||typeof a.inAction!=='boolean'||(kelly?a.items.some(x=>!ids.has(x.bundleId)||typeof x.name!=='string'||!numeric(x.fraction)||x.fraction<0||x.fraction>1||(x.targetCapital!=null&&(!numeric(x.targetCapital)||x.targetCapital<0))):a.items.some(x=>!ids.has(x.positionId)||!Number.isInteger(x.quantity)||x.quantity<0)))throw Error('Allocation 格式无效');}
+   if(d.allocation!=null){const a=d.allocation,weighted=['multivariate-kelly','monte-carlo-kelly','risk-budget-kelly'].includes(a.method);if(typeof a!=='object'||!Array.isArray(a.items)||typeof a.inAction!=='boolean'||(weighted?a.items.some(x=>!ids.has(x.bundleId)||typeof x.name!=='string'||!numeric(x.fraction)||x.fraction<0||x.fraction>1||(x.targetCapital!=null&&(!numeric(x.targetCapital)||x.targetCapital<0))):a.items.some(x=>!ids.has(x.positionId)||!Number.isInteger(x.quantity)||x.quantity<0)))throw Error('Allocation 格式无效');}
    const selected=d.plans.find(p=>p.id===d.selectedId);if(selected&&DESIGN_KEYS.some(k=>JSON.stringify(selected[k])!==JSON.stringify(c.nodes[k].data)))throw Error('方案与节点数据不一致');
   }
 
@@ -230,7 +227,7 @@ export function validateStore(store){
   if(c.stateVersion!==2&&c.archived!==(c.nodes.attribution.state==='archived'))throw Error('归档状态不一致');
  }
  for(const c of store.cases){body(c);if(ids.has(c.id))throw Error('实例 ID 重复');ids.add(c.id);if(!Array.isArray(c.events)||(!c.events.length&&!(c.historyClearedRevision===c.revision&&Number.isFinite(Date.parse(c.historyClearedAt)))))throw Error('缺少历史记录');let last=0;
-  for(const e of c.events){if(typeof e.id!=='string'||typeof e.type!=='string'||typeof e.reason!=='string'||!Object.hasOwn(NODES,e.node)||!Number.isFinite(Date.parse(e.at))||!Number.isInteger(e.revision)||e.revision<=last)throw Error('历史记录格式无效');body(e.snapshot);if(e.snapshot.id!==c.id||e.snapshot.revision!==e.revision)throw Error('快照不匹配');last=e.revision;}
+  for(const e of c.events){if(typeof e.id!=='string'||typeof e.type!=='string'||typeof e.reason!=='string'||!Object.hasOwn(LEGACY_NODES,e.node)||!Number.isFinite(Date.parse(e.at))||!Number.isInteger(e.revision)||e.revision<=last)throw Error('历史记录格式无效');body(e.snapshot);if(e.snapshot.id!==c.id||e.snapshot.revision!==e.revision)throw Error('快照不匹配');last=e.revision;}
   if(c.events.length&&(last!==c.revision||JSON.stringify(c.events.at(-1).snapshot)!==JSON.stringify(snapshot(c))))throw Error('最新快照与实例不一致');
  }
  // Preserve original snapshots verbatim; migration creates one new current revision.
@@ -243,6 +240,7 @@ export function validateStore(store){
  }
  for(const c of result.cases)if(!c.design){initializePlans(c);record(c,'迁移方案管理','construction','原有参数转为现有方案；历史快照保持不变');}
  for(const c of result.cases)if(typeof c.activeThesis!=='boolean'){c.activeThesis=false;record(c,'迁移 Thesis 状态','hypothesis','初始化为 Offline；历史快照保持不变');}
+ for(const c of result.cases)if(c.nodes.signal){delete c.nodes.signal;record(c,'移除 Signal 节点','hypothesis','Hypothesis 直接连接 Portfolio Construction；旧 Signal 仅保留在历史快照中');}
  // Position Management is intentionally reset to an empty reserved node. The explicit reset
  // also scrubs historical snapshots so replay cannot surface removed fields or bindings.
  for(const c of result.cases){if(c.positionNodeVersion===2)continue;let changed=c.positionNodeVersion!==1;c.positionNodeVersion=1;

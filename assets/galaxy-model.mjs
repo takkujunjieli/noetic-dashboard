@@ -1,11 +1,11 @@
 // Explicit workflow relationships, independent of scene coordinates and storage.
-export const STAR_KEYS=['hypothesis','signal','returns','construction','risk','positions','attribution'];
+export const STAR_KEYS=['hypothesis','construction','returns','risk','positions','attribution'];
 export const STELLAR_COLORS=['#fff8ee','#fff1cc','#ffe0a0','#ffc18d','#ee987d','#e8efff'];
 function randomFor(id){let seed=2166136261;for(const char of id)seed=Math.imul(seed^char.charCodeAt(0),16777619);return ()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};}
 export function starCluster(id){const rnd=randomFor(id),points=[];for(let i=0;i<420;i++){const az=rnd()*Math.PI*2,cos=rnd()*2-1,r=260*Math.pow(rnd(),.65),sin=Math.sqrt(1-cos*cos);points.push({x:r*sin*Math.cos(az),y:r*cos*.86,z:r*sin*Math.sin(az)*.85,color:STELLAR_COLORS[Math.floor(rnd()*STELLAR_COLORS.length)],size:1+rnd()*2});}
- const selected=[];for(const point of points){if(selected.every(p=>Math.hypot(p.x-point.x,p.y-point.y,p.z-point.z)>105)){selected.push(point);if(selected.length===7)break;}}
+ const selected=[];for(const point of points){if(selected.every(p=>Math.hypot(p.x-point.x,p.y-point.y,p.z-point.z)>105)){selected.push(point);if(selected.length===STAR_KEYS.length)break;}}
  return {points,selected};}
-export const RELATIONS=[['hypothesis','signal','research'],['signal','construction','research'],['construction','returns','design'],['returns','risk','design'],['risk','construction','design'],['construction','positions','lifecycle'],['returns','positions','lifecycle'],['risk','positions','lifecycle'],['positions','attribution','attribution']];
+export const RELATIONS=[['hypothesis','construction','research'],['construction','returns','design'],['returns','risk','design'],['risk','construction','design'],['hypothesis','attribution','attribution']];
 export const starId=(caseId,key)=>`${caseId}:${key}`;
 function halton(index,base){let result=0,fraction=1/base;while(index>0){result+=fraction*(index%base);index=Math.floor(index/base);fraction/=base;}return result;}
 export function nebulaCenters(count,aspect=1.6){const widthScale=Math.max(.82,Math.min(1.38,Math.sqrt(Math.max(.35,Math.min(3,aspect))/1.35))),centers=[];

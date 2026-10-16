@@ -1,18 +1,18 @@
-import {mountMonitorTrades} from './trade-link-ui.js?v=20261010-links';
+import {mountMonitorTrades} from './trade-link-ui.js?v=20261015-auto-thesis';
 import {readTradeLinks,reconcileTradeLinks} from './trade-link-client.js';
-import {captureWorkflow,syncWorkflowSnapshot,refreshActiveNebulaCatalog,UNSYNCED_KEY,readUnsyncedNebulae,writeUnsyncedNebulae,remainingUnsyncedNebulae} from './workflow-sync.js?v=20260929-3';
-import {createGalaxy} from './galaxy-scene.js?v=20261004-1';
+import {captureWorkflow,syncWorkflowSnapshot,refreshActiveNebulaCatalog,UNSYNCED_KEY,readUnsyncedNebulae,writeUnsyncedNebulae,remainingUnsyncedNebulae} from './workflow-sync.js?v=20261015-no-signal';
+import {createGalaxy} from './galaxy-scene.js?v=20261015-node-links';
 import {getPat,setPat} from './shared.js';
-import {expectedCharts,readScenarioUnderwriting,scenarioUnderwritingForm} from './expected-return.js?v=20260929-2';
-import {planTable} from './design-plans.js?v=20260929-2';
-import {loadPortfolioBundleDrafts} from './portfolio-autofill.js?v=20260929-2';
-import {appendBundleLeg,constructionFields,constructionSummary,readConstruction,removeBundleLeg,resetBundleLegs} from './trade-structure.js?v=20260929-2';
-import {kellyAllocationView,kellyPolicyForm,readKellyPolicy} from './kelly-allocation.js?v=20260930-3';
-import {kellyAllocation} from './kelly-allocation.mjs?v=20260930-1';
-import {bundleMetrics,newStructureLeg} from './trade-structure.mjs';
-import { mountTransactionHistory } from './attribution-transactions.js?v=20261005-1';
+import {expectedCharts,readScenarioUnderwriting,scenarioUnderwritingForm,syncDerivedUnderwriting} from './expected-return.js?v=20261015-underwriting-layout';
+import {planTable} from './design-plans.js?v=20261015-reference-iv';
+import {loadPortfolioBundleDrafts} from './portfolio-autofill.js?v=20261015-atr-uncertainty';
+import {appendBundleLeg,constructionFields,constructionSummary,readConstruction,removeBundleLeg,resetBundleLegs} from './trade-structure.js?v=20261015-reference-iv';
+import {kellyAllocationView,kellyPolicyForm,readKellyPolicy} from './kelly-allocation.js?v=20261015-atr-uncertainty';
+import {riskBudgetAllocation} from './kelly-allocation.mjs?v=20261015-atr-uncertainty';
+import {bundleMetrics,newStructureLeg} from './trade-structure.mjs?v=20261015-reference-iv';
+import { mountTransactionHistory } from './attribution-transactions.js?v=20261015-risk-budget';
 import { renderJournal, syncLegacyWorkflowData } from "./strategy.js";
-import {VERSION,KEY,NODES,LAYERS,LABELS,displayState,hypothesisFields,archiveCase,emptyDesign,initializePlans,savePlan,setPlanFrozen,selectPlan,setActiveAllocation,deletePlan,clone,createCase,record,saveNode,transition,gate,demoCase,validateStore} from './workflow-model.mjs?v=20261010-links';
+import {VERSION,KEY,NODES,LAYERS,LABELS,displayState,hypothesisFields,archiveCase,emptyDesign,initializePlans,savePlan,setPlanFrozen,selectPlan,setActiveAllocation,deletePlan,clone,createCase,record,saveNode,transition,gate,demoCase,validateStore} from './workflow-model.mjs?v=20261015-reference-iv';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=v=>v===null||v===undefined||Number.isNaN(v)?'未估计':Number.isFinite(v)?new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:2}).format(v):'无上界';
@@ -27,7 +27,7 @@ let planEditor=null;
 let galaxy=null,panelOpen=false;
 let kellySizing={atr:{},atrUpdated:''};
 async function loadAtrRiskData(){
- try{const response=await fetch(`data/atr.json?t=${Date.now()}`,{cache:'no-store'});if(!response.ok)return;const data=await response.json();kellySizing={atr:data.atr14||{},atrUpdated:data.updated||''};if(panelOpen&&node==='risk'&&!dirty)render();}catch{}
+ try{const response=await fetch(`data/atr.json?t=${Date.now()}`,{cache:'no-store'});if(!response.ok)return;const data=await response.json();kellySizing={atr:data.atr14||{},atrUpdated:data.updated||''};if(panelOpen&&['returns','risk'].includes(node)&&!dirty)render();}catch{}
 }
 function saveUnsyncedNebulae(){try{writeUnsyncedNebulae(unsyncedNebulae);}catch(e){notice('未同步提示无法持久化：'+e.message);}}
 function markNebulaUnsynced(id){if(!id)return;unsyncedNebulae.add(id);saveUnsyncedNebulae();}
@@ -54,7 +54,6 @@ function renderLibrary(){const cases=store.cases.filter(c=>c.archived===(filter=
 }
 const F={
  hypothesis:[['expectation','市场结果预期假设 · 我认为市场最终会发生什么？','textarea'],['rationale','论点依据 · 为什么市场目前可能定价错误？','textarea'],['verification','验证条件 · 什么新证据会提高该假设的可信度？','textarea'],['invalidation','证伪条件 · 什么新证据会证明原始逻辑已经不成立？','textarea']],
- signal:[['indicator','信号名称'],['condition','触发规则','textarea'],['expires','信号有效至','date'],['evidence','触发证据与观察时间','textarea']],
  returns:[],
  construction:[],
  risk:[],
@@ -76,11 +75,11 @@ function positionsInspector(c){const ro=readOnly(),n=c.nodes.positions;return `<
 function editorCase(c){const copy=clone(c);if(planEditor?.id){const p=c.design?.plans.find(p=>p.id===planEditor.id);if(p)copy.nodes.construction.data=clone(p.construction);}else{copy.nodes.construction.data=emptyDesign(c.horizon).construction;copy.nodes.construction.data.legs=[newStructureLeg()];copy.symbol='';}return copy;}
 function constructionInspector(c){const ro=readOnly(),p=c.design?.plans.find(p=>p.id===planEditor?.id),edit=editorCase(c);return `<section class="inspector">${planTable(c,ro)}${planEditor?`<section class="plan-editor">${p?'':'<h3>添加 Underlying Greek Bundle</h3>'}<form id="node-form"><fieldset ${ro?'disabled':''}>${constructionFields(edit)}<div id="editor-preview">${constructionSummary(edit)}</div>${ro?'':'<button type="submit" class="primary">保存 Bundle</button>'}<span id="dirty-label" class="hint"></span></fieldset></form></section>`:''}<div class="state-control"><h3>状态流转</h3>${ro?'<p class="hint">历史快照与归档实例只读。</p>':NODES.construction.states[c.nodes.construction.state].map(to=>`<button data-transition="${to}">${LABELS[to]}</button>`).join('')}</div></section>`;}
 function returnHistoryCases(c){if(!replay)return store.cases;return store.cases.map(x=>{const events=x.events.filter(e=>e.at<=c.updatedAt&&(x.id!==c.id||e.revision<=c.revision)),last=events.at(-1);return last?{...clone(last.snapshot),events}:null;}).filter(Boolean);}
-function returnsInspector(c){const ro=readOnly(),hasPlan=!!c.design?.plans.length;return `<section class="inspector expected-return-inspector" aria-label="Scenario Underwriting"><form id="node-form"><fieldset ${ro||!hasPlan?'disabled':''}>${scenarioUnderwritingForm(c)}<button class="primary" type="submit">保存 Scenario Underwriting</button><span id="dirty-label" class="hint"></span></fieldset></form><div id="live-summary">${expectedCharts(c)}</div><div class="state-control"><h3>状态流转</h3>${ro?'<p class="hint">历史快照与归档实例只读。</p>':NODES.returns.states[c.nodes.returns.state].map(to=>`<button data-transition="${to}">${LABELS[to]}</button>`).join('')}</div></section>`;}
+function returnsInspector(c){const ro=readOnly(),hasPlan=!!c.design?.plans.length;return `<section class="inspector expected-return-inspector" aria-label="Scenario Underwriting"><form id="node-form"><fieldset ${ro||!hasPlan?'disabled':''}>${scenarioUnderwritingForm(c,kellySizing)}<button class="primary" type="submit">保存 Scenario Underwriting</button><span id="dirty-label" class="hint"></span></fieldset></form><div id="live-summary">${expectedCharts(c)}</div><div class="state-control"><h3>状态流转</h3>${ro?'<p class="hint">历史快照与归档实例只读。</p>':NODES.returns.states[c.nodes.returns.state].map(to=>`<button data-transition="${to}">${LABELS[to]}</button>`).join('')}</div></section>`;}
 function inspector(c){if(node==='risk')return riskInspector(c);if(node==='returns')return returnsInspector(c);if(node==='construction')return constructionInspector(c);if(node==='positions')return positionsInspector(c);if(node==='attribution')return `<section class="inspector" aria-label="Attribution"><div id="wf-transaction-history"></div></section>`;const n=c.nodes[node],ro=readOnly();
  return `<section class="inspector" aria-label="${esc(NODES[node].name)}"><div id="live-summary"></div><form id="node-form"><fieldset ${ro?'disabled':''}>${F[node].map(f=>field(f,n.data)).join('')}<label>本次修改说明<input name="reason" placeholder="记录为什么修改，写入事件日志"></label><button class="primary" type="submit">保存节点</button><span id="dirty-label" class="hint"></span></fieldset></form><div class="state-control"><h3>状态流转</h3>${ro?'<p class="hint">历史快照与归档实例只读。</p>':`<div class="toolbar">${NODES[node].states[n.state].map(to=>`<button data-transition="${to}" ${gate(c,node,to)?'disabled':''}>${LABELS[to]}</button>`).join('')||'<span class="hint">此节点生命周期已结束。</span>'}</div><div class="gate">${[...new Set(NODES[node].states[n.state].map(to=>gate(c,node,to)).filter(Boolean))].map(esc).join('<br>')}</div>`}</div></section>`;
 }
-function timeline(c){return `<section class="timeline"><div class="section-heading"><h2>Activity & Snapshots</h2><span class="badge">${c.events.length} 条记录</span></div><ol>${c.events.slice().reverse().map(e=>`<li class="event"><time>${date(e.at)}</time><div><strong>v${e.revision} · ${esc(NODES[e.node].name)} · ${esc(e.type.replaceAll('In Action Policy','In Action'))}</strong><p>${esc(e.reason.replaceAll('In Action Policy','In Action'))}</p></div><button data-replay="${esc(e.id)}">查看快照</button></li>`).join('')}</ol></section>`;}
+function timeline(c){return `<section class="timeline"><div class="section-heading"><h2>Activity & Snapshots</h2><span class="badge">${c.events.length} 条记录</span></div><ol>${c.events.slice().reverse().map(e=>`<li class="event"><time>${date(e.at)}</time><div><strong>v${e.revision} · ${esc(NODES[e.node]?.name||'Legacy Signal')} · ${esc(e.type.replaceAll('In Action Policy','In Action'))}</strong><p>${esc(e.reason.replaceAll('In Action Policy','In Action'))}</p></div><button data-replay="${esc(e.id)}">查看快照</button></li>`).join('')}</ol></section>`;}
 function render(){renderLibrary();const c=visible(),live=current();$('#main').hidden=!c||!panelOpen;document.body.classList.toggle('panel-open',!!c&&panelOpen);if(!c||!panelOpen){$('#main').innerHTML='';return;}
  $('#main').innerHTML=`<button id="close-star-panel" class="panel-close" aria-label="关闭节点面板">✕</button>${replay?`<div class="replay"><span>历史快照 · v${c.revision} · ${date(c.updatedAt)}<br>节点、参数与状态均为当时记录；只读。</span><button id="exit-replay">返回当前版本</button></div>`:''}<div class="instance-header"><div><p class="eyebrow">${esc(c.symbol)} ${c.demo?' / SIMULATED':''}</p><h2 id="nebula-title" ${node==='hypothesis'&&!readOnly()?'data-rename-nebula title="双击重命名 Nebula"':''}>${esc(c.title)}</h2><div class="instance-meta"><span>v${c.revision}</span><span>${LABELS[c.nodes[node].state]}</span></div></div>${node==='attribution'&&!readOnly()?'<div class="toolbar"><button id="archive-case">归档实例</button></div>':''}</div>${inspector(c)}<details class="nebula-context"><summary>Nebula · 来源与历史记录</summary>${sourceLinkHTML(c)}${timeline(live)}</details>`;
  const monitorHost=$('#wf-monitor-trades');
@@ -107,7 +106,7 @@ document.addEventListener('dblclick',e=>{
  input.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();finish(true);}else if(event.key==='Escape'){event.preventDefault();finish(false);}});
  input.addEventListener('blur',()=>finish(true),{once:true});
 });
-document.addEventListener('input',e=>{if(e.target.name==='candidate.instrument')resetBundleLegs(e.target.form);if(e.target.closest('#node-form')&&e.target.name!=='reason')updatePreview();});
+document.addEventListener('input',e=>{if(e.target.name==='candidate.instrument')resetBundleLegs(e.target.form);if(e.target.closest('#node-form')&&e.target.name!=='reason'){if(node==='returns')syncDerivedUnderwriting(e.target.form,visible());updatePreview();}});
 document.addEventListener('submit',e=>{if(e.target.id!=='node-form')return;e.preventDefault();if(node==='risk')return;if(node==='construction'){if(readOnly())return;const data=readDraft(),id=planEditor?.id,previous=planEditor;planEditor=null;if(!mutate(c=>savePlan(c,id,'',data)))planEditor=previous;return;}if(node==='returns'&&!dirty){notice('当前输入已保存。');return;}const data=readDraft(),reason=e.target.elements.namedItem('reason')?.value.trim()||'更新节点内容';mutate(c=>{if(!saveNode(c,node,data,reason))throw Error('没有内容变更');});});
 document.addEventListener('click',async e=>{let b=e.target.closest('button');
  if(!b&&!e.target.closest('[popover]')){const row=e.target.closest('[data-plan-row]');if(row)b=row.querySelector('[data-edit-plan]');}
@@ -152,7 +151,7 @@ document.addEventListener('click',async e=>{let b=e.target.closest('button');
   if(readOnly()){planEditor={id};dirty=false;render();return;}
   planEditor={id};if(!mutate(c=>selectPlan(c,id)))planEditor=null;return;
  }
- if(b.id==='activate-allocation'){if(readOnly()){notice('当前版本只读。');return;}const policy=readDraft(),result=kellyAllocation(current(),policy,undefined,kellySizing.atr);mutate(c=>{c.nodes.risk.data=clone(policy);setActiveAllocation(c,result);});return;}
+ if(b.id==='activate-allocation'){if(readOnly()){notice('当前版本只读。');return;}const policy=readDraft(),result=riskBudgetAllocation(current(),policy,kellySizing.atr);mutate(c=>{c.nodes.risk.data=clone(policy);setActiveAllocation(c,result);});return;}
  if(b.dataset.deletePlan){if(readOnly()||!leave())return;const id=b.dataset.deletePlan,p=current().design.plans.find(p=>p.id===id);if(!confirm(`删除 Underlying Greek Bundle「${p.name}」及其单位收益假设？历史快照仍保留。`))return;planEditor=null;mutate(c=>deletePlan(c,id));return;}
  if(b.dataset.transition){if(dirty){notice('请先保存节点内容');return;}const to=b.dataset.transition;
  if(mutate(c=>transition(c,node,to))&&current().archived){filter='archived';render();}return;}
@@ -161,7 +160,7 @@ document.addEventListener('change',e=>{if(e.target.matches('[data-leg-toggle]'))
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
 window.addEventListener('storage',e=>{if(e.key===KEY)notice('另一个窗口修改了 Workflow 数据，请刷新页面。当前窗口不会覆盖新数据。');if(e.key===UNSYNCED_KEY){unsyncedNebulae=readUnsyncedNebulae();renderLibrary();}});
 
-function riskInspector(c){const ro=readOnly(),hasPositions=!!c.design?.plans.length;return `<section class="inspector kelly-allocation-inspector"><form id="node-form"><fieldset ${ro||!hasPositions?'disabled':''}>${kellyPolicyForm(c.nodes.risk.data)}</fieldset></form><div id="live-summary">${kellyAllocationView(c,c.nodes.risk.data,kellySizing)}</div>${ro?'':`<button id="activate-allocation" ${hasPositions?'':'disabled'}>设为 In Action Kelly Allocation</button>`}<div class="state-control"><h3>状态流转</h3>${ro?'<p class="hint">历史快照与归档实例只读。</p>':NODES.risk.states[c.nodes.risk.state].map(to=>`<button data-transition="${to}">${LABELS[to]}</button>`).join('')}</div></section>`;}
+function riskInspector(c){const ro=readOnly(),hasPositions=!!c.design?.plans.length;return `<section class="inspector kelly-allocation-inspector"><form id="node-form"><fieldset ${ro||!hasPositions?'disabled':''}>${kellyPolicyForm(c.nodes.risk.data)}</fieldset></form><div id="live-summary">${kellyAllocationView(c,c.nodes.risk.data,kellySizing)}</div>${ro?'':`<button id="activate-allocation" ${hasPositions?'':'disabled'}>设为 In Action Risk Budget</button>`}<div class="state-control"><h3>状态流转</h3>${ro?'<p class="hint">历史快照与归档实例只读。</p>':NODES.risk.states[c.nodes.risk.state].map(to=>`<button data-transition="${to}">${LABELS[to]}</button>`).join('')}</div></section>`;}
 galaxy=createGalaxy($('#galaxy-scene'),{onStar:openStar,onNebula:selectCase,onBackground:closeStar});
 loadAtrRiskData();
 try{selected=decodeURIComponent(location.hash.slice(1));}catch{selected='';}if(!current())selected=store.cases.find(c=>!c.archived)?.id||store.cases[0]?.id||'';if(current())filter=current().archived?'archived':'active';if(['attribution','positions'].includes(new URLSearchParams(location.search).get('node'))){node=new URLSearchParams(location.search).get('node');panelOpen=!!current();}render();galaxy.overview();if(panelOpen)galaxy.focus(selected,node);

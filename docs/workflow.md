@@ -2,21 +2,23 @@
 
 Portfolio Construction 的最小风险单元改为 **Underlying Greek Bundle**。每个 Bundle 只属于一个 Underlying，但内部允许用户直接编辑任意数量的 Stock / Call / Put 交易腿、Long / Short 方向和 Ratio / Quantity。Starter Structure 只负责生成初始交易腿；保存后所有腿的固定比例共同定义一个可整体缩放的 Bundle。
 
-每条期权腿可手工填写 Reference Mark、Reference Spot、Expiry、Strike、Delta、Gamma、Vega、Theta、IV 与观察时间；正股自动按每股 Delta 1、其余 Greeks 0 处理。Portfolio Construction 按方向、数量和期权 100 倍乘数聚合 Net Delta / Gamma / Vega / Theta。用户单独填写 Reference Capital，作为后续情景收益率与 Kelly 缩放的分母；它不等于账户 Kelly Bankroll。主表显示 Underlying、Reference Spot、四项 Net Greeks 与 Reference Capital，点击 Underlying 行展开或收起腿编辑器。
+每条期权腿可手工填写 Reference Mark、Reference Spot、Expiry、Strike、Delta、Gamma、Vega、Theta、IV 与观察时间；正股自动按每股 Delta 1、其余 Greeks 0 处理。Portfolio Construction 按方向、数量和期权 100 倍乘数聚合 Net Delta / Gamma / Vega / Theta。用户单独填写 Reference Capital，作为情景收益率和 ATR Stop Risk rate 的分母；它不是账户 Capital Base。主表显示 Underlying、Reference Spot、四项 Net Greeks 与 Reference Capital，点击 Underlying 行展开或收起腿编辑器。
 
-旧 Candidate Position 数据继续按原有 legs 读取，不重写历史快照。当前 Workflow 已用 Scenario Underwriting 替换旧 Expected Return，并用 Kelly Allocation 替换旧 Risk Budget；ATR mandatory re-underwrite 留给后续阶段。
+旧 Candidate Position 数据继续按原有 legs 读取，不重写历史快照。当前 Workflow 使用 Scenario Underwriting 与 Risk Budget；旧 Kelly Allocation 快照继续可读，但只有重新冻结后才采用当前风险预算规则。
 
-### Scenario Underwriting → Kelly Allocation
+### Scenario Underwriting → Risk Budget
 
-Scenario Underwriting 为整个 thesis 定义一组联合 Bull / Base / Bear 状态。系统先用每个 Bundle 的 Net Delta、Gamma、Vega、Theta、Reference Spot 与 Reference Capital 计算情景收益，再由 Kelly Allocation 同时求解所有 Bundle 的非负资本比例：`max Σ pᵢ log(1 + Σ fⱼrᵢⱼ)`。约束为 `Σfⱼ ≤ 1` 且每个情景中的剩余财富均大于 0。
+Scenario Underwriting 为整个 thesis 定义一组联合 Bull / Base / Bear 状态。系统先用每个 Bundle 的 Net Delta、Gamma、Vega、Theta、Reference Spot 与 Reference Capital 计算情景收益，再同时求解所有 Bundle 的非负 Kelly 比例：`max Σ pᵢ log(1 + Σ fⱼrᵢⱼ)`。约束为 `Σfⱼ ≤ 1` 且每个情景中的剩余财富均大于 0。系统丢弃 Kelly 的绝对仓位，只把正解归一化为 Bundle 相对权重。
 
-Kelly Bankroll 只负责把最优比例换算为 Target Capital。每个 Bundle 的 `Scale vs Reference = Target Capital / Reference Capital`；Stock 与 Option 交易腿按这个倍数整体缩放，保留用户在 Portfolio Construction 中定义的内部比例。结果可冻结为 In Action Kelly Allocation，保存当时的比例、目标资本、缩放倍数、目标 Greeks 与各情景组合损益。
+用户填写 `Thesis At-Risk Limit` 与一个 `ATR Stop Multiple`。ATR Stop Risk 在每个 Bundle 内分别计算 `Spot − ATR × Multiple` 与 `Spot + ATR × Multiple` 的 Delta/Gamma 估算损益，取该 Bundle 更差的一边，再按 Kelly 权重求和。因此不同 Bundle 可以同时采用各自独立的最不利方向。Scenario Risk 则严格保留用户定义的联合相对走势：分别聚合 Bull、Base、Bear 同一行的 Bundle 收益，再取最坏联合情景。两种风险率中较大者约束 Nebula 总仓位：`Target Allocation = min(100%, At-Risk Limit / Binding Risk Rate)`。
+
+Workflow 不输入账户 Capital Base，只将 Bundle 相对权重乘以 Nebula Target Allocation，并冻结为 In Action Risk Budget 的账户比例。Portfolio 选择具体账户后再换算 Target Capital 和交易数量。当前阶段不计算 Tail Risk，也没有跨 Nebula Risk Governor。
 
 ### Uncertainty-aware Kelly · 第二阶段（2026-09-29）
 
 每个 Scenario 的 Probability，以及每个 Underlying Bundle 的 Price Move 和可选 IV Change，都可以填写中心值与 `±` 区间。区间表示主观参数范围，不新增单独的 confidence 分数。系统使用固定种子的 500 次均匀 Monte Carlo 采样；每次将采样后的 Bull / Base / Bear 概率重新归一化，再计算 Greek 情景收益和多变量 Kelly。
 
-每个 Bundle 最终保留 Point Full Kelly、Q25、Q50 与 Q100 分布统计。用户在 Kelly Allocation 中选择 Target Quantile；Target Capital、Scale、目标 Greeks、组合情景 P&L 和 In Action snapshot 都使用同一个所选分位向量。目标向量再次投影到 `Σf ≤ 1` 的资本单纯形，避免逐 Bundle 分位数合并后超过总资本。
+有不确定区间时，系统把 500 次采样产生的全部 Bull / Base / Bear 状态合并为一个联合分布，并只求解一次 Kelly。这个解用于 Bundle 相对权重；不再分别计算或拼接 Q25 / Q50 / Q100 向量。
 
 ## Candidate Positions 与共享风险优化（2026-09-26 · 历史实现）
 
@@ -134,10 +136,10 @@ Open `workflow.html` via the same local HTTP server as the dashboard. Risk Budge
 
 ## First version
 
-- Four layers / seven nodes: Alpha Research (Hypothesis, Signal), Portfolio Design & Risk Allocation (Expected Return, Portfolio Construction, Risk Budget), Monitoring (Monitor), Performance Attribution.
+- Four layers / six nodes: Alpha Research (Hypothesis), Portfolio Design & Risk Allocation (Scenario Underwriting, Portfolio Construction, Risk Budget), Monitoring (Monitor), Performance Attribution. Hypothesis directly connects to Portfolio Construction and Attribution. Monitor is currently isolated; Attribution has no other node relationship.
 - Independent instances, active/archive library, editable node panels, explicit guarded state transitions, reasons, revision history, read-only snapshots and archive.
 - Every saved edit and transition captures the entire instance (node states, fields, portfolio legs and manual position snapshot). Events are append-only through the UI. Snapshots are not cryptographically tamper-proof audit records.
-- Leg edits invalidate the previous return/risk assessment and confirmed design. Hypothesis and signal edits require reconfirmation. Existing actual positions can be entered without approving a pre-trade plan.
+- Leg edits invalidate the previous return/risk assessment and confirmed design. Hypothesis edits require reconfirmation. Existing actual positions can be entered without approving a pre-trade plan.
 - Actual positions can be entered manually or explicitly linked to Portfolio quantities. This page does not directly call broker MCP tools: the existing broker refresh/build pipeline updates the private Portfolio snapshot, which both pages read. Risk Budget reads the same local policy/position/ATR sources without writing them.
 
 ## Storage and privacy
@@ -224,13 +226,13 @@ Each thesis has one authoritative file at `../stock-dashboard-private/thesis_tra
 
 The panel reads the file on opening. “生成 / 更新交易历史文件” replaces its contents with the selected date interval from current local raw broker records and then reads the saved file back. “查询已保存文件” only reads and filters this file; it never reimports broker data. “删除交易文件” removes this file, never the raw broker history. No automatic downloads or download button remain. Workflow stores only `transactionFilePath`, not another copy of the transactions. Existing embedded exports are ignored by the panel and removed from current node data on the next save; old immutable workflow snapshots remain unchanged. History replay and archives explicitly show the current shared file, not a historical copy. Agent edits to the same JSON become visible on the next query.
 
-Underlyings come **only** from `design.allocation` with `inAction: true`, a Kelly method and positive `items[].fraction`. New snapshots preserve `items[].underlying`; old Kelly snapshots use their frozen `items[].name` (the old writer stored the ticker there). Candidates, `linkedSymbols`, thesis symbols, mutable Portfolio assignments and zero-allocation bundles are excluded. Missing allocations fail rather than widening scope. If a saved file's symbols differ from the current allocation, its table is hidden until regeneration. All source accounts are included; this is underlying-level evidence, not exclusive thesis/lot attribution.
+Underlyings come **only** from `design.allocation` with `inAction: true` and a supported Risk Budget or legacy Kelly method. Every frozen allocation item remains in scope, including a Bundle whose target fraction is 0. New snapshots preserve `items[].underlying`; old Kelly snapshots use their frozen `items[].name` (the old writer stored the ticker there). Candidates, `linkedSymbols`, thesis symbols and mutable Portfolio assignments are excluded. Missing allocations fail rather than widening scope. If a saved file's symbols differ from the current allocation, its table is hidden until regeneration. All source accounts are included; this is underlying-level evidence, not exclusive thesis/lot attribution.
 
 The selected dates define a continuous interval from start-date 02:00 to end-date 24:00 in America/New_York. The end time is fixed and has no user selector. DST is respected; 24:00 excludes the next day. The JSON preserves original transactions and IDs, source timestamps, range, underlyings, allocation time and coverage warnings. Old underlying-only option records remain included with `contract_details_missing`; contract information is never invented.
 
 Portfolio heatmap assignment is a separate view-level map (`riskGroups`). A symbol may be reassigned to any Active Thesis or cleared; only that heatmap row and thesis totals are recalculated. The assignment handler receives no Workflow case and cannot change a Bundle's `frozen` state, construction data, or `design.allocation`. Explicit Workflow actions such as “自动填写” remain separate user-initiated operations.
 
-**Source provenance:** GET `/api/transaction-history` runs `build_history` over local `data/_*_raw.json` at generation time, avoiding a stale intermediate file and the Portfolio 90-day cutoff. The thesis scope is every underlying in the frozen In Action Kelly Allocation, including a Bundle whose current target weight is 0. These paths point to the adjacent private repository. Raw files are accumulated from Robinhood read-only MCP refreshes: existing transaction history is retained and new executed fills are normalized/appended with deduplication; open orders are separate. This service does not call Robinhood or guarantee historical completeness. As checked on 2026-10-04, both raw files reported `source_updated_at=2026-09-30T20:52:44.754Z`; rebuilding a JSON must never be represented as a fresh broker sync. The earlier standalone `build_transaction_history.py` / Portfolio build remains available, but the new generation button reads current raw files directly.
+**Source provenance:** GET `/api/transaction-history` runs `build_history` over local `data/_*_raw.json` at generation time, avoiding a stale intermediate file and the Portfolio 90-day cutoff. The thesis scope is every underlying in the frozen In Action Risk Budget, including a Bundle whose current target weight is 0; legacy Kelly snapshots remain readable. These paths point to the adjacent private repository. Raw files are accumulated from Robinhood read-only MCP refreshes: existing transaction history is retained and new executed fills are normalized/appended with deduplication; open orders are separate. This service does not call Robinhood or guarantee historical completeness. As checked on 2026-10-04, both raw files reported `source_updated_at=2026-09-30T20:52:44.754Z`; rebuilding a JSON must never be represented as a fresh broker sync. The earlier standalone `build_transaction_history.py` / Portfolio build remains available, but the new generation button reads current raw files directly.
 
 Checks: `node --test tests/attribution-transactions.test.mjs tests/kelly-allocation.test.mjs`; `python3 tests/test_thesis_transaction_store.py`; `node tests/attribution-transactions.browser.cjs` with a test server on 8643 and a temporary `--private-dir`.
 

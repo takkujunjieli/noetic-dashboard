@@ -1,4 +1,4 @@
-import {KEY,validateStore} from './workflow-model.mjs';
+import {KEY,validateStore} from './workflow-model.mjs?v=20261015-no-signal';
 import {ACTIVE_NEBULAE_KEY,activeNebulaCatalog} from './workflow-risk-bridge.mjs';
 import {getPat,ghHeaders} from './shared.js';
 const URL='https://api.github.com/repos/takkujunjieli/stock-dashboard-private/contents/workflow.json';

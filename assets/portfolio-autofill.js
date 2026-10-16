@@ -1,5 +1,5 @@
 import {loadJSON} from './shared.js';
-import {portfolioBundleDrafts} from './portfolio-autofill.mjs?v=20260929-1';
+import {localReferenceIv,portfolioBundleDrafts} from './portfolio-autofill.mjs?v=20261015-atr-uncertainty';
 
 function localAssignments(){
  const raw=localStorage.getItem('riskGroups');
@@ -9,7 +9,7 @@ function localAssignments(){
 }
 
 export async function loadPortfolioBundleDrafts(c){
- const [portfolio,policy]=await Promise.all([loadJSON('data/portfolio.json'),loadJSON('config/risk_policy.json')]);
+ const [portfolio,policy,referenceIv]=await Promise.all([loadJSON('data/portfolio.json'),loadJSON('config/risk_policy.json'),loadJSON('data/reference_iv.json')]);
  if(!portfolio)throw Error('未找到本地 Portfolio 数据，请先刷新持仓');
- return portfolioBundleDrafts(c,portfolio,policy||{},localAssignments());
+ return portfolioBundleDrafts(c,portfolio,policy||{},localAssignments(),localReferenceIv(referenceIv||{}));
 }

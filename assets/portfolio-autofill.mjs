@@ -1,5 +1,5 @@
 import {normalizePortfolio} from './position-link.mjs';
-import {inferInstrument,newStructureLeg} from './trade-structure.mjs';
+import {inferInstrument,newStructureLeg} from './trade-structure.mjs?v=20261015-reference-iv';
 
 const finite=x=>x!==''&&x!=null&&Number.isFinite(+x);
 const thesisNames=c=>new Set([c?.title,c?.sourceLink?.name].map(x=>String(x||'').trim()).filter(Boolean));
@@ -24,7 +24,26 @@ function legFrom(row,spot){
  return leg;
 }
 
-export function portfolioBundleDrafts(c,rawPortfolio,policy={},localAssignments={}){
+export function latestReferenceIv(gexDaily={}){
+ const result={};
+ for(const day of Object.keys(gexDaily||{}).sort().reverse())for(const [underlying,row] of Object.entries(gexDaily[day]||{})){
+  if(result[underlying]||!finite(row?.atm_iv)||+row.atm_iv<=0)continue;
+  result[underlying]={iv:+row.atm_iv,at:day,dte:finite(row.atm_iv_dte)?+row.atm_iv_dte:''};
+ }
+ return result;
+}
+
+export function localReferenceIv(database={}){
+ const result={};
+ for(const [underlying,value] of Object.entries(database?.tickers||{})){
+  const row=Array.isArray(value)?null:value,iv=row?.reference_iv??row?.atm_iv??row?.iv;
+  if(!finite(iv)||+iv<=0)continue;
+  result[String(underlying).toUpperCase()]={iv:+iv,at:row.observed_at??row.updated_at??database.updated_at??'',dte:finite(row.dte)?+row.dte:''};
+ }
+ return result;
+}
+
+export function portfolioBundleDrafts(c,rawPortfolio,policy={},localAssignments={},referenceIvByUnderlying={}){
  const source=normalizePortfolio(rawPortfolio),assignments=mergedPortfolioAssignments(policy,localAssignments),names=thesisNames(c);
  const matched=source.rows.filter(row=>names.has(String(assignedThesis(row,assignments)||'').trim()));
  const groups=new Map();
@@ -36,7 +55,8 @@ export function portfolioBundleDrafts(c,rawPortfolio,policy={},localAssignments=
    const mark=row.mark!==''?row.mark:row.entry;if(!finite(mark))return sum;
    return sum+Math.abs(row.qty*+mark*(row.type==='stock'?1:100));
   },0);
-  const draft={structureVersion:1,greekScale:10000,template:'custom',evaluationDate:'',candidate:{version:1,underlying,instrument:'stock',referenceCapital:referenceCapital?Math.round(referenceCapital):'',targetDte:'',longDelta:'',shortDelta:'',plannedEntry:''},legs};
+  const heldIvs=rows.filter(row=>row.type!=='stock'&&finite(row.iv)&&+row.iv>0).map(row=>+row.iv).sort((a,b)=>a-b),heldIv=heldIvs.length?heldIvs[Math.floor(heldIvs.length/2)]:null,marketIv=referenceIvByUnderlying[underlying],referenceIv=marketIv?.iv??heldIv??'';
+  const draft={structureVersion:1,greekScale:10000,template:'custom',evaluationDate:'',candidate:{version:1,underlying,instrument:'stock',referenceCapital:referenceCapital?Math.round(referenceCapital):'',referenceIv,referenceIvAt:marketIv?.at||(heldIv!=null?source.builtAt:''),referenceIvDte:marketIv?.dte??'',targetDte:'',longDelta:'',shortDelta:'',plannedEntry:''},legs};
   draft.candidate.instrument=inferInstrument(draft);
   return {underlying,construction:draft,positionCount:rows.length};
  });

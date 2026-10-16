@@ -24,7 +24,7 @@ export function candidateDraft(d={},legacySymbol=''){
  const legs=d.legs||[],symbols=[...new Set(legs.map(ticker).filter(Boolean))],instrument=d.candidate?.instrument||inferInstrument(d);
  const hasCandidateUnderlying=Object.hasOwn(d.candidate||{},'underlying');
  const supported=Object.hasOwn(TEMPLATES,instrument)&&instrument!=='custom';
- return {version:1,underlying:String(hasCandidateUnderlying?d.candidate.underlying:(symbols[0]||legacySymbol||'')).toUpperCase(),instrument:supported?instrument:'stock',referenceCapital:d.candidate?.referenceCapital??'',targetDte:d.candidate?.targetDte??'',longDelta:d.candidate?.longDelta??'',shortDelta:d.candidate?.shortDelta??'',plannedEntry:d.candidate?.plannedEntry??''};
+ return {version:1,underlying:String(hasCandidateUnderlying?d.candidate.underlying:(symbols[0]||legacySymbol||'')).toUpperCase(),instrument:supported?instrument:'stock',referenceCapital:d.candidate?.referenceCapital??'',referenceIv:d.candidate?.referenceIv??'',referenceIvAt:d.candidate?.referenceIvAt??'',referenceIvDte:d.candidate?.referenceIvDte??'',targetDte:d.candidate?.targetDte??'',longDelta:d.candidate?.longDelta??'',shortDelta:d.candidate?.shortDelta??'',plannedEntry:d.candidate?.plannedEntry??''};
 }
 export function positionLabel(d={},legacySymbol=''){
  const c=candidateDraft(d,legacySymbol);return `${c.underlying||'未指定标的'} Bundle`;
@@ -42,6 +42,7 @@ export function structureError(d,complete=false){
  const date=x=>typeof x==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(x)&&Number.isFinite(Date.parse(x))&&new Date(x).toISOString().slice(0,10)===x;
  if(d.evaluationDate&&!date(d.evaluationDate))return '评估日期无效';
  if(d.candidate?.referenceCapital!==''&&d.candidate?.referenceCapital!=null&&(!num(d.candidate.referenceCapital)||+d.candidate.referenceCapital<=0))return 'Reference Capital 须大于 0，或留空';
+ if(d.candidate?.referenceIv!==''&&d.candidate?.referenceIv!=null&&(!num(d.candidate.referenceIv)||+d.candidate.referenceIv<=0))return 'Reference IV 须大于 0，或留空';
  if(complete&&(!d.legs.length||!date(d.evaluationDate)))return '选定方案前请填写评估日期并添加交易腿';
  for(const l of d.legs){
   if(!['stock','call','put'].includes(l.type)||!['long','short'].includes(l.side))return '交易腿类型无效';
@@ -75,6 +76,6 @@ export function structureExposure(legs,greekScale=1){
 export function bundleMetrics(d={}){
  const candidate=candidateDraft(d),exposure=structureExposure(d.legs||[],d.greekScale),group=exposure.groups.find(g=>g.symbol===candidate.underlying)||exposure.groups[0]||null;
  const spots=[...new Set((d.legs||[]).filter(l=>num(l.underlyingPrice)&&+l.underlyingPrice>0).map(l=>+l.underlyingPrice))];
- const referenceCapital=num(candidate.referenceCapital)&&+candidate.referenceCapital>0?+candidate.referenceCapital:null;
- return {underlying:candidate.underlying,referenceSpot:spots.length===1?spots[0]:null,spotConflict:spots.length>1,referenceCapital,netDelta:group?.delta??null,netGamma:group?.gamma??null,netVega:group?.vega??null,netTheta:group?.theta??null,legCount:(d.legs||[]).length};
+ const referenceCapital=num(candidate.referenceCapital)&&+candidate.referenceCapital>0?+candidate.referenceCapital:null,referenceIv=num(candidate.referenceIv)&&+candidate.referenceIv>0?+candidate.referenceIv:null;
+ return {underlying:candidate.underlying,referenceSpot:spots.length===1?spots[0]:null,spotConflict:spots.length>1,referenceCapital,referenceIv,referenceIvAt:candidate.referenceIvAt||'',referenceIvDte:num(candidate.referenceIvDte)?+candidate.referenceIvDte:null,netDelta:group?.delta??null,netGamma:group?.gamma??null,netVega:group?.vega??null,netTheta:group?.theta??null,legCount:(d.legs||[]).length};
 }

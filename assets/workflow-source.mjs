@@ -1,4 +1,4 @@
-import {createCase,record,clone} from './workflow-model.mjs';
+import {createCase,record,clone} from './workflow-model.mjs?v=20261015-no-signal';
 import {normalizePortfolio} from './position-link.mjs';
 export function sourceCatalog(policy,portfolio,localPolicy={},groups={}){
  const merged={...policy,...localPolicy,bundles:localPolicy?.bundles&&Object.keys(localPolicy.bundles).length?localPolicy.bundles:policy.bundles||{}};
@@ -15,7 +15,6 @@ export function linkSource(item,catalog,cases){
  c.linkedSymbols=[...new Set([...item.symbols,...item.rows.map(r=>r.underlying)])];
  c.sourceLink={kind:'risk-policy',name:item.name,linkedAt:new Date().toISOString(),symbols:c.linkedSymbols};
  c.nodes.hypothesis.data.invalidation=item.bundle.invalid||'';
- c.nodes.signal.data.indicator='';
  c.accountRiskSnapshot=JSON.stringify({policy:{...clone(catalog.policy),default_bundle:item.name},calculator:{entry:'100',mode:'manual',stop:'94',atr:'3'},done:[]});
  c.sourceLink.warnings=[];
  record(c,'关联现有 Thesis','hypothesis','读取现有论点、风险参数与标的列表；源数据保持不变');
