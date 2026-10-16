@@ -118,6 +118,29 @@ nav .tab.active { background: var(--accent); border-color: var(--accent); color:
 .ff-raw { margin-top: 3px; color: var(--muted); font-size: 10px; line-height: 1.35; text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .ff-warning { color: #fbbf24; cursor: help; }
 .ff-price { margin-top: 3px; color: var(--muted); font-size: 10px; line-height: 1.35; font-variant-numeric: tabular-nums; }
+
+/* Regime radar */
+.regime-controls { display: flex; align-items: end; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.regime-controls label { display: grid; gap: 3px; color: var(--muted); font-size: 11px; }
+.regime-controls input, .regime-controls select { min-height: 32px; padding: 5px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--card-hover); color: var(--text); }
+.regime-controls button { min-height: 32px; }
+.regime-controls #regime-status { align-self: center; margin-left: auto; }
+.regime-layout { display: grid; grid-template-columns: minmax(360px, 620px) minmax(180px, 1fr); gap: 24px; align-items: center; }
+.regime-chart { min-width: 0; touch-action: none; user-select: none; }
+.regime-chart svg { display: block; width: 100%; max-height: 580px; overflow: visible; }
+.regime-ring { fill: none; stroke: var(--border); stroke-width: 1; }
+.regime-axis { stroke: var(--border); stroke-width: 1; }
+.regime-label { fill: var(--muted); font-size: 13px; dominant-baseline: middle; }
+.regime-shape { fill: hsl(210 90% 65% / .22); stroke: var(--accent); stroke-width: 2.5; }
+.regime-point { fill: var(--accent); stroke: var(--bg); stroke-width: 3; cursor: grab; }
+.regime-point:active { cursor: grabbing; }
+.regime-chart.is-frozen .regime-point { cursor: default; opacity: .75; }
+.regime-point:focus-visible { outline: none; stroke: #fff; stroke-width: 4; }
+.regime-values { display: grid; gap: 7px; }
+.regime-values div { display: flex; justify-content: space-between; gap: 20px; padding: 7px 10px; border-bottom: 1px solid var(--border); }
+.regime-values span { color: var(--muted); }
+.regime-values b { color: var(--accent); font-variant-numeric: tabular-nums; }
+@media (max-width: 720px) { .regime-layout { grid-template-columns: 1fr; } .regime-values { grid-template-columns: repeat(2, 1fr); } }
 .ff-missing { color: var(--muted); font-size: 11px; }
 .ff-note { margin-top: 8px; line-height: 1.6; }
 .floating-table-head {
@@ -245,7 +268,10 @@ footer { margin-top: 50px; text-align: center; }
   position: relative; overflow: hidden; }
 /* 成交量水位:半透明,从卡片底部按 √(ADV) 升起;内容层浮于其上 */
 .mc-water { position: absolute; left: 0; right: 0; bottom: 0; pointer-events: none;
-  background: rgba(96, 165, 250, .16); border-top: 1px solid rgba(96, 165, 250, .4); }
+  background: rgba(96, 165, 250, .16); border-top: 0; }
+.mc-water::before { content: ""; position: absolute; left: 0; right: 0; top: -9px; height: 10px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 10' preserveAspectRatio='none'%3E%3Cpath d='M0 5 C7 1.5 13 1.5 20 5 S33 8.5 40 5 V10 H0Z' fill='rgb(96,165,250)' fill-opacity='.16'/%3E%3Cpath d='M0 5 C7 1.5 13 1.5 20 5 S33 8.5 40 5' fill='none' stroke='rgb(96,165,250)' stroke-opacity='.42' stroke-width='.8'/%3E%3C/svg%3E");
+  background-repeat: repeat-x; background-size: 40px 10px; }
 .mini-card .mc-main, .mini-card .mc-side { position: relative; z-index: 1; }
 .mc-vol { font-size: 12px; color: #93b4e6; margin-top: 3px; font-variant-numeric: tabular-nums; }
 .mini-card .sym { color: #f0c75e; font-weight: 700; font-size: 14px; }
@@ -396,6 +422,10 @@ footer { margin-top: 50px; text-align: center; }
 /* Scorecards 热力表 */
 #scorecards { margin-top: 14px; }
 .sc-head { margin-bottom: 10px; }
+.sc-filters { margin: 0 0 10px; }
+.sc-filters .tab { padding: 4px 8px 7px; color: var(--muted); border: 0; border-radius: 5px; background: transparent; cursor: pointer; }
+.sc-filters .tab:hover, .sc-filters .tab.active { color: var(--text); }
+.sc-filters .tab span { margin-left: 3px; font-variant-numeric: tabular-nums; opacity: .7; }
 .sc-wrap { overflow-x: auto; }
 .sc-table th { text-align: center; }
 .sc-table td { text-align: center; }
@@ -414,6 +444,7 @@ footer { margin-top: 50px; text-align: center; }
 .sc-dir.up { color: var(--up); background: hsl(152 60% 45% / .18); }
 .sc-dir.down { color: var(--down); background: hsl(0 70% 62% / .18); }
 .sc-dir.muted { color: var(--muted); background: hsl(220 10% 60% / .16); }
+.sc-table .sc-empty { padding: 18px 8px; text-align: center; }
 .sc-chk { text-align: left !important; white-space: normal; min-width: 130px; font-size: 11px; }
 .sc-split td { border-top: 2px solid var(--accent); }
 

@@ -1,5 +1,5 @@
-﻿# AAOI,方向=Watch 无仓位,更新=待填写,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
+﻿# AAOI,方向=Watch 无仓位,更新=2026-10-11,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
 Feature,Score,Rationale
-Operation,,
-Leadership,,
-Externality,,
+Operation,0,Q2’26 revenue $192M +86%，datacenter revenue翻倍以上，Q3 guide中值约$273M且首次恢复non-GAAP盈利 +3；现金约$509M支持扩产 +1；TTM仍录得GAAP operating loss约$67M，毛利率尚低 -2；约$9.3B市值对应约16x TTM sales，加上近年大幅扩股，估值和稀释各扣1分 -2
+Leadership,2,创始人CEO Thompson Lin 具光器件技术背景，团队完成高速收发器转型并把800G/1.6T产能快速扩向客户需求，执行改善 +3；长期盈利波动、当前大规模扩产及交付节奏仍需验证 -1
+Externality,1,AI datacenter对高速光模块的需求显著超过现有产能，垂直整合与美国制造形成一定差异化 +3；前十大客户占收入约97%，客户议价、同业扩产、价格周期、关税和出口限制合计 -2

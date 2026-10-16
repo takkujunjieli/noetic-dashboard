@@ -1,5 +1,5 @@
-﻿# FIG,方向=Watch 无仓位,更新=待填写,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
+﻿# FIG,方向=Watch 无仓位,更新=2026-10-11,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
 Feature,Score,Rationale
-Operation,,
-Leadership,,
-Externality,,
+Operation,2,Q2’26 revenue $370M +48%、gross margin 84%、NDR 136%，大客户数保持34%–46%增长，且已实现10% non-GAAP operating margin与14% FCF margin +4；$1.7B现金提供充足投入空间 +1；GAAP仍为亏损，SBC和上市后股份扩张显著 -2；约$12B市值对应约8x FY26 sales，仍要求持续高增长 -1
+Leadership,4,Dylan Field 作为创始人CEO建立了协作设计这一核心品类，Adobe交易终止后仍维持高增长，并把产品扩展至开发、发布和AI工作流 +4；产品驱动增长、企业渗透与AI credits采用率显示团队持续迭代能力 +1；创始人控制和平台扩张增加治理与执行集中度 -1
+Externality,2,多人实时协作、文件格式与design-system沉淀带来较强网络效应和切换成本 +3；设计到开发的一体化与AI使用率提供新增变现空间 +1；Adobe、Canva及AI原生生成工具可能压缩席位价值并降低产品边界 -2

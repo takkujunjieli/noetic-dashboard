@@ -1,5 +1,5 @@
-﻿# SMCI,方向=Watch 无仓位,更新=待填写,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
+﻿# SMCI,方向=Watch 无仓位,更新=2026-10-11,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
 Feature,Score,Rationale
-Operation,,
-Leadership,,
-Externality,,
+Operation,3,FY26 revenue $39.1B +78%、net income $2.2B，Q4 revenue $11.1B且Q1 FY27 guide中值约$15B，订单与backlog继续增长 +4；约$27.5B市值对应低于1x trailing sales和约10x earnings，估值有支撑 +2；FY26 gross margin仅10.8%，现金$7.5B低于约$8.7B债务和可转债，扩张依赖营运资金 -2；股份数继续上升 -1
+Leadership,0,创始人CEO Charles Liang 具服务器工程与供应链经验，团队在rack-scale和liquid cooling的产品速度、定制和交付规模上表现强 +3；此前财报延迟、审计更换、内部控制和治理争议造成持续可信度折价 -3
+Externality,2,AI基础设施资本开支、整机柜部署和液冷渗透构成强顺风，快速导入NVIDIA与AMD平台及规模化DLC能力带来先发优势 +4；系统集成毛利低且易受ODM竞争、核心芯片供应商议价、客户集中和关税供应链影响 -2

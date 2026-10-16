@@ -1,5 +1,5 @@
-﻿# LITE,方向=Watch 无仓位,更新=待填写,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
+﻿# LITE,方向=Watch 无仓位,更新=2026-10-11,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
 Feature,Score,Rationale
-Operation,,
-Leadership,,
-Externality,,
+Operation,2,FY26 revenue $3.01B +83%，Q4 revenue $1.01B +109%，GAAP operating margin升至27.8%，Q1 FY27 guide进一步指向约$1.25B revenue和40% non-GAAP operating margin +4；现金和短期投资约$2.7B，债务股权化改善资产负债表 +1；约$100B市值对应约33x TTM sales，估值已计入多年高增长 -2；债务转换和扩股带来的稀释、GAAP巨额一次性亏损降低财务可读性 -1
+Leadership,3,Michael Hurlston 团队把产品组合快速转向 AI datacenter optics，并同步扩充激光器与美国制造能力，增长和利润率兑现强 +4；需求、产能与新产品同时快速爬坡，资本配置及供应执行仍有较高难度 -1
+Externality,3,AI 集群的带宽与功耗瓶颈推动 800G/1.6T、CPO 和 optical circuit switching，Lumentum 的激光器、器件与系统能力受益 +4；客户集中、光通信周期、同业竞争及中国供应链风险合计 -1

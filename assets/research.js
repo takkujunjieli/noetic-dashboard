@@ -5,7 +5,8 @@ import { $, esc, loadJSON, loadFreshJSON, getPat, ghHeaders, REPO } from "./shar
 import { loadRetailData } from "./retail-data.mjs";
 import { buildSnapshot } from "./macd-research.mjs";
 import { decomposeFiveFactor } from "./five-factor.mjs";
-import { initScorecards } from "./trading.js?v=20261010-scorecard-date";   // 个股分析 tab 复用交易台的 Scorecards 渲染(trading.js 自启动已守卫)
+import { REGIME_DIMENSIONS, defaultRegimeValues, isRegimeFriday, mergeRegimeStores, radarPoint, radarValueFromPoint, regimeFriday, saveRegimeSnapshot } from "./regime.mjs";
+import { initScorecards } from "./trading.js?v=20261012-scorecard-sort-filter";   // 个股分析 tab 复用交易台的 Scorecards 渲染(trading.js 自启动已守卫)
 
 const floatingTableHeaders = new Map();
 function installFloatingTableHeader(wrap, tableSelector, key) {
@@ -24,9 +25,10 @@ function installFloatingTableHeader(wrap, tableSelector, key) {
   shell.append(headTable);
   document.body.append(shell);
   shell.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-ff-sort]");
+    const button = event.target.closest("[data-ff-sort], [data-sc-sort]");
     if (!button) return;
-    table.querySelector(`[data-ff-sort="${button.dataset.ffSort}"]`)?.click();
+    const attr = button.hasAttribute("data-ff-sort") ? "data-ff-sort" : "data-sc-sort";
+    table.querySelector(`[${attr}="${button.getAttribute(attr)}"]`)?.click();
   }, { signal: controller.signal });
 
   const sync = () => {
@@ -1362,7 +1364,188 @@ async function renderStocks() {
   installFloatingTableHeader(document.querySelector("#scorecards .sc-wrap"), ".sc-table", "scorecards");
 }
 
-const RENDER = { bearbull: renderBearbull, retailflow: renderRetailflow, rates: renderRates, gexvol: renderGexVol, flowdir: renderFlowDir, positioning: renderPositioning, macd: renderMacd, stocks: renderStocks, fivefactor: renderFiveFactor };
+window.addEventListener("scorecards-rendered", () => {
+  installFloatingTableHeader(document.querySelector("#scorecards .sc-wrap"), ".sc-table", "scorecards");
+});
+
+/* ---------- Topic 9:Regime 七维手工快照 ---------- */
+const REGIME_PATH = "data/regime_snapshots.json", REGIME_LOCAL_KEY = "regimeSnapshotsV1";
+let regimeStore = null, regimeValues = defaultRegimeValues(), regimeDragIndex = null, regimeFrozen = false;
+
+const regimeLatestFriday = () => {
+  const parts = Object.fromEntries(new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit",
+  }).formatToParts(new Date()).filter((part) => part.type !== "literal").map((part) => [part.type, part.value]));
+  const today = `${parts.year}-${parts.month}-${parts.day}`;
+  const friday = regimeFriday(today);
+  if (friday <= today) return friday;
+  const previous = new Date(`${friday}T00:00:00Z`);
+  previous.setUTCDate(previous.getUTCDate() - 7);
+  return previous.toISOString().slice(0, 10);
+};
+
+function localRegimeStore() {
+  try { return JSON.parse(localStorage.getItem(REGIME_LOCAL_KEY) || "null"); }
+  catch { return null; }
+}
+
+function writeLocalRegimeStore(store) {
+  localStorage.setItem(REGIME_LOCAL_KEY, JSON.stringify(store));
+}
+
+async function loadRegimeStore() {
+  const remote = await loadFreshJSON(REGIME_PATH);
+  return mergeRegimeStores(remote, localRegimeStore());
+}
+
+async function writeRemoteRegimeStore(store) {
+  const pat = getPat();
+  if (!pat) return false;
+  const url = `https://api.github.com/repos/${REPO}/contents/${REGIME_PATH}`;
+  const meta = await fetch(`${url}?ref=data&t=${Date.now()}`, { headers: ghHeaders(pat), cache: "no-store" });
+  if (!meta.ok && meta.status !== 404) throw new Error(`读取远端快照失败 (${meta.status})`);
+  const previous = meta.ok ? await meta.json() : null;
+  const response = await fetch(url, {
+    method: "PUT",
+    headers: { ...ghHeaders(pat), "Content-Type": "application/json" },
+    body: JSON.stringify({
+      message: `data: save regime snapshot ${$("regime-date").value}`,
+      content: encodeBase64(JSON.stringify(store, null, 2) + "\n"),
+      branch: "data",
+      ...(previous?.sha ? { sha: previous.sha } : {}),
+    }),
+  });
+  if (!response.ok) throw new Error(`保存远端快照失败 (${response.status})`);
+  return true;
+}
+
+function regimePolygon(values, radius = 180) {
+  return REGIME_DIMENSIONS.map((name, index) => {
+    const point = radarPoint(index, values[name], 250, radius);
+    return `${point.x.toFixed(1)},${point.y.toFixed(1)}`;
+  }).join(" ");
+}
+
+function buildRegimeRadar() {
+  const rings = [2, 4, 6, 8, 10].map((level) => `<polygon points="${regimePolygon(Object.fromEntries(REGIME_DIMENSIONS.map((name) => [name, level])))}" class="regime-ring"/>`).join("");
+  const axes = REGIME_DIMENSIONS.map((name, index) => {
+    const end = radarPoint(index, 10), label = radarPoint(index, 11.8);
+    const anchor = label.x < 230 ? "end" : label.x > 270 ? "start" : "middle";
+    return `<line x1="250" y1="250" x2="${end.x}" y2="${end.y}" class="regime-axis"/><text x="${label.x}" y="${label.y}" text-anchor="${anchor}" class="regime-label">${name}</text>`;
+  }).join("");
+  const points = REGIME_DIMENSIONS.map((name, index) => `<circle data-regime-point="${index}" r="8" tabindex="0" role="slider" aria-label="${name}" aria-valuemin="1" aria-valuemax="10" class="regime-point"/>`).join("");
+  $("regime-chart").innerHTML = `<svg id="regime-svg" viewBox="0 0 500 500" role="img" aria-label="七维 Regime 雷达图">${rings}${axes}<polygon id="regime-shape" class="regime-shape"/>${points}</svg>`;
+  const svg = $("regime-svg");
+  svg.addEventListener("pointerdown", (event) => {
+    if (regimeFrozen) return;
+    const point = event.target.closest("[data-regime-point]");
+    if (!point) return;
+    regimeDragIndex = Number(point.dataset.regimePoint);
+    svg.setPointerCapture(event.pointerId);
+    updateRegimeFromPointer(event);
+  });
+  svg.addEventListener("pointermove", (event) => { if (regimeDragIndex != null) updateRegimeFromPointer(event); });
+  const stop = () => { regimeDragIndex = null; };
+  svg.addEventListener("pointerup", stop);
+  svg.addEventListener("pointercancel", stop);
+  svg.addEventListener("keydown", (event) => {
+    if (regimeFrozen) return;
+    const point = event.target.closest("[data-regime-point]");
+    if (!point || !["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft"].includes(event.key)) return;
+    event.preventDefault();
+    const index = Number(point.dataset.regimePoint), name = REGIME_DIMENSIONS[index];
+    regimeValues[name] = Math.max(1, Math.min(10, regimeValues[name] + (["ArrowUp", "ArrowRight"].includes(event.key) ? 1 : -1)));
+    updateRegimeView();
+    $("regime-status").textContent = "当前调整尚未保存";
+  });
+}
+
+function updateRegimeFromPointer(event) {
+  const svg = $("regime-svg"), matrix = svg.getScreenCTM();
+  if (!matrix) return;
+  const point = new DOMPoint(event.clientX, event.clientY).matrixTransform(matrix.inverse());
+  const name = REGIME_DIMENSIONS[regimeDragIndex];
+  regimeValues[name] = radarValueFromPoint(regimeDragIndex, point.x, point.y);
+  updateRegimeView();
+  $("regime-status").textContent = "当前调整尚未保存";
+}
+
+function updateRegimeView() {
+  $("regime-shape").setAttribute("points", regimePolygon(regimeValues));
+  REGIME_DIMENSIONS.forEach((name, index) => {
+    const point = radarPoint(index, regimeValues[name]);
+    const node = document.querySelector(`[data-regime-point="${index}"]`);
+    node.setAttribute("cx", point.x); node.setAttribute("cy", point.y);
+    node.setAttribute("aria-valuenow", regimeValues[name]);
+    node.setAttribute("aria-disabled", String(regimeFrozen));
+  });
+  $("regime-chart").classList.toggle("is-frozen", regimeFrozen);
+  $("regime-values").innerHTML = REGIME_DIMENSIONS.map((name) => `<div><span>${name}</span><b>${regimeValues[name]}</b></div>`).join("");
+}
+
+function selectRegimeFriday(date) {
+  const snapshot = regimeStore.snapshots[date];
+  regimeFrozen = Boolean(snapshot);
+  regimeValues = snapshot ? { ...snapshot.values } : defaultRegimeValues();
+  $("regime-save").disabled = regimeFrozen;
+  $("regime-reset").disabled = regimeFrozen;
+  updateRegimeView();
+  $("regime-status").textContent = snapshot ? `${date} · 已保存，只读` : `${date} · 尚未保存，可以回填`;
+}
+
+async function persistRegime() {
+  const date = $("regime-date").value;
+  if (!isRegimeFriday(date)) { $("regime-status").textContent = "请选择周五日期"; return; }
+  if (date > regimeLatestFriday()) { $("regime-status").textContent = "只能回填已经结束的周"; return; }
+  if (regimeFrozen) return;
+  const button = $("regime-save");
+  button.disabled = true; button.textContent = "保存中…";
+  try {
+    const remote = await loadFreshJSON(REGIME_PATH);
+    regimeStore = mergeRegimeStores(remote, regimeStore);
+    if (regimeStore.snapshots[date]) {
+      writeLocalRegimeStore(regimeStore);
+      selectRegimeFriday(date);
+      return;
+    }
+    regimeStore = saveRegimeSnapshot(regimeStore, date, regimeValues);
+    writeLocalRegimeStore(regimeStore);
+    const synced = await writeRemoteRegimeStore(regimeStore);
+    regimeFrozen = true;
+    $("regime-save").disabled = true;
+    $("regime-reset").disabled = true;
+    updateRegimeView();
+    $("regime-status").textContent = synced ? `${date} 已保存并同步 · 只读` : `${date} 已保存到本机 · 只读`;
+  } catch (error) {
+    console.error(error);
+    $("regime-status").textContent = `保存失败：${error.message}`;
+  } finally {
+    button.disabled = regimeFrozen; button.textContent = "保存当前快照";
+  }
+}
+
+async function renderRegime() {
+  regimeStore = await loadRegimeStore();
+  const latestFriday = regimeLatestFriday();
+  $("regime-date").max = latestFriday;
+  $("regime-date").value = latestFriday;
+  buildRegimeRadar(); selectRegimeFriday(latestFriday);
+  $("regime-reset").onclick = () => { regimeValues = defaultRegimeValues(); updateRegimeView(); $("regime-status").textContent = "已重置为 5，尚未保存"; };
+  $("regime-save").onclick = persistRegime;
+  $("regime-date").onchange = (event) => {
+    const date = event.target.value;
+    if (!date) return;
+    if (!isRegimeFriday(date)) {
+      const corrected = regimeFriday(date);
+      event.target.value = corrected && corrected <= latestFriday ? corrected : latestFriday;
+      selectRegimeFriday(event.target.value);
+      return;
+    }
+    selectRegimeFriday(date);
+  };
+}
+
+const RENDER = { bearbull: renderBearbull, rates: renderRates, regime: renderRegime, retailflow: renderRetailflow, positioning: renderPositioning, gexvol: renderGexVol, flowdir: renderFlowDir, macd: renderMacd, stocks: renderStocks, fivefactor: renderFiveFactor };
 const rendered = {};
 async function showTopic(topic) {
   if (!RENDER[topic]) return;

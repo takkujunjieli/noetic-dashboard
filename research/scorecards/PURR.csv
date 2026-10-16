@@ -1,5 +1,5 @@
-﻿# PURR,方向=Watch 无仓位,更新=待填写,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
+﻿# PURR,方向=Watch 无仓位,更新=2026-10-11,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
 Feature,Score,Rationale
-Operation,,
-Leadership,,
-Externality,,
+Operation,-2,FY26 通过发行 PURR 净募 $647M，并以 $773M 买入 HYPE；期末约29.4M HYPE、现金/类现金 $133M、零债务，资产负债表简单 +2；但年内发行76.1M股、平均发行价 $8.50，且后续 equity facility 承诺上限由 $1B 提至 $2.5B，稀释是商业模式核心 -2；约 $2.2B 市值对 HYPE NAV 存在溢价，传统经营现金流和估值锚薄弱 -2
+Leadership,1,团队坚持在 mNAV 溢价时融资、零债务积累 HYPE，并通过 validator/staking 增加原生收益，执行框架清晰 +2；公司新上市、管理层公开市场与风控记录很短，资金用途裁量权大且激励依赖持续发股 -1
+Externality,-3,Hyperliquid 在永续合约与链上流动性具强网络效应、协议收入和 token buyback 支撑 HYPE +2；单一 HYPE 集中暴露、智能合约/验证者/托管/黑客风险、DeFi 与衍生品监管不确定性合计 -4；当 PURR 跌至 NAV 附近时融资飞轮会停止并可能反转 -1

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Research · 研究台</title>
-<link rel="stylesheet" href="assets/style.css?v=20261010-scorecard-date">
+  <link rel="stylesheet" href="assets/style.css?v=20261012-scorecard-sort-filter">
 <link rel="stylesheet" href="assets/theme.css">
 </head>
 <body class="trading">
@@ -26,6 +26,7 @@
     <div class="research-topic-tabs">
       <span class="tab active" data-topic="bearbull">熊市预测</span>
       <span class="tab" data-topic="rates">国债vs股市</span>
+      <span class="tab" data-topic="regime">Regime</span>
     </div>
   </div>
   <div class="research-topic-group" role="group" aria-label="资金与仓位">
@@ -68,6 +69,22 @@
 
   <h2>模型系数(标准化)</h2>
   <div id="bb-coef" class="card"><span class="muted small">计算中…</span></div>
+</section>
+
+<!-- ========== Topic 3.5:宏观环境 Regime 手工快照 ========== -->
+<section data-topic-panel="regime" hidden>
+  <h2>Regime <span class="muted small">七维市场环境手工快照 · 1–10</span></h2>
+  <div class="card regime-controls">
+    <label>周五日期 <input id="regime-date" type="date" min="2020-01-03" step="7"></label>
+    <button id="regime-save">保存当前快照</button>
+    <button id="regime-reset">重置为 5</button>
+    <span id="regime-status" class="muted small"></span>
+  </div>
+  <div class="card regime-layout">
+    <div id="regime-chart" class="regime-chart" aria-label="Regime 七维雷达图"></div>
+    <div id="regime-values" class="regime-values"></div>
+  </div>
+  <div class="muted small" style="margin-top:8px">每个周五对应一份周快照。选择未保存的周五可从默认值 5 开始回填；已保存的周只读，需直接修改 snapshot 数据才能更正。</div>
 </section>
 
 <!-- ========== Topic 2:散户订单流(live, 30d 滚动) ========== -->
@@ -200,6 +217,6 @@
 </footer>
 
 <script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
-<script type="module" src="assets/research.js?v=20261010-scorecard-date"></script>
+<script type="module" src="assets/research.js?v=20261012-scorecard-sort-filter"></script>
 </body>
 </html>

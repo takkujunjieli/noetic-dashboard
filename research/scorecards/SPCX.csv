@@ -1,5 +1,5 @@
-﻿# SPCX,方向=Watch 无仓位,更新=待填写,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
+﻿# SPCX,方向=Watch 无仓位,更新=2026-10-11,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
 Feature,Score,Rationale
-Operation,,
-Leadership,,
-Externality,,
+Operation,0,Q2’26 rev $7.81B +92%、H1 rev $12.51B +54%，Connectivity H1 $7.55B、deferred revenue $14.29B，IPO 后现金+短期证券约 $100B +4；但 AI segment H1 operating loss约 $3.73B，抵消 Connectivity约 $2.84B operating profit -2；约 $2.14T 市值对应极高 sales multiple，Starship/AI/频谱和算力 capex 仍重 -2
+Leadership,2,Elon Musk 团队把可复用发射、Starlink 和垂直整合制造做到全球规模，产品与工程执行属于顶级 +4；同时跨 SpaceX/X/xAI 的资本配置、关联交易、关键人依赖和激进扩张提高治理折价 -2
+Externality,3,Falcon 发射可靠性、Starlink 星座/频谱/终端规模与政府合同构成很深的基础设施壁垒 +4；Starlink Mobile 打开电信增量市场 +1；频谱审批、国家安全/地缘政治、轨道拥堵，以及 AI 基础设施面对 hyperscaler 自建和客户集中风险合计 -2

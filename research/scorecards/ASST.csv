@@ -1,5 +1,5 @@
-﻿# ASST,方向=Watch 无仓位,更新=待填写,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
+﻿# ASST,方向=Watch 无仓位,更新=2026-10-11,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
 Feature,Score,Rationale
-Operation,,
-Leadership,,
-Externality,,
+Operation,-4,"经营业务 TTM rev 仅约 $8.5M，而 operating loss约 $817M、net loss约 $931M -3；截至 2026-09-30 持有 28,000 BTC、现金 $285M 和 STRC $50M，但 $1.294B 永续优先股带来约 $168M 年化股息刚性负担 -2；无普通债务且 BTC 储备具流动性 +1；fully diluted shares约100.7M，持续发股/优先股融资令每股价值高度依赖 BTC 与融资溢价 -0"
+Leadership,0,"Matt Cole 团队快速完成 Semler 整合并把 BTC 从约5,886枚扩至28,000枚，融资执行力强 +2；核心战略是资本市场套利而非可验证的经营护城河，管理层披露的 BTC Yield 不反映优先股高级索取权 -1；治理与跨周期资本配置记录仍短 -1"
+Externality,-4,本质是带永续优先股负担的 BTC treasury，收益高度取决于 BTC 价格、mNAV 溢价和持续融资窗口 -3；风险偏好下降时普通股稀释、优先股息与 BTC 下跌可形成反身性压力 -2；机构化 BTC 需求与监管清晰度可能提供顺风 +1

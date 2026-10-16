@@ -1,5 +1,5 @@
-﻿# MRVL,方向=Watch 无仓位,更新=待填写,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
+﻿# MRVL,方向=Watch 无仓位,更新=2026-10-11,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
 Feature,Score,Rationale
-Operation,,
-Leadership,,
-Externality,,
+Operation,2,Q2 FY27 rev $2.739B +37%、Data Center +46%，GAAP GM 53.1%、CFO $606M，TTM rev约 $9.45B 且由亏转为显著盈利 +3；Celestial AI 并购补强 photonic fabric，但带来整合与无形资产风险 -1；约 $247B 市值、forward P/E~68 明显预支增长，top-10 customer concentration约82% -1；轻资产现金生成和多产品线恢复 +1
+Leadership,3,Matt Murphy 任内将 Marvell 聚焦 data infrastructure，完成资产取舍并在 custom silicon、electro-optics、switching 建立组合，执行记录强 +3；收购 Celestial AI、与 NVIDIA 建立兼容合作显示适应力 +1；2031 收入目标极激进，管理层兑现压力 -1
+Externality,2,AI 集群从 scale-up/scale-out 网络、光互联到 custom XPU 都增加 Marvell 内容量，Google/NVIDIA 等设计赢单提供顺风 +3；Broadcom、Astera、Credo 竞争激烈，hyperscaler 客户议价/自研与高集中度 -1；出口限制和 AI capex 周期放大波动 -0
