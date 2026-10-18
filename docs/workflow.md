@@ -1,3 +1,23 @@
+## 先成交再配置 Workflow（2026-10-17）
+
+未归属且没有 In Action 预算声明的标的，在 Portfolio 热力图提供 Active Thesis 下拉。选择结果以 Workflow ID 定位，直接保存到该实例的 `portfolioUnderlyings`，生成 construction 历史事件并标记待同步；不写另一份 Portfolio 私有归属。可在冻结预算前改选或清空。In Action underlying 优先于早期手选声明，防止旧选择覆盖预算归属。
+
+Portfolio、B/S/O 新成交关联、Portfolio Construction 自动填写共享这一解析规则。早期归属无需先创建 Bundle 或设置 In Action。自动填写从该标的全部账户读取正股与期权，按现有逻辑跳过 Frozen Bundle，并把导入标的保留在 Workflow 的归属列表中；保存 Construction 保留旧预算并将其标记为 Stale，直到重新配置预算。选 Thesis 本身不生成风险预算或目标股数。无未保存编辑时，已打开的 Workflow 页面自动读取另一页面保存的归属；存在草稿时保留草稿并提示刷新。
+
+## Portfolio 与成交统一归属（2026-10-17）
+
+Portfolio 风险敞口表与 B/S/O 新成交关联共用 `workflow-ownership.mjs`：只读取未归档、非模拟、Active Thesis 的 In Action Risk Budget underlying。目标比例为 0 仍保留成员身份。唯一命中时自动归属，以 Workflow ID 定位预算模型并链接到 Portfolio Construction；无命中显示“未配置 Workflow”，多个命中显示“归属冲突”并停止套用自动预算模型。Portfolio 不再提供独立 Thesis 下拉，旧 `riskGroups` / policy assignments 不参与当前归属。Construction 自动填写也只刷新同一归属下的实际持仓。
+
+优先读取完整 Workflow 本机数据；只有完整 store 不存在时才兼容读取 Active Nebula catalog。完整 store 为空、无效或停用 Thesis 时不会复活旧 catalog 归属。另一页面更新 Workflow 后 Portfolio 重新渲染。
+
+原 ticker 后的预算状态标签已移除；止盈、止损依次位于参考成本之后。已有成交关联保留历史归属，新关联使用统一的当前归属；不会重新分配历史成交或改写原始成交和理由。
+
+检查：`node --test tests/workflow-ownership.test.mjs`；`tests/workflow-ownership.browser.cjs` 使用隔离浏览器与模拟数据验证页面状态、跨页更新和冲突处理。
+
+## 全部账户合并持仓（2026-10-17）
+
+Portfolio 风险敞口表选择全部账户时，先以 instrument、完整 symbol、方向（期权还区分乘数）分组，一次汇总股数、市值、实际成本和浮盈。相同标的同方向合并，完整合约不同或多空相反保留分行，合约标识不完整的期权不猜测合并。小额正股过滤在合并后执行。实际成本与各来源报价按绝对数量加权，浮盈率按合并成本重算；Workflow 的冻结 Reference Spot 是独立的统一参考成本，不按各账户成交成本改写。仓位和在险百分比使用账户净值合计，距目标用冻结比例换算目标资本、再除以统一参考成本并减去合并股数。股数单元格悬停可查看账户数量组成。
+
 ## Underlying Greek Bundles · 第一阶段（2026-09-28）
 
 Portfolio Construction 的最小风险单元改为 **Underlying Greek Bundle**。每个 Bundle 只属于一个 Underlying，但内部允许用户直接编辑任意数量的 Stock / Call / Put 交易腿、Long / Short 方向和 Ratio / Quantity。Starter Structure 只负责生成初始交易腿；保存后所有腿的固定比例共同定义一个可整体缩放的 Bundle。
@@ -8,17 +28,29 @@ Portfolio Construction 的最小风险单元改为 **Underlying Greek Bundle**�
 
 ### Scenario Underwriting → Risk Budget
 
-Scenario Underwriting 为整个 thesis 定义一组联合 Bull / Base / Bear 状态。系统先用每个 Bundle 的 Net Delta、Gamma、Vega、Theta、Reference Spot 与 Reference Capital 计算情景收益，再同时求解所有 Bundle 的非负 Kelly 比例：`max Σ pᵢ log(1 + Σ fⱼrᵢⱼ)`。约束为 `Σfⱼ ≤ 1` 且每个情景中的剩余财富均大于 0。系统丢弃 Kelly 的绝对仓位，只把正解归一化为 Bundle 相对权重。
+Scenario Underwriting 为整个 thesis 定义一组联合 Bull / Base / Bear 状态。系统先用每个 Bundle 的 Net Delta、Gamma、Vega、Theta、Reference Spot 与 Reference Capital 计算情景收益，再同时求解所有 Bundle 的非负 Kelly 比例：`max Σ pᵢ log(1 + Σ fⱼrᵢⱼ)`。约束为 `Σfⱼ ≤ 1` 且每个情景中的剩余财富均大于 0。系统丢弃 Kelly 的绝对仓位，将正解换算为 ATR 风险份额，用于有限倾斜（见下文）。
 
-用户填写 `Thesis At-Risk Limit` 与一个 `ATR Stop Multiple`。ATR Stop Risk 在每个 Bundle 内分别计算 `Spot − ATR × Multiple` 与 `Spot + ATR × Multiple` 的 Delta/Gamma 估算损益，取该 Bundle 更差的一边，再按 Kelly 权重求和。因此不同 Bundle 可以同时采用各自独立的最不利方向。Scenario Risk 则严格保留用户定义的联合相对走势：分别聚合 Bull、Base、Bear 同一行的 Bundle 收益，再取最坏联合情景。两种风险率中较大者约束 Nebula 总仓位：`Target Allocation = min(100%, At-Risk Limit / Binding Risk Rate)`。
+用户填写 `Thesis At-Risk Limit` 与一个 `ATR Stop Multiple`。ATR Stop Risk 在每个 Bundle 内分别计算 `Spot − ATR × Multiple` 与 `Spot + ATR × Multiple` 的 Delta/Gamma 估算损益，取该 Bundle 更差的一边，再按分散后的资金权重求和。因此不同 Bundle 可以同时采用各自独立的最不利方向。Scenario Risk 则严格保留用户定义的联合相对走势：分别聚合 Bull、Base、Bear 同一行的 Bundle 收益，再取最坏联合情景。两种风险率中较大者约束 Nebula 总仓位：`Target Allocation = min(100%, At-Risk Limit / Binding Risk Rate)`。
 
 Workflow 不输入账户 Capital Base，只将 Bundle 相对权重乘以 Nebula Target Allocation，并冻结为 In Action Risk Budget 的账户比例。Portfolio 选择具体账户后再换算 Target Capital 和交易数量。当前阶段不计算 Tail Risk，也没有跨 Nebula Risk Governor。
+
+### 风险等权基准与有限 Kelly 倾斜（2026-10-18）
+
+Risk Budget 默认采用 75% 风险等权基准 + 25% Kelly 风险倾斜。`Kelly Tilt (%)` 可在 0–25 之间调整；0 表示纯风险等权。不同 Underlying 平分基准风险，同一 Underlying 的多个 Bundle 再平分该标的的一份基准，避免添加同标的结构就重复获得分散额度。
+
+对 Bundle j，令独立 ATR 风险率为 `r_j = 独立 ATR 估计损失 / Reference Capital`、基准风险份额为 `b_j = 1 / Underlying 数量 / 该标的 Bundle 数量`、原始 Kelly 资金比例为 `f_j`。先计算 `k_j = f_j × r_j / Σ(f × r)`，再混合为 `q_j = (1 − α) × b_j + α × k_j`，最后归一化 `q_j / r_j` 得到资金权重。三个标的、α = 25% 时，即使原始 Kelly 全选一个标的，其风险份额也只有 50%，另外两个各 25%；资金权重则取决于各自风险率。
+
+系统先计算每个 Bundle 在联合分布中的独立预期收益。独立预期收益非正且原始 Kelly 权重为 0 的 Bundle 标为 `⚠ Excluded`，不给基准风险份额；若负独立收益的 Bundle 因对冲价值获得正 Kelly 权重，则仍保留。Excluded 项继续冻结在 Thesis 范围内，并在 Workflow 与 Portfolio 热力图的标的名后显示原因，供用户修改参数或从 Portfolio Construction 剔除，不提供手动 Include / Exclude 开关。
+
+正股多空、Call / Put 多空和多腿期权都使用带方向、数量与合约乘数的组合净 Delta/Gamma，按相同 ATR 风险口径参与分散；不按权利金或合约张数等权。ATR 区间风险同时检查下端点、当前点、上端点，以及落在区间内的二次函数驻点 `−Delta / Gamma`，避免正 Gamma 结构的内部最坏点被端点法漏掉。该口径是价格变动风险估计，不代表最大损失，也不覆盖全部期权风险；IV 与时间损益仍由联合 Scenario 收益处理。任何仍符合 Eligibility 的候选缺少 ATR / 可计算 Greeks 或风险率为零时，都阻止激活并提示复核，不把它当作无风险资产。原始 Kelly 无正向优势时保留现金；分散后预期收益非正时也阻止激活。
+
+本阶段仅改变相对分配，总规模仍使用上述 At-Risk 公式，不增加 Risk Utilization。页面区分 Baseline Risk Share、Kelly Risk Share、Target Risk Share 与 Capital Weight。激活时以 `equal-atr-risk-kelly-v1` 标记冻结方法，并保存倾斜参数和各份额。已激活的旧快照不自动改写；页面提示新规则仅为预览，用户重新设为 In Action 后才替换。
 
 ### Uncertainty-aware Kelly · 第二阶段（2026-09-29）
 
 每个 Scenario 的 Probability，以及每个 Underlying Bundle 的 Price Move 和可选 IV Change，都可以填写中心值与 `±` 区间。区间表示主观参数范围，不新增单独的 confidence 分数。系统使用固定种子的 500 次均匀 Monte Carlo 采样；每次将采样后的 Bull / Base / Bear 概率重新归一化，再计算 Greek 情景收益和多变量 Kelly。
 
-有不确定区间时，系统把 500 次采样产生的全部 Bull / Base / Bear 状态合并为一个联合分布，并只求解一次 Kelly。这个解用于 Bundle 相对权重；不再分别计算或拼接 Q25 / Q50 / Q100 向量。
+有不确定区间时，系统把 500 次采样产生的全部 Bull / Base / Bear 状态合并为一个联合分布，并只求解一次 Kelly。这个解用于上述有限风险倾斜；不再分别计算或拼接 Q25 / Q50 / Q100 向量。
 
 ## Candidate Positions 与共享风险优化（2026-09-26 · 历史实现）
 
@@ -372,3 +404,10 @@ and an isolated browser context to verify letters, shape, all three colors,
 transition duration, daily card behavior and AVWAP isolation.
 
 Marker color update: B uses translucent green, S translucent red, and O translucent white. Hover and pressed states deepen each tint, preserving the 160ms background transition.
+## Thesis 参数过期与 drift 提醒（2026-10-18）
+
+每次设置 In Action Risk Budget 时，系统冻结输入指纹、Scenario Days Forward、Thesis 目标日期、参考价格、ATR、Eligibility 与激活时间。之后只生成提醒，不自动修改概率、Risk Budget 或目标仓位。状态分为 Fresh、Review、Stale、Expired，并显示在 Workflow 的 Scenario Underwriting / Risk Budget 节点及 Portfolio 热力图标的名后。
+
+Review cadence 为 `Days Forward / 4`，限制在 2–7 天；没有正数 Days Forward 时使用 7 天。超过一个 cadence 进入 Review，超过两个进入 Stale；超过激活时冻结的 Days Forward 或目标日期进入 Expired。当前价格相对冻结参考价偏移 1 ATR 进入 Review，偏移 2 ATR 进入 Stale；价格不可用时进入 Review。Bundle、Scenario 或 Risk Budget 参数与冻结输入不一致时进入 Stale，Eligibility 改变也会提醒。价格 drift 只使用底层现价和冻结 ATR，不检查期权 IV、Greeks 或期权权利金 drift。
+
+“确认仍然有效”只更新人工复核时间。它不会更新价格基准、输入指纹或 Scenario 有效期，因此不能清除价格 drift、Draft newer than In Action 或 Expired。要采用新参数和新基准，必须重新设置 In Action Risk Budget。旧快照缺少 freshness baseline 时显示 Stale，重新激活一次即可建立基准。

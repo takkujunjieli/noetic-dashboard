@@ -1,18 +1,19 @@
-import {mountMonitorTrades} from './trade-link-ui.js?v=20261015-auto-thesis';
-import {readTradeLinks,reconcileTradeLinks} from './trade-link-client.js';
+import {mountMonitorTrades} from './trade-link-ui.js?v=20261017-portfolio-assignment';
+import {readTradeLinks,reconcileTradeLinks} from './trade-link-client.js?v=20261017-portfolio-assignment';
 import {captureWorkflow,syncWorkflowSnapshot,refreshActiveNebulaCatalog,UNSYNCED_KEY,readUnsyncedNebulae,writeUnsyncedNebulae,remainingUnsyncedNebulae} from './workflow-sync.js?v=20261015-no-signal';
-import {createGalaxy} from './galaxy-scene.js?v=20261015-node-links';
+import {createGalaxy} from './galaxy-scene.js?v=20261018-thesis-freshness';
 import {getPat,setPat} from './shared.js';
 import {expectedCharts,readScenarioUnderwriting,scenarioUnderwritingForm,syncDerivedUnderwriting} from './expected-return.js?v=20261015-underwriting-layout';
-import {planTable} from './design-plans.js?v=20261015-reference-iv';
-import {loadPortfolioBundleDrafts} from './portfolio-autofill.js?v=20261015-atr-uncertainty';
+import {planTable} from './design-plans.js?v=20261018-bundle-locks';
+import {loadPortfolioBundleDrafts} from './portfolio-autofill.js?v=20261017-portfolio-assignment';
 import {appendBundleLeg,constructionFields,constructionSummary,readConstruction,removeBundleLeg,resetBundleLegs} from './trade-structure.js?v=20261015-reference-iv';
-import {kellyAllocationView,kellyPolicyForm,readKellyPolicy} from './kelly-allocation.js?v=20261015-atr-uncertainty';
-import {riskBudgetAllocation} from './kelly-allocation.mjs?v=20261015-atr-uncertainty';
+import {kellyAllocationView,kellyPolicyForm,readKellyPolicy} from './kelly-allocation.js?v=20261018-risk-diversification';
+import {riskBudgetAllocation} from './kelly-allocation.mjs?v=20261018-thesis-freshness';
+import {freshnessSummary,marketPricesFromResearch,thesisFreshness} from './workflow-freshness.mjs?v=20261018-thesis-freshness';
 import {bundleMetrics,newStructureLeg} from './trade-structure.mjs?v=20261015-reference-iv';
 import { mountTransactionHistory } from './attribution-transactions.js?v=20261015-risk-budget';
 import { renderJournal, syncLegacyWorkflowData } from "./strategy.js";
-import {VERSION,KEY,NODES,LAYERS,LABELS,displayState,hypothesisFields,archiveCase,emptyDesign,initializePlans,savePlan,setPlanFrozen,selectPlan,setActiveAllocation,deletePlan,clone,createCase,record,saveNode,transition,gate,demoCase,validateStore} from './workflow-model.mjs?v=20261015-reference-iv';
+import {VERSION,KEY,NODES,LAYERS,LABELS,displayState,hypothesisFields,archiveCase,emptyDesign,initializePlans,savePlan,setPlanFrozen,setAllPlansFrozen,selectPlan,setActiveAllocation,confirmAllocationReview,deletePlan,clone,createCase,record,saveNode,transition,gate,demoCase,validateStore} from './workflow-model.mjs?v=20261018-bundle-locks';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=v=>v===null||v===undefined||Number.isNaN(v)?'未估计':Number.isFinite(v)?new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:2}).format(v):'无上界';
@@ -25,9 +26,9 @@ try{raw=localStorage.getItem(KEY);if(raw){store=validateStore(JSON.parse(raw));c
 let unsyncedNebulae=readUnsyncedNebulae();
 let planEditor=null;
 let galaxy=null,panelOpen=false;
-let kellySizing={atr:{},atrUpdated:''};
+let kellySizing={atr:{},atrUpdated:'',prices:{},priceUpdated:''};
 async function loadAtrRiskData(){
- try{const response=await fetch(`data/atr.json?t=${Date.now()}`,{cache:'no-store'});if(!response.ok)return;const data=await response.json();kellySizing={atr:data.atr14||{},atrUpdated:data.updated||''};if(panelOpen&&['returns','risk'].includes(node)&&!dirty)render();}catch{}
+ try{const [atrResponse,researchResponse]=await Promise.all([fetch(`data/atr.json?t=${Date.now()}`,{cache:'no-store'}),fetch(`data/research.json?t=${Date.now()}`,{cache:'no-store'})]);const atrData=atrResponse.ok?await atrResponse.json():{},researchData=researchResponse.ok?await researchResponse.json():{};kellySizing={atr:atrData.atr14||{},atrUpdated:atrData.updated||'',prices:marketPricesFromResearch(researchData),priceUpdated:researchData.updated_at||''};if(panelOpen&&['returns','risk'].includes(node)&&!dirty)render();else renderLibrary();}catch{}
 }
 function saveUnsyncedNebulae(){try{writeUnsyncedNebulae(unsyncedNebulae);}catch(e){notice('未同步提示无法持久化：'+e.message);}}
 function markNebulaUnsynced(id){if(!id)return;unsyncedNebulae.add(id);saveUnsyncedNebulae();}
@@ -45,11 +46,13 @@ function persist(next){
 function mutate(fn){try{const next=clone(store),c=next.cases.find(x=>x.id===selected);fn(c,next);persist(next);markNebulaUnsynced(c?.id);dirty=false;render();notice('');return true;}catch(e){notice('未保存：'+e.message);return false;}}
 function leave(){return !dirty||confirm('节点内容尚未保存。放弃这些编辑并继续？');}
 function selectCase(id){if(!leave())return;panelOpen=false;libraryOpen=false;selected=id;replay=null;dirty=false;planEditor=null;node='hypothesis';const c=current();if(c)filter=c.archived?'archived':'active';history.replaceState(null,'',`#${encodeURIComponent(id)}`);$('#galaxy-search').value='';render();galaxy?.focus(id);}
+function freshnessFor(c,preview=null){return freshnessSummary(thesisFreshness(c,{atr:kellySizing.atr,prices:kellySizing.prices,preview}));}
+function freshnessView(c,preview=null){const value=freshnessFor(c,preview);if(value.status==='none')return '';const messages=value.issues.map(x=>`<li>${esc(x.message)}</li>`).join('');return `<section class="freshness-card is-${value.status}" aria-label="Thesis freshness"><div><strong>${value.label}</strong><span> · Thesis 参数复核</span></div>${messages?`<ul>${messages}</ul>`:'<p>当前未发现参数过期或显著 drift。</p>'}${readOnly()?'':`<button type="button" id="confirm-thesis-review">确认仍然有效</button>`}</section>`;}
 function renderLibrary(){const cases=store.cases.filter(c=>c.archived===(filter==='archived'));$('#count').textContent=cases.length+' NEBULAE';document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.filter===filter));
  const query=$('#galaxy-search').value.trim().toLowerCase();$('#cases').hidden=!query;$('#cases').innerHTML=cases.filter(c=>(c.title+' '+c.symbol+' '+(c.linkedSymbols||[]).join(' ')).toLowerCase().includes(query)).map(c=>`<button class="case ${unsyncedNebulae.has(c.id)?'is-unsynced':''} ${c.activeThesis?'is-active-thesis':''}" data-case="${esc(c.id)}"><strong>${unsyncedNebulae.has(c.id)?'<i class="sync-dot" aria-hidden="true"></i>':''}${esc(c.title)}</strong><small>${esc(c.symbol||c.linkedSymbols?.join(' · ')||'Nebula')} · ${c.demo?'DEMO':c.archived?'Archive':c.activeThesis?'Active Thesis':'Existing'}</small></button>`).join('')||'<p class="hint">没有匹配的 Nebula</p>';
  const list=$('#nebula-list'),resizeHandle=$('#nebula-drawer-resizer');document.body.classList.toggle('nebula-list-open',libraryOpen);list.hidden=!libraryOpen;resizeHandle.hidden=!libraryOpen;list.innerHTML=libraryOpen?`<div class="nebula-list-head"><span>Nebula</span><span>创建时间</span><span>最后修改时间</span><span aria-label="设置"></span></div>${cases.map(c=>`<div class="nebula-list-row ${unsyncedNebulae.has(c.id)?'is-unsynced':''} ${c.activeThesis?'is-active-thesis':''}" data-nebula-row="${esc(c.id)}"><button class="nebula-list-name" data-case="${esc(c.id)}">${unsyncedNebulae.has(c.id)?'<i class="sync-dot" aria-hidden="true"></i>':''}${esc(c.title)}</button><time class="nebula-list-time nebula-created">${date(c.createdAt)}</time><time class="nebula-list-time">${date(c.updatedAt)}</time><button class="nebula-more" data-nebula-menu="nebula-menu-${esc(c.id)}" aria-label="${esc(c.title)} 设置" aria-expanded="false">⋯</button><div class="nebula-menu" id="nebula-menu-${esc(c.id)}" popover>${c.archived?'':`<button data-toggle-active-thesis="${esc(c.id)}">${c.activeThesis?'离线':'激活'}</button>`}<button data-archive-nebula="${esc(c.id)}" ${c.archived?'disabled':''}>存档</button><button class="danger" data-delete-nebula="${esc(c.id)}">删除</button></div></div>`).join('')||'<p class="nebula-list-empty">当前没有 Nebula。</p>'}`:'';if(libraryOpen)setDrawerWidth(list.getBoundingClientRect().width);
  $('#galaxy-empty').hidden=!!cases.length;
- const shown=cases.map(x=>({...((replay&&x.id===selected)?visible():x),unsynced:unsyncedNebulae.has(x.id)}));galaxy?.update(shown,panelOpen?{caseId:selected,key:node}:null);
+ const shown=cases.map(x=>{const value=(replay&&x.id===selected)?visible():x;return {...value,unsynced:unsyncedNebulae.has(x.id),freshness:freshnessFor(value)};});galaxy?.update(shown,panelOpen?{caseId:selected,key:node}:null);
  $('#galaxy-location').textContent=panelOpen&&current()?`${current().title} / ${NODES[node].name}`:'GALAXY / OVERVIEW';
 }
 const F={
@@ -73,9 +76,9 @@ function field([key,label,type='text',options],data,prefix='f'){
 function metrics(items){return `<div class="metrics">${items.map(([label,value])=>`<div class="metric"><small>${label}</small><strong>${value}</strong></div>`).join('')}</div>`;}
 function positionsInspector(c){const ro=readOnly(),n=c.nodes.positions;return `<section class="inspector empty-node" aria-label="Monitor"><div id="wf-monitor-trades"></div><div class="state-control"><h3>状态流转</h3>${ro?'<p class="hint">历史快照与归档实例只读。</p>':`<div class="toolbar">${NODES.positions.states[n.state].map(to=>`<button data-transition="${to}">${LABELS[to]}</button>`).join('')}</div>`}</div></section>`;}
 function editorCase(c){const copy=clone(c);if(planEditor?.id){const p=c.design?.plans.find(p=>p.id===planEditor.id);if(p)copy.nodes.construction.data=clone(p.construction);}else{copy.nodes.construction.data=emptyDesign(c.horizon).construction;copy.nodes.construction.data.legs=[newStructureLeg()];copy.symbol='';}return copy;}
-function constructionInspector(c){const ro=readOnly(),p=c.design?.plans.find(p=>p.id===planEditor?.id),edit=editorCase(c);return `<section class="inspector">${planTable(c,ro)}${planEditor?`<section class="plan-editor">${p?'':'<h3>添加 Underlying Greek Bundle</h3>'}<form id="node-form"><fieldset ${ro?'disabled':''}>${constructionFields(edit)}<div id="editor-preview">${constructionSummary(edit)}</div>${ro?'':'<button type="submit" class="primary">保存 Bundle</button>'}<span id="dirty-label" class="hint"></span></fieldset></form></section>`:''}<div class="state-control"><h3>状态流转</h3>${ro?'<p class="hint">历史快照与归档实例只读。</p>':NODES.construction.states[c.nodes.construction.state].map(to=>`<button data-transition="${to}">${LABELS[to]}</button>`).join('')}</div></section>`;}
+function constructionInspector(c){const ro=readOnly(),p=c.design?.plans.find(p=>p.id===planEditor?.id),edit=editorCase(c);return `<section class="inspector">${planTable(c,ro,planEditor?.id||'')}${planEditor?`<section class="plan-editor">${p?'':'<h3>添加 Underlying Greek Bundle</h3>'}<form id="node-form"><fieldset ${ro?'disabled':''}>${constructionFields(edit)}<div id="editor-preview">${constructionSummary(edit)}</div>${ro?'':'<button type="submit" class="primary">保存 Bundle</button>'}<span id="dirty-label" class="hint"></span></fieldset></form></section>`:''}<div class="state-control"><h3>状态流转</h3>${ro?'<p class="hint">历史快照与归档实例只读。</p>':NODES.construction.states[c.nodes.construction.state].map(to=>`<button data-transition="${to}">${LABELS[to]}</button>`).join('')}</div></section>`;}
 function returnHistoryCases(c){if(!replay)return store.cases;return store.cases.map(x=>{const events=x.events.filter(e=>e.at<=c.updatedAt&&(x.id!==c.id||e.revision<=c.revision)),last=events.at(-1);return last?{...clone(last.snapshot),events}:null;}).filter(Boolean);}
-function returnsInspector(c){const ro=readOnly(),hasPlan=!!c.design?.plans.length;return `<section class="inspector expected-return-inspector" aria-label="Scenario Underwriting"><form id="node-form"><fieldset ${ro||!hasPlan?'disabled':''}>${scenarioUnderwritingForm(c,kellySizing)}<button class="primary" type="submit">保存 Scenario Underwriting</button><span id="dirty-label" class="hint"></span></fieldset></form><div id="live-summary">${expectedCharts(c)}</div><div class="state-control"><h3>状态流转</h3>${ro?'<p class="hint">历史快照与归档实例只读。</p>':NODES.returns.states[c.nodes.returns.state].map(to=>`<button data-transition="${to}">${LABELS[to]}</button>`).join('')}</div></section>`;}
+function returnsInspector(c){const ro=readOnly(),hasPlan=!!c.design?.plans.length;return `<section class="inspector expected-return-inspector" aria-label="Scenario Underwriting"><div id="freshness-summary">${freshnessView(c)}</div><form id="node-form"><fieldset ${ro||!hasPlan?'disabled':''}>${scenarioUnderwritingForm(c,kellySizing)}<button class="primary" type="submit">保存 Scenario Underwriting</button><span id="dirty-label" class="hint"></span></fieldset></form><div id="live-summary">${expectedCharts(c)}</div><div class="state-control"><h3>状态流转</h3>${ro?'<p class="hint">历史快照与归档实例只读。</p>':NODES.returns.states[c.nodes.returns.state].map(to=>`<button data-transition="${to}">${LABELS[to]}</button>`).join('')}</div></section>`;}
 function inspector(c){if(node==='risk')return riskInspector(c);if(node==='returns')return returnsInspector(c);if(node==='construction')return constructionInspector(c);if(node==='positions')return positionsInspector(c);if(node==='attribution')return `<section class="inspector" aria-label="Attribution"><div id="wf-transaction-history"></div></section>`;const n=c.nodes[node],ro=readOnly();
  return `<section class="inspector" aria-label="${esc(NODES[node].name)}"><div id="live-summary"></div><form id="node-form"><fieldset ${ro?'disabled':''}>${F[node].map(f=>field(f,n.data)).join('')}<label>本次修改说明<input name="reason" placeholder="记录为什么修改，写入事件日志"></label><button class="primary" type="submit">保存节点</button><span id="dirty-label" class="hint"></span></fieldset></form><div class="state-control"><h3>状态流转</h3>${ro?'<p class="hint">历史快照与归档实例只读。</p>':`<div class="toolbar">${NODES[node].states[n.state].map(to=>`<button data-transition="${to}" ${gate(c,node,to)?'disabled':''}>${LABELS[to]}</button>`).join('')||'<span class="hint">此节点生命周期已结束。</span>'}</div><div class="gate">${[...new Set(NODES[node].states[n.state].map(to=>gate(c,node,to)).filter(Boolean))].map(esc).join('<br>')}</div>`}</div></section>`;
 }
@@ -94,7 +97,7 @@ function readDraft(){const form=$('#node-form');if(node==='construction'&&form)r
  return d;
 }
 function syncCandidateRules(form){const instrument=form?.elements.namedItem('candidate.instrument')?.value,stockOnly=['stock','shortStock'].includes(instrument),hasLongOption=['call','put','bullPut','bearPut','bullCall','bearCall','straddle','strangle'].includes(instrument),hasShortOption=['bullPut','bearPut','bullCall','bearCall','coveredCall'].includes(instrument),details=form?.querySelector('.candidate-rules');if(!details)return;details.hidden=stockOnly;const long=details.querySelector('[data-candidate-rule="long"]'),short=details.querySelector('[data-candidate-rule="short"]');long.hidden=!hasLongOption;short.hidden=!hasShortOption;if(!hasLongOption)long.querySelector('input').value='';if(!hasShortOption)short.querySelector('input').value='';if(stockOnly)for(const input of details.querySelectorAll('input'))input.value='';}
-function updatePreview(){dirty=node==='risk'?false:node==='returns'?JSON.stringify(readDraft())!==JSON.stringify(visible().nodes[node].data):true;const label=$('#dirty-label');if(label)label.textContent=dirty?' · 未保存':'';document.querySelectorAll('[data-transition]').forEach(b=>b.disabled=dirty||!!gate(visible(),node,b.dataset.transition));const c=clone(visible());c.nodes[node].data=readDraft();const preview=$(node==='construction'?'#editor-preview':'#live-summary');if(preview)preview.innerHTML=node==='construction'?constructionSummary(c):node==='returns'?expectedCharts(c):node==='risk'?kellyAllocationView(c,c.nodes.risk.data,kellySizing):'';}
+function updatePreview(){dirty=node==='risk'?false:node==='returns'?JSON.stringify(readDraft())!==JSON.stringify(visible().nodes[node].data):true;const label=$('#dirty-label');if(label)label.textContent=dirty?' · 未保存':'';document.querySelectorAll('[data-transition]').forEach(b=>b.disabled=dirty||!!gate(visible(),node,b.dataset.transition));const c=clone(visible());c.nodes[node].data=readDraft();let result=null;if(node==='risk')try{result=riskBudgetAllocation(c,c.nodes.risk.data,kellySizing.atr);}catch{}const preview=$(node==='construction'?'#editor-preview':'#live-summary');if(preview)preview.innerHTML=node==='construction'?constructionSummary(c):node==='returns'?expectedCharts(c):node==='risk'?kellyAllocationView(c,c.nodes.risk.data,kellySizing):'';const freshness=$('#freshness-summary');if(freshness&&['returns','risk'].includes(node))freshness.innerHTML=freshnessView(c,result);}
 function openNew(){if(!leave())return;$('#new-form').reset();$('#new-dialog').showModal();}
 function addDemo(){if(!leave())return;const c=demoCase();try{const next=clone(store);next.cases.push(c);persist(next);markNebulaUnsynced(c.id);dirty=false;selectCase(c.id);notice('已创建模拟案例。所有价格、Greeks 与预算均为示例。');}catch(e){notice(e.message);}}
 $('#new').addEventListener('click',openNew);$('#cancel-new').addEventListener('click',()=>$('#new-dialog').close());
@@ -130,9 +133,12 @@ document.addEventListener('click',async e=>{let b=e.target.closest('button');
   if(readOnly()||!leave())return;b.disabled=true;b.textContent='读取中…';
   try{
    const result=await loadPortfolioBundleDrafts(current()),byUnderlying=new Map(result.bundles.map(x=>[x.underlying,x]));
-   if(!result.matchedPositions){notice(`没有找到归属于「${result.names.join(' / ')||current().title}」的本地 Portfolio 持仓。请先在 Portfolio 风险敞口热力图设置 thesis 归属并刷新持仓。`);return;}
+   if(!result.matchedPositions){notice(`没有找到归属于「${result.names.join(' / ')||current().title}」的本地 Portfolio 持仓。可以先在 Portfolio 热力图为未归属标的选择此 Thesis，再回来点击自动填写。`);return;}
    let created=0,updated=0,frozen=0;planEditor=null;
    if(mutate(c=>{
+    // Construction edits preserve the frozen budget. Freshness marks the old
+    // In Action snapshot stale until the user explicitly activates a new one.
+    c.portfolioUnderlyings=[...new Set([...(c.portfolioUnderlyings||[]),...result.bundles.map(item=>item.underlying)])].sort();
     const covered=new Set();
     for(const p of c.design.plans){const underlying=bundleMetrics(p.construction).underlying,item=byUnderlying.get(underlying);if(!item)continue;covered.add(underlying);if(p.frozen){frozen++;continue;}savePlan(c,p.id,'',item.construction);updated++;}
     for(const item of result.bundles)if(!covered.has(item.underlying)){savePlan(c,null,'',item.construction);created++;}
@@ -145,6 +151,7 @@ document.addEventListener('click',async e=>{let b=e.target.closest('button');
   return;
  }
  if(b.id==='add-plan'){if(readOnly()||!leave())return;planEditor=planEditor?.id===null?null:{id:null};dirty=false;render();return;}
+ if(b.dataset.toggleAllPlansFrozen){if(readOnly()||!leave())return;mutate(c=>setAllPlansFrozen(c,b.dataset.toggleAllPlansFrozen==='true'));return;}
  if(b.dataset.togglePlanFrozen){if(readOnly()||!leave())return;const p=current().design.plans.find(p=>p.id===b.dataset.togglePlanFrozen);if(p)mutate(c=>setPlanFrozen(c,p.id,!p.frozen));return;}
  if(b.dataset.editPlan){if(!leave())return;const id=b.dataset.editPlan;
   if(planEditor?.id===id){planEditor=null;dirty=false;render();return;}
@@ -152,15 +159,29 @@ document.addEventListener('click',async e=>{let b=e.target.closest('button');
   planEditor={id};if(!mutate(c=>selectPlan(c,id)))planEditor=null;return;
  }
  if(b.id==='activate-allocation'){if(readOnly()){notice('当前版本只读。');return;}const policy=readDraft(),result=riskBudgetAllocation(current(),policy,kellySizing.atr);mutate(c=>{c.nodes.risk.data=clone(policy);setActiveAllocation(c,result);});return;}
+ if(b.id==='confirm-thesis-review'){if(readOnly())return;mutate(c=>confirmAllocationReview(c));return;}
  if(b.dataset.deletePlan){if(readOnly()||!leave())return;const id=b.dataset.deletePlan,p=current().design.plans.find(p=>p.id===id);if(!confirm(`删除 Underlying Greek Bundle「${p.name}」及其单位收益假设？历史快照仍保留。`))return;planEditor=null;mutate(c=>deletePlan(c,id));return;}
  if(b.dataset.transition){if(dirty){notice('请先保存节点内容');return;}const to=b.dataset.transition;
  if(mutate(c=>transition(c,node,to))&&current().archived){filter='archived';render();}return;}
 });
 document.addEventListener('change',e=>{if(e.target.matches('[data-leg-toggle]')){e.target.closest('.payoff-card').classList.toggle('show-legs',e.target.checked);return;}if(e.target.name?.startsWith('kelly.')){updatePreview();return;}if(e.target.id!=='design-plan-selector')return;const id=e.target.value;if(!leave()){e.target.value=visible().design.selectedId;return;}if(readOnly()){const c=visible(),p=c.design?.plans.find(p=>p.id===id);if(p){notice('历史快照按当时查看的方案回放；其他方案可在 Portfolio Construction 查看交易腿。');e.target.value=c.design.selectedId;}return;}mutate(c=>selectPlan(c,id));});
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
-window.addEventListener('storage',e=>{if(e.key===KEY)notice('另一个窗口修改了 Workflow 数据，请刷新页面。当前窗口不会覆盖新数据。');if(e.key===UNSYNCED_KEY){unsyncedNebulae=readUnsyncedNebulae();renderLibrary();}});
+window.addEventListener('storage',e=>{
+ if(e.key===KEY){
+  const latest=localStorage.getItem(KEY);
+  const riskDraft=panelOpen&&node==='risk'&&current()&&JSON.stringify(readDraft())!==JSON.stringify(current().nodes.risk.data);
+  if(!dirty&&!riskDraft&&!blocked&&!syncingWorkflow&&!replay&&latest){
+   try{
+    const next=validateStore(JSON.parse(latest));store=next;raw=latest;planEditor=null;
+    if(!current()){selected=store.cases.find(c=>!c.archived)?.id||'';panelOpen=false;}
+    unsyncedNebulae=readUnsyncedNebulae();render();notice('');
+   }catch{notice('其他页面的 Workflow 数据不可读，请刷新页面后检查。');}
+  }else notice('另一个窗口修改了 Workflow 数据，请先保留当前编辑，再刷新页面。当前窗口不会覆盖新数据。');
+ }
+ if(e.key===UNSYNCED_KEY){unsyncedNebulae=readUnsyncedNebulae();renderLibrary();}
+});
 
-function riskInspector(c){const ro=readOnly(),hasPositions=!!c.design?.plans.length;return `<section class="inspector kelly-allocation-inspector"><form id="node-form"><fieldset ${ro||!hasPositions?'disabled':''}>${kellyPolicyForm(c.nodes.risk.data)}</fieldset></form><div id="live-summary">${kellyAllocationView(c,c.nodes.risk.data,kellySizing)}</div>${ro?'':`<button id="activate-allocation" ${hasPositions?'':'disabled'}>设为 In Action Risk Budget</button>`}<div class="state-control"><h3>状态流转</h3>${ro?'<p class="hint">历史快照与归档实例只读。</p>':NODES.risk.states[c.nodes.risk.state].map(to=>`<button data-transition="${to}">${LABELS[to]}</button>`).join('')}</div></section>`;}
+function riskInspector(c){const ro=readOnly(),hasPositions=!!c.design?.plans.length;return `<section class="inspector kelly-allocation-inspector"><div id="freshness-summary">${freshnessView(c)}</div><form id="node-form"><fieldset ${ro||!hasPositions?'disabled':''}>${kellyPolicyForm(c.nodes.risk.data)}</fieldset></form><div id="live-summary">${kellyAllocationView(c,c.nodes.risk.data,kellySizing)}</div>${ro?'':`<button id="activate-allocation" ${hasPositions?'':'disabled'}>设为 In Action Risk Budget</button>`}<div class="state-control"><h3>状态流转</h3>${ro?'<p class="hint">历史快照与归档实例只读。</p>':NODES.risk.states[c.nodes.risk.state].map(to=>`<button data-transition="${to}">${LABELS[to]}</button>`).join('')}</div></section>`;}
 galaxy=createGalaxy($('#galaxy-scene'),{onStar:openStar,onNebula:selectCase,onBackground:closeStar});
 loadAtrRiskData();
 try{selected=decodeURIComponent(location.hash.slice(1));}catch{selected='';}if(!current())selected=store.cases.find(c=>!c.archived)?.id||store.cases[0]?.id||'';if(current())filter=current().archived?'archived':'active';if(['attribution','positions'].includes(new URLSearchParams(location.search).get('node'))){node=new URLSearchParams(location.search).get('node');panelOpen=!!current();}render();galaxy.overview();if(panelOpen)galaxy.focus(selected,node);

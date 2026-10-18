@@ -4,7 +4,8 @@ import {structureDraft,structureError,ticker,structureExposure,positionLabel,can
 import { validateAttributionEvidence } from './attribution-link.mjs';
 import { parseTransactionFile } from './attribution-transactions.mjs?v=20261004-3';
 import { allocationIssues } from "./risk-budget.mjs";
-import {emptyKellyPolicy,kellyPolicyError} from './kelly-allocation.mjs?v=20261015-atr-uncertainty';
+import {emptyKellyPolicy,kellyPolicyError} from './kelly-allocation.mjs?v=20261018-thesis-freshness';
+import {allocationInputFingerprint} from './workflow-freshness.mjs?v=20261018-thesis-freshness';
 // Standalone workflow domain. No dependencies on dashboard data or broker credentials.
 export const VERSION = 1;
 export const KEY = 'research-desk.workflow.v1';
@@ -147,7 +148,7 @@ export function savePlan(c,id,name,construction){
  const error=structureError(construction);if(error)throw Error(error);
  let p=c.design.plans.find(p=>p.id===id);if(id&&!p)throw Error('Underlying Greek Bundle 已不存在');
  if(!p){if(c.design.plans.length>=30)throw Error('每个 thesis 最多 30 个 Underlying Greek Bundle');p={id:uid(),name,frozen:false,...emptyDesign(c.horizon)};c.design.plans.push(p);}
- p.name=name;p.construction=clone(construction);delete c.design.allocation;projectPlan(c,p.id);
+ p.name=name;p.construction=clone(construction);projectPlan(c,p.id);
  record(c,id?'更新 Underlying Greek Bundle':'添加 Underlying Greek Bundle','construction',name);return p.id;
 }
 export function setPlanFrozen(c,id,frozen){
@@ -155,15 +156,21 @@ export function setPlanFrozen(c,id,frozen){
  if(typeof frozen!=='boolean')throw Error('Bundle Freeze 状态无效');if(!!p.frozen===frozen)return;
  p.frozen=frozen;record(c,frozen?'Frozen Bundle':'Unfrozen Bundle','construction',p.name);
 }
+export function setAllPlansFrozen(c,frozen){
+ writable(c);if(typeof frozen!=='boolean')throw Error('Bundle Freeze 状态无效');const changed=c.design.plans.filter(p=>!!p.frozen!==frozen);if(!changed.length)return;
+ for(const p of changed)p.frozen=frozen;record(c,frozen?'锁定全部 Bundle':'解锁全部 Bundle','construction',`${changed.length} 个 Underlying Greek Bundle`);
+}
 export function selectPlan(c,id){writable(c);if(!c.design.plans.some(p=>p.id===id))throw Error('方案不存在');if(c.design.selectedId===id)return;projectPlan(c,id);record(c,'切换查看方案','construction',c.design.plans.find(p=>p.id===id).name);}
 export function setActivePlan(c,id){writable(c);if(id&&!c.design.plans.some(p=>p.id===id))throw Error('方案不存在');c.design.activeId=id;captureReturnBasis(c,now());record(c,'设置 In Action','construction',id?c.design.plans.find(p=>p.id===id).name:'取消 In Action');}
 export function setActiveAllocation(c,result){
  writable(c);
+ if(result?.complete===false)throw Error((result.issues||[]).join('；')||'Risk Budget 输入不完整');
  if(result?.complete&&Array.isArray(result.bundles)){
   if(result.constraintIssue)throw Error(result.constraintIssue);
-  const items=result.bundles.map(({bundleId,name,underlying,fullFraction,kellyFraction,weight,fraction,atr,stopDistance,downStopPrice,upStopPrice,adverseStopDirection,stopRiskRate,estimatedStopRiskFraction})=>({bundleId,name,underlying:underlying||name,fullFraction,kellyFraction,weight,fraction,atr,stopDistance,downStopPrice,upStopPrice,adverseStopDirection,stopRiskRate,estimatedStopRiskFraction}));
+  const items=result.bundles.map(({bundleId,name,underlying,eligible,exclusionReason,standaloneExpectedReturn,fullFraction,kellyFraction,kellyWeight,baselineRiskShare,baselineWeight,kellyRiskShare,riskShare,weight,fraction,referencePrice,atr,stopDistance,downStopPrice,upStopPrice,adverseStopMove,adverseStopPrice,adverseStopDirection,stopRiskRate,estimatedStopRiskFraction,bullPriceMove,bearReturn})=>({bundleId,name,underlying:underlying||name,eligible,exclusionReason,standaloneExpectedReturn,fullFraction,kellyFraction,kellyWeight,baselineRiskShare,baselineWeight,kellyRiskShare,riskShare,weight,fraction,referencePrice,atr,stopDistance,downStopPrice,upStopPrice,adverseStopMove,adverseStopPrice,adverseStopDirection,stopRiskRate,estimatedStopRiskFraction,bullPriceMove,bearReturn}));
   const scenarios=result.scenarios.map(({id,name,probability,weightReturn,portfolioReturn,wealth})=>({id,name,probability,weightReturn,portfolioReturn,wealth}));
-  c.design.allocation={method:'risk-budget-kelly',inAction:true,at:now(),allocatedFraction:result.allocatedFraction,cashFraction:result.cashFraction,expectedLogGrowth:result.expectedLogGrowth,kellyExpectedLogGrowth:result.kellyExpectedLogGrowth,thesisAtRiskLimitPct:result.atRiskLimitPct,atrStopMultiple:result.atrStopMultiple,stopRiskRate:result.stopRiskRate,scenarioRiskRate:result.scenarioRiskRate,effectiveLossRate:result.effectiveLossRate,bindingRisk:result.bindingRisk,estimatedStopRiskPct:result.estimatedStopRiskFraction*100,items,scenarios,monteCarlo:result.monteCarlo?{samples:result.monteCarlo.samples}:null};
+  const activatedAt=now();
+  c.design.allocation={method:'risk-budget-kelly',weightingMethod:result.weightingMethod,kellyTiltPct:result.kellyTiltPct,inAction:true,at:activatedAt,underwrittenAt:activatedAt,reviewedAt:activatedAt,scenarioDaysForward:c.nodes.returns.data?.daysForward??'',scenarioHorizon:c.horizon||'',sourceFingerprint:allocationInputFingerprint(c),allocatedFraction:result.allocatedFraction,cashFraction:result.cashFraction,expectedLogGrowth:result.expectedLogGrowth,kellyExpectedLogGrowth:result.kellyExpectedLogGrowth,thesisAtRiskLimitPct:result.atRiskLimitPct,atrStopMultiple:result.atrStopMultiple,stopRiskRate:result.stopRiskRate,scenarioRiskRate:result.scenarioRiskRate,effectiveLossRate:result.effectiveLossRate,bindingRisk:result.bindingRisk,estimatedStopRiskPct:result.estimatedStopRiskFraction*100,items,scenarios,monteCarlo:result.monteCarlo?{samples:result.monteCarlo.samples}:null};
   delete c.returnBasis;
   const active=result.bundles.filter(x=>x.fraction>0).map(x=>`${x.name} ${Number(x.fraction*100).toFixed(2)}%`).join('；');
   record(c,'设置 In Action Risk Budget','risk',active||'Target Allocation 0% · 保持现金');return;
@@ -172,6 +179,11 @@ export function setActiveAllocation(c,result){
  c.design.allocation={inAction:true,at:now(),items:clone(result.allocations),riskBudget:result.riskBudget,usedRisk:result.usedRisk,usedCapital:result.usedCapital,expected:result.expected,dollarDelta:result.dollarDelta};
  if(result.usedCapital>0)c.returnBasis={planId:'allocation',planName:'Optimized Allocation',expectedNet:result.expected,capital:result.usedCapital,expectedDate:c.horizon||'',rate:result.expected/result.usedCapital*100,at:c.design.allocation.at};
  record(c,'设置 In Action Allocation','risk',c.design.allocation.items.filter(x=>x.quantity).map(x=>`${x.positionId} × ${x.quantity}`).join('；'));
+}
+export function confirmAllocationReview(c){
+ writable(c);const allocation=c.design?.allocation;
+ if(!allocation?.inAction)throw Error('当前没有 In Action Risk Budget');
+ allocation.reviewedAt=now();record(c,'确认 Thesis 仍然有效','risk','仅更新人工复核时间；不修改冻结参数或价格基准');
 }
 export function deletePlan(c,id){writable(c);const p=c.design.plans.find(p=>p.id===id);if(!p)throw Error('Underlying Greek Bundle 不存在');c.design.plans=c.design.plans.filter(p=>p.id!==id);if(c.design.activeId===id)c.design.activeId='';delete c.design.allocation;if(c.design.selectedId===id)projectPlan(c,c.design.plans[0]?.id||'');record(c,'删除 Underlying Greek Bundle','construction',p.name+'；历史快照保留');}
 export function planView(c,id){const copy=clone(c),p=c.design?.plans.find(p=>p.id===id);if(p)for(const key of DESIGN_KEYS)copy.nodes[key].data=clone(p[key]);return copy;}
@@ -188,6 +200,7 @@ export function validateStore(store){
  function body(c){
   if(!c||typeof c.id!=='string'||typeof c.title!=='string'||typeof c.symbol!=='string'||typeof c.horizon!=='string'||typeof c.archived!=='boolean'||(c.activeThesis!=null&&typeof c.activeThesis!=='boolean')||!Number.isInteger(c.revision)||c.revision<1)throw Error('实例内容不完整');
   if(c.linkedSymbols!=null&&(!Array.isArray(c.linkedSymbols)||c.linkedSymbols.some(x=>typeof x!=='string')))throw Error('关联标的格式无效');
+  if(c.portfolioUnderlyings!=null&&(!Array.isArray(c.portfolioUnderlyings)||c.portfolioUnderlyings.length>1000||new Set(c.portfolioUnderlyings).size!==c.portfolioUnderlyings.length||c.portfolioUnderlyings.some(x=>typeof x!=='string'||!/^[A-Z0-9.\-]{1,24}$/.test(x))))throw Error('Portfolio 归属标的格式无效');
   if(c.sourceLink!=null&&(c.sourceLink.kind!=='risk-policy'||typeof c.sourceLink.name!=='string'||!Array.isArray(c.sourceLink.warnings)||c.sourceLink.warnings.some(x=>typeof x!=='string')))throw Error('数据来源关联格式无效');
   for(const [key,def] of Object.entries(NODES)){const n=c.nodes?.[key];if(!n||!Object.hasOwn(c.stateVersion===2?def.states:LEGACY_NODES[key].states,n.state)||!n.data||typeof n.data!=='object'||Array.isArray(n.data))throw Error('节点状态无效');for(const [field,value] of Object.entries(n.data))if(!['legs','positions','sizing','accountSnapshot','binding','sync','evidence','candidate','scenarios','executionLinks'].includes(field)&&!['string','number'].includes(typeof value))throw Error('节点字段格式无效');}
   if(c.stateVersion===2&&['expectation','rationale','verification','invalidation'].some(k=>typeof c.nodes.hypothesis.data[k]!=='string'))throw Error('论点字段格式无效');

@@ -3,7 +3,10 @@ import {bundleMetrics} from './trade-structure.mjs';
 
 const finite=value=>value!==''&&value!=null&&Number.isFinite(Number(value));
 const EPS=1e-12;
-export const emptyKellyPolicy=()=>({allocationVersion:2,thesisAtRiskLimitPct:'',atrStopMultiple:2.5});
+const ELIGIBILITY_EPS=1e-9;
+export const RISK_WEIGHTING_METHOD='equal-atr-risk-kelly-v1';
+export const DEFAULT_KELLY_TILT_PCT=25;
+export const emptyKellyPolicy=()=>({allocationVersion:2,thesisAtRiskLimitPct:'',atrStopMultiple:2.5,kellyTiltPct:DEFAULT_KELLY_TILT_PCT});
 
 function projectSimplex(values){
  const positive=values.map(x=>Math.max(0,x));
@@ -26,6 +29,30 @@ function uncertaintyIssues(data,bundles,atrByUnderlying={}){
  return issues;
 }
 const normalized=values=>{const total=values.reduce((sum,x)=>sum+Math.max(0,x),0);return total>EPS?values.map(x=>Math.max(0,x)/total):values.map(()=>0);};
+
+// Equal risk across underlyings, then across bundles within each underlying.
+// Mix in risk space: equal capital would give leveraged options more risk.
+export function diversifiedRiskWeights(rows,kellyFractions,kellyTiltPct=DEFAULT_KELLY_TILT_PCT){
+ if(!finite(kellyTiltPct)||Number(kellyTiltPct)<0||Number(kellyTiltPct)>DEFAULT_KELLY_TILT_PCT)throw Error('Kelly Tilt 须在 0% 到 25% 之间');
+ if(rows.length!==kellyFractions.length||rows.some(row=>!row.underlying||!Number.isFinite(row.stopRiskRate)||row.stopRiskRate<=EPS))throw Error('风险等权需要每个 Bundle 有正的独立 ATR 风险率');
+ const groups=new Map();for(const row of rows){const key=row.underlying.toUpperCase();groups.set(key,(groups.get(key)||0)+1);}
+ const baselineRiskShares=rows.map(row=>1/groups.size/groups.get(row.underlying.toUpperCase()));
+ const baselineWeights=normalized(rows.map((row,i)=>baselineRiskShares[i]/row.stopRiskRate));
+ const kellyRiskShares=normalized(rows.map((row,i)=>kellyFractions[i]*row.stopRiskRate));
+ const alpha=kellyRiskShares.some(x=>x>0)?Number(kellyTiltPct)/100:0;
+ const riskShares=baselineRiskShares.map((q,i)=>(1-alpha)*q+alpha*kellyRiskShares[i]);
+ const weights=normalized(rows.map((row,i)=>riskShares[i]/row.stopRiskRate));
+ return {baselineRiskShares,baselineWeights,kellyRiskShares,riskShares,weights};
+}
+
+export function atrStopProfile(netDelta,netGamma,distance){
+ if(!Number.isFinite(netDelta)||!Number.isFinite(netGamma)||!(Number(distance)>0))return null;
+ const d=Number(distance),points=[-d,0,d];
+ if(Math.abs(netGamma)>EPS){const stationary=-netDelta/netGamma;if(stationary>-d&&stationary<d)points.push(stationary);}
+ const candidates=[...new Set(points)].map(move=>({move,pnl:netDelta*move+.5*netGamma*move*move})),worst=candidates.reduce((a,b)=>b.pnl<a.pnl?b:a);
+ const stopRisk=Math.max(0,-worst.pnl),direction=stopRisk<=EPS?null:Math.abs(worst.move+d)<=EPS?'down':Math.abs(worst.move-d)<=EPS?'up':'interior';
+ return {downStopPnl:candidates.find(x=>x.move===-d).pnl,upStopPnl:candidates.find(x=>x.move===d).pnl,adverseStopMove:stopRisk>EPS?worst.move:null,adverseStopPnl:stopRisk>EPS?worst.pnl:null,adverseStopDirection:direction,stopRisk};
+}
 
 export function solveKelly(scenarios,count){
  let fractions=Array(count).fill(0),score=objective(fractions,scenarios),iterations=0;
@@ -63,6 +90,7 @@ export function riskBudgetAllocation(c,data=c.nodes.risk.data,atrByUnderlying={}
  const atRiskLimitPct=finite(data?.thesisAtRiskLimitPct)&&Number(data.thesisAtRiskLimitPct)>0?Number(data.thesisAtRiskLimitPct):null,atRiskLimitFraction=atRiskLimitPct==null?null:atRiskLimitPct/100;
  const atrStopMultiple=finite(data?.atrStopMultiple)&&Number(data.atrStopMultiple)>0?Number(data.atrStopMultiple):(finite(data?.atrHardStopMultiple)&&Number(data.atrHardStopMultiple)>0?Number(data.atrHardStopMultiple):2.5);
  if(!bundles.length)issues.push('先在 Portfolio Construction 添加 Underlying Greek Bundle');
+ const policyError=kellyPolicyError(c,data);if(policyError)issues.push(policyError);
  if(underwritingError)issues.push(underwritingError);
  issues.push(...uncertaintyIssues(c.nodes.returns.data,bundles,atrByUnderlying));
  if(atRiskLimitFraction==null)issues.push('请填写 Thesis At-Risk Limit');
@@ -71,30 +99,44 @@ export function riskBudgetAllocation(c,data=c.nodes.risk.data,atrByUnderlying={}
 
  const scenarios=matrix.rows.map(row=>({id:row.id,name:row.name,probability:Number(row.probability)/100,returns:row.cells.map(cell=>cell.returnRate/100)}));
  const pointSolution=solveKelly(scenarios,bundles.length),uncertaintyAware=hasUncertainty(c.nodes.returns.data),monteCarlo=uncertaintyAware?monteCarloKelly(c.nodes.returns.data,bundles,atrByUnderlying):null;
- const weightSolution=monteCarlo||pointSolution,kellyFractions=weightSolution.fractions,weights=normalized(kellyFractions),hasPositiveKelly=weights.some(x=>x>0)&&weightSolution.expectedLogGrowth>EPS,effectiveWeights=hasPositiveKelly?weights:weights.map(()=>0),constraintIssues=[];
+ const weightSolution=monteCarlo||pointSolution,kellyFractions=weightSolution.fractions,kellyWeights=normalized(kellyFractions),hasPositiveKelly=kellyWeights.some(x=>x>0)&&weightSolution.expectedLogGrowth>EPS,constraintIssues=[];
+ const kellyTiltPct=Number(data?.kellyTiltPct??DEFAULT_KELLY_TILT_PCT),targetScenarios=monteCarlo?.scenarios||scenarios;
+ const standaloneExpectedReturns=bundles.map((_,index)=>targetScenarios.reduce((sum,s)=>sum+s.probability*s.returns[index],0));
  const preliminary=bundles.map((bundle,index)=>{
   const metrics=bundleMetrics(bundle.construction),referenceCapital=Number(metrics.referenceCapital),atr=Number(atrByUnderlying?.[metrics.underlying]),spot=Number(metrics.referenceSpot),distance=atr>0?atr*atrStopMultiple:null;
   const canPriceStop=distance!=null&&Number.isFinite(spot)&&metrics.netDelta!=null&&metrics.netGamma!=null&&referenceCapital>0;
-  const downStopPnl=canPriceStop?metrics.netDelta*(-distance)+.5*metrics.netGamma*distance*distance:null,upStopPnl=canPriceStop?metrics.netDelta*distance+.5*metrics.netGamma*distance*distance:null;
-  const stopRisk=canPriceStop?Math.max(0,-downStopPnl,-upStopPnl):null,stopRiskRate=stopRisk==null?null:stopRisk/referenceCapital,adverseStopDirection=stopRisk==null||stopRisk===0?null:(downStopPnl<=upStopPnl?'down':'up');
-  return {bundleId:bundle.id,name:metrics.underlying||bundle.name,underlying:metrics.underlying,fullFraction:pointSolution.fractions[index],kellyFraction:kellyFractions[index],weight:effectiveWeights[index],referenceCapital,atr:Number.isFinite(atr)&&atr>0?atr:null,stopDistance:distance,downStopPrice:distance==null?null:spot-distance,upStopPrice:distance==null?null:spot+distance,downStopPnl,upStopPnl,stopRisk,stopRiskRate,adverseStopDirection};
+  const stop=canPriceStop?atrStopProfile(metrics.netDelta,metrics.netGamma,distance):null,stopRisk=stop?.stopRisk??null,stopRiskRate=stopRisk==null?null:stopRisk/referenceCapital;
+  const eligible=standaloneExpectedReturns[index]>ELIGIBILITY_EPS||kellyFractions[index]>ELIGIBILITY_EPS,exclusionReason=eligible?'':'独立预期收益非正且 Kelly 权重为 0；请修改参数或从 Portfolio Construction 剔除';
+  return {bundleId:bundle.id,name:metrics.underlying||bundle.name,underlying:metrics.underlying,eligible,exclusionReason,standaloneExpectedReturn:standaloneExpectedReturns[index],fullFraction:pointSolution.fractions[index],kellyFraction:kellyFractions[index],kellyWeight:kellyWeights[index],referenceCapital,referencePrice:Number.isFinite(spot)&&spot>0?spot:null,atr:Number.isFinite(atr)&&atr>0?atr:null,stopDistance:distance,downStopPrice:distance==null?null:spot-distance,upStopPrice:distance==null?null:spot+distance,adverseStopPrice:stop?.adverseStopMove==null?null:spot+stop.adverseStopMove,...stop,stopRisk,stopRiskRate};
  });
- if(hasPositiveKelly)for(const row of preliminary)if(row.weight>0&&row.stopRiskRate==null)constraintIssues.push(`${row.name} 缺少 ATR、Reference Spot、Reference Capital 或可计算 Greeks`);
+ const eligibleRows=preliminary.filter(row=>row.eligible),eligibleKelly=kellyFractions.filter((_,index)=>preliminary[index].eligible);
+ const canDiversify=eligibleRows.length>0&&eligibleRows.every(row=>row.underlying&&Number.isFinite(row.stopRiskRate)&&row.stopRiskRate>EPS);
+ if(hasPositiveKelly&&!canDiversify)for(const row of eligibleRows){
+  if(!row.underlying||row.stopRiskRate==null||!Number.isFinite(row.stopRiskRate))constraintIssues.push(`${row.name} 缺少 ATR、Reference Spot、Reference Capital 或可计算 Greeks，无法参与风险等权`);
+  else if(row.stopRiskRate<=EPS)constraintIssues.push(`${row.name} 独立 ATR 风险估计为 0，无法作为风险等权的分母；请检查结构与 Greeks，不能视为无风险`);
+ }
+ const zero=bundles.map(()=>0),compact=canDiversify?diversifiedRiskWeights(eligibleRows,eligibleKelly,kellyTiltPct):null,expand=values=>{let j=0;return preliminary.map(row=>row.eligible?values[j++]:0);};
+ const diversified=compact?{baselineRiskShares:expand(compact.baselineRiskShares),baselineWeights:expand(compact.baselineWeights),kellyRiskShares:expand(compact.kellyRiskShares),riskShares:expand(compact.riskShares),weights:expand(compact.weights)}:{baselineRiskShares:zero,baselineWeights:zero,kellyRiskShares:zero,riskShares:zero,weights:zero};
+ const mixedExpectedReturn=targetScenarios.reduce((sum,s)=>sum+s.probability*s.returns.reduce((v,r,j)=>v+r*diversified.weights[j],0),0);
+ if(hasPositiveKelly&&canDiversify&&mixedExpectedReturn<=EPS)constraintIssues.push('分散后组合预期收益非正；请复核候选 Bundle 与情景，系统不会为用满预算自动剔除较弱标的');
+ const hasAllocation=hasPositiveKelly&&canDiversify&&!constraintIssues.length,effectiveWeights=hasAllocation?diversified.weights:zero;
  // Stop Risk sums each Bundle's independently adverse ATR direction.
- const stopRiskRate=hasPositiveKelly&&preliminary.every(row=>row.weight===0||row.stopRiskRate!=null)?preliminary.reduce((sum,row)=>sum+row.weight*(row.stopRiskRate||0),0):null;
+ const stopRiskRate=hasAllocation?preliminary.reduce((sum,row,i)=>sum+effectiveWeights[i]*row.stopRiskRate,0):null;
  // Scenario Risk preserves each user-defined joint Bull/Base/Bear relative move.
  const scenarioWeightReturns=scenarios.map(s=>s.returns.reduce((sum,r,j)=>sum+effectiveWeights[j]*r,0)),scenarioRiskRate=hasPositiveKelly?Math.max(0,...scenarioWeightReturns.map(r=>-r)):0,effectiveLossRate=stopRiskRate==null?null:Math.max(stopRiskRate,scenarioRiskRate);
- if(hasPositiveKelly&&effectiveLossRate!=null&&effectiveLossRate<=EPS)constraintIssues.push('Kelly 权重下 Stop Risk 与 Scenario Risk 均为 0，无法用 At-Risk 推导仓位');
+ if(hasPositiveKelly&&effectiveLossRate!=null&&effectiveLossRate<=EPS)constraintIssues.push('分散权重下 Stop Risk 与 Scenario Risk 均为 0，无法用 At-Risk 推导仓位');
  const allocatedFraction=!hasPositiveKelly?0:constraintIssues.length||effectiveLossRate==null||effectiveLossRate<=EPS?0:Math.min(1,atRiskLimitFraction/effectiveLossRate),targetFractions=effectiveWeights.map(weight=>weight*allocatedFraction);
- const rows=preliminary.map((row,index)=>({...row,fraction:targetFractions[index],estimatedStopRiskFraction:row.stopRiskRate==null?null:targetFractions[index]*row.stopRiskRate}));
+ const bullIndex=scenarios.findIndex(s=>s.id==='bull'),bearIndex=scenarios.findIndex(s=>s.id==='bear');
+ const rows=preliminary.map((row,index)=>({...row,bullPriceMove:bullIndex<0?null:matrix.rows[bullIndex]?.cells[index]?.priceMove??null,bearReturn:bearIndex<0?null:scenarios[bearIndex].returns[index],baselineRiskShare:diversified.baselineRiskShares[index],baselineWeight:diversified.baselineWeights[index],kellyRiskShare:diversified.kellyRiskShares[index],riskShare:hasAllocation?diversified.riskShares[index]:0,weight:effectiveWeights[index],fraction:targetFractions[index],estimatedStopRiskFraction:row.stopRiskRate==null?null:targetFractions[index]*row.stopRiskRate}));
  const scenarioResults=scenarios.map((s,index)=>{const weightReturn=scenarioWeightReturns[index],portfolioReturn=weightReturn*allocatedFraction;return {id:s.id,name:s.name,probability:s.probability,weightReturn,portfolioReturn,wealth:1+portfolioReturn};});
- const targetScenarios=monteCarlo?.scenarios||scenarios,expectedLogGrowth=objective(targetFractions,targetScenarios),bindingRisk=stopRiskRate==null?'':stopRiskRate>=scenarioRiskRate?'atr-stop':'scenario';
- return {complete:true,issues:[],bundles:rows,scenarios:scenarioResults,fractions:targetFractions,kellyFractions,fullFractions:pointSolution.fractions,weights:effectiveWeights,allocatedFraction,cashFraction:Math.max(0,1-allocatedFraction),expectedLogGrowth,kellyExpectedLogGrowth:weightSolution.expectedLogGrowth,pointExpectedLogGrowth:pointSolution.expectedLogGrowth,iterations:weightSolution.iterations,uncertaintyAware,monteCarlo:monteCarlo?{samples:monteCarlo.samples}:null,atRiskLimitPct,atRiskLimitFraction,atrStopMultiple,stopRiskRate,scenarioRiskRate,effectiveLossRate,bindingRisk,estimatedStopRiskFraction:rows.reduce((sum,row)=>sum+(row.estimatedStopRiskFraction??0),0),constraintIssue:constraintIssues.join('；'),hasPositiveKelly};
+ const expectedLogGrowth=objective(targetFractions,targetScenarios),bindingRisk=stopRiskRate==null?'':stopRiskRate>=scenarioRiskRate?'atr-stop':'scenario';
+ return {complete:true,issues:[],weightingMethod:RISK_WEIGHTING_METHOD,kellyTiltPct,mixedExpectedReturn,bundles:rows,scenarios:scenarioResults,fractions:targetFractions,kellyFractions,fullFractions:pointSolution.fractions,weights:effectiveWeights,allocatedFraction,cashFraction:Math.max(0,1-allocatedFraction),expectedLogGrowth,kellyExpectedLogGrowth:weightSolution.expectedLogGrowth,pointExpectedLogGrowth:pointSolution.expectedLogGrowth,iterations:weightSolution.iterations,uncertaintyAware,monteCarlo:monteCarlo?{samples:monteCarlo.samples}:null,atRiskLimitPct,atRiskLimitFraction,atrStopMultiple,stopRiskRate,scenarioRiskRate,effectiveLossRate,bindingRisk,estimatedStopRiskFraction:rows.reduce((sum,row)=>sum+(row.estimatedStopRiskFraction??0),0),constraintIssue:constraintIssues.join('；'),hasPositiveKelly};
 }
 
 export const kellyAllocation=riskBudgetAllocation;
 
 export function kellyPolicyError(c,data){
+ const tilt=data?.kellyTiltPct??DEFAULT_KELLY_TILT_PCT;if(!finite(tilt)||Number(tilt)<0||Number(tilt)>DEFAULT_KELLY_TILT_PCT)return 'Kelly Tilt 须在 0% 到 25% 之间';
  if(data.thesisAtRiskLimitPct!==''&&data.thesisAtRiskLimitPct!=null&&(!finite(data.thesisAtRiskLimitPct)||Number(data.thesisAtRiskLimitPct)<=0||Number(data.thesisAtRiskLimitPct)>100))return 'Thesis At-Risk Limit 必须在 0% 到 100% 之间或留空';
  const atr=data.atrStopMultiple??data.atrHardStopMultiple??2.5;if(!finite(atr)||Number(atr)<=0)return 'ATR Stop Multiple 必须大于 0';
  return '';

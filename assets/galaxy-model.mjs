@@ -23,7 +23,7 @@ export function galaxyData(cases,aspect=1.6){const nodes=[],links=[],nebulae=[];
  const centers=nebulaCenters(cases.length,aspect);
 
  cases.forEach((c,i)=>{const center=centers[i],cluster=starCluster(c.id);nebulae.push({id:c.id,title:c.title,center,cluster,archived:c.archived,demo:c.demo,unsynced:!!c.unsynced,activeThesis:!!c.activeThesis});
- STAR_KEYS.forEach((key,j)=>{const p=cluster.selected[j];nodes.push({id:starId(c.id,key),caseId:c.id,key,color:p.color,state:c.nodes[key].state,fx:center.x+p.x,fy:center.y+p.y,fz:center.z+p.z,x:center.x+p.x,y:center.y+p.y,z:center.z+p.z});});
+ STAR_KEYS.forEach((key,j)=>{const p=cluster.selected[j],freshness=['returns','risk'].includes(key)?c.freshness?.status||'none':'none';nodes.push({id:starId(c.id,key),caseId:c.id,key,color:p.color,state:c.nodes[key].state,freshness,fx:center.x+p.x,fy:center.y+p.y,fz:center.z+p.z,x:center.x+p.x,y:center.y+p.y,z:center.z+p.z});});
  for(const [a,b,kind]of RELATIONS)links.push({source:starId(c.id,a),target:starId(c.id,b),kind,caseId:c.id});
  });return {nodes,links,nebulae};}
 export function neighborhood(id,links){const ids=new Set(id?[id]:[]);for(const l of links){const a=typeof l.source==='object'?l.source.id:l.source,b=typeof l.target==='object'?l.target.id:l.target;if(a===id)ids.add(b);if(b===id)ids.add(a);}return ids;}
