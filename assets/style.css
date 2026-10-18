@@ -117,6 +117,7 @@ nav .tab.active { background: var(--accent); border-color: var(--accent); color:
 .ff-factor { text-align: center; font-size: 14px; font-weight: 750; font-variant-numeric: tabular-nums; }
 .ff-raw { margin-top: 3px; color: var(--muted); font-size: 10px; line-height: 1.35; text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .ff-warning { color: #fbbf24; cursor: help; }
+.ff-warning.freshness-stale,.ff-warning.freshness-expired{color:#ef4444}
 .ff-price { margin-top: 3px; color: var(--muted); font-size: 10px; line-height: 1.35; font-variant-numeric: tabular-nums; }
 
 /* Regime radar */

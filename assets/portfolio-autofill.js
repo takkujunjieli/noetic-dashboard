@@ -1,15 +1,11 @@
 import {loadJSON} from './shared.js';
 import {localReferenceIv,portfolioBundleDrafts} from './portfolio-autofill.mjs?v=20261015-atr-uncertainty';
-
-function localAssignments(){
- const raw=localStorage.getItem('riskGroups');
- if(!raw)return {};
- try{const value=JSON.parse(raw);return value&&typeof value==='object'&&!Array.isArray(value)?value:{};}
- catch{throw Error('本地 Portfolio thesis 归属不可读，请先在 Portfolio 页面重新保存归属');}
-}
+import {readWorkflowOwnershipCases,workflowOwnershipIndex} from './workflow-ownership.mjs?v=20261017-portfolio-assignment';
 
 export async function loadPortfolioBundleDrafts(c){
- const [portfolio,policy,referenceIv]=await Promise.all([loadJSON('data/portfolio.json'),loadJSON('config/risk_policy.json'),loadJSON('data/reference_iv.json')]);
+ const [portfolio,referenceIv]=await Promise.all([loadJSON('data/portfolio.json'),loadJSON('data/reference_iv.json')]);
  if(!portfolio)throw Error('未找到本地 Portfolio 数据，请先刷新持仓');
- return portfolioBundleDrafts(c,portfolio,policy||{},localAssignments(),localReferenceIv(referenceIv||{}));
+ const ownership=workflowOwnershipIndex(readWorkflowOwnershipCases());
+ const assignments=Object.fromEntries([...ownership].filter(([,owners])=>owners.length===1&&owners[0].id===c.id).map(([symbol])=>[symbol,c.title]));
+ return portfolioBundleDrafts(c,portfolio,{assignments},{},localReferenceIv(referenceIv||{}));
 }
