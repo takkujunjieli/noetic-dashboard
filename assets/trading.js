@@ -1,4 +1,4 @@
-import {mountTradeLinkGroupEditor} from './trade-link-ui.js?v=20261015-auto-thesis';
+import {mountTradeLinkGroupEditor} from './trade-link-ui.js?v=20261017-portfolio-assignment';
 /* 交易台 — 单票工作台:K线主图 + 共享价格轴行权价梯 + 期权面板 + 采集控制
    图表库: TradingView lightweight-charts v4(CDN,全局 LightweightCharts) */
 import {

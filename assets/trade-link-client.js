@@ -1,13 +1,12 @@
 import {KEY,validateStore,record} from './workflow-model.mjs?v=20261015-no-signal';
 import {applyExecutionEvent,TRADE_ROLES} from './trade-link-model.mjs';
-import {thesisUnderlyings} from './attribution-transactions.mjs';
+import {readWorkflowOwnershipCases,workflowOwnershipIndex} from './workflow-ownership.mjs?v=20261017-portfolio-assignment';
 import {readUnsyncedNebulae,writeUnsyncedNebulae} from './workflow-sync.js?v=20260929-3';
 export {TRADE_ROLES};
 export function workflowLinkCases(storage=localStorage) {
-  const raw=storage.getItem(KEY);
-  if (!raw) return [];
-  return validateStore(JSON.parse(raw)).cases.filter(c=>!c.archived&&!c.demo).map(c=>{
-    let underlyings=[];try{underlyings=thesisUnderlyings(c);}catch{}
+  const cases=readWorkflowOwnershipCases(storage),ownership=workflowOwnershipIndex(cases);
+  return cases.map(c=>{
+    const underlyings=[...ownership].filter(([,owners])=>owners.some(owner=>owner.id===c.id)).map(([symbol])=>symbol);
     return {id:c.id,title:c.title,revision:c.revision,archived:false,underlyings};
   });
 }

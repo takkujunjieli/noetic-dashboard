@@ -1,5 +1,5 @@
 import {esc} from './shared.js';
-import {readTradeLinks,writeTradeLink,workflowLinkCases} from './trade-link-client.js';
+import {readTradeLinks,writeTradeLink,workflowLinkCases} from './trade-link-client.js?v=20261017-portfolio-assignment';
 import {thesisUnderlyings} from './attribution-transactions.mjs';
 const etDay=ts=>new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(ts));
 
