@@ -14,8 +14,9 @@ function activeCase(title='Active'){
 }
 
 test('active catalog exposes account-independent target fractions and Portfolio dollarizes them',()=>{
- const {c}=activeCase(),archived=createCase({title:'Archived'});archived.activeThesis=true;archived.archived=true;
+ const {c}=activeCase(),archived=createCase({title:'Archived'});archived.activeThesis=true;archived.archived=true;c.events.push({id:'large-history',snapshot:{payload:'x'.repeat(10000)}});
  const catalog=activeNebulaCatalog({cases:[c,archived]},'2026-09-29T00:00:00Z');assert.deepEqual(catalog.cases.map(x=>x.title),['Active']);
+ assert.equal(Object.hasOwn(catalog.cases[0],'events'),false);assert.ok(JSON.stringify(catalog).length<JSON.stringify(c).length/2);
  const small=nebulaRiskModels(c,50000,{MU:2})[0],large=nebulaRiskModels(c,100000,{MU:2})[0];
  assert.equal(small.underlying,'MU');assert.equal(small.running,true);assert.equal(small.bullPriceMove,20);assert.ok(Math.abs(small.targetFraction-.05)<1e-9);assert.ok(Math.abs(small.targetCapital-2500)<1e-6);assert.ok(Math.abs(large.targetCapital-5000)<1e-6);assert.equal(small.targetFraction,large.targetFraction);assert.ok(Math.abs(small.bearReturn+.2)<1e-9);
  assert.equal(small.referencePrice,100);assert.equal(small.referenceAt,c.design.allocation.at);
@@ -37,6 +38,38 @@ test('Portfolio receives frozen exclusion status and reason',()=>{
  const {c}=activeCase('Excluded budget'),item=c.design.allocation.items[0];item.eligible=false;item.exclusionReason='独立预期收益非正且 Kelly 权重为 0';item.fraction=0;
  const model=nebulaRiskModels(c,100000,{MU:2})[0];
  assert.equal(model.excluded,true);assert.match(model.exclusionReason,/Kelly 权重为 0/);assert.equal(model.targetFraction,0);assert.equal(model.targetCapital,0);
+});
+
+function legacyCase(){
+ const {c,id}=activeCase('Legacy budget');
+ // Older activation snapshots predate these explicit frozen input fields.
+ for(const allocation of [c.design.allocation,...c.events.map(e=>e.snapshot?.design?.allocation).filter(Boolean)]){
+  for(const item of allocation.items)for(const field of ['referencePrice','bullPriceMove','bearReturn'])delete item[field];
+ }
+ c.design.plans[0].construction.legs[0].underlyingPrice=51.825;
+ c.nodes.returns.data.scenarios.find(x=>x.id==='bull').moves[id].priceMove=80;
+ c.nodes.returns.data.scenarios.find(x=>x.id==='bear').moves[id].priceMove=-5;
+ return c;
+}
+
+test('legacy budgets recover reference and scenario inputs from their activation snapshot, including compact catalogs',()=>{
+ const c=legacyCase(),before=JSON.stringify(c),model=nebulaRiskModels(c,100000)[0];
+ assert.equal(model.referencePrice,100);assert.equal(model.bullPriceMove,20);assert.equal(model.bearReturn,-.2);
+ assert.equal(model.referenceAt,c.design.allocation.at);assert.equal(model.stopPrice,95);
+ const catalog=activeNebulaCatalog({cases:[c]});
+ assert.equal(Object.hasOwn(catalog.cases[0],'events'),false);
+ assert.deepEqual(nebulaRiskModels(catalog.cases[0],100000),[model]);
+ assert.equal(JSON.stringify(c),before,'reading legacy data must not rewrite Workflow or its history');
+});
+
+test('legacy budgets without the matching activation snapshot never use newer draft inputs',()=>{
+ const c=legacyCase();
+ for(const e of c.events)if(e.snapshot?.design?.allocation)e.snapshot.design.allocation.at='2000-01-01T00:00:00Z';
+ const missing=nebulaRiskModels(c,100000)[0];
+ assert.equal(missing.referencePrice,null);assert.equal(missing.bullPriceMove,null);assert.equal(missing.bearReturn,null);
+ assert.equal(missing.stopPrice,95);assert.ok(missing.targetCapital>0);
+ c.events=[];
+ assert.deepEqual(nebulaRiskModels(activeNebulaCatalog({cases:[c]}).cases[0],100000),[missing]);
 });
 
 test('legacy assignment compatibility merges durable records and explicit local clears',()=>{

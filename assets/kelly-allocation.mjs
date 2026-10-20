@@ -6,6 +6,8 @@ const EPS=1e-12;
 const ELIGIBILITY_EPS=1e-9;
 export const RISK_WEIGHTING_METHOD='equal-atr-risk-kelly-v1';
 export const DEFAULT_KELLY_TILT_PCT=25;
+export const KELLY_FRACTION=0.5;
+export const SIZING_METHOD='half-kelly-at-risk-v1';
 export const emptyKellyPolicy=()=>({allocationVersion:2,thesisAtRiskLimitPct:'',atrStopMultiple:2.5,kellyTiltPct:DEFAULT_KELLY_TILT_PCT});
 
 function projectSimplex(values){
@@ -33,7 +35,7 @@ const normalized=values=>{const total=values.reduce((sum,x)=>sum+Math.max(0,x),0
 // Equal risk across underlyings, then across bundles within each underlying.
 // Mix in risk space: equal capital would give leveraged options more risk.
 export function diversifiedRiskWeights(rows,kellyFractions,kellyTiltPct=DEFAULT_KELLY_TILT_PCT){
- if(!finite(kellyTiltPct)||Number(kellyTiltPct)<0||Number(kellyTiltPct)>DEFAULT_KELLY_TILT_PCT)throw Error('Kelly Tilt 须在 0% 到 25% 之间');
+ if(!finite(kellyTiltPct)||Number(kellyTiltPct)<0||Number(kellyTiltPct)>100)throw Error('Kelly Tilt 须在 0% 到 100% 之间');
  if(rows.length!==kellyFractions.length||rows.some(row=>!row.underlying||!Number.isFinite(row.stopRiskRate)||row.stopRiskRate<=EPS))throw Error('风险等权需要每个 Bundle 有正的独立 ATR 风险率');
  const groups=new Map();for(const row of rows){const key=row.underlying.toUpperCase();groups.set(key,(groups.get(key)||0)+1);}
  const baselineRiskShares=rows.map(row=>1/groups.size/groups.get(row.underlying.toUpperCase()));
@@ -68,9 +70,29 @@ export function solveKelly(scenarios,count){
  return {fractions,expectedLogGrowth:score,iterations};
 }
 
+// Optimize the cash/mix split without normalizing fractional Kelly cash away.
+export function fractionalKellyCap(scenarios,weights){
+ const states=scenarios.map(s=>({p:s.probability,r:s.returns.reduce((sum,r,i)=>sum+r*weights[i],0)}));
+ const derivative=a=>states.reduce((sum,s)=>s.p<=0?sum:1+a*s.r<=0?-Infinity:sum+s.p*s.r/(1+a*s.r),0);
+ if(derivative(0)<=EPS)return 0;
+ if(derivative(1)>=0)return KELLY_FRACTION;
+ let lo=0,hi=1;
+ for(let i=0;i<70;i++){const mid=(lo+hi)/2;if(derivative(mid)>0)lo=mid;else hi=mid;}
+ return KELLY_FRACTION*(lo+hi)/2;
+}
+
 // Every uncertainty draw contributes its Bull/Base/Bear states to one joint
 // optimization. Component-wise quantiles are deliberately not combined.
+// Bounded caches retain only valuation inputs, never thesis history or snapshots.
+const monteCarloCache=new Map(),allocationCache=new Map();
+function remember(cache,key,value){if(cache.size>=24)cache.delete(cache.keys().next().value);cache.set(key,value);return value;}
+function calculationInputs(data,bundles,atr,samples){return JSON.stringify({data,bundles:bundles.map(b=>({id:b.id,construction:b.construction})),atr:bundles.map(b=>{const u=bundleMetrics(b.construction).underlying;return [u,atr?.[u]??null];}),samples});}
 export function monteCarloKelly(data,bundles,atrByUnderlying={},samples=500){
+ const key=calculationInputs(scenarioUnderwriting(data),bundles,atrByUnderlying,samples);
+ if(monteCarloCache.has(key))return structuredClone(monteCarloCache.get(key));
+ return structuredClone(remember(monteCarloCache,key,calculateMonteCarloKelly(data,bundles,atrByUnderlying,samples)));
+}
+function calculateMonteCarloKelly(data,bundles,atrByUnderlying={},samples=500){
  const d=scenarioUnderwriting(data),random=rng(hashSeed({d,bundles:bundles.map(b=>b.id),atrByUnderlying,samples})),scenarios=[];let accepted=0;
  for(let k=0;k<samples;k++){
   const sampled=JSON.parse(JSON.stringify(d)),bull=sampled.scenarios.find(s=>s.id==='bull'),bear=sampled.scenarios.find(s=>s.id==='bear'),probabilityRange=Number(d.probabilityUncertainty)||0;
@@ -86,6 +108,11 @@ export function monteCarloKelly(data,bundles,atrByUnderlying={},samples=500){
 }
 
 export function riskBudgetAllocation(c,data=c.nodes.risk.data,atrByUnderlying={}){
+ const key=calculationInputs({underwriting:c.nodes.returns.data,policy:data},c.design?.plans||[],atrByUnderlying);
+ if(allocationCache.has(key))return structuredClone(allocationCache.get(key));
+ return structuredClone(remember(allocationCache,key,calculateRiskBudgetAllocation(c,data,atrByUnderlying)));
+}
+function calculateRiskBudgetAllocation(c,data=c.nodes.risk.data,atrByUnderlying={}){
  const bundles=c.design?.plans||[],matrix=greekScenarioMatrix(c.nodes.returns.data,bundles),underwritingError=scenarioUnderwritingError(c.nodes.returns.data,bundles),issues=[];
  const atRiskLimitPct=finite(data?.thesisAtRiskLimitPct)&&Number(data.thesisAtRiskLimitPct)>0?Number(data.thesisAtRiskLimitPct):null,atRiskLimitFraction=atRiskLimitPct==null?null:atRiskLimitPct/100;
  const atrStopMultiple=finite(data?.atrStopMultiple)&&Number(data.atrStopMultiple)>0?Number(data.atrStopMultiple):(finite(data?.atrHardStopMultiple)&&Number(data.atrHardStopMultiple)>0?Number(data.atrHardStopMultiple):2.5);
@@ -125,18 +152,22 @@ export function riskBudgetAllocation(c,data=c.nodes.risk.data,atrByUnderlying={}
  // Scenario Risk preserves each user-defined joint Bull/Base/Bear relative move.
  const scenarioWeightReturns=scenarios.map(s=>s.returns.reduce((sum,r,j)=>sum+effectiveWeights[j]*r,0)),scenarioRiskRate=hasPositiveKelly?Math.max(0,...scenarioWeightReturns.map(r=>-r)):0,effectiveLossRate=stopRiskRate==null?null:Math.max(stopRiskRate,scenarioRiskRate);
  if(hasPositiveKelly&&effectiveLossRate!=null&&effectiveLossRate<=EPS)constraintIssues.push('分散权重下 Stop Risk 与 Scenario Risk 均为 0，无法用 At-Risk 推导仓位');
- const allocatedFraction=!hasPositiveKelly?0:constraintIssues.length||effectiveLossRate==null||effectiveLossRate<=EPS?0:Math.min(1,atRiskLimitFraction/effectiveLossRate),targetFractions=effectiveWeights.map(weight=>weight*allocatedFraction);
+ const halfKellyCap=hasAllocation?fractionalKellyCap(targetScenarios,effectiveWeights):0;
+ const atRiskCap=effectiveLossRate>EPS?Math.min(1,atRiskLimitFraction/effectiveLossRate):null;
+ const allocatedFraction=hasAllocation&&atRiskCap!=null?Math.min(halfKellyCap,atRiskCap):0,targetFractions=effectiveWeights.map(weight=>weight*allocatedFraction);
+ const limitingConstraint=!hasAllocation||halfKellyCap<=EPS?'cash':halfKellyCap<=atRiskCap?'half-kelly':'at-risk';
  const bullIndex=scenarios.findIndex(s=>s.id==='bull'),bearIndex=scenarios.findIndex(s=>s.id==='bear');
  const rows=preliminary.map((row,index)=>({...row,bullPriceMove:bullIndex<0?null:matrix.rows[bullIndex]?.cells[index]?.priceMove??null,bearReturn:bearIndex<0?null:scenarios[bearIndex].returns[index],baselineRiskShare:diversified.baselineRiskShares[index],baselineWeight:diversified.baselineWeights[index],kellyRiskShare:diversified.kellyRiskShares[index],riskShare:hasAllocation?diversified.riskShares[index]:0,weight:effectiveWeights[index],fraction:targetFractions[index],estimatedStopRiskFraction:row.stopRiskRate==null?null:targetFractions[index]*row.stopRiskRate}));
  const scenarioResults=scenarios.map((s,index)=>{const weightReturn=scenarioWeightReturns[index],portfolioReturn=weightReturn*allocatedFraction;return {id:s.id,name:s.name,probability:s.probability,weightReturn,portfolioReturn,wealth:1+portfolioReturn};});
+ for(const [index,row]of rows.entries()){row.riskBasis=structuredClone(bundles[index].construction);row.scenarioReturns=Object.fromEntries(scenarios.map(s=>[s.id,s.returns[index]]));}
  const expectedLogGrowth=objective(targetFractions,targetScenarios),bindingRisk=stopRiskRate==null?'':stopRiskRate>=scenarioRiskRate?'atr-stop':'scenario';
- return {complete:true,issues:[],weightingMethod:RISK_WEIGHTING_METHOD,kellyTiltPct,mixedExpectedReturn,bundles:rows,scenarios:scenarioResults,fractions:targetFractions,kellyFractions,fullFractions:pointSolution.fractions,weights:effectiveWeights,allocatedFraction,cashFraction:Math.max(0,1-allocatedFraction),expectedLogGrowth,kellyExpectedLogGrowth:weightSolution.expectedLogGrowth,pointExpectedLogGrowth:pointSolution.expectedLogGrowth,iterations:weightSolution.iterations,uncertaintyAware,monteCarlo:monteCarlo?{samples:monteCarlo.samples}:null,atRiskLimitPct,atRiskLimitFraction,atrStopMultiple,stopRiskRate,scenarioRiskRate,effectiveLossRate,bindingRisk,estimatedStopRiskFraction:rows.reduce((sum,row)=>sum+(row.estimatedStopRiskFraction??0),0),constraintIssue:constraintIssues.join('；'),hasPositiveKelly};
+ return {complete:true,issues:[],sizingMethod:SIZING_METHOD,kellyFraction:KELLY_FRACTION,halfKellyCap,atRiskCap,limitingConstraint,weightingMethod:RISK_WEIGHTING_METHOD,kellyTiltPct,mixedExpectedReturn,bundles:rows,scenarios:scenarioResults,fractions:targetFractions,kellyFractions,fullFractions:pointSolution.fractions,weights:effectiveWeights,allocatedFraction,cashFraction:Math.max(0,1-allocatedFraction),expectedLogGrowth,kellyExpectedLogGrowth:weightSolution.expectedLogGrowth,pointExpectedLogGrowth:pointSolution.expectedLogGrowth,iterations:weightSolution.iterations,uncertaintyAware,monteCarlo:monteCarlo?{samples:monteCarlo.samples}:null,atRiskLimitPct,atRiskLimitFraction,atrStopMultiple,stopRiskRate,scenarioRiskRate,effectiveLossRate,bindingRisk,estimatedStopRiskFraction:rows.reduce((sum,row)=>sum+(row.estimatedStopRiskFraction??0),0),constraintIssue:constraintIssues.join('；'),hasPositiveKelly};
 }
 
 export const kellyAllocation=riskBudgetAllocation;
 
 export function kellyPolicyError(c,data){
- const tilt=data?.kellyTiltPct??DEFAULT_KELLY_TILT_PCT;if(!finite(tilt)||Number(tilt)<0||Number(tilt)>DEFAULT_KELLY_TILT_PCT)return 'Kelly Tilt 须在 0% 到 25% 之间';
+ const tilt=data?.kellyTiltPct??DEFAULT_KELLY_TILT_PCT;if(!finite(tilt)||Number(tilt)<0||Number(tilt)>100)return 'Kelly Tilt 须在 0% 到 100% 之间';
  if(data.thesisAtRiskLimitPct!==''&&data.thesisAtRiskLimitPct!=null&&(!finite(data.thesisAtRiskLimitPct)||Number(data.thesisAtRiskLimitPct)<=0||Number(data.thesisAtRiskLimitPct)>100))return 'Thesis At-Risk Limit 必须在 0% 到 100% 之间或留空';
  const atr=data.atrStopMultiple??data.atrHardStopMultiple??2.5;if(!finite(atr)||Number(atr)<=0)return 'ATR Stop Multiple 必须大于 0';
  return '';

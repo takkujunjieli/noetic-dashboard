@@ -1,4 +1,4 @@
-import {riskBudgetAllocation} from './kelly-allocation.mjs?v=20261018-thesis-freshness';
+import {riskBudgetAllocation} from './kelly-allocation.mjs?v=20261019-tilt-slider';
 
 const DAY=86400000;
 const severity={none:0,fresh:0,review:1,stale:2,expired:3};

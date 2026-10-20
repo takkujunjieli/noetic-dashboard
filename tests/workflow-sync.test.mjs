@@ -1,5 +1,6 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';
-import {captureWorkflow,syncWorkflowSnapshot,UNSYNCED_KEY,readUnsyncedNebulae,writeUnsyncedNebulae,remainingUnsyncedNebulae} from '../assets/workflow-sync.js';
+import {captureWorkflow,syncWorkflowSnapshot,refreshActiveNebulaCatalog,UNSYNCED_KEY,readUnsyncedNebulae,writeUnsyncedNebulae,remainingUnsyncedNebulae} from '../assets/workflow-sync.js';
+import {ACTIVE_NEBULAE_KEY} from '../assets/workflow-risk-bridge.mjs';
 import {KEY,VERSION,createCase} from '../assets/workflow-model.mjs';
 test('full workflow sync excludes credentials, guards remote conflicts and handles failed reads',async()=>{
  const map=new Map([[KEY,JSON.stringify({version:VERSION,cases:[createCase({title:'真实 Thesis'})]})],['ghPat','test-only'],['riskPolicy',JSON.stringify({account_equity:1000})]]);
@@ -25,4 +26,8 @@ test('sync reports empty or malformed JSON with the exact source instead of a ra
  globalThis.fetch=async()=>({ok:true,status:200,text:async()=>''});await assert.rejects(syncWorkflowSnapshot({version:1,entries:{}}),/读取 GitHub Workflow 时返回空响应/);
  const requests=[];globalThis.fetch=async(url,options={})=>{requests.push(options);return options.method==='PUT'?{ok:true,status:200,text:async()=>JSON.stringify({content:{sha:'initialized'}})}:{ok:true,status:200,text:async()=>JSON.stringify({sha:'empty-file',content:''})};};
  await syncWorkflowSnapshot({version:1,entries:{}});assert.equal(requests.length,2);assert.equal(JSON.parse(requests[1].body).sha,'empty-file');assert.equal(map.get(KEY+'.remote-sha'),'initialized');
+});
+test('active catalog replaces an oversized legacy cache with a compact projection',()=>{
+ const c=createCase({title:'Active'});c.activeThesis=true;c.events.push({id:'history',snapshot:{payload:'x'.repeat(10000)}});let first=true;const map=new Map([[ACTIVE_NEBULAE_KEY,'legacy-large-cache']]),storage={getItem:key=>map.get(key)??null,removeItem:key=>map.delete(key),setItem(key,value){if(first){first=false;const error=new Error('quota');error.name='QuotaExceededError';throw error;}map.set(key,value);}};
+ const catalog=refreshActiveNebulaCatalog({version:VERSION,cases:[c]},storage),saved=JSON.parse(map.get(ACTIVE_NEBULAE_KEY));assert.equal(saved.cases[0].title,'Active');assert.equal(Object.hasOwn(saved.cases[0],'events'),false);assert.deepEqual(saved,catalog);
 });

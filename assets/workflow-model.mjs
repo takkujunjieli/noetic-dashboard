@@ -4,7 +4,7 @@ import {structureDraft,structureError,ticker,structureExposure,positionLabel,can
 import { validateAttributionEvidence } from './attribution-link.mjs';
 import { parseTransactionFile } from './attribution-transactions.mjs?v=20261004-3';
 import { allocationIssues } from "./risk-budget.mjs";
-import {emptyKellyPolicy,kellyPolicyError} from './kelly-allocation.mjs?v=20261018-thesis-freshness';
+import {emptyKellyPolicy,kellyPolicyError} from './kelly-allocation.mjs?v=20261019-half-kelly';
 import {allocationInputFingerprint} from './workflow-freshness.mjs?v=20261018-thesis-freshness';
 // Standalone workflow domain. No dependencies on dashboard data or broker credentials.
 export const VERSION = 1;
@@ -167,11 +167,12 @@ export function setActiveAllocation(c,result){
  if(result?.complete===false)throw Error((result.issues||[]).join('；')||'Risk Budget 输入不完整');
  if(result?.complete&&Array.isArray(result.bundles)){
   if(result.constraintIssue)throw Error(result.constraintIssue);
-  const items=result.bundles.map(({bundleId,name,underlying,eligible,exclusionReason,standaloneExpectedReturn,fullFraction,kellyFraction,kellyWeight,baselineRiskShare,baselineWeight,kellyRiskShare,riskShare,weight,fraction,referencePrice,atr,stopDistance,downStopPrice,upStopPrice,adverseStopMove,adverseStopPrice,adverseStopDirection,stopRiskRate,estimatedStopRiskFraction,bullPriceMove,bearReturn})=>({bundleId,name,underlying:underlying||name,eligible,exclusionReason,standaloneExpectedReturn,fullFraction,kellyFraction,kellyWeight,baselineRiskShare,baselineWeight,kellyRiskShare,riskShare,weight,fraction,referencePrice,atr,stopDistance,downStopPrice,upStopPrice,adverseStopMove,adverseStopPrice,adverseStopDirection,stopRiskRate,estimatedStopRiskFraction,bullPriceMove,bearReturn}));
+  const items=result.bundles.map(({bundleId,name,underlying,eligible,exclusionReason,standaloneExpectedReturn,fullFraction,kellyFraction,kellyWeight,baselineRiskShare,baselineWeight,kellyRiskShare,riskShare,weight,fraction,referencePrice,referenceCapital,riskBasis,scenarioReturns,atr,stopDistance,downStopPrice,upStopPrice,adverseStopMove,adverseStopPrice,adverseStopDirection,stopRiskRate,estimatedStopRiskFraction,bullPriceMove,bearReturn})=>({bundleId,name,underlying:underlying||name,eligible,exclusionReason,standaloneExpectedReturn,fullFraction,kellyFraction,kellyWeight,baselineRiskShare,baselineWeight,kellyRiskShare,riskShare,weight,fraction,referencePrice,referenceCapital,riskBasis:clone(riskBasis),scenarioReturns:clone(scenarioReturns),atr,stopDistance,downStopPrice,upStopPrice,adverseStopMove,adverseStopPrice,adverseStopDirection,stopRiskRate,estimatedStopRiskFraction,bullPriceMove,bearReturn}));
   const scenarios=result.scenarios.map(({id,name,probability,weightReturn,portfolioReturn,wealth})=>({id,name,probability,weightReturn,portfolioReturn,wealth}));
   const activatedAt=now();
   c.design.allocation={method:'risk-budget-kelly',weightingMethod:result.weightingMethod,kellyTiltPct:result.kellyTiltPct,inAction:true,at:activatedAt,underwrittenAt:activatedAt,reviewedAt:activatedAt,scenarioDaysForward:c.nodes.returns.data?.daysForward??'',scenarioHorizon:c.horizon||'',sourceFingerprint:allocationInputFingerprint(c),allocatedFraction:result.allocatedFraction,cashFraction:result.cashFraction,expectedLogGrowth:result.expectedLogGrowth,kellyExpectedLogGrowth:result.kellyExpectedLogGrowth,thesisAtRiskLimitPct:result.atRiskLimitPct,atrStopMultiple:result.atrStopMultiple,stopRiskRate:result.stopRiskRate,scenarioRiskRate:result.scenarioRiskRate,effectiveLossRate:result.effectiveLossRate,bindingRisk:result.bindingRisk,estimatedStopRiskPct:result.estimatedStopRiskFraction*100,items,scenarios,monteCarlo:result.monteCarlo?{samples:result.monteCarlo.samples}:null};
   delete c.returnBasis;
+  Object.assign(c.design.allocation,{sizingMethod:result.sizingMethod,kellyFraction:result.kellyFraction,halfKellyCap:result.halfKellyCap,atRiskCap:result.atRiskCap,limitingConstraint:result.limitingConstraint});
   const active=result.bundles.filter(x=>x.fraction>0).map(x=>`${x.name} ${Number(x.fraction*100).toFixed(2)}%`).join('；');
   record(c,'设置 In Action Risk Budget','risk',active||'Target Allocation 0% · 保持现金');return;
  }

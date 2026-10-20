@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {solveKelly,riskBudgetAllocation,kellyPolicyError,diversifiedRiskWeights,atrStopProfile,RISK_WEIGHTING_METHOD} from '../assets/kelly-allocation.mjs';
+import {solveKelly,riskBudgetAllocation,kellyPolicyError,diversifiedRiskWeights,atrStopProfile,RISK_WEIGHTING_METHOD,SIZING_METHOD,fractionalKellyCap} from '../assets/kelly-allocation.mjs';
 import {kellyAllocationView,kellyPolicyForm,readKellyPolicy} from '../assets/kelly-allocation.js';
 import {newStructureLeg} from '../assets/trade-structure.mjs';
 import {VERSION,createCase,savePlan,saveNode,setActiveAllocation,validateStore} from '../assets/workflow-model.mjs';
@@ -14,7 +14,7 @@ test('single bundle Kelly matches the closed-form binary result',()=>{
  assert.ok(result.expectedLogGrowth>0);
 });
 
-test('Kelly supplies relative Bundle weights while At-Risk supplies total account allocation',()=>{
+test('At-Risk caps the target when tighter than Half Kelly',()=>{
  const bundle=stockBundle('mu','MU'),c={design:{plans:[bundle]},nodes:{returns:{data:underwriting({bull:{mu:20},base:{mu:0},bear:{mu:-20}},[55,0,45])},risk:{data:{allocationVersion:2,thesisAtRiskLimitPct:1,atrStopMultiple:2.5}}}};
  const result=riskBudgetAllocation(c,c.nodes.risk.data,{MU:2});
  assert.equal(kellyPolicyError(c,c.nodes.risk.data),'');assert.equal(result.complete,true);
@@ -23,6 +23,24 @@ test('Kelly supplies relative Bundle weights while At-Risk supplies total accoun
  assert.ok(Math.abs(result.allocatedFraction-.05)<1e-9);assert.ok(Math.abs(result.bundles[0].fraction-.05)<1e-9);
  assert.equal(result.bundles[0].downStopPrice,95);assert.equal(result.bundles[0].upStopPrice,105);assert.equal(result.bundles[0].adverseStopDirection,'down');
  assert.equal(Object.hasOwn(result.bundles[0],'targetCapital'),false);
+});
+
+test('Half Kelly retains cash even when the At-Risk budget allows a larger investment',()=>{
+ const bundle=stockBundle('mu','MU'),c={design:{plans:[bundle]},nodes:{returns:{data:underwriting({bull:{mu:20},base:{mu:0},bear:{mu:-20}},[55,0,45])},risk:{data:{allocationVersion:2,thesisAtRiskLimitPct:10,atrStopMultiple:2.5}}}};
+ const result=riskBudgetAllocation(c,c.nodes.risk.data,{MU:2});
+ assert.ok(Math.abs(result.halfKellyCap-.25)<1e-10);assert.equal(result.atRiskCap,.5);
+ assert.equal(result.limitingConstraint,'half-kelly');assert.equal(result.sizingMethod,SIZING_METHOD);
+ assert.ok(Math.abs(result.allocatedFraction-.25)<1e-10);assert.ok(Math.abs(result.cashFraction-.75)<1e-10);
+ const html=kellyAllocationView(c,c.nodes.risk.data,{atr:{MU:2}});
+ assert.match(html,/Half Kelly Cap/);assert.match(html,/Nebula Target %/);assert.doesNotMatch(html,/Full Kelly/);
+});
+
+test('cash sizing is solved along the diversified mix, not by renormalizing Kelly fractions',()=>{
+ const scenarios=[{probability:.55,returns:[.3,.1]},{probability:.45,returns:[-.3,-.1]}];
+ assert.ok(Math.abs(fractionalKellyCap(scenarios,[.5,.5])-.25)<1e-10);
+ assert.equal(fractionalKellyCap([{probability:1,returns:[-.1]}],[1]),0);
+ assert.equal(fractionalKellyCap([{probability:1,returns:[.1]}],[1]),.5);
+ assert.ok(Number.isFinite(fractionalKellyCap([{probability:.8,returns:[.2]},{probability:.2,returns:[-2]}],[1])));
 });
 
 test('ATR Stop Risk uses each Bundle independently adverse direction while Scenario Risk keeps joint moves',()=>{
@@ -181,9 +199,9 @@ test('delta-neutral positive-gamma structure is not treated as a zero-risk inves
 
 test('tilt policy defaults and bounds are explicit, and the view distinguishes risk from capital',()=>{
  const c=riskCase([stockBundle('a','A'),stockBundle('b','B')],{a:20,b:10},{a:-4,b:-8});
- for(const value of [-1,26,NaN,''])assert.match(kellyPolicyError(c,{...c.nodes.risk.data,kellyTiltPct:value}),/Kelly Tilt/);
+ for(const value of [-1,101,NaN,''])assert.match(kellyPolicyError(c,{...c.nodes.risk.data,kellyTiltPct:value}),/Kelly Tilt/);
  assert.equal(kellyPolicyError(c,{...c.nodes.risk.data,kellyTiltPct:0}),'');
- assert.throws(()=>setActiveAllocation(c,riskBudgetAllocation(c,{...c.nodes.risk.data,kellyTiltPct:26},{A:2,B:4})),/Kelly Tilt/);
+ assert.throws(()=>setActiveAllocation(c,riskBudgetAllocation(c,{...c.nodes.risk.data,kellyTiltPct:101},{A:2,B:4})),/Kelly Tilt/);
  const defaults=readKellyPolicy({elements:{namedItem:()=>null}});assert.equal(defaults.kellyTiltPct,25);
  assert.match(kellyPolicyForm({}),/kelly.kellyTiltPct/);
  const before=JSON.stringify(c),html=kellyAllocationView(c,c.nodes.risk.data,{atr:{A:2,B:4}});
@@ -197,4 +215,27 @@ test('zero Kelly allocation can be frozen as an explicit cash decision',()=>{
  saveNode(c,'returns',{scenarioVersion:1,daysForward:0,scenarios:[{id:'bull',name:'Bull',probability:20,probabilityRange:0,moves:moves(10)},{id:'base',name:'Base',probability:30,probabilityRange:0,moves:moves(0)},{id:'bear',name:'Bear',probability:50,probabilityRange:0,moves:moves(-20)}]});
  saveNode(c,'risk',{allocationVersion:2,thesisAtRiskLimitPct:1,atrStopMultiple:2.5});const result=riskBudgetAllocation(c,c.nodes.risk.data,{});assert.equal(result.allocatedFraction,0);setActiveAllocation(c,result);
  assert.equal(c.design.allocation.inAction,true);assert.equal(c.design.allocation.allocatedFraction,0);assert.equal(c.design.allocation.cashFraction,1);assert.match(c.events.at(-1).reason,/保持现金/);
+});
+
+test('calculation cache isolates returned values and invalidates relevant inputs',()=>{
+ const b=stockBundle('cache-mu','MU'),data={...underwriting({bull:{'cache-mu':20},base:{'cache-mu':0},bear:{'cache-mu':-20}},[55,0,45]),scenarioVersion:3,probabilityUncertainty:5,atrMultiple:1,ivUncertaintyRatio:''};
+ const c={design:{plans:[b]},nodes:{returns:{data},risk:{data:{allocationVersion:2,thesisAtRiskLimitPct:1,atrStopMultiple:2.5}}}};
+ const first=riskBudgetAllocation(c,c.nodes.risk.data,{MU:2}),saved=structuredClone(first);
+ first.fractions[0]=999;first.bundles[0].fraction=999;
+ assert.deepEqual(riskBudgetAllocation(c,c.nodes.risk.data,{MU:2}),saved);
+ c.nodes.risk.data.thesisAtRiskLimitPct=2;
+ const resized=riskBudgetAllocation(c,c.nodes.risk.data,{MU:2});assert.ok(resized.allocatedFraction>saved.allocatedFraction);assert.deepEqual(resized.kellyFractions,saved.kellyFractions);
+ c.nodes.returns.data.scenarios.find(s=>s.id==='bull').probability=40;
+ assert.notDeepEqual(riskBudgetAllocation(c,c.nodes.risk.data,{MU:2}).kellyFractions,saved.kellyFractions);
+ const changedAtr=riskBudgetAllocation(c,c.nodes.risk.data,{MU:4});
+ assert.equal(changedAtr.bundles[0].atr,4);
+ b.construction.legs[0].qty=50;
+ assert.notEqual(riskBudgetAllocation(c,c.nodes.risk.data,{MU:4}).bundles[0].stopRiskRate,changedAtr.bundles[0].stopRiskRate);
+});
+
+
+test('Kelly tilt supports pure equal risk and pure Kelly at the slider endpoints',()=>{
+ const rows=[{underlying:'A',stopRiskRate:.1},{underlying:'B',stopRiskRate:.2}];
+ const equal=diversifiedRiskWeights(rows,[1,0],0),kelly=diversifiedRiskWeights(rows,[1,0],100);
+ assert.deepEqual(equal.riskShares,[.5,.5]);assert.deepEqual(kelly.riskShares,[1,0]);assert.deepEqual(kelly.weights,[1,0]);
 });

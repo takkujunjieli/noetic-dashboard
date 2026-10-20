@@ -1,3 +1,11 @@
+## 实际持仓成本（2026-10-19）
+
+Portfolio 热力图原“参考成本”改名为“成本”，直接读取本地券商持仓库 `portfolio.json` 的 `avg_cost`。单账户使用该账户均价，全部账户先合并同标的同方向持仓，再按绝对数量加权；没有 Workflow 归属也显示成本。正股按每股、期权按每张合约显示，成本缺失留空。浮盈、自动正股止盈和距目标股数均使用这一实际成本；行情与 Workflow 草稿参考价变化不覆盖持仓成本。
+
+Portfolio Construction 保留 Reference Spot / Reference Mark / Reference Capital 字段名和手工编辑功能，支持尚未买入时建立模拟 Bundle。“自动填写”读取已关联标的全部账户的实际持仓成本：Reference Mark 使用各腿成本（期权转换为每股权利金），正股 Reference Spot 按绝对股数加权并统一到该 Bundle 所有腿，Reference Capital 汇总各腿绝对成本金额。保留原始成本精度计算，仅显示时格式化；任一成本缺失则不计算部分 Reference Capital，也不拿现价补成本。纯期权 Bundle 的 Reference Spot 仍是底层标的参考价，不把权利金混成底层股价。锁定 Bundle 继续跳过自动填写，手工输入不会被后台刷新覆盖。
+
+预算的 Bull Price Move、Bear Return 和止损仍属于 In Action 快照。旧预算缺少字段时，仅从对应激活历史恢复，不读取后续草稿。热力图的实际成本独立于这份预算快照。
+
 ## 先成交再配置 Workflow（2026-10-17）
 
 未归属且没有 In Action 预算声明的标的，在 Portfolio 热力图提供 Active Thesis 下拉。选择结果以 Workflow ID 定位，直接保存到该实例的 `portfolioUnderlyings`，生成 construction 历史事件并标记待同步；不写另一份 Portfolio 私有归属。可在冻结预算前改选或清空。In Action underlying 优先于早期手选声明，防止旧选择覆盖预算归属。
@@ -10,13 +18,13 @@ Portfolio 风险敞口表与 B/S/O 新成交关联共用 `workflow-ownership.mjs
 
 优先读取完整 Workflow 本机数据；只有完整 store 不存在时才兼容读取 Active Nebula catalog。完整 store 为空、无效或停用 Thesis 时不会复活旧 catalog 归属。另一页面更新 Workflow 后 Portfolio 重新渲染。
 
-原 ticker 后的预算状态标签已移除；止盈、止损依次位于参考成本之后。已有成交关联保留历史归属，新关联使用统一的当前归属；不会重新分配历史成交或改写原始成交和理由。
+原 ticker 后的预算状态标签已移除；止盈、止损依次位于成本之后。已有成交关联保留历史归属，新关联使用统一的当前归属；不会重新分配历史成交或改写原始成交和理由。
 
 检查：`node --test tests/workflow-ownership.test.mjs`；`tests/workflow-ownership.browser.cjs` 使用隔离浏览器与模拟数据验证页面状态、跨页更新和冲突处理。
 
 ## 全部账户合并持仓（2026-10-17）
 
-Portfolio 风险敞口表选择全部账户时，先以 instrument、完整 symbol、方向（期权还区分乘数）分组，一次汇总股数、市值、实际成本和浮盈。相同标的同方向合并，完整合约不同或多空相反保留分行，合约标识不完整的期权不猜测合并。小额正股过滤在合并后执行。实际成本与各来源报价按绝对数量加权，浮盈率按合并成本重算；Workflow 的冻结 Reference Spot 是独立的统一参考成本，不按各账户成交成本改写。仓位和在险百分比使用账户净值合计，距目标用冻结比例换算目标资本、再除以统一参考成本并减去合并股数。股数单元格悬停可查看账户数量组成。
+Portfolio 风险敞口表选择全部账户时，先以 instrument、完整 symbol、方向（期权还区分乘数）分组，一次汇总股数、市值、实际成本和浮盈。相同标的同方向合并，完整合约不同或多空相反保留分行，合约标识不完整的期权不猜测合并。小额正股过滤在合并后执行。实际成本与各来源报价按绝对数量加权，浮盈率按合并成本重算。仓位和在险百分比使用账户净值合计，距目标用冻结比例换算目标资本、再除以实际持仓成本并减去合并股数。股数单元格悬停可查看账户数量组成。
 
 ## Underlying Greek Bundles · 第一阶段（2026-09-28）
 
@@ -32,7 +40,19 @@ Scenario Underwriting 为整个 thesis 定义一组联合 Bull / Base / Bear 状
 
 用户填写 `Thesis At-Risk Limit` 与一个 `ATR Stop Multiple`。ATR Stop Risk 在每个 Bundle 内分别计算 `Spot − ATR × Multiple` 与 `Spot + ATR × Multiple` 的 Delta/Gamma 估算损益，取该 Bundle 更差的一边，再按分散后的资金权重求和。因此不同 Bundle 可以同时采用各自独立的最不利方向。Scenario Risk 则严格保留用户定义的联合相对走势：分别聚合 Bull、Base、Bear 同一行的 Bundle 收益，再取最坏联合情景。两种风险率中较大者约束 Nebula 总仓位：`Target Allocation = min(100%, At-Risk Limit / Binding Risk Rate)`。
 
-Workflow 不输入账户 Capital Base，只将 Bundle 相对权重乘以 Nebula Target Allocation，并冻结为 In Action Risk Budget 的账户比例。Portfolio 选择具体账户后再换算 Target Capital 和交易数量。当前阶段不计算 Tail Risk，也没有跨 Nebula Risk Governor。
+Workflow 不输入账户 Capital Base，只将 Bundle 相对权重乘以 Nebula Target，并冻结为 In Action Risk Budget 的账户比例。Portfolio 选择具体账户后汇总全部目标与其他持仓预算，得到 Account Target，再换算美元与数量。
+
+### Half Kelly 与账户预算（2026-10-19）
+
+风险等权与 Kelly Tilt 确定相对比例后，沿该组合方向求一个无杠杆的一维 Kelly 仓位，再乘全局固定的 0.5。Nebula Target = min(Half Kelly Cap, At-Risk Cap)，余下资金保留现金；不将现金重新归一化。UI 只显示 Half Kelly Cap、At-Risk Cap、Nebula Target 和 Limiting Constraint，不显示 Full Kelly。Kelly Tilt 与 Kelly Fraction 含义不同。
+
+Portfolio 的账户范围跟随持仓账户选择，要求真实券商净值，复用共享的 riskMaxHeat 总风险百分比；单账户与 ALL 为替代视图，不能当作多份预算叠加。每个 Nebula 的冻结 ATR Stop Risk 与联合 Scenario Risk 取大，乘自身目标后跨 Nebula 相加，暂不给跨 thesis 分散折扣。其他持仓预留风险及资本，映射的实际仓位由目标替换，不能再加一遍。超额时等比例缩小全部目标，并受剩余资本约束，不重新分配未用额度。
+
+账户区分实际已用风险／剩余预算，与约束前／后目标风险、缩放系数和现金。Nebula 汇总展示自身目标与 Account Target；Bundle 明细展示最终美元与试算数量。2026-10-20 起，Nebula 实际风险与下方热力图使用同一函数：当前持仓市值 × max(0, −冻结 Bear 收益率)，逐行相加，不扣除到旧情景终值的价格变化、不与止损风险取大；按现有热力图规则略去正股 ±1 股以内的行。该显示口径对期权也沿用热力图现有 Bear 收益率代理，不代表完整期权重定价。缺少 Bear 收益或市值返回未知，旧冻结预算无新风险基准仍可显示实际 Bear 在险；归属冲突显示未知而非零。账户已用风险汇总各 Nebula 的实际风险与其他持仓预留，再计算实际剩余／超额预算。其他正股仍按手填止损或 2.5 ATR 预留；未知其他持仓仍会阻止目标检查。Kelly、Nebula Target、Account Target 与目标风险计算保持原规则，目标风险仍采用冻结预算的止损／情景风险较大者。
+
+新激活预算使用 half-kelly-at-risk-v1 标记并保存 Fraction、两种仓位上限、限制原因、每个 Bundle 的冻结风险基准及联合收益。历史冻结预算不自动改写；旧规则或风险元数据缺失时提示用户重新设为 In Action，保留旧 Nebula Target 但不伪造 Account Target。账户预算编辑只影响当前 Portfolio 目标预览，不改变 Workflow 冻结快照和实际持仓。
+
+验证：`node --test tests/account-risk-plan.test.mjs tests/kelly-allocation.test.mjs tests/workflow-risk-bridge.test.mjs`；`tests/account-risk-plan.browser.cjs` 使用真实 Portfolio 页面、隔离存储与合成数据，覆盖账户切换、预算编辑、历史冻结、未知风险、旧预算提示及移动端，不允许外部写请求。
 
 ### 风险等权基准与有限 Kelly 倾斜（2026-10-18）
 
