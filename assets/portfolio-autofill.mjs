@@ -14,10 +14,9 @@ function assignedThesis(row,assignments){
 }
 
 function legFrom(row,spot){
- const cents=x=>finite(x)?Math.round(+x*100)/100:'';
  const leg={...newStructureLeg(row.type,row.side,row.qty),underlying:row.underlying,
-  entry:cents(row.mark!==''?row.mark:row.entry),strike:row.strike,expiry:row.expiry,
-  underlyingPrice:cents(finite(row.underlyingPrice)?row.underlyingPrice:spot),
+  entry:finite(row.entry)?+row.entry:'',strike:row.strike,expiry:row.expiry,
+  underlyingPrice:finite(spot)?+spot:'',
   delta:row.type==='stock'||!finite(row.delta)?'':Math.round(Math.abs(row.delta)*10000),gamma:row.type==='stock'||!finite(row.gamma)?'':Math.round(Math.abs(row.gamma)*10000),
   theta:row.type==='stock'||!finite(row.theta)?'':Math.round(Math.abs(row.theta)*10000),vega:row.type==='stock'||!finite(row.vega)?'':Math.round(Math.abs(row.vega)*10000),
   iv:row.type==='stock'?'':row.iv,quoteAt:row.priceAt||row.sourceAt||''};
@@ -49,14 +48,21 @@ export function portfolioBundleDrafts(c,rawPortfolio,policy={},localAssignments=
  const groups=new Map();
  for(const row of matched){const rows=groups.get(row.underlying)||[];rows.push(row);groups.set(row.underlying,rows);}
  const bundles=[...groups.entries()].sort(([a],[b])=>a.localeCompare(b)).map(([underlying,rows])=>{
-  const equity=rows.find(row=>row.type==='stock'&&finite(row.mark)),spot=equity?.mark??rows.find(row=>finite(row.underlyingPrice))?.underlyingPrice??'';
+  // Stock Reference Spot uses the quantity-weighted acquisition cost across
+  // accounts. Keep source precision for calculations; the UI formats cents.
+  // An option premium is not an underlying spot: option-only bundles retain
+  // the explicitly supplied underlying reference price, never the premium.
+  const equities=rows.filter(row=>row.type==='stock');
+  const spot=equities.length?(equities.every(row=>finite(row.entry))
+   ?equities.reduce((sum,row)=>sum+row.qty*row.entry,0)/equities.reduce((sum,row)=>sum+row.qty,0):'')
+   :rows.find(row=>finite(row.underlyingPrice))?.underlyingPrice??'';
   const legs=rows.map(row=>legFrom(row,spot));
-  const referenceCapital=rows.reduce((sum,row)=>{
-   const mark=row.mark!==''?row.mark:row.entry;if(!finite(mark))return sum;
-   return sum+Math.abs(row.qty*+mark*(row.type==='stock'?1:100));
-  },0);
+  // Missing cost must not turn into either a market-price cost or a partial
+  // capital denominator. Short legs contribute their absolute cost exposure.
+  const referenceCapital=rows.every(row=>finite(row.entry))?rows.reduce((sum,row)=>
+   sum+Math.abs(row.qty*row.entry*(row.type==='stock'?1:100)),0):null;
   const heldIvs=rows.filter(row=>row.type!=='stock'&&finite(row.iv)&&+row.iv>0).map(row=>+row.iv).sort((a,b)=>a-b),heldIv=heldIvs.length?heldIvs[Math.floor(heldIvs.length/2)]:null,marketIv=referenceIvByUnderlying[underlying],referenceIv=marketIv?.iv??heldIv??'';
-  const draft={structureVersion:1,greekScale:10000,template:'custom',evaluationDate:'',candidate:{version:1,underlying,instrument:'stock',referenceCapital:referenceCapital?Math.round(referenceCapital):'',referenceIv,referenceIvAt:marketIv?.at||(heldIv!=null?source.builtAt:''),referenceIvDte:marketIv?.dte??'',targetDte:'',longDelta:'',shortDelta:'',plannedEntry:''},legs};
+  const draft={structureVersion:1,greekScale:10000,template:'custom',evaluationDate:'',candidate:{version:1,underlying,instrument:'stock',referenceCapital:referenceCapital?Math.round(referenceCapital*100)/100:'',referenceIv,referenceIvAt:marketIv?.at||(heldIv!=null?source.builtAt:''),referenceIvDte:marketIv?.dte??'',targetDte:'',longDelta:'',shortDelta:'',plannedEntry:''},legs};
   draft.candidate.instrument=inferInstrument(draft);
   return {underlying,construction:draft,positionCount:rows.length};
  });

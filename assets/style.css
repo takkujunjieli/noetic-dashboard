@@ -318,6 +318,10 @@ footer { margin-top: 50px; text-align: center; }
 .chips.seg button.active { background: var(--accent); border-color: var(--accent);
   color: #0b1020; font-weight: 600; }
 .wb-statbar { padding: 6px 0; }  /* 关键指标独占一行,左对齐(stat-row 默认 justify-content: flex-start) */
+#risk-heat .wb-statbar { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+#risk-heat .opt-tile { min-width: 0; overflow-wrap: anywhere; }
+#risk-heat #rk-maxheat { background: var(--card-hover); border: 1px solid var(--border); border-radius: 5px; padding: 2px 5px; color: var(--text); font: inherit; }
+@media (max-width: 900px) { #risk-heat .wb-statbar { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 #position-sizing-calculator .wb-statbar { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
 #position-sizing-calculator .portfolio-sizing-inputs { align-items: end; }
 

@@ -1,5 +1,5 @@
 import {loadJSON} from './shared.js';
-import {localReferenceIv,portfolioBundleDrafts} from './portfolio-autofill.mjs?v=20261015-atr-uncertainty';
+import {localReferenceIv,portfolioBundleDrafts} from './portfolio-autofill.mjs?v=20261019-actual-cost';
 import {readWorkflowOwnershipCases,workflowOwnershipIndex} from './workflow-ownership.mjs?v=20261017-portfolio-assignment';
 
 export async function loadPortfolioBundleDrafts(c){
