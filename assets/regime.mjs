@@ -61,6 +61,17 @@ export function mergeRegimeStores(...stores) {
   return merged;
 }
 
+export function latestRegimeSnapshotBefore(store, date) {
+  if (!isRegimeFriday(date)) return null;
+  const normalized = normalizeRegimeStore(store);
+  const anchorDate = Object.keys(normalized.snapshots)
+    .filter((snapshotDate) => snapshotDate < date)
+    .sort()
+    .at(-1);
+  if (!anchorDate) return null;
+  return { date: anchorDate, values: { ...normalized.snapshots[anchorDate].values } };
+}
+
 export function saveRegimeSnapshot(store, date, values, savedAt = new Date().toISOString()) {
   const next = mergeRegimeStores(store);
   if (!isRegimeFriday(date)) return next;

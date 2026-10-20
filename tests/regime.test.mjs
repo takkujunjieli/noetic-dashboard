@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { REGIME_DIMENSIONS, defaultRegimeValues, isRegimeFriday, mergeRegimeStores, radarPoint, radarValueFromPoint, regimeFriday, saveRegimeSnapshot } from "../assets/regime.mjs";
+import { REGIME_DIMENSIONS, defaultRegimeValues, isRegimeFriday, latestRegimeSnapshotBefore, mergeRegimeStores, radarPoint, radarValueFromPoint, regimeFriday, saveRegimeSnapshot } from "../assets/regime.mjs";
 
 test("regime defaults all seven dimensions to five", () => {
   const values = defaultRegimeValues();
@@ -37,4 +37,19 @@ test("legacy week and daily snapshots migrate to their Friday", () => {
   } });
   assert.deepEqual(Object.keys(migrated.snapshots), ["2026-10-09"]);
   assert.equal(migrated.snapshots["2026-10-09"].values.Trend, 9);
+});
+
+test("an unsaved week anchors to the most recent earlier snapshot", () => {
+  let store = saveRegimeSnapshot(null, "2026-10-02", { Trend: 3, Liquidity: 7 }, "2026-10-03T12:00:00Z");
+  store = saveRegimeSnapshot(store, "2026-10-16", { Trend: 8, Liquidity: 4 }, "2026-10-17T12:00:00Z");
+
+  assert.equal(latestRegimeSnapshotBefore(store, "2026-09-25"), null);
+  assert.deepEqual(latestRegimeSnapshotBefore(store, "2026-10-09"), {
+    date: "2026-10-02",
+    values: { ...defaultRegimeValues(), Trend: 3, Liquidity: 7 },
+  });
+  assert.deepEqual(latestRegimeSnapshotBefore(store, "2026-10-23"), {
+    date: "2026-10-16",
+    values: { ...defaultRegimeValues(), Trend: 8, Liquidity: 4 },
+  });
 });

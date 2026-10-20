@@ -5,7 +5,7 @@ import { $, esc, loadJSON, loadFreshJSON, getPat, ghHeaders, REPO } from "./shar
 import { loadRetailData } from "./retail-data.mjs";
 import { buildSnapshot } from "./macd-research.mjs";
 import { decomposeFiveFactor } from "./five-factor.mjs";
-import { REGIME_DIMENSIONS, defaultRegimeValues, isRegimeFriday, mergeRegimeStores, radarPoint, radarValueFromPoint, regimeFriday, saveRegimeSnapshot } from "./regime.mjs";
+import { REGIME_DIMENSIONS, defaultRegimeValues, isRegimeFriday, latestRegimeSnapshotBefore, mergeRegimeStores, radarPoint, radarValueFromPoint, regimeFriday, saveRegimeSnapshot } from "./regime.mjs?v=20261018-anchor";
 import { initScorecards } from "./trading.js?v=20261012-scorecard-sort-filter";   // 个股分析 tab 复用交易台的 Scorecards 渲染(trading.js 自启动已守卫)
 
 const floatingTableHeaders = new Map();
@@ -1370,7 +1370,7 @@ window.addEventListener("scorecards-rendered", () => {
 
 /* ---------- Topic 9:Regime 七维手工快照 ---------- */
 const REGIME_PATH = "data/regime_snapshots.json", REGIME_LOCAL_KEY = "regimeSnapshotsV1";
-let regimeStore = null, regimeValues = defaultRegimeValues(), regimeDragIndex = null, regimeFrozen = false;
+let regimeStore = null, regimeValues = defaultRegimeValues(), regimeAnchor = null, regimeDragIndex = null, regimeFrozen = false;
 
 const regimeLatestFriday = () => {
   const parts = Object.fromEntries(new Intl.DateTimeFormat("en-US", {
@@ -1485,12 +1485,17 @@ function updateRegimeView() {
 
 function selectRegimeFriday(date) {
   const snapshot = regimeStore.snapshots[date];
+  regimeAnchor = snapshot ? null : latestRegimeSnapshotBefore(regimeStore, date);
   regimeFrozen = Boolean(snapshot);
-  regimeValues = snapshot ? { ...snapshot.values } : defaultRegimeValues();
+  regimeValues = snapshot
+    ? { ...snapshot.values }
+    : regimeAnchor ? { ...regimeAnchor.values } : defaultRegimeValues();
   $("regime-save").disabled = regimeFrozen;
   $("regime-reset").disabled = regimeFrozen;
   updateRegimeView();
-  $("regime-status").textContent = snapshot ? `${date} · 已保存，只读` : `${date} · 尚未保存，可以回填`;
+  $("regime-status").textContent = snapshot
+    ? `${date} · 已保存，只读`
+    : regimeAnchor ? `${date} · 尚未保存，以上次快照 ${regimeAnchor.date} 为锚` : `${date} · 尚未保存，无历史快照，默认均为 5`;
 }
 
 async function persistRegime() {
@@ -1530,7 +1535,11 @@ async function renderRegime() {
   $("regime-date").max = latestFriday;
   $("regime-date").value = latestFriday;
   buildRegimeRadar(); selectRegimeFriday(latestFriday);
-  $("regime-reset").onclick = () => { regimeValues = defaultRegimeValues(); updateRegimeView(); $("regime-status").textContent = "已重置为 5，尚未保存"; };
+  $("regime-reset").onclick = () => {
+    regimeValues = regimeAnchor ? { ...regimeAnchor.values } : defaultRegimeValues();
+    updateRegimeView();
+    $("regime-status").textContent = regimeAnchor ? `已重置到 ${regimeAnchor.date} 快照，尚未保存` : "无历史快照，已重置为 5，尚未保存";
+  };
   $("regime-save").onclick = persistRegime;
   $("regime-date").onchange = (event) => {
     const date = event.target.value;
