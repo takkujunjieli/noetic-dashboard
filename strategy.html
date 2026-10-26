@@ -1,61 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Strategy · Research Desk</title>
-<link rel="stylesheet" href="assets/style.css">
-<link rel="stylesheet" href="assets/theme.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Qlib · 量化研究</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/theme.css">
+  <link rel="stylesheet" href="assets/qlib.css">
 </head>
 <body class="trading">
-<nav class="pagenav">
-  <a href="workflow.html">Workflow</a>
-  <a href="portfolio.html">Portfolio</a>
-  <a href="trading.html">Trading</a>
-  <a href="research.html">Research</a>
-  <a href="strategy.html" class="active">Strategy</a>
-</nav>
-<header>
-  <h1>Strategy</h1>
-  <div class="hdr-right"><span id="bt-updated" class="muted small"></span></div>
-</header>
-
-<!-- 仓位/风控/组合稳健性/交易复盘 已迁至 portfolio 页 -->
-
-<div id="bt-caveat" class="card" style="border-color:#a3620d"></div>
-
-<section>
-  <h2>Backtest Summary <span class="muted small" id="bt-sub"></span></h2>
-  <div id="bt-stats" class="wb-statbar"></div>
-</section>
-
-<section>
-  <h2>Metrics <span class="muted small">(净收益口径,含成本;年化=252)</span></h2>
-  <div id="bt-metrics" class="wb-statbar"></div>
-</section>
-
-<section>
-  <h2>Equity Curve <span class="muted small">(mark-to-market, base 10,000; 虚线=Buy&amp;Hold 基准)</span></h2>
-  <div id="bt-chart" style="height:360px"></div>
-</section>
-
-<section>
-  <h2>Walk-forward OOS <span class="muted small">(参数在训练窗选、表现只在测试窗算 —— 反过拟合)</span></h2>
-  <div id="bt-oos"></div>
-</section>
-
-<section>
-  <h2>Trades <span class="muted small" id="bt-trades-n"></span></h2>
-  <div id="bt-trades"></div>
-</section>
-
-<div id="bt-empty" class="empty" style="display:none"></div>
-
-<footer class="muted small">
-  离线回测,基于已存信号 —— 非投资建议。信号/参数为示例,有效性待 IC 研究 + walk-forward 验证。
-</footer>
-
-<script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
-<script type="module" src="assets/strategy.js?v=20261015-risk-budget"></script>
+  <nav class="pagenav" aria-label="主导航">
+    <a href="workflow.html">Workflow</a><a href="portfolio.html">Portfolio</a>
+    <a href="trading.html">Trading</a><a href="research.html">Research</a>
+    <a href="strategy.html" class="active">Qlib</a>
+  </nav>
+  <header><div><p class="eyebrow">QUANTITATIVE RESEARCH · V1</p><h1>Qlib · 选股与择时</h1>
+    <p class="muted">选股与择时 · 样本外 IC / ICIR · 前向信号验证</p></div>
+    <div id="qlib-status" class="qlib-badge" role="status">读取研究结果…</div></header>
+  <main>
+    <div id="qlib-notice" class="card" role="status"></div>
+    <details id="pool-editor" class="card" hidden>
+      <summary>股票池配置 · 细分行业 / 主题 / 自选</summary>
+      <form id="pool-form">
+        <div class="pool-profile-row"><label>股票池 <select id="pool-profile"></select></label><button id="pool-new" type="button">另存为新股票池</button><label>名称 <input id="pool-name" required maxlength="80"></label></div>
+        <label class="pool-base"><input type="checkbox" id="pool-base"> 包含原始103只基础研究名单</label>
+        <p class="muted small">勾选分类可扩展名单，取消基础名单可收窄到所选方向。下列为可扩展的研究分类目录，不是全市场行业成分数据库。</p>
+        <input id="pool-search" type="search" placeholder="查找细分行业或主题" aria-label="查找细分行业或主题">
+        <div id="pool-groups" class="pool-groups"></div>
+        <div class="pool-fields"><label>手动 Include<textarea id="pool-include" rows="2" placeholder="PURR RKLB AAOI"></textarea></label><label>手动 Exclude<textarea id="pool-exclude" rows="2" placeholder="股票代码，以空格或逗号分隔"></textarea></label></div>
+        <div class="pool-fields pool-numbers">
+          <label>最低股价（美元）<input id="pool-min-price" type="number" min="0" step="any"></label>
+          <label>最低平均成交额（万美元 / 日）<input id="pool-min-volume" type="number" min="0" step="any"></label>
+          <label>成交额平均窗口（交易日）<input id="pool-volume-window" type="number" min="1" max="252" step="1" required></label>
+          <label>最低市值（亿美元）<input id="pool-min-cap" type="number" min="0" step="any"></label>
+          <label>最高市值（亿美元，空白不限）<input id="pool-max-cap" type="number" min="0" step="any"></label>
+          <label>最少历史长度（交易日）<input id="pool-history" type="number" min="61" max="2520" step="1" required></label>
+        </div>
+        <p class="muted small">门槛统一使用当前快照；历史 IC / ICIR 基于当前筛出的名单。Include 仍需满足门槛，Exclude 优先。</p>
+        <p id="pool-preview" class="muted small pool-preview"></p>
+        <button id="pool-save" type="submit" disabled>保存股票池</button> <span id="pool-message" class="muted small" role="status"></span>
+      </form>
+    </details>
+    <section><h2>当前筛选股票池 <span id="pool-current-name" class="muted small"></span></h2><p id="pool-current" class="pool-preview muted small"></p></section>
+    <section><details id="observations-panel" open>
+      <summary class="qlib-section-toggle">动量与波动 · 过去60 / 20 / 5个交易日</summary>
+      <div class="qlib-toolbar">
+        <div><button id="observations-refresh" type="button" hidden>更新行情</button> <span id="observations-job" class="muted small" role="status"></span></div>
+      </div>
+      <p id="observations-meta" class="muted small"></p><p id="observations-stale" class="muted small" role="status"></p>
+      <p class="muted small">仅展示实际历史表现。动量为区间涨跌幅；波动率为区间内日收益的样本标准差 × √252（年化）。使用拆股调整价格，不含分红。更新本板块不训练模型，也不生成预测。</p>
+      <div id="observations-table" class="qlib-table-wrap"><p class="qlib-empty">暂无行情统计，保存股票池后点击「更新行情」。</p></div>
+    </details></section>
+    <section class="qlib-toolbar"><div class="chips seg" role="group" aria-label="预测周期">
+      <button type="button" data-horizon="5" class="active" aria-pressed="true">未来 5 个交易日</button>
+      <button type="button" data-horizon="20" aria-pressed="false">未来 20 个交易日</button>
+    </div><div><button type="button" id="qlib-refresh" hidden>刷新研究</button> <span id="qlib-job" class="muted small" role="status"></span></div><span id="qlib-meta" class="muted small"></span></section>
+    <section><h2>选股 · 横截面 IC / ICIR</h2><div id="qlib-summary" class="qlib-stats"></div>
+      <p class="muted small" id="qlib-sample"></p>
+      <p class="muted small">每天在合格股票间计算预测分数与未来价格收益的相关性。IC 为 Pearson，Rank IC 为 Spearman；ICIR = IC 序列均值 ÷ 样本标准差（ddof=1），不年化。标签区间为 t+1 开盘至 t+h 收盘，仅用于定义预测目标。</p>
+    </section>
+    <section><div class="qlib-title"><h2>每日候选</h2><label><input id="qlib-all" type="checkbox"> 显示全部候选</label></div>
+      <p class="muted small">按预测分数排序，默认仅预览前10行；全部合格股票均记录。排序与列表截断不代表持仓选择或权重。组合构建由现有 Kelly / Risk Allocation 负责。</p>
+      <div id="qlib-candidates" class="qlib-table-wrap"></div></section>
+    <section><details id="qlib-timing-panel"><summary class="qlib-section-toggle">择时 · 单票时间序列 IC / ICIR</summary><p class="muted small">对每只股票，在互不重叠的63个信号交易日窗口内计算 IC（至少20个有效观测），再跨窗口计算 ICIR。这里评估同票跨时间的预测力；尚未定义机械入场或退出规则。</p>
+      <div id="qlib-timing" class="qlib-table-wrap"></div></details>
+      <details><summary>逐日横截面 IC（最近60个信号日）</summary><div id="qlib-ic-series" class="qlib-table-wrap"></div></details>
+      <details><summary>训练与测试时间边界</summary><div id="qlib-folds" class="qlib-table-wrap"></div></details></section>
+    <section><h2>前向信号 · IC / ICIR</h2><p class="muted small" id="qlib-forward-sample"></p>
+      <p class="muted small">历史样本外预测不回填为前向记录；同一股票池、信号日只用参考区间开始前登记的最新模型版本评分，保留所有旧版审计记录。未来收益重叠，ICIR 只描述稳定性，不是显著性检验。</p>
+      <div id="qlib-ledger-stats" class="qlib-stats"></div>
+      <details><summary>前向单票择时 IC / ICIR</summary><div id="qlib-forward-timing" class="qlib-table-wrap"></div></details>
+      <details><summary>原始预测记录</summary><div id="qlib-ledger" class="qlib-table-wrap"></div></details></section>
+    <section><h2>数据覆盖与限制</h2><ul id="qlib-warnings"></ul><div id="qlib-quality" class="qlib-table-wrap"></div></section>
+  </main>
+  <footer class="muted small">本页提供历史行情观察、选股与择时信号及 IC / ICIR。仓位和组合配置由现有 Kelly / Risk Allocation 处理。</footer>
+  <script type="module" src="assets/qlib.js"></script>
 </body>
 </html>
