@@ -34,7 +34,6 @@ export async function mountPublicWorkflow(){
  try{
   await prepare();
   for(const id of ['sync-workflow','new'])document.getElementById(id).hidden=true;
-  note('公开 Workflow · 研究内容与本地共用 · 其他账户财务记录已过滤');
   await import('./workflow.js');
  }catch(error){document.getElementById('notice').textContent=error.message;}
 }
