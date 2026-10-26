@@ -59,8 +59,10 @@ jobs:
         with: { ref: main }
       - run: bash scripts/cache_bust.sh
       - uses: actions/configure-pages@v5
+      - name: 打包匿名公开站（排除私有文件）
+        run: python3 scripts/build_public_site.py
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4

@@ -17,6 +17,7 @@ from zoneinfo import ZoneInfo
 from build_transaction_history import build_history
 from trade_journal import import_local_history, journal_summary, load_annotations, load_journal, update_annotations
 from trade_links import load_links, mutate_links
+from export_public_dashboard import write_public_snapshot
 
 ROOT = Path(__file__).resolve().parent.parent
 PRIVATE = ROOT.parent / "stock-dashboard-private" / "thesis_transactions"
@@ -151,6 +152,26 @@ class DashboardHandler(SimpleHTTPRequestHandler):
         self.mutate_file(delete=False)
 
     def do_POST(self):
+        if urlsplit(self.path).path == "/api/public-dashboard/export":
+            if not self.allowed(mutation=True):
+                return
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                if self.headers.get("Content-Type", "").split(";")[0] != "application/json" or not 0 < length <= 50_000_000:
+                    raise ValueError("公开快照请求必须是 50 MB 以内的 JSON")
+                body = json.loads(self.rfile.read(length))
+                if not isinstance(body, dict) or set(body) - {"workflow"}:
+                    raise ValueError("公开快照请求只接受 Workflow 内容")
+                with LOCK:
+                    result = write_public_snapshot(
+                        portfolio_path=self.data_dir / "portfolio.json",
+                        workflow_path=self.private_dir.parent / "workflow.json",
+                        output=self.data_dir / "public-dashboard.json",
+                        aliases_path=self.private_dir.parent / "public_aliases.json",
+                        workflow=body.get("workflow"))
+                return self.reply(200, {"ok": True, "publishedAt": result["publishedAt"]})
+            except (ValueError, TypeError, KeyError, AttributeError, OSError) as error:
+                return self.reply(400, {"error": str(error)})
         if urlsplit(self.path).path == "/api/trade-links":
             return self.mutate_trade_links()
         if not self.allowed(mutation=True):

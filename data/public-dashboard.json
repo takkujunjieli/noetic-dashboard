@@ -1,0 +1,6798 @@
+{
+  "schema": "anonymous-dashboard",
+  "version": 1,
+  "publishedAt": "2026-10-26T22:15:21+00:00",
+  "portfolio": {
+    "accounts": [
+      {
+        "id": "account-96f993540d56",
+        "label": "账户 96F9",
+        "equity": null,
+        "realizedPnl": null,
+        "unrealizedPnl": null,
+        "returnPct": null
+      },
+      {
+        "id": "account-990248565a90",
+        "label": "账户 9902",
+        "equity": null,
+        "realizedPnl": null,
+        "unrealizedPnl": null,
+        "returnPct": null
+      },
+      {
+        "id": "account-c0f4b4b20971",
+        "label": "账户 C0F4",
+        "equity": null,
+        "realizedPnl": null,
+        "unrealizedPnl": null,
+        "returnPct": null
+      }
+    ],
+    "positions": [
+      {
+        "account": "account-990248565a90",
+        "symbol": "No",
+        "kind": "stock",
+        "side": "short",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-c0f4b4b20971",
+        "symbol": "No",
+        "kind": "stock",
+        "side": "short",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-c0f4b4b20971",
+        "symbol": "Pb",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-c0f4b4b20971",
+        "symbol": "As",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-96f993540d56",
+        "symbol": "Er",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-96f993540d56",
+        "symbol": "Rh",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-990248565a90",
+        "symbol": "Rh",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-c0f4b4b20971",
+        "symbol": "Rh",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-96f993540d56",
+        "symbol": "P",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-96f993540d56",
+        "symbol": "Ag",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-990248565a90",
+        "symbol": "Ag",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-c0f4b4b20971",
+        "symbol": "Ag",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-990248565a90",
+        "symbol": "Es",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-c0f4b4b20971",
+        "symbol": "Es",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-c0f4b4b20971",
+        "symbol": "Fm",
+        "kind": "stock",
+        "side": "short",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-c0f4b4b20971",
+        "symbol": "Hf",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-c0f4b4b20971",
+        "symbol": "Mg",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-96f993540d56",
+        "symbol": "Pu",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-990248565a90",
+        "symbol": "Pu",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-c0f4b4b20971",
+        "symbol": "Pu",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-96f993540d56",
+        "symbol": "Ga",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-c0f4b4b20971",
+        "symbol": "Ga",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-c0f4b4b20971",
+        "symbol": "Rn",
+        "kind": "stock",
+        "side": "short",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-96f993540d56",
+        "symbol": "Al",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-990248565a90",
+        "symbol": "Al",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-96f993540d56",
+        "symbol": "Po",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-990248565a90",
+        "symbol": "Po",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-c0f4b4b20971",
+        "symbol": "Po",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-990248565a90",
+        "symbol": "Zr",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-c0f4b4b20971",
+        "symbol": "Zr",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-96f993540d56",
+        "symbol": "Pd",
+        "kind": "stock",
+        "side": "short",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-990248565a90",
+        "symbol": "Rf",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-c0f4b4b20971",
+        "symbol": "Rf",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-96f993540d56",
+        "symbol": "Pa",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-c0f4b4b20971",
+        "symbol": "Pa",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-96f993540d56",
+        "symbol": "Cu",
+        "kind": "stock",
+        "side": "short",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-c0f4b4b20971",
+        "symbol": "Cu",
+        "kind": "stock",
+        "side": "short",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-c0f4b4b20971",
+        "symbol": "Lr",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-96f993540d56",
+        "symbol": "Md",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-990248565a90",
+        "symbol": "Md",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      },
+      {
+        "account": "account-c0f4b4b20971",
+        "symbol": "Md",
+        "kind": "stock",
+        "side": "long",
+        "qty": null,
+        "price": null,
+        "cost": null,
+        "marketValue": null,
+        "pnl": null,
+        "pnlPct": null,
+        "weight": null
+      }
+    ]
+  },
+  "workflow": {
+    "cases": [
+      {
+        "id": "nebula-99f7774e0296",
+        "title": "马头星云",
+        "symbols": [
+          "K",
+          "Mg",
+          "P",
+          "Pa",
+          "V"
+        ],
+        "archived": false,
+        "activeThesis": true,
+        "nodes": {
+          "hypothesis": {
+            "state": "running"
+          },
+          "construction": {
+            "state": "running"
+          },
+          "returns": {
+            "state": "running"
+          },
+          "risk": {
+            "state": "running"
+          },
+          "positions": {
+            "state": "pending"
+          },
+          "attribution": {
+            "state": "pending"
+          }
+        },
+        "plans": [
+          {
+            "id": "bundle-fac132b64136",
+            "name": "…",
+            "frozen": false,
+            "legs": [
+              {
+                "symbol": "Pa",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              },
+              {
+                "symbol": "Pa",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          },
+          {
+            "id": "bundle-e78e9958e01f",
+            "name": "…",
+            "frozen": false,
+            "legs": [
+              {
+                "symbol": "P",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "event-1",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-2",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-3",
+            "node": "positions",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-4",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-5",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-6",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-7",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-8",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-9",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-10",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-11",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-12",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-13",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-14",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-15",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-16",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-17",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-18",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-19",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-20",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-21",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-22",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-23",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-24",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-25",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-26",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-27",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-28",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-29",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-30",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-31",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-32",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-33",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-34",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-35",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-36",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-37",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-38",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-39",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-40",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-41",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-42",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-43",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-44",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-45",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-46",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-47",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-48",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-49",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-50",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-51",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-52",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-53",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-54",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-55",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-56",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-57",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-58",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-59",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-60",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-61",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-62",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-63",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-64",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-65",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-66",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-67",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-68",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-69",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-70",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-71",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-72",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-73",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-74",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-75",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-76",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-77",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-78",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-79",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-80",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-81",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-82",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-83",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-84",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-85",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-86",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-87",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-88",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-89",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-90",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-91",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-92",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-93",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-94",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-95",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-96",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-97",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-98",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-99",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-100",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-101",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-102",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-103",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-104",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-105",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-106",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-107",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-108",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-109",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-110",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-111",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-112",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-113",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-114",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-115",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-116",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-117",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-118",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-119",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-120",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-121",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-122",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-123",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-124",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-125",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-126",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-127",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-128",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-129",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-130",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-131",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-132",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          }
+        ]
+      },
+      {
+        "id": "nebula-6dec62c4912c",
+        "title": "面纱星云",
+        "symbols": [
+          "Cu",
+          "Ga",
+          "Md",
+          "Po",
+          "Pu"
+        ],
+        "archived": false,
+        "activeThesis": true,
+        "nodes": {
+          "hypothesis": {
+            "state": "running"
+          },
+          "construction": {
+            "state": "running"
+          },
+          "returns": {
+            "state": "running"
+          },
+          "risk": {
+            "state": "running"
+          },
+          "positions": {
+            "state": "pending"
+          },
+          "attribution": {
+            "state": "pending"
+          }
+        },
+        "plans": [
+          {
+            "id": "bundle-920fb059b6fd",
+            "name": "…",
+            "frozen": true,
+            "legs": [
+              {
+                "symbol": "Pu",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              },
+              {
+                "symbol": "Pu",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          },
+          {
+            "id": "bundle-7b6decbd645f",
+            "name": "…",
+            "frozen": true,
+            "legs": [
+              {
+                "symbol": "Po",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              },
+              {
+                "symbol": "Po",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          },
+          {
+            "id": "bundle-7d9bf17f0502",
+            "name": "…",
+            "frozen": true,
+            "legs": [
+              {
+                "symbol": "Md",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              },
+              {
+                "symbol": "Md",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          },
+          {
+            "id": "bundle-fc9a2e1bdf71",
+            "name": "…",
+            "frozen": true,
+            "legs": [
+              {
+                "symbol": "Ga",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              },
+              {
+                "symbol": "Ga",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          },
+          {
+            "id": "bundle-b89a833716fe",
+            "name": "…",
+            "frozen": true,
+            "legs": [
+              {
+                "symbol": "Cu",
+                "type": "stock",
+                "side": "short",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "event-1",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-2",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-3",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-4",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-5",
+            "node": "positions",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-6",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-7",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-8",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-9",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-10",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-11",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-12",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-13",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-14",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-15",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-16",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-17",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-18",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-19",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-20",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-21",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-22",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-23",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-24",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-25",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-26",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-27",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-28",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-29",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-30",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-31",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-32",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-33",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-34",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-35",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-36",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-37",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-38",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-39",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-40",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-41",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-42",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-43",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-44",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-45",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-46",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-47",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-48",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-49",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-50",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-51",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-52",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-53",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-54",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-55",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-56",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-57",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-58",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-59",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-60",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-61",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-62",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-63",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-64",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-65",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-66",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-67",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-68",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-69",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-70",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-71",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-72",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-73",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-74",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-75",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-76",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-77",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-78",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-79",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-80",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-81",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-82",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-83",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          }
+        ]
+      },
+      {
+        "id": "nebula-fe1fa3842ded",
+        "title": "泡泡星云",
+        "symbols": [
+          "Fm",
+          "H",
+          "No",
+          "Pm",
+          "Ta",
+          "Th"
+        ],
+        "archived": false,
+        "activeThesis": false,
+        "nodes": {
+          "hypothesis": {
+            "state": "pending"
+          },
+          "construction": {
+            "state": "running"
+          },
+          "returns": {
+            "state": "running"
+          },
+          "risk": {
+            "state": "running"
+          },
+          "positions": {
+            "state": "pending"
+          },
+          "attribution": {
+            "state": "pending"
+          }
+        },
+        "plans": [
+          {
+            "id": "bundle-32b51ab3f437",
+            "name": "…",
+            "frozen": false,
+            "legs": [
+              {
+                "symbol": "Fm",
+                "type": "stock",
+                "side": "short",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              },
+              {
+                "symbol": "Fm",
+                "type": "stock",
+                "side": "short",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "event-1",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-2",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-3",
+            "node": "positions",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-4",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-5",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-6",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-7",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-8",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-9",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-10",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-11",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-12",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-13",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-14",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-15",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-16",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-17",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-18",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-19",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-20",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-21",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          }
+        ]
+      },
+      {
+        "id": "nebula-79c0e0e5c893",
+        "title": "螺旋星云",
+        "symbols": [
+          "Rh"
+        ],
+        "archived": false,
+        "activeThesis": true,
+        "nodes": {
+          "hypothesis": {
+            "state": "running"
+          },
+          "construction": {
+            "state": "running"
+          },
+          "returns": {
+            "state": "running"
+          },
+          "risk": {
+            "state": "pending"
+          },
+          "positions": {
+            "state": "pending"
+          },
+          "attribution": {
+            "state": "pending"
+          }
+        },
+        "plans": [
+          {
+            "id": "bundle-17323b3e0606",
+            "name": "…",
+            "frozen": false,
+            "legs": [
+              {
+                "symbol": "Rh",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              },
+              {
+                "symbol": "Rh",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              },
+              {
+                "symbol": "Rh",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "event-1",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-2",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-3",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-4",
+            "node": "positions",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-5",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-6",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-7",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-8",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-9",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-10",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-11",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-12",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-13",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-14",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-15",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-16",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-17",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-18",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-19",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-20",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-21",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-22",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-23",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-24",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-25",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-26",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-27",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-28",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-29",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          }
+        ]
+      },
+      {
+        "id": "nebula-9d34fd406dc9",
+        "title": "猫眼星云",
+        "symbols": [
+          "Hf"
+        ],
+        "archived": false,
+        "activeThesis": false,
+        "nodes": {
+          "hypothesis": {
+            "state": "pending"
+          },
+          "construction": {
+            "state": "pending"
+          },
+          "returns": {
+            "state": "pending"
+          },
+          "risk": {
+            "state": "pending"
+          },
+          "positions": {
+            "state": "pending"
+          },
+          "attribution": {
+            "state": "pending"
+          }
+        },
+        "plans": [],
+        "events": [
+          {
+            "id": "event-1",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-2",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-3",
+            "node": "positions",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-4",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-5",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          }
+        ]
+      },
+      {
+        "id": "nebula-61efaea6eda1",
+        "title": "猎户座星云",
+        "symbols": [
+          "Tc"
+        ],
+        "archived": true,
+        "activeThesis": false,
+        "nodes": {
+          "hypothesis": {
+            "state": "pending"
+          },
+          "construction": {
+            "state": "pending"
+          },
+          "returns": {
+            "state": "pending"
+          },
+          "risk": {
+            "state": "pending"
+          },
+          "positions": {
+            "state": "pending"
+          },
+          "attribution": {
+            "state": "pending"
+          }
+        },
+        "plans": [
+          {
+            "id": "bundle-84f1f48cb8fe",
+            "name": "…",
+            "frozen": false,
+            "legs": [
+              {
+                "symbol": "Tc",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "event-1",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-2",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-3",
+            "node": "positions",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-4",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-5",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-6",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-7",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-8",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-9",
+            "node": "attribution",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          }
+        ]
+      },
+      {
+        "id": "nebula-8b65caf82036",
+        "title": "土星星云",
+        "symbols": [
+          "Ag",
+          "Al",
+          "B",
+          "Mg",
+          "Pa"
+        ],
+        "archived": false,
+        "activeThesis": true,
+        "nodes": {
+          "hypothesis": {
+            "state": "running"
+          },
+          "construction": {
+            "state": "running"
+          },
+          "returns": {
+            "state": "running"
+          },
+          "risk": {
+            "state": "running"
+          },
+          "positions": {
+            "state": "pending"
+          },
+          "attribution": {
+            "state": "pending"
+          }
+        },
+        "plans": [
+          {
+            "id": "bundle-5194759d05d8",
+            "name": "…",
+            "frozen": true,
+            "legs": [
+              {
+                "symbol": "B",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              },
+              {
+                "symbol": "B",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          },
+          {
+            "id": "bundle-eec0c7a28653",
+            "name": "…",
+            "frozen": true,
+            "legs": [
+              {
+                "symbol": "Al",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "event-1",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-2",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-3",
+            "node": "positions",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-4",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-5",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-6",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-7",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-8",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-9",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-10",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-11",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-12",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-13",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-14",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-15",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-16",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-17",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-18",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-19",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-20",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-21",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-22",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-23",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-24",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-25",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-26",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-27",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-28",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-29",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-30",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-31",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-32",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-33",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-35",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-36",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-37",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-38",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-39",
+            "node": "attribution",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-40",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-41",
+            "node": "attribution",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-42",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-43",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-44",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-45",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-46",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "running",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          }
+        ]
+      },
+      {
+        "id": "nebula-82f5ef8f0163",
+        "title": "加州星云",
+        "symbols": [
+          "Ag",
+          "Er",
+          "Ni",
+          "Ta",
+          "Zr"
+        ],
+        "archived": false,
+        "activeThesis": true,
+        "nodes": {
+          "hypothesis": {
+            "state": "pending"
+          },
+          "construction": {
+            "state": "running"
+          },
+          "returns": {
+            "state": "running"
+          },
+          "risk": {
+            "state": "running"
+          },
+          "positions": {
+            "state": "pending"
+          },
+          "attribution": {
+            "state": "pending"
+          }
+        },
+        "plans": [
+          {
+            "id": "bundle-d68d596b835a",
+            "name": "…",
+            "frozen": false,
+            "legs": [
+              {
+                "symbol": "Ag",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              },
+              {
+                "symbol": "Ag",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              },
+              {
+                "symbol": "Ag",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          },
+          {
+            "id": "bundle-000022ecfd57",
+            "name": "…",
+            "frozen": false,
+            "legs": [
+              {
+                "symbol": "Zr",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          },
+          {
+            "id": "bundle-60055361f538",
+            "name": "…",
+            "frozen": false,
+            "legs": [
+              {
+                "symbol": "Er",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "event-1",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-2",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-3",
+            "node": "positions",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-4",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-5",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-6",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-7",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-8",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-9",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-10",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-11",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-12",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-13",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-14",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-15",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-16",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-17",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-18",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-19",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-20",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-21",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-22",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-23",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-24",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-25",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          }
+        ]
+      },
+      {
+        "id": "nebula-36abbfb8ec51",
+        "title": "哑铃星云",
+        "symbols": [
+          "Kr",
+          "Pt",
+          "Rn"
+        ],
+        "archived": false,
+        "activeThesis": false,
+        "nodes": {
+          "hypothesis": {
+            "state": "pending"
+          },
+          "construction": {
+            "state": "running"
+          },
+          "returns": {
+            "state": "pending"
+          },
+          "risk": {
+            "state": "running"
+          },
+          "positions": {
+            "state": "pending"
+          },
+          "attribution": {
+            "state": "pending"
+          }
+        },
+        "plans": [
+          {
+            "id": "bundle-19131fc74350",
+            "name": "…",
+            "frozen": true,
+            "legs": [
+              {
+                "symbol": "Kr",
+                "type": "stock",
+                "side": "short",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          },
+          {
+            "id": "bundle-9968cd1a7bbc",
+            "name": "…",
+            "frozen": true,
+            "legs": [
+              {
+                "symbol": "Pt",
+                "type": "stock",
+                "side": "short",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              },
+              {
+                "symbol": "Pt",
+                "type": "stock",
+                "side": "short",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          },
+          {
+            "id": "bundle-d33b3e1c972b",
+            "name": "…",
+            "frozen": true,
+            "legs": [
+              {
+                "symbol": "Rn",
+                "type": "stock",
+                "side": "short",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              },
+              {
+                "symbol": "Rn",
+                "type": "stock",
+                "side": "short",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "event-1",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-2",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-3",
+            "node": "positions",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-4",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-5",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-6",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-7",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-8",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-9",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-10",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-11",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-12",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-13",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-14",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-15",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-16",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-17",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-18",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-19",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-20",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-21",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-22",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-23",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-24",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-25",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-26",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-27",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-28",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-29",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          }
+        ]
+      },
+      {
+        "id": "nebula-bccdd9e7e1d8",
+        "title": "蝴蝶星云",
+        "symbols": [
+          "As",
+          "Pb"
+        ],
+        "archived": false,
+        "activeThesis": true,
+        "nodes": {
+          "hypothesis": {
+            "state": "pending"
+          },
+          "construction": {
+            "state": "running"
+          },
+          "returns": {
+            "state": "running"
+          },
+          "risk": {
+            "state": "running"
+          },
+          "positions": {
+            "state": "pending"
+          },
+          "attribution": {
+            "state": "pending"
+          }
+        },
+        "plans": [
+          {
+            "id": "bundle-bc16231223fa",
+            "name": "…",
+            "frozen": false,
+            "legs": [
+              {
+                "symbol": "Pb",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          },
+          {
+            "id": "bundle-811a73e0f2bc",
+            "name": "…",
+            "frozen": false,
+            "legs": [
+              {
+                "symbol": "As",
+                "type": "stock",
+                "side": "long",
+                "qty": null,
+                "entry": null,
+                "strike": null,
+                "expiry": null,
+                "delta": null,
+                "gamma": null,
+                "theta": null,
+                "vega": null
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "event-1",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-2",
+            "node": "positions",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-3",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-4",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-5",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-6",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-7",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-8",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-9",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-10",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-11",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-12",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-13",
+            "node": "hypothesis",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-14",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-15",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-16",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-17",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-18",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-19",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "pending",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-20",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-21",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "pending",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-22",
+            "node": "returns",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-23",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "pending",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-24",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-25",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-26",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-27",
+            "node": "construction",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-28",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-29",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          },
+          {
+            "id": "event-30",
+            "node": "risk",
+            "reason": "…",
+            "states": {
+              "hypothesis": "pending",
+              "construction": "running",
+              "returns": "running",
+              "risk": "running",
+              "positions": "pending",
+              "attribution": "pending"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

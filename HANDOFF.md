@@ -151,10 +151,10 @@ GitHub Pages(deploy.yml 用 workflow 部署 main)
 
 - **Robinhood MCP 是只读**:`.claude/settings.json` 的 `permissions.deny` 硬禁 19 个写工具(下单/撤单/行权/review + watchlist/scan 增改),harness 强制拦截。**Claude 绝不下单/经手凭证**。
 - **一个 MCP 连接 = 一个 Robinhood 登录**。当前两个账户是**两套独立登录**:
-  - `hui`(id `rh-7159` = 账号 `640267159`)
-  - `Takku·个人(Margin)`(id `takku-rh-2566` = 账号 `894432566`)
+  - `hui`(id `rh-7159` = 完整账号仅从券商账户枚举读取)
+  - `Takku·个人(Margin)`(id `takku-rh-2566` = 完整账号仅从券商账户枚举读取)
   - Codex 配置使用 `robinhood-trading`（hui）和 `robinhood-takku`（Takku）分别保存 OAuth；每次明确指定连接与账户号，不需要为了切换账户重新授权。
-- **Moomoo 是独立券商连接**：`moomoo-mcp` OAuth 对应 `Moomoo·保证金`（id `moomoo-8609`，账户 `283445329742098609`，尾号 `8609`）。仅纳入真实账户；模拟账户与所有昵称为 Agentic 的账户一律忽略。刷新时显式传该 account id。
+- **Moomoo 是独立券商连接**：`moomoo-mcp` OAuth 对应 `Moomoo·保证金`（id `moomoo-8609`，完整账号仅从券商账户枚举读取，尾号 `8609`）。仅纳入真实账户；模拟账户与所有昵称为 Agentic 的账户一律忽略。刷新时显式传该 account id。
 - **Moomoo 刷新**：依次读取资金、持仓、活跃订单、成交历史；写入私有库 `_moomoo_raw.json`。正股空仓 qty/市值为负；期权成交价和市值须按 100 股乘数归一。只读 MCP 不得调用下单、改单或撤单工具。
 - **刷新单账户的正确做法(别毁 PnL)**:MCP 拉的是**当前持仓 + 近端订单**,不是全历史;而 `analyze_pnl.py` 按**整段交易史**算已实现盈亏。所以**绝不能整份覆盖 raw**,要**合并**:保留旧 raw 全历史交易,只 append 上次最后一笔之后的新成交(按 ts秒+sym+side+qty+price **去重**),positions 换最新快照。side 用 Robinhood **原始值**(buy/sell/sell_short/buy_to_cover)与基线一致。
 
@@ -171,7 +171,7 @@ GitHub Pages(deploy.yml 用 workflow 部署 main)
 ### 7.1 MCP 刷新必须落盘并验收（2026-09-17 修订）
 
 - 实际工作目录是本仓库；券商原料是本地 gitignore 文件 `data/_rh_raw.json` / `data/_takku_raw.json` / `data/_moomoo_raw.json`，页面产物 `data/portfolio.json` 则链接到相邻私有库。其他目录的 handoff 或聊天摘要不会更新页面。
-- 先枚举账户，自动忽略所有昵称为 `Agentic` 的账户及 Moomoo 模拟账户。Takku 必须匹配尾号 `2566`，hui 必须匹配 `7159`，Moomoo 必须匹配账户 `283445329742098609`（尾号 `8609`）；每个账户接口显式传入选定账户号。不可读取时停止，不能用 Agentic 或模拟账户的零余额替代。交易权限标志为 false 不代表禁止只读查询。
+- 先枚举账户，自动忽略所有昵称为 `Agentic` 的账户及 Moomoo 模拟账户。Takku 必须匹配尾号 `2566`，hui 必须匹配 `7159`，Moomoo 必须匹配枚举得到的账户（尾号 `8609`）；每个账户接口显式传入选定账户号。不可读取时停止，不能用 Agentic 或模拟账户的零余额替代。交易权限标志为 false 不代表禁止只读查询。
 - 日常刷新：当前账户总值、现金/借记余额、购买力（仅作来源信息，不作月末锚点）；完整正股/期权/加密持仓；每个持仓的数量、成本、行情及行情时间；未结订单、上次水位之后的成交；已实现 P&L 与分页历史。不可用端点记录原因，不能记作零。
 - **月末净值不可推算**：每个账户的月末 `netliq` 只能由用户明确指定的对应券商 MCP 实际读取后人工落入 `monthly_returns.json`（或用户提供的券商实际值）。不得用交易历史、价格、持仓或当前净值反推；不得覆盖已标记为 `manual_mcp_month_end` 的快照。若净入金仍是 `pending_deposits`、尚未包含在 `total_value`，仅记录待结算状态，不能先从月收益扣除。
 - 写入对应的本地 gitignore raw：替换目标账户 positions；更新 accounts[].equity、顶层和账户级 `source_updated_at`（实际券商拉取时间）；行情时间单独保存。历史 transactions 必须保留并增量去重，不能用近端订单覆盖整段历史；未成交订单不计入成交。
@@ -280,3 +280,7 @@ gh workflow run gex.yml
 ### Attribution 交易文件（2026-10-04）
 
 使用 `scripts/serve_dashboard.py` 提供本地文件接口。每个 thesis 只写私有库的 `thesis_transactions/<thesis-id>.json`；页面查询和 agent 读写共用此文件，不下载、不把 transactions 复制进 Workflow。筛选使用已冻结 In Action Risk Budget 中的全部 underlying，包括当前目标权重为 0 的 Bundle；旧 Kelly 快照保持兼容，候选 Bundle、旧归属不参与。生成按钮读取本地 raw，**不会实时刷新 Robinhood**。详见 `docs/workflow.md` 的 Attribution transaction store。保持原页面的 hostname/port，避免改变 localStorage scope。
+
+## Portfolio / Workflow 匿名公开版
+
+2026-10-26 起允许发布 data/public-dashboard.json，只有流程、状态、结构及随机化名；原始数据仍保持私有。详见 docs/public-dashboard.md。所有 Pages 部署先构建 _site，不可直接上传工作目录。化名对照表只放相邻私有目录 public_aliases.json。
