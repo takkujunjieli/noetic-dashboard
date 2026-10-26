@@ -1,3 +1,4 @@
+import {dashboardStorage as localStorage} from './dashboard-data.mjs';
 import { KEY, validateStore } from './workflow-model.mjs?v=20261015-no-signal';
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function workflowArchiveHTML(){

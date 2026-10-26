@@ -169,7 +169,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
                         output=self.data_dir / "public-dashboard.json",
                         aliases_path=self.private_dir.parent / "public_aliases.json",
                         workflow=body.get("workflow"))
-                return self.reply(200, {"ok": True, "publishedAt": result["publishedAt"]})
+                return self.reply(200, {"ok": True, "publishedAt": result["publishedAt"], "snapshot": result})
             except (ValueError, TypeError, KeyError, AttributeError, OSError) as error:
                 return self.reply(400, {"error": str(error)})
         if urlsplit(self.path).path == "/api/trade-links":

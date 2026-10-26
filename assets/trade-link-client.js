@@ -1,4 +1,5 @@
 import {KEY,validateStore,record} from './workflow-model.mjs?v=20261015-no-signal';
+import {dashboardStorage as localStorage,dashboardFetch as fetch} from './dashboard-data.mjs';
 import {applyExecutionEvent,TRADE_ROLES} from './trade-link-model.mjs';
 import {readWorkflowOwnershipCases,workflowOwnershipIndex} from './workflow-ownership.mjs?v=20261017-portfolio-assignment';
 import {readUnsyncedNebulae,writeUnsyncedNebulae} from './workflow-sync.js?v=20260929-3';

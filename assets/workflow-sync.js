@@ -1,3 +1,4 @@
+import {dashboardStorage as localStorage} from './dashboard-data.mjs';
 import {KEY,validateStore} from './workflow-model.mjs?v=20261015-no-signal';
 import {ACTIVE_NEBULAE_KEY,activeNebulaCatalog} from './workflow-risk-bridge.mjs?v=20261019-frozen-reference';
 import {getPat,ghHeaders} from './shared.js';

@@ -1,4 +1,6 @@
-import {mountMonitorTrades} from './trade-link-ui.js?v=20261019-display-decimals';
+import {dashboardStorage as localStorage,isPublicDashboard} from './dashboard-data.mjs';
+import {queuePublicExport,syncPublicSnapshot} from './public-export.js';
+import {mountMonitorTrades} from './trade-link-ui.js?v=20261020-account-name';
 import {readTradeLinks,reconcileTradeLinks} from './trade-link-client.js?v=20261017-portfolio-assignment';
 import {captureWorkflow,syncWorkflowSnapshot,refreshActiveNebulaCatalog,UNSYNCED_KEY,readUnsyncedNebulae,writeUnsyncedNebulae,remainingUnsyncedNebulae} from './workflow-sync.js?v=20261019-compact-active-catalog';
 import {createGalaxy} from './galaxy-scene.js?v=20261018-thesis-freshness';
@@ -11,8 +13,8 @@ import {kellyAllocationView,kellyPolicyForm,readKellyPolicy} from './kelly-alloc
 import {riskBudgetAllocation} from './kelly-allocation.mjs?v=20261019-half-kelly';
 import {freshnessSummary,marketPricesFromResearch,thesisFreshness} from './workflow-freshness.mjs?v=20261019-tilt-slider';
 import {bundleMetrics,newStructureLeg} from './trade-structure.mjs?v=20261015-reference-iv';
-import { mountTransactionHistory } from './attribution-transactions.js?v=20261015-risk-budget';
-import { renderJournal, syncLegacyWorkflowData } from "./strategy.js?v=20261019-half-kelly";
+import { mountTransactionHistory } from './attribution-transactions.js?v=20261020-account-name';
+import { renderJournal, syncLegacyWorkflowData } from "./portfolio-support.js?v=20261025-qlib";
 import {VERSION,KEY,NODES,LAYERS,LABELS,displayState,hypothesisFields,archiveCase,emptyDesign,initializePlans,savePlan,setPlanFrozen,setAllPlansFrozen,selectPlan,setActiveAllocation,confirmAllocationReview,deletePlan,clone,createCase,record,saveNode,transition,gate,demoCase,validateStore} from './workflow-model.mjs?v=20261019-half-kelly';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -37,11 +39,13 @@ function drawerBounds(){const mobile=innerWidth<=800,max=Math.max(260,mobile?inn
 function setDrawerWidth(value,persistWidth=false){const {min,max}=drawerBounds(),width=Math.round(Math.max(min,Math.min(max,+value||min)));document.documentElement.style.setProperty('--nebula-drawer-width',width+'px');const handle=$('.nebula-drawer-resizer');if(handle){handle.setAttribute('aria-valuemin',String(Math.round(min)));handle.setAttribute('aria-valuemax',String(Math.round(max)));handle.setAttribute('aria-valuenow',String(width));}if(persistWidth)try{localStorage.setItem(DRAWER_WIDTH_KEY,String(width));}catch{}return width;}
 try{const savedWidth=Number(localStorage.getItem(DRAWER_WIDTH_KEY));if(savedWidth)setDrawerWidth(savedWidth);}catch{}
 function visible(){const c=current();if(!replay)return c;const historical=clone(c?.events.find(e=>e.id===replay)?.snapshot);if(historical){for(const n of Object.values(historical.nodes))n.state=displayState(n.state);historical.nodes.hypothesis.data=hypothesisFields(historical.nodes.hypothesis.data);if(!historical.design)initializePlans(historical);}return historical;}
-function readOnly(){return blocked||!!replay||!!current()?.archived;}
+function readOnly(){return isPublicDashboard()||blocked||!!replay||!!current()?.archived;}
 function persist(next){
+ if(isPublicDashboard())throw Error('公开页面只读');
  if(blocked)throw Error('本地存储不可用，无法保存');
  if(localStorage.getItem(KEY)!==raw)throw Error('另一个窗口已更新数据。请刷新页面以避免覆盖。');
  const json=JSON.stringify(next);localStorage.setItem(KEY,json);raw=json;store=next;const syncButton=$('#sync-workflow');if(syncButton&&!syncButton.disabled)syncButton.textContent='同步全部';
+ queuePublicExport(captureWorkflow());
 }
 function mutate(fn){try{const next=clone(store),c=next.cases.find(x=>x.id===selected);fn(c,next);persist(next);markNebulaUnsynced(c?.id);dirty=false;render();notice('');return true;}catch(e){notice('未保存：'+e.message);return false;}}
 function leave(){return !dirty||confirm('节点内容尚未保存。放弃这些编辑并继续？');}
@@ -218,9 +222,9 @@ async function syncAllWorkflow(){
  if(localStorage.getItem(KEY)!==raw){notice('其他窗口已更新 Workflow，请刷新后同步。');return;}
  if(!getPat()){$('#sync-auth-dialog').showModal();return;}
  const button=$('#sync-workflow');syncingWorkflow=true;button.disabled=true;button.textContent='同步中…';let uploaded=false;
- try{refreshActiveNebulaCatalog(store);const payload=captureWorkflow();await syncWorkflowSnapshot(payload);uploaded=true;await syncLegacyWorkflowData();
- const changed=JSON.stringify(captureWorkflow())!==JSON.stringify(payload);unsyncedNebulae=remainingUnsyncedNebulae(unsyncedNebulae,store,payload);saveUnsyncedNebulae();renderLibrary();button.textContent=changed?'同步全部 · 有新改动':'同步全部 · 已同步';notice(changed?'本次快照已同步；期间产生了新改动，请再次同步。':'全部 Nebula、Node、历史快照及风险/归档数据已同步到私有库。');
- }catch(e){button.textContent='同步全部 · 重试';notice((uploaded?'Workflow 快照已同步，但风险/归档同步未全部完成：':'同步未完成：')+e.message);}finally{syncingWorkflow=false;button.disabled=false;}
+ try{refreshActiveNebulaCatalog(store);const payload=captureWorkflow();await syncWorkflowSnapshot(payload);uploaded=true;await syncLegacyWorkflowData();await syncPublicSnapshot(payload);
+ const changed=JSON.stringify(captureWorkflow())!==JSON.stringify(payload);unsyncedNebulae=remainingUnsyncedNebulae(unsyncedNebulae,store,payload);saveUnsyncedNebulae();renderLibrary();button.textContent=changed?'同步全部 · 有新改动':'同步全部 · 已同步';notice(changed?'本次快照已同步；期间产生了新改动，请再次同步。':'Workflow 私有备份及公开 Workflow / Takku 100k 快照均已同步。');
+ }catch(e){button.textContent='同步全部 · 重试';notice((uploaded?'Workflow 已备份，但公开快照或风险/归档同步未全部完成：':'同步未完成：')+e.message);}finally{syncingWorkflow=false;button.disabled=false;}
 }
 $('#sync-workflow').onclick=syncAllWorkflow;
 $('#cancel-sync-auth').onclick=()=>$('#sync-auth-dialog').close();
@@ -229,6 +233,7 @@ document.addEventListener('input',()=>{if(!syncingWorkflow)$('#sync-workflow').t
 window.addEventListener('storage',()=>{if(!syncingWorkflow)$('#sync-workflow').textContent='同步全部';});
 
 async function refreshExecutionLinks(){
+ if(isPublicDashboard())return;
  if(blocked||dirty||replay)return;
  try{
   if(localStorage.getItem(KEY)!==raw)throw Error('其他页面已更新 Workflow，请刷新页面后重新读取');

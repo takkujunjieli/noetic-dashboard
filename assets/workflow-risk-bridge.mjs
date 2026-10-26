@@ -1,3 +1,4 @@
+import {dashboardStorage as localStorage} from './dashboard-data.mjs';
 import {greekScenarioMatrix} from './expected-return.mjs?v=20261015-1';
 import {bundleMetrics} from './trade-structure.mjs';
 

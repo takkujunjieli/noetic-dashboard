@@ -1,34 +1,46 @@
-# Portfolio / Workflow 公开快照
+# Workflow / Takku 100k 公开版
 
-公开站使用 `data/public-dashboard.json`，本地真实数据仍在原私有文件与浏览器存储中。
+2026-10-26 最新规则：取消化名和全局省略号。公开页面与本地页面使用相同的 Workflow、Portfolio、风险敞口、P&L、月度收益组件。
 
-公开内容：以元素符号（如 Fe、Ne、Si）作稳定的标的化名，以真实星云名称作 Thesis 化名，另有匿名账户、持仓工具与方向、Nebula / Bundle 结构、节点状态、历史节点状态。
-原始标题、正文、来源 URL、原始 ID、成交明细及时间、完整历史快照不导出。数量、价格、成本、市值、持仓比例、Greeks、盈亏、收益率、风险金额、情景收益及账户 P&L 全部设为 null，由页面显示 `…`。
+## Workflow
 
-化名对照表只保存在相邻私有目录 `stock-dashboard-private/public_aliases.json`，权限 0600。禁止复制到公开库或部署产物。不要删除该文件，否则化名会重新生成。
+公开真实标题、ticker、正文、方案、节点状态及完整节点历史。其他账户的账户记录、成交、P&L、持仓绑定及账户资金快照不公开；通用账户净值字段使用 100k。Monitor / Attribution 仅提供 Takku 的成交与 P&L。
 
-## 更新
+旧版自动填写的腿没有账户 ID。导出器根据合约、方向、数量及每单位成本，与当前券商快照进行精确匹配：只保留唯一可确认属于 Takku 的腿；其他账户或来源不明的自动填写腿予以过滤，并重算其 Reference Capital。历史快照执行相同过滤，不把其他账户的财务记录留在事件里。手工研究方案与文字保留。
 
-本地页面的「更新公开快照」使用当前浏览器 Workflow 和本地 Portfolio，调用仅绑定 loopback、校验同源的本地接口生成文件，不改写真实 Workflow。
-若使用私有库中已保存的 Workflow，可执行：
+公开页面只读，不读取访问者在同域名上的私有 localStorage 或凭据。需要改动时使用本地页面。
 
-```sh
-python3 scripts/export_public_dashboard.py
-```
+## Portfolio
 
-这个命令不读取浏览器尚未同步的修改；有本地修改时应使用页面按钮。
+只保留内部账户 `takku-rh-2566`。
 
-通过「预览公开版」核对后，只将匿名快照及相关代码提交到公开仓库，按原 Pages 流程部署。任何刷新都不应提交真实源文件或化名映射。
+每次导出均从该账户实际净值计算 `100000 / 实际净值`，使用同一个比例缩放：
 
-## 部署与验证
+- 持仓与成交数量、市值、美元盈亏、手续费；
+- 账户 P&L 的美元指标及每笔盈亏；
+- 月度已实现盈亏、历史净值、现金流；
+- 已有稳健性曲线中的累计美元盈亏与美元门槛。
 
-所有 Pages workflows 都调用 `scripts/build_public_site.py`，只上传 `_site`。该目录排除私有数据、符号链接、脚本和工作文档；快照必须通过严格 schema / null 财务值校验，其他 JSON 若包含账户、持仓或成交结构则停止构建。
-构建产物在 HTML 中强制公开模式。在 localhost 查看部署产物也不会进入私有视图。公开模式不读取原有 localStorage、不请求券商或私有库；本地开发可用 `?view=public` 预览。
+每股 / 每张价格与成本、收益率、胜率、Sharpe 等无量纲指标不缩放。保留正负号、杠杆、现金及仓位比例，因此总持仓市值可以大于或小于 100k。净值缺失、为零、非有限值或负数时停止导出，禁止用总持仓市值冒充净值。输出不包含原始账户净值或折算系数。
+
+## 更新与发布
+
+`data/public-dashboard.json` 是唯一公开数据产物。原始 portfolio / P&L / Workflow 文件仍是私有来源，不直接上传。
+
+- 本地 Workflow 保存后自动更新本地公开快照；页面的「更新公开快照」可手动重建。
+- 「同步全部」继续保存私有备份，并将经过过滤的公开快照上传到公开仓库。
+- 公开页面优先匿名读取公开仓库最新快照，失败时回退 Pages 部署时的快照。
+- 每次 `scripts/build_portfolio.py` 重建持仓，也会重新折算公开快照。
+- CLI 可运行 `python3 scripts/export_public_dashboard.py`。它使用最新保存的私有 Workflow 文件，或最近一次本地保存所捕获的私有 `public_workflow_source.json`。浏览器未保存的输入不属于已保存版本。
+
+捕获的原始 Workflow 只存私有目录，权限 0600；原有 Workflow 文件不被导出器覆盖。`public_aliases.json` 已停用，保留为私有历史文件。
+
+所有 Pages 流程只上传 `scripts/build_public_site.py` 生成的 `_site`，排除原始账户文件、符号链接、脚本及工作文档。
+
+验证使用文件、纯函数、模块和 HTTP 接口检查，不使用浏览器：
 
 ```sh
 python3 -m unittest discover -s tests -p test_public_dashboard.py
-node --test tests/public-dashboard.test.mjs
+node --test tests/public-dashboard.test.mjs tests/workflow-sync.test.mjs tests/workflow-ownership.test.mjs tests/workflow-risk-bridge.test.mjs
 python3 scripts/build_public_site.py
 ```
-
-清除当前文档中的账号不等于改写 Git 历史；本次不进行历史重写。

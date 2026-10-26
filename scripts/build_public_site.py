@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PRIVATE_FILES = {"portfolio.json", "pnl.json", "portfolio_history.json", "transaction_history.json",
                  "trade_journal.json", "risk_stops.json", "completed_theses.json", "thesis_events.json",
                  "robustness.json", "score_ic.json", "rh_networth.json", "monthly_returns.json",
-                 "risk_policy.json", "public_aliases.json", "workflow.json", ".px_cache.json"}
+                 "risk_policy.json", "public_aliases.json", "public_workflow_source.json", "workflow.json", ".px_cache.json"}
 STATIC_EXTENSIONS = {".html", ".js", ".mjs", ".css", ".json", ".csv", ".parquet", ".png", ".jpg", ".jpeg", ".webp", ".svg", ".ico", ".woff", ".woff2", ".ttf"}
 
 
@@ -35,7 +35,7 @@ def build(root=ROOT, output=ROOT / "_site"):
             raise ValueError("Refusing to replace an unrelated output directory")
         shutil.rmtree(output)
     output.mkdir(parents=True)
-    (output / ".public-site-build").write_text("anonymous static site\n")
+    (output / ".public-site-build").write_text("projected public static site\n")
     tracked = subprocess.check_output(["git", "ls-files", "-z"], cwd=root).decode().split("\0")
     # Frontend code has no private data; include new modules when previewing before commit.
     assets = [str(p.relative_to(root)) for p in (root / "assets").rglob("*") if p.is_file()]

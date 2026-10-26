@@ -1,4 +1,6 @@
-import {mountTradeLinkGroupEditor} from './trade-link-ui.js?v=20261017-portfolio-assignment';
+import {dashboardStorage as localStorage} from './dashboard-data.mjs';
+import {accountDisplayName} from './account-display.mjs';
+import {mountTradeLinkGroupEditor} from './trade-link-ui.js?v=20261020-account-name';
 /* 交易台 — 单票工作台:K线主图 + 共享价格轴行权价梯 + 期权面板 + 采集控制
    图表库: TradingView lightweight-charts v4(CDN,全局 LightweightCharts) */
 import {
@@ -580,7 +582,7 @@ function tradeAccountTone(account = "") {
   return "default";
 }
 
-const tradeAccountLabel = (account = "") => account === "rh-7159" ? "hui-rh-7159" : account;
+const tradeAccountLabel = accountDisplayName;
 
 const tradeFactNumber = (value) => Number.isFinite(Number(value))
   ? Number(value).toLocaleString("en-US", { maximumFractionDigits: 4 }) : "—";
@@ -1610,12 +1612,12 @@ function renderPortfolio() {
   const pos = pfAccount ? allPos.filter((x) => x.account === pfAccount) : allPos;
   const acctSel = accounts.length > 1
     ? `<select id="pf-acct" class="pf-acct"><option value=""${pfAccount ? "" : " selected"}>全部账户</option>`
-      + accounts.map((a) => `<option value="${esc(a.id)}"${pfAccount === a.id ? " selected" : ""}>${esc(a.label || a.id)}</option>`).join("")
+      + accounts.map((a) => `<option value="${esc(a.id)}"${pfAccount === a.id ? " selected" : ""}>${esc(accountDisplayName(a.id,a.label))}</option>`).join("")
       + `</select>`
     : "";
   const acctBar = acctSel ? `<div class="pf-acctbar"><span class="muted small">账户</span>${acctSel}</div>` : "";
-  const curAcct = pfAccount ? (accounts.find((a) => a.id === pfAccount)?.label || pfAccount)
-    : (accounts.length > 1 ? `全部 ${accounts.length} 户` : ((p.brokers || []).join("/") || "—"));
+  const curAcct = pfAccount ? accountDisplayName(pfAccount,accounts.find((a) => a.id === pfAccount)?.label)
+    : (accounts.length > 1 ? `全部 ${accounts.length} 户` : accountDisplayName(accounts[0]?.id,accounts[0]?.label)||((p.brokers || []).join("/") || "—"));
   const total = pos.reduce((s, x) => s + x.mkt_value, 0);
   const pnl = pos.reduce((s, x) => s + (x.pnl || 0), 0);
   // 收益率统一以账户 net liq 为资本分母;不要用持仓成本或含 margin 的 buying power。
@@ -1625,7 +1627,7 @@ function renderPortfolio() {
   const selectedAccount = pfAccount ? accounts.find((a) => a.id === pfAccount) : null;
   const sourceSummary = pfAccount
     ? (selectedAccount?.source_updated_at ? fmtDT(selectedAccount.source_updated_at) : "未记录")
-    : accounts.map((a) => `${a.label || a.id}: ${a.source_updated_at ? fmtDT(a.source_updated_at) : "未记录"}`).join(" · ");
+    : accounts.map((a) => `${accountDisplayName(a.id,a.label)}: ${a.source_updated_at ? fmtDT(a.source_updated_at) : "未记录"}`).join(" · ");
   const tiles = [
     tile("总市值", fmtMoney(total)),
     tile("未实现盈亏", `${pnl >= 0 ? "+" : ""}${fmtMoney(pnl)}`, netLiq > 0 ? `${(pnl / netLiq * 100).toFixed(1)}% net liq` : "", pnl >= 0 ? "up" : "down"),

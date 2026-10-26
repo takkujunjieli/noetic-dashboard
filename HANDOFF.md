@@ -284,3 +284,7 @@ gh workflow run gex.yml
 ## Portfolio / Workflow 匿名公开版
 
 2026-10-26 起允许发布 data/public-dashboard.json，只有流程、状态、结构及随机化名；原始数据仍保持私有。详见 docs/public-dashboard.md。所有 Pages 部署先构建 _site，不可直接上传工作目录。化名对照表只放相邻私有目录 public_aliases.json。
+
+## Workflow / Portfolio 公开策略更新（2026-10-26）
+
+最新用户决定：取消化名。Workflow 使用本地同一套界面及真实标题、ticker、正文、方案和节点历史，同时过滤其他账户的真实财务数据。Portfolio 只公开 Takku，并用 100000 / 该账户实际净值统一缩放数量、市值和美元 P&L；每单位价格及收益率不缩放。每次刷新重新计算比例；不可上传原始账户净值、其他账户记录或私有 public_workflow_source.json。详见 docs/public-dashboard.md。验证不使用浏览器。此规则优先于早前匿名快照说明。

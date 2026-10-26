@@ -155,6 +155,12 @@ def main() -> None:
     except Exception as e:  # noqa: BLE001
         print(f"atr.json 生成跳过: {e}")
 
+    # The public representation always uses the newly rebuilt Takku equity.
+    # Never copy the raw source into the public repository.
+    from export_public_dashboard import write_public_snapshot
+    write_public_snapshot()
+    print("公开快照已更新：Takku / $100,000 net equity")
+
 
 if __name__ == "__main__":
     main()

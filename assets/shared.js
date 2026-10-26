@@ -1,4 +1,5 @@
 /* 信息页与交易页共享的工具函数与数据加载 */
+import {dashboardStorage as localStorage, publicJSON} from './dashboard-data.mjs';
 
 export const REPO = "takkujunjieli/noetic-dashboard";
 
@@ -42,6 +43,7 @@ export const ghHeaders = (pat) => ({
 });
 
 export async function loadJSON(path) {
+  const published=publicJSON(path);if(published.handled)return published.value;
   try {
     const r = await fetch(path + "?t=" + Date.now());
     if (!r.ok) throw new Error(r.status);
@@ -54,6 +56,7 @@ export async function loadJSON(path) {
    data/ 高频数据只提交在 data 分支(main 只留 EOD 基线),故用 ?ref=data 取最新;
    限流兜底退回 Pages(=main 的 EOD 基线,略旧但不空)。 */
 export async function loadFreshJSON(path) {
+  const published=publicJSON(path);if(published.handled)return published.value;
   try {
     const headers = { Accept: "application/vnd.github.raw+json" };
     const pat = getPat();

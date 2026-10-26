@@ -36,4 +36,6 @@ data/rh_networth.json
 data/monthly_returns.json
 
 _site/
+# Reverse aliases are private even if copied here by mistake.
 **/public_aliases.json
+**/public_workflow_source.json

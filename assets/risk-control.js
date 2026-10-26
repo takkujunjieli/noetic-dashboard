@@ -1,3 +1,4 @@
+import {dashboardStorage as localStorage} from './dashboard-data.mjs';
 // Shared risk-control component: legacy Portfolio editor and Workflow instance adapter.
 import { esc, loadJSON, getPat, setPat } from "./shared.js";
 import { positiveNum, calculateSizing, calculateManualSizing } from "./risk-budget.mjs";
