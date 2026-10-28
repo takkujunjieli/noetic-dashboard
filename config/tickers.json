@@ -44,7 +44,6 @@
   "deep": [
     "NVDA",
     "COHR",
-    "AVGO",
     "CRWV",
     "CEG"
   ],
@@ -80,6 +79,7 @@
     "CRWD",
     "NOW",
     "PURR",
-    "HOOD"
+    "HOOD",
+    "AVGO"
   ]
 }
