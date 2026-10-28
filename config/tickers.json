@@ -38,13 +38,15 @@
     "U",
     "CBRS",
     "SKHY",
-    "GEV"
+    "GEV",
+    "CEG"
   ],
   "deep": [
     "NVDA",
     "COHR",
     "AVGO",
-    "CRWV"
+    "CRWV",
+    "CEG"
   ],
   "uncertain": [
     "GEV",
