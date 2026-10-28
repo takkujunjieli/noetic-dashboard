@@ -44,8 +44,7 @@
   "deep": [
     "NVDA",
     "COHR",
-    "CRWV",
-    "CEG"
+    "CRWV"
   ],
   "uncertain": [
     "GEV",
@@ -81,6 +80,7 @@
     "PURR",
     "HOOD",
     "AVGO",
-    "ASST"
+    "ASST",
+    "CEG"
   ]
 }
