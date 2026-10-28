@@ -52,7 +52,8 @@
     "GEV",
     "RKLB",
     "SMCI",
-    "MRVL"
+    "MRVL",
+    "HOOD"
   ],
   "neutral": [
     "AAOI",
@@ -65,7 +66,6 @@
     "ASTS",
     "CBRS",
     "FIG",
-    "HOOD",
     "NBIS",
     "NET",
     "PANW",
