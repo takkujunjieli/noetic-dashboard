@@ -50,7 +50,8 @@
   ],
   "uncertain": [
     "GEV",
-    "RKLB"
+    "RKLB",
+    "PURR"
   ],
   "neutral": [
     "AAOI",
@@ -73,7 +74,6 @@
     "BE",
     "COIN",
     "INTC",
-    "PURR",
     "MSTR",
     "AMD",
     "SPCX",
