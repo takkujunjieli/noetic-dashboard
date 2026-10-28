@@ -50,7 +50,8 @@
   ],
   "uncertain": [
     "GEV",
-    "RKLB"
+    "RKLB",
+    "SMCI"
   ],
   "neutral": [
     "AAOI",
@@ -67,7 +68,6 @@
     "NBIS",
     "NET",
     "PANW",
-    "SMCI",
     "U",
     "LITE",
     "BE",
