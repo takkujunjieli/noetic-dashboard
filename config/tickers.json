@@ -51,7 +51,8 @@
   "uncertain": [
     "GEV",
     "RKLB",
-    "SMCI"
+    "SMCI",
+    "MRVL"
   ],
   "neutral": [
     "AAOI",
@@ -76,7 +77,6 @@
     "MSTR",
     "AMD",
     "SPCX",
-    "MRVL",
     "DELL",
     "CRWD",
     "NOW",
