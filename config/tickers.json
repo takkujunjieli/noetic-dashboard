@@ -52,8 +52,7 @@
     "GEV",
     "RKLB",
     "SMCI",
-    "MRVL",
-    "HOOD"
+    "MRVL"
   ],
   "neutral": [
     "AAOI",
@@ -80,6 +79,7 @@
     "DELL",
     "CRWD",
     "NOW",
-    "PURR"
+    "PURR",
+    "HOOD"
   ]
 }
