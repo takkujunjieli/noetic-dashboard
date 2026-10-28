@@ -50,8 +50,7 @@
   ],
   "uncertain": [
     "GEV",
-    "RKLB",
-    "PURR"
+    "RKLB"
   ],
   "neutral": [
     "AAOI",
@@ -80,6 +79,7 @@
     "MRVL",
     "DELL",
     "CRWD",
-    "NOW"
+    "NOW",
+    "PURR"
   ]
 }
