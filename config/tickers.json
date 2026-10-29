@@ -41,13 +41,15 @@
     "GEV",
     "CEG",
     "FTNT",
-    "TER"
+    "TER",
+    "ZS"
   ],
   "deep": [
     "NVDA",
     "COHR",
     "CRWV",
-    "BE"
+    "BE",
+    "ZS"
   ],
   "uncertain": [
     "GEV",
