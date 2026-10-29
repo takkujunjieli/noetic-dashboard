@@ -1,0 +1,4918 @@
+{
+  "schema": "market-observations-v1",
+  "generated_at": "2026-10-25T22:53:25.784320+00:00",
+  "asof": "2026-10-23",
+  "provider": "yahoo_exploratory",
+  "settings_revision": "defac0996b03daea3ed49df5cf914cef51ec6bdbbccc9db1b1c794539f991233",
+  "universe_id": "current-59151603d9c6942a",
+  "universe_name": "我的研究股票池",
+  "filters": {
+    "min_price": 0,
+    "min_dollar_volume": 10000000,
+    "volume_window": 20,
+    "min_market_cap": 0,
+    "max_market_cap": null,
+    "min_history": 61
+  },
+  "rows": [
+    {
+      "symbol": "AAOI",
+      "price": 67.51000213623047,
+      "market_cap": null,
+      "average_dollar_volume": 1106681698.2032776,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.25080455355723164,
+          "volatility": 1.1142196888034976
+        },
+        "20": {
+          "momentum": -0.3342208962491896,
+          "volatility": 1.0838589175568403
+        },
+        "5": {
+          "momentum": -0.10665604857936473,
+          "volatility": 0.9333040349057221
+        }
+      }
+    },
+    {
+      "symbol": "AAPL",
+      "price": 347.7300109863281,
+      "market_cap": null,
+      "average_dollar_volume": 13062557117.7182,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.04288761846464073,
+          "volatility": 0.24481309261098305
+        },
+        "20": {
+          "momentum": 0.01952679367605148,
+          "volatility": 0.16397915777257913
+        },
+        "5": {
+          "momentum": 0.012432363703149152,
+          "volatility": 0.15862833771346682
+        }
+      }
+    },
+    {
+      "symbol": "ABBV",
+      "price": 285.6400146484375,
+      "market_cap": null,
+      "average_dollar_volume": 1460573849.7348022,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.10966944013327629,
+          "volatility": 0.21216600340773512
+        },
+        "20": {
+          "momentum": 0.08057811381415125,
+          "volatility": 0.21837830994194202
+        },
+        "5": {
+          "momentum": 0.0007707981583386925,
+          "volatility": 0.228399769780161
+        }
+      }
+    },
+    {
+      "symbol": "ABNB",
+      "price": 172.00999450683594,
+      "market_cap": null,
+      "average_dollar_volume": 594381395.6403351,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.13104939792097992,
+          "volatility": 0.4843727383279527
+        },
+        "20": {
+          "momentum": 0.09233500459401278,
+          "volatility": 0.256563907844924
+        },
+        "5": {
+          "momentum": -0.009729432763949997,
+          "volatility": 0.2622237230557599
+        }
+      }
+    },
+    {
+      "symbol": "ABT",
+      "price": 103.69999694824219,
+      "market_cap": null,
+      "average_dollar_volume": 1029490863.5196686,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.018085443149994274,
+          "volatility": 0.2125211873219772
+        },
+        "20": {
+          "momentum": 0.02379303002203259,
+          "volatility": 0.23743092648485148
+        },
+        "5": {
+          "momentum": -0.011345242142538292,
+          "volatility": 0.27125088872014125
+        }
+      }
+    },
+    {
+      "symbol": "ACLS",
+      "price": 106.58000183105469,
+      "market_cap": null,
+      "average_dollar_volume": 41139434.8903656,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.14879001189712715,
+          "volatility": 0.6016297173756125
+        },
+        "20": {
+          "momentum": -0.13427015431195577,
+          "volatility": 0.6834037537535418
+        },
+        "5": {
+          "momentum": -0.01633591756338748,
+          "volatility": 0.8904109644963174
+        }
+      }
+    },
+    {
+      "symbol": "ADBE",
+      "price": 263.82000732421875,
+      "market_cap": null,
+      "average_dollar_volume": 1059379776.718216,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.06421949907099278,
+          "volatility": 0.42118730544463917
+        },
+        "20": {
+          "momentum": 0.12039752816301852,
+          "volatility": 0.39932560782469306
+        },
+        "5": {
+          "momentum": 0.07593805304943357,
+          "volatility": 0.5483844277979852
+        }
+      }
+    },
+    {
+      "symbol": "ADI",
+      "price": 391.07000732421875,
+      "market_cap": null,
+      "average_dollar_volume": 1289558691.7607117,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.06654483050955373,
+          "volatility": 0.31311915900034415
+        },
+        "20": {
+          "momentum": -0.006427842327399458,
+          "volatility": 0.30514857870933376
+        },
+        "5": {
+          "momentum": -0.011050968769491187,
+          "volatility": 0.449386811371328
+        }
+      }
+    },
+    {
+      "symbol": "AEP",
+      "price": 129.69000244140625,
+      "market_cap": null,
+      "average_dollar_volume": 404876750.9895706,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.014947594931569608,
+          "volatility": 0.17084640239426507
+        },
+        "20": {
+          "momentum": 0.09581752525129783,
+          "volatility": 0.18423238380841503
+        },
+        "5": {
+          "momentum": 0.020056654585491662,
+          "volatility": 0.2953753028841206
+        }
+      }
+    },
+    {
+      "symbol": "ALAB",
+      "price": 257.1600036621094,
+      "market_cap": null,
+      "average_dollar_volume": 1309937216.7964172,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.14191330519146061,
+          "volatility": 0.8381078681470542
+        },
+        "20": {
+          "momentum": -0.2947177688939985,
+          "volatility": 0.7009014373379597
+        },
+        "5": {
+          "momentum": -0.10027290927048016,
+          "volatility": 0.8246920736912053
+        }
+      }
+    },
+    {
+      "symbol": "AMAT",
+      "price": 377.239990234375,
+      "market_cap": null,
+      "average_dollar_volume": 3192384085.4969788,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.2481814407116799,
+          "volatility": 0.5023128889296337
+        },
+        "20": {
+          "momentum": -0.22218558714561853,
+          "volatility": 0.5151598867339545
+        },
+        "5": {
+          "momentum": -0.07830637846374211,
+          "volatility": 0.6166628772934463
+        }
+      }
+    },
+    {
+      "symbol": "AMD",
+      "price": 516.7899780273438,
+      "market_cap": null,
+      "average_dollar_volume": 11403679133.967285,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.06469017167905466,
+          "volatility": 0.557459604441908
+        },
+        "20": {
+          "momentum": -0.18051793599104626,
+          "volatility": 0.509048478257132
+        },
+        "5": {
+          "momentum": -0.022619426898640715,
+          "volatility": 0.722251385111927
+        }
+      }
+    },
+    {
+      "symbol": "AMGN",
+      "price": 439.260009765625,
+      "market_cap": null,
+      "average_dollar_volume": 1162012801.304016,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.13316477444673303,
+          "volatility": 0.3450162330218668
+        },
+        "20": {
+          "momentum": 0.05945352327479725,
+          "volatility": 0.2873012602532353
+        },
+        "5": {
+          "momentum": 0.015653586635799854,
+          "volatility": 0.3615145998275245
+        }
+      }
+    },
+    {
+      "symbol": "AMKR",
+      "price": 39.29999923706055,
+      "market_cap": null,
+      "average_dollar_volume": 179384315.91510773,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.18566099038745265,
+          "volatility": 0.6666295210144026
+        },
+        "20": {
+          "momentum": -0.2669278345527176,
+          "volatility": 0.5745866384447494
+        },
+        "5": {
+          "momentum": -0.060258261027093085,
+          "volatility": 0.9149203215160202
+        }
+      }
+    },
+    {
+      "symbol": "AMT",
+      "price": 188.97000122070312,
+      "market_cap": null,
+      "average_dollar_volume": 626005303.8394928,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.08317089274583056,
+          "volatility": 0.3070600756774228
+        },
+        "20": {
+          "momentum": 0.11796724004856673,
+          "volatility": 0.42068987262431873
+        },
+        "5": {
+          "momentum": 0.019970836416675963,
+          "volatility": 0.4527215381090122
+        }
+      }
+    },
+    {
+      "symbol": "AMZN",
+      "price": 248.0,
+      "market_cap": null,
+      "average_dollar_volume": 9114277583.332138,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.05307855626326963,
+          "volatility": 0.42854486722374907
+        },
+        "20": {
+          "momentum": -0.006688821969771719,
+          "volatility": 0.3281916106947847
+        },
+        "5": {
+          "momentum": -0.008000000000000007,
+          "volatility": 0.5414645960763328
+        }
+      }
+    },
+    {
+      "symbol": "ANET",
+      "price": 172.3699951171875,
+      "market_cap": null,
+      "average_dollar_volume": 1101551491.6685486,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.007893759858500715,
+          "volatility": 0.4759462242481901
+        },
+        "20": {
+          "momentum": -0.16548054916273902,
+          "volatility": 0.4737802873059643
+        },
+        "5": {
+          "momentum": -0.026048145110414977,
+          "volatility": 0.6476764362780303
+        }
+      }
+    },
+    {
+      "symbol": "APD",
+      "price": 307.1499938964844,
+      "market_cap": null,
+      "average_dollar_volume": 280747086.26464844,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.023151170575769653,
+          "volatility": 0.18664070122865448
+        },
+        "20": {
+          "momentum": 0.09011209274154774,
+          "volatility": 0.16182689449536178
+        },
+        "5": {
+          "momentum": 0.02523447929171585,
+          "volatility": 0.1598816354844145
+        }
+      }
+    },
+    {
+      "symbol": "APO",
+      "price": 112.83000183105469,
+      "market_cap": null,
+      "average_dollar_volume": 406964637.71427155,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.06170476647771572,
+          "volatility": 0.32832852560519615
+        },
+        "20": {
+          "momentum": -0.07280795819375263,
+          "volatility": 0.2503806960928697
+        },
+        "5": {
+          "momentum": 0.01850517308491728,
+          "volatility": 0.25701129315299276
+        }
+      }
+    },
+    {
+      "symbol": "ARES",
+      "price": 122.08000183105469,
+      "market_cap": null,
+      "average_dollar_volume": 263386672.28996277,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.016435714392404988,
+          "volatility": 0.3694451580105862
+        },
+        "20": {
+          "momentum": 0.0005737209540088717,
+          "volatility": 0.3263566218553146
+        },
+        "5": {
+          "momentum": 0.08737868959929407,
+          "volatility": 0.4269489894809809
+        }
+      }
+    },
+    {
+      "symbol": "ARM",
+      "price": 210.3300018310547,
+      "market_cap": null,
+      "average_dollar_volume": 1278993174.4519043,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.12921252100105085,
+          "volatility": 0.799677735927802
+        },
+        "20": {
+          "momentum": -0.3222157873588075,
+          "volatility": 0.6317263844814747
+        },
+        "5": {
+          "momentum": -0.07669008334795246,
+          "volatility": 0.5993545673723158
+        }
+      }
+    },
+    {
+      "symbol": "ASML",
+      "price": 1571.800048828125,
+      "market_cap": null,
+      "average_dollar_volume": 2620358568.689575,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.048224516424320796,
+          "volatility": 0.3746176392074439
+        },
+        "20": {
+          "momentum": -0.09870746606062453,
+          "volatility": 0.3849238399867587
+        },
+        "5": {
+          "momentum": -0.042472811707184754,
+          "volatility": 0.5845566591678265
+        }
+      }
+    },
+    {
+      "symbol": "ASST",
+      "price": 28.969999313354492,
+      "market_cap": null,
+      "average_dollar_volume": 246458308.80551338,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 1.4262981852152201,
+          "volatility": 0.8334115408025934
+        },
+        "20": {
+          "momentum": -0.015964715087535608,
+          "volatility": 0.8107074284987261
+        },
+        "5": {
+          "momentum": 0.2025736459052021,
+          "volatility": 1.1514991593284414
+        }
+      }
+    },
+    {
+      "symbol": "ASTS",
+      "price": 39.790000915527344,
+      "market_cap": null,
+      "average_dollar_volume": 884059598.217411,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.31913070070911986,
+          "volatility": 0.7978058426939487
+        },
+        "20": {
+          "momentum": -0.35625303298049804,
+          "volatility": 0.8151442213096168
+        },
+        "5": {
+          "momentum": -0.021396924130587247,
+          "volatility": 0.53593938050258
+        }
+      }
+    },
+    {
+      "symbol": "ASX",
+      "price": 38.689998626708984,
+      "market_cap": null,
+      "average_dollar_volume": 324578176.40190125,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.11274081441865591,
+          "volatility": 0.5661778624497901
+        },
+        "20": {
+          "momentum": -0.12683372991203812,
+          "volatility": 0.6630066516028771
+        },
+        "5": {
+          "momentum": -0.021249688300719716,
+          "volatility": 0.984167180455118
+        }
+      }
+    },
+    {
+      "symbol": "AVAV",
+      "price": 123.25,
+      "market_cap": null,
+      "average_dollar_volume": 192230736.22493744,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.15910490659002263,
+          "volatility": 0.532429522182167
+        },
+        "20": {
+          "momentum": -0.1894113941053608,
+          "volatility": 0.38876548407804534
+        },
+        "5": {
+          "momentum": 0.011987840327592147,
+          "volatility": 0.45011994439278397
+        }
+      }
+    },
+    {
+      "symbol": "AVGO",
+      "price": 321.67999267578125,
+      "market_cap": null,
+      "average_dollar_volume": 7562512105.528564,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.17058581963390396,
+          "volatility": 0.3742197432143128
+        },
+        "20": {
+          "momentum": -0.08823447492482839,
+          "volatility": 0.3836092996502892
+        },
+        "5": {
+          "momentum": -0.021505725701045586,
+          "volatility": 0.3737903627817465
+        }
+      }
+    },
+    {
+      "symbol": "AXP",
+      "price": 313.2200012207031,
+      "market_cap": null,
+      "average_dollar_volume": 1009915091.9329834,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.07199569976279074,
+          "volatility": 0.19915257823818874
+        },
+        "20": {
+          "momentum": 0.014017891051589348,
+          "volatility": 0.19354664196690619
+        },
+        "5": {
+          "momentum": -0.001179869005734635,
+          "volatility": 0.33354577420725234
+        }
+      }
+    },
+    {
+      "symbol": "BA",
+      "price": 188.35000610351562,
+      "market_cap": null,
+      "average_dollar_volume": 1535562461.3843536,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.14735169168099638,
+          "volatility": 0.3197581336546362
+        },
+        "20": {
+          "momentum": -0.04907356420092701,
+          "volatility": 0.33439978041233887
+        },
+        "5": {
+          "momentum": -0.009778668548966252,
+          "volatility": 0.21894971493207074
+        }
+      }
+    },
+    {
+      "symbol": "BABA",
+      "price": 99.63999938964844,
+      "market_cap": null,
+      "average_dollar_volume": 890485652.6951599,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.14339752707133113,
+          "volatility": 0.3868291035547639
+        },
+        "20": {
+          "momentum": -0.09203570868170752,
+          "volatility": 0.34094762788967803
+        },
+        "5": {
+          "momentum": -0.0867931552353477,
+          "volatility": 0.2501038761359797
+        }
+      }
+    },
+    {
+      "symbol": "BAC",
+      "price": 50.560001373291016,
+      "market_cap": null,
+      "average_dollar_volume": 2246582548.895111,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.18094926699785052,
+          "volatility": 0.21199988441127884
+        },
+        "20": {
+          "momentum": -0.10828922940088737,
+          "volatility": 0.21463469901775406
+        },
+        "5": {
+          "momentum": -0.013078238823581056,
+          "volatility": 0.15995910895643098
+        }
+      }
+    },
+    {
+      "symbol": "BE",
+      "price": 193.3000030517578,
+      "market_cap": null,
+      "average_dollar_volume": 3816275880.08934,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.06672456735821375,
+          "volatility": 0.8403718941694233
+        },
+        "20": {
+          "momentum": -0.3304468483598837,
+          "volatility": 0.936679282434027
+        },
+        "5": {
+          "momentum": -0.12656452404243534,
+          "volatility": 1.2055309294276586
+        }
+      }
+    },
+    {
+      "symbol": "BIIB",
+      "price": 250.69000244140625,
+      "market_cap": null,
+      "average_dollar_volume": 303087067.4520874,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.20564618511913935,
+          "volatility": 0.2824215926119148
+        },
+        "20": {
+          "momentum": 0.10144989331585941,
+          "volatility": 0.31022572384879465
+        },
+        "5": {
+          "momentum": 0.07754140992132852,
+          "volatility": 0.4763893531496028
+        }
+      }
+    },
+    {
+      "symbol": "BKNG",
+      "price": 155.8300018310547,
+      "market_cap": null,
+      "average_dollar_volume": 1096426122.3674011,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.1935934723590803,
+          "volatility": 0.3523844341544457
+        },
+        "20": {
+          "momentum": -0.04952726604655522,
+          "volatility": 0.2716706645136507
+        },
+        "5": {
+          "momentum": -0.04661973239192185,
+          "volatility": 0.36968451521235146
+        }
+      }
+    },
+    {
+      "symbol": "BKR",
+      "price": 55.86000061035156,
+      "market_cap": null,
+      "average_dollar_volume": 327175455.9947014,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.06744575647100648,
+          "volatility": 0.2921123180558666
+        },
+        "20": {
+          "momentum": -0.034065384027797796,
+          "volatility": 0.3235292384802952
+        },
+        "5": {
+          "momentum": 0.0028725286395070437,
+          "volatility": 0.4761525677753264
+        }
+      }
+    },
+    {
+      "symbol": "BKSY",
+      "price": 17.579999923706055,
+      "market_cap": null,
+      "average_dollar_volume": 18662609.663801193,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.217275127323594,
+          "volatility": 0.6860139398873069
+        },
+        "20": {
+          "momentum": -0.2438709710233955,
+          "volatility": 0.6569930498064951
+        },
+        "5": {
+          "momentum": 0.01501156082349886,
+          "volatility": 0.5826750306808804
+        }
+      }
+    },
+    {
+      "symbol": "BLK",
+      "price": 1118.25,
+      "market_cap": null,
+      "average_dollar_volume": 733841546.7712402,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.018099552037281752,
+          "volatility": 0.22926220116512838
+        },
+        "20": {
+          "momentum": 0.02940223295694877,
+          "volatility": 0.23156940912960852
+        },
+        "5": {
+          "momentum": -0.014219225315487471,
+          "volatility": 0.2227086579578608
+        }
+      }
+    },
+    {
+      "symbol": "BMNR",
+      "price": 22.399999618530273,
+      "market_cap": null,
+      "average_dollar_volume": 758679839.9043274,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.23893803722642382,
+          "volatility": 0.7444290867805101
+        },
+        "20": {
+          "momentum": -0.18722786456467988,
+          "volatility": 0.5733520779325267
+        },
+        "5": {
+          "momentum": 0.03416434793772982,
+          "volatility": 0.7658320432551865
+        }
+      }
+    },
+    {
+      "symbol": "BRK.B",
+      "price": 542.1900024414062,
+      "market_cap": null,
+      "average_dollar_volume": 2310321711.455841,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.0637851401522549,
+          "volatility": 0.13046056899047087
+        },
+        "20": {
+          "momentum": 0.07262402203293261,
+          "volatility": 0.109482285786288
+        },
+        "5": {
+          "momentum": 0.019115789889103674,
+          "volatility": 0.16417913372749193
+        }
+      }
+    },
+    {
+      "symbol": "BSX",
+      "price": 45.689998626708984,
+      "market_cap": null,
+      "average_dollar_volume": 676839570.0499153,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.006739160288935175,
+          "volatility": 0.3476002335429626
+        },
+        "20": {
+          "momentum": 0.0403005585509153,
+          "volatility": 0.24807274560498513
+        },
+        "5": {
+          "momentum": 0.029285858412597898,
+          "volatility": 0.34741302720198586
+        }
+      }
+    },
+    {
+      "symbol": "BTBT",
+      "price": 0.8450000286102295,
+      "market_cap": null,
+      "average_dollar_volume": 25442394.22869742,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.40492953933247666,
+          "volatility": 0.9063134309148517
+        },
+        "20": {
+          "momentum": -0.5198863447790056,
+          "volatility": 0.6123444299459861
+        },
+        "5": {
+          "momentum": -0.11979161719015374,
+          "volatility": 0.735364410329773
+        }
+      }
+    },
+    {
+      "symbol": "BTDR",
+      "price": 6.960000038146973,
+      "market_cap": null,
+      "average_dollar_volume": 94358879.76558208,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.3729729910851215,
+          "volatility": 0.9314545972269801
+        },
+        "20": {
+          "momentum": -0.39530843616472133,
+          "volatility": 0.6670779004230816
+        },
+        "5": {
+          "momentum": -0.09844556641183677,
+          "volatility": 0.817062754756207
+        }
+      }
+    },
+    {
+      "symbol": "BWXT",
+      "price": 127.19000244140625,
+      "market_cap": null,
+      "average_dollar_volume": 173325491.74301147,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.2318980297464842,
+          "volatility": 0.3740276656597711
+        },
+        "20": {
+          "momentum": -0.08146167891858414,
+          "volatility": 0.43452022606620505
+        },
+        "5": {
+          "momentum": -0.07167354542839377,
+          "volatility": 0.4003324781706195
+        }
+      }
+    },
+    {
+      "symbol": "BX",
+      "price": 117.97000122070312,
+      "market_cap": null,
+      "average_dollar_volume": 679443009.7475052,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.07886316487783673,
+          "volatility": 0.3836520820360558
+        },
+        "20": {
+          "momentum": -0.003800008066206839,
+          "volatility": 0.43727784575125034
+        },
+        "5": {
+          "momentum": 0.10655661331314659,
+          "volatility": 0.6067695519734793
+        }
+      }
+    },
+    {
+      "symbol": "C",
+      "price": 120.62000274658203,
+      "market_cap": null,
+      "average_dollar_volume": 1183757163.4704208,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.08842203695597328,
+          "volatility": 0.24250150312025345
+        },
+        "20": {
+          "momentum": -0.10172770447493429,
+          "volatility": 0.2749179165115082
+        },
+        "5": {
+          "momentum": -0.029293411613318554,
+          "volatility": 0.22120923381816446
+        }
+      }
+    },
+    {
+      "symbol": "CAMT",
+      "price": 121.16000366210938,
+      "market_cap": null,
+      "average_dollar_volume": 79754945.89756012,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.11710262016866613,
+          "volatility": 0.6418690255090949
+        },
+        "20": {
+          "momentum": -0.1760625559493244,
+          "volatility": 0.6483794561766085
+        },
+        "5": {
+          "momentum": -0.06418473376259559,
+          "volatility": 0.8574000378945148
+        }
+      }
+    },
+    {
+      "symbol": "CAT",
+      "price": 687.0,
+      "market_cap": null,
+      "average_dollar_volume": 2049654900.9588623,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.15095040714493158,
+          "volatility": 0.3297007955473303
+        },
+        "20": {
+          "momentum": -0.16380634179315334,
+          "volatility": 0.361282812955062
+        },
+        "5": {
+          "momentum": -0.05988287424165428,
+          "volatility": 0.4144232450035147
+        }
+      }
+    },
+    {
+      "symbol": "CBOE",
+      "price": 340.4200134277344,
+      "market_cap": null,
+      "average_dollar_volume": 402091369.0268707,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.14805080952582372,
+          "volatility": 0.39223920612220353
+        },
+        "20": {
+          "momentum": 0.3193040151851061,
+          "volatility": 0.38346606233953817
+        },
+        "5": {
+          "momentum": 0.08076703776135963,
+          "volatility": 0.4097626855116703
+        }
+      }
+    },
+    {
+      "symbol": "CCI",
+      "price": 85.97000122070312,
+      "market_cap": null,
+      "average_dollar_volume": 440801744.42432404,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.12364395269037609,
+          "volatility": 0.4431592477596012
+        },
+        "20": {
+          "momentum": 0.2672465486659581,
+          "volatility": 0.659038858567158
+        },
+        "5": {
+          "momentum": 0.04510088728576189,
+          "volatility": 0.7484885766079106
+        }
+      }
+    },
+    {
+      "symbol": "CCJ",
+      "price": 78.5999984741211,
+      "market_cap": null,
+      "average_dollar_volume": 281686664.9000168,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.10914659998203124,
+          "volatility": 0.4196796639375763
+        },
+        "20": {
+          "momentum": -0.1075281168788248,
+          "volatility": 0.4169270615763774
+        },
+        "5": {
+          "momentum": -0.03581940982812426,
+          "volatility": 0.3217328363566802
+        }
+      }
+    },
+    {
+      "symbol": "CEG",
+      "price": 253.4499969482422,
+      "market_cap": null,
+      "average_dollar_volume": 1178446513.7973785,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.038359389528010435,
+          "volatility": 0.4838966958077298
+        },
+        "20": {
+          "momentum": -0.037300081571089105,
+          "volatility": 0.6681315236050182
+        },
+        "5": {
+          "momentum": -0.06603529679545739,
+          "volatility": 0.6039351071088855
+        }
+      }
+    },
+    {
+      "symbol": "CIEN",
+      "price": 320.260009765625,
+      "market_cap": null,
+      "average_dollar_volume": 1176869919.2784119,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.13924798166665164,
+          "volatility": 0.8079322018642398
+        },
+        "20": {
+          "momentum": -0.10268693373801119,
+          "volatility": 0.9941977662145226
+        },
+        "5": {
+          "momentum": -0.03747783731241339,
+          "volatility": 0.9974913252184633
+        }
+      }
+    },
+    {
+      "symbol": "CIFR",
+      "price": 7.940000057220459,
+      "market_cap": null,
+      "average_dollar_volume": 528137245.90506554,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.6495254991582998,
+          "volatility": 1.000766676774794
+        },
+        "20": {
+          "momentum": -0.5521714460112745,
+          "volatility": 0.7354687499998337
+        },
+        "5": {
+          "momentum": -0.1158128661504223,
+          "volatility": 0.7124871809042754
+        }
+      }
+    },
+    {
+      "symbol": "CL",
+      "price": 94.04000091552734,
+      "market_cap": null,
+      "average_dollar_volume": 425505409.63718414,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.02663758168179009,
+          "volatility": 0.21246535814236253
+        },
+        "20": {
+          "momentum": 0.09272604675012253,
+          "volatility": 0.2733694553963845
+        },
+        "5": {
+          "momentum": -0.0007438071870177199,
+          "volatility": 0.46033046212727174
+        }
+      }
+    },
+    {
+      "symbol": "CLSK",
+      "price": 7.880000114440918,
+      "market_cap": null,
+      "average_dollar_volume": 175370562.19661713,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.4580467582451999,
+          "volatility": 0.7668137946771565
+        },
+        "20": {
+          "momentum": -0.435125432101635,
+          "volatility": 0.5910291001863756
+        },
+        "5": {
+          "momentum": -0.0619047056790627,
+          "volatility": 0.643878972201619
+        }
+      }
+    },
+    {
+      "symbol": "CME",
+      "price": 305.7099914550781,
+      "market_cap": null,
+      "average_dollar_volume": 587239012.6126099,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.14403858266052927,
+          "volatility": 0.21446472903947306
+        },
+        "20": {
+          "momentum": 0.15589072427436235,
+          "volatility": 0.20348889376757842
+        },
+        "5": {
+          "momentum": 0.04028991232388024,
+          "volatility": 0.23900729926078132
+        }
+      }
+    },
+    {
+      "symbol": "COF",
+      "price": 201.33999633789062,
+      "market_cap": null,
+      "average_dollar_volume": 785673699.6495056,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.04187685865288582,
+          "volatility": 0.24041757205363382
+        },
+        "20": {
+          "momentum": 0.0056943027323979045,
+          "volatility": 0.2188526570463072
+        },
+        "5": {
+          "momentum": -0.0019827954019114857,
+          "volatility": 0.2696620019953118
+        }
+      }
+    },
+    {
+      "symbol": "COHR",
+      "price": 209.2899932861328,
+      "market_cap": null,
+      "average_dollar_volume": 2049095705.554657,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.15968041701720748,
+          "volatility": 0.9812492296528026
+        },
+        "20": {
+          "momentum": -0.2925328641929027,
+          "volatility": 0.9128602570125103
+        },
+        "5": {
+          "momentum": -0.10137398552636012,
+          "volatility": 0.9524606702580208
+        }
+      }
+    },
+    {
+      "symbol": "COHU",
+      "price": 47.959999084472656,
+      "market_cap": null,
+      "average_dollar_volume": 72052915.09130478,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.03250803652812784,
+          "volatility": 0.8277478561890232
+        },
+        "20": {
+          "momentum": -0.2841791181421992,
+          "volatility": 0.8445560112726772
+        },
+        "5": {
+          "momentum": -0.056091364136756416,
+          "volatility": 1.466246949237841
+        }
+      }
+    },
+    {
+      "symbol": "COIN",
+      "price": 164.4499969482422,
+      "market_cap": null,
+      "average_dollar_volume": 1403539590.07576,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.005318468684735844,
+          "volatility": 0.7599988334918832
+        },
+        "20": {
+          "momentum": -0.15714214323303477,
+          "volatility": 0.5325323434620873
+        },
+        "5": {
+          "momentum": -0.05030033800913514,
+          "volatility": 0.5371738962503673
+        }
+      }
+    },
+    {
+      "symbol": "COP",
+      "price": 150.8000030517578,
+      "market_cap": null,
+      "average_dollar_volume": 814711909.8199081,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.2669075409415762,
+          "volatility": 0.2932454000755038
+        },
+        "20": {
+          "momentum": 0.18460329486752114,
+          "volatility": 0.23384536268631695
+        },
+        "5": {
+          "momentum": 0.029281337149471565,
+          "volatility": 0.27365980209564955
+        }
+      }
+    },
+    {
+      "symbol": "COST",
+      "price": 1003.3200073242188,
+      "market_cap": null,
+      "average_dollar_volume": 2052976220.2294922,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.05151076358968876,
+          "volatility": 0.17650502679204652
+        },
+        "20": {
+          "momentum": 0.0872915093555886,
+          "volatility": 0.1648954601972127
+        },
+        "5": {
+          "momentum": 0.014366473074888253,
+          "volatility": 0.19849741927985598
+        }
+      }
+    },
+    {
+      "symbol": "CRCL",
+      "price": 85.91000366210938,
+      "market_cap": null,
+      "average_dollar_volume": 838781068.391037,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.3373288686013707,
+          "volatility": 0.8149739148883675
+        },
+        "20": {
+          "momentum": -0.034719059976299205,
+          "volatility": 0.6129844149239806
+        },
+        "5": {
+          "momentum": 0.04487962036756943,
+          "volatility": 0.6135886707514666
+        }
+      }
+    },
+    {
+      "symbol": "CRM",
+      "price": 248.57000732421875,
+      "market_cap": null,
+      "average_dollar_volume": 1878489354.9879456,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.37551877643278386,
+          "volatility": 0.5753582028179937
+        },
+        "20": {
+          "momentum": 0.062174185053076814,
+          "volatility": 0.32699981126120314
+        },
+        "5": {
+          "momentum": 0.032696345973235896,
+          "volatility": 0.26687797102276956
+        }
+      }
+    },
+    {
+      "symbol": "CRWD",
+      "price": 257.57000732421875,
+      "market_cap": null,
+      "average_dollar_volume": 2184098492.037964,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.3906165944643598,
+          "volatility": 0.7408034164762882
+        },
+        "20": {
+          "momentum": 0.021576180288159996,
+          "volatility": 0.5792148034531065
+        },
+        "5": {
+          "momentum": 0.1327235499167876,
+          "volatility": 0.6296258068736739
+        }
+      }
+    },
+    {
+      "symbol": "CRWV",
+      "price": 54.23500061035156,
+      "market_cap": null,
+      "average_dollar_volume": 3575479303.722229,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.2661028485722141,
+          "volatility": 0.9525554526596529
+        },
+        "20": {
+          "momentum": -0.38080827859459565,
+          "volatility": 0.8633083952925377
+        },
+        "5": {
+          "momentum": -0.11654990797252474,
+          "volatility": 0.7212530244961506
+        }
+      }
+    },
+    {
+      "symbol": "CSCO",
+      "price": 106.5,
+      "market_cap": null,
+      "average_dollar_volume": 1711242273.8680267,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.06216975792863144,
+          "volatility": 0.3387412920649199
+        },
+        "20": {
+          "momentum": -0.0018743856978665763,
+          "volatility": 0.32388990951264607
+        },
+        "5": {
+          "momentum": -0.00828754441481283,
+          "volatility": 0.2259626032451451
+        }
+      }
+    },
+    {
+      "symbol": "CVS",
+      "price": 93.47000122070312,
+      "market_cap": null,
+      "average_dollar_volume": 778305392.309494,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.11167078372631745,
+          "volatility": 0.27322287797324085
+        },
+        "20": {
+          "momentum": 0.048692966464988,
+          "volatility": 0.23979808504497035
+        },
+        "5": {
+          "momentum": 0.012018196221483812,
+          "volatility": 0.23865360789094847
+        }
+      }
+    },
+    {
+      "symbol": "CVX",
+      "price": 233.2100067138672,
+      "market_cap": null,
+      "average_dollar_volume": 1596024239.5713043,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.21267749817745107,
+          "volatility": 0.23455293414848585
+        },
+        "20": {
+          "momentum": 0.1406701403517545,
+          "volatility": 0.20304681186228363
+        },
+        "5": {
+          "momentum": 0.0365349616427868,
+          "volatility": 0.19952477236245678
+        }
+      }
+    },
+    {
+      "symbol": "DDOG",
+      "price": 269.6499938964844,
+      "market_cap": null,
+      "average_dollar_volume": 743082561.2722778,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.004058669749029908,
+          "volatility": 0.719203061660855
+        },
+        "20": {
+          "momentum": 0.005668850878275178,
+          "volatility": 0.600973716629825
+        },
+        "5": {
+          "momentum": 0.09121441151899945,
+          "volatility": 0.8272514463098488
+        }
+      }
+    },
+    {
+      "symbol": "DE",
+      "price": 646.1500244140625,
+      "market_cap": null,
+      "average_dollar_volume": 746332496.3287354,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.07786887749554161,
+          "volatility": 0.3213764575134053
+        },
+        "20": {
+          "momentum": -0.06417460265403829,
+          "volatility": 0.3055255733741078
+        },
+        "5": {
+          "momentum": 0.006683761506257824,
+          "volatility": 0.2218307250196463
+        }
+      }
+    },
+    {
+      "symbol": "DELL",
+      "price": 456.44000244140625,
+      "market_cap": null,
+      "average_dollar_volume": 3386733623.310089,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.1275413285101472,
+          "volatility": 0.7538463606260768
+        },
+        "20": {
+          "momentum": -0.18911334263677848,
+          "volatility": 0.6385920883261924
+        },
+        "5": {
+          "momentum": 0.010471344614475964,
+          "volatility": 0.6936251883539569
+        }
+      }
+    },
+    {
+      "symbol": "DHR",
+      "price": 230.5,
+      "market_cap": null,
+      "average_dollar_volume": 1094670587.58667,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.1750012853723384,
+          "volatility": 0.2919302261253509
+        },
+        "20": {
+          "momentum": 0.026771768719204614,
+          "volatility": 0.3348600514286324
+        },
+        "5": {
+          "momentum": 0.006374461913484453,
+          "volatility": 0.40114183465906694
+        }
+      }
+    },
+    {
+      "symbol": "DIS",
+      "price": 112.5199966430664,
+      "market_cap": null,
+      "average_dollar_volume": 910906714.2305756,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.1701330320082286,
+          "volatility": 0.23712963120270683
+        },
+        "20": {
+          "momentum": 0.0600093737693872,
+          "volatility": 0.19292540397577077
+        },
+        "5": {
+          "momentum": 0.017451852510049548,
+          "volatility": 0.18551599774622599
+        }
+      }
+    },
+    {
+      "symbol": "DLR",
+      "price": 172.3699951171875,
+      "market_cap": null,
+      "average_dollar_volume": 322033237.1233368,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.10776958983958485,
+          "volatility": 0.26437782624570944
+        },
+        "20": {
+          "momentum": -0.03493648436168484,
+          "volatility": 0.2681879426013205
+        },
+        "5": {
+          "momentum": -0.020458067162257176,
+          "volatility": 0.2984698623692298
+        }
+      }
+    },
+    {
+      "symbol": "DUK",
+      "price": 124.9800033569336,
+      "market_cap": null,
+      "average_dollar_volume": 473535719.46933746,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.010216150474600116,
+          "volatility": 0.17338248582382687
+        },
+        "20": {
+          "momentum": 0.10260260290579315,
+          "volatility": 0.19762506110561123
+        },
+        "5": {
+          "momentum": 0.02889604100565557,
+          "volatility": 0.35750731620158793
+        }
+      }
+    },
+    {
+      "symbol": "EOG",
+      "price": 163.02999877929688,
+      "market_cap": null,
+      "average_dollar_volume": 418801523.1919098,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.12040412984578786,
+          "volatility": 0.31636174840671366
+        },
+        "20": {
+          "momentum": 0.16159595076222177,
+          "volatility": 0.23032645838710364
+        },
+        "5": {
+          "momentum": 0.03177016927396803,
+          "volatility": 0.2295433371233952
+        }
+      }
+    },
+    {
+      "symbol": "EQIX",
+      "price": 955.030029296875,
+      "market_cap": null,
+      "average_dollar_volume": 499616639.78118896,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.08830295782746012,
+          "volatility": 0.25445054085487684
+        },
+        "20": {
+          "momentum": -0.05262477868186999,
+          "volatility": 0.242781114533571
+        },
+        "5": {
+          "momentum": -0.03139004014783431,
+          "volatility": 0.34982138035529575
+        }
+      }
+    },
+    {
+      "symbol": "ERIC",
+      "price": 10.65999984741211,
+      "market_cap": null,
+      "average_dollar_volume": 122222191.44984245,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.09109512261498454,
+          "volatility": 0.35148141879794786
+        },
+        "20": {
+          "momentum": 0.11857294292794429,
+          "volatility": 0.5033209251914547
+        },
+        "5": {
+          "momentum": 0.010426507553416897,
+          "volatility": 0.39251260462779064
+        }
+      }
+    },
+    {
+      "symbol": "ESTC",
+      "price": 102.43000030517578,
+      "market_cap": null,
+      "average_dollar_volume": 176094455.90961456,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.5942412498860044,
+          "volatility": 0.6544565180029818
+        },
+        "20": {
+          "momentum": 0.16239215969780263,
+          "volatility": 0.43228534888921666
+        },
+        "5": {
+          "momentum": 0.11652499117430226,
+          "volatility": 0.313603971737821
+        }
+      }
+    },
+    {
+      "symbol": "ETN",
+      "price": 366.1099853515625,
+      "market_cap": null,
+      "average_dollar_volume": 966866236.5461731,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.053710430639461126,
+          "volatility": 0.42377271306059394
+        },
+        "20": {
+          "momentum": -0.16789404925275353,
+          "volatility": 0.3686307267255798
+        },
+        "5": {
+          "momentum": -0.06425562849440891,
+          "volatility": 0.5520597869497762
+        }
+      }
+    },
+    {
+      "symbol": "EXPE",
+      "price": 289.010009765625,
+      "market_cap": null,
+      "average_dollar_volume": 444934370.93307495,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.013381978657593274,
+          "volatility": 0.44748585568319255
+        },
+        "20": {
+          "momentum": 0.09403034059611692,
+          "volatility": 0.4264195049963013
+        },
+        "5": {
+          "momentum": 0.00020763992406669374,
+          "volatility": 0.645290468665912
+        }
+      }
+    },
+    {
+      "symbol": "FCX",
+      "price": 65.18000030517578,
+      "market_cap": null,
+      "average_dollar_volume": 790781566.629715,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.027427517593517692,
+          "volatility": 0.42216134769004027
+        },
+        "20": {
+          "momentum": -0.09860320141264611,
+          "volatility": 0.347028367733231
+        },
+        "5": {
+          "momentum": -0.06269773587791305,
+          "volatility": 0.4615713375895834
+        }
+      }
+    },
+    {
+      "symbol": "FIS",
+      "price": 37.529998779296875,
+      "market_cap": null,
+      "average_dollar_volume": 204406568.68326187,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.18413046131963318,
+          "volatility": 0.32410303886687425
+        },
+        "20": {
+          "momentum": 0.059870063287777775,
+          "volatility": 0.33143011876992334
+        },
+        "5": {
+          "momentum": 0.04221051176374946,
+          "volatility": 0.4214600845746807
+        }
+      }
+    },
+    {
+      "symbol": "FN",
+      "price": 314.94000244140625,
+      "market_cap": null,
+      "average_dollar_volume": 387211830.2082825,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.28313565641483573,
+          "volatility": 0.80804252187323
+        },
+        "20": {
+          "momentum": -0.24545391267523164,
+          "volatility": 0.7309795860687281
+        },
+        "5": {
+          "momentum": -0.13361394740005794,
+          "volatility": 0.7254010644855068
+        }
+      }
+    },
+    {
+      "symbol": "FOUR",
+      "price": 38.790000915527344,
+      "market_cap": null,
+      "average_dollar_volume": 74740592.51497269,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.2780569282336376,
+          "volatility": 0.6772800303482903
+        },
+        "20": {
+          "momentum": 0.00884265658885508,
+          "volatility": 0.3619747269462556
+        },
+        "5": {
+          "momentum": -0.01623128036254229,
+          "volatility": 0.3839506121535193
+        }
+      }
+    },
+    {
+      "symbol": "FTNT",
+      "price": 179.99000549316406,
+      "market_cap": null,
+      "average_dollar_volume": 638031248.168335,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.16687199671419162,
+          "volatility": 0.46731449738561237
+        },
+        "20": {
+          "momentum": 0.03764555820678894,
+          "volatility": 0.4014516619957661
+        },
+        "5": {
+          "momentum": 0.0642109637368975,
+          "volatility": 0.2989698301969539
+        }
+      }
+    },
+    {
+      "symbol": "GD",
+      "price": 349.3599853515625,
+      "market_cap": null,
+      "average_dollar_volume": 440878923.48587036,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.08592366773049676,
+          "volatility": 0.16178917416414798
+        },
+        "20": {
+          "momentum": 0.03753856048062465,
+          "volatility": 0.15011511245755504
+        },
+        "5": {
+          "momentum": 0.014902751652987378,
+          "volatility": 0.1640259898935847
+        }
+      }
+    },
+    {
+      "symbol": "GE",
+      "price": 285.6400146484375,
+      "market_cap": null,
+      "average_dollar_volume": 1445830245.069275,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.19547091095707725,
+          "volatility": 0.26797220437401453
+        },
+        "20": {
+          "momentum": -0.12672347718832233,
+          "volatility": 0.21838396234255675
+        },
+        "5": {
+          "momentum": -0.08982561619342522,
+          "volatility": 0.2019156323181498
+        }
+      }
+    },
+    {
+      "symbol": "GEV",
+      "price": 815.0,
+      "market_cap": null,
+      "average_dollar_volume": 2339933695.5218506,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.17004417991193854,
+          "volatility": 0.4553039915798293
+        },
+        "20": {
+          "momentum": -0.14894061814642756,
+          "volatility": 0.5322952538245694
+        },
+        "5": {
+          "momentum": -0.1152844233605631,
+          "volatility": 0.8352979203243345
+        }
+      }
+    },
+    {
+      "symbol": "GFS",
+      "price": 44.38999938964844,
+      "market_cap": null,
+      "average_dollar_volume": 267961693.64969254,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.11024253492256375,
+          "volatility": 0.5212990507586008
+        },
+        "20": {
+          "momentum": -0.09408164510921557,
+          "volatility": 0.4972720075829218
+        },
+        "5": {
+          "momentum": -0.04905743146007291,
+          "volatility": 0.7583696936948217
+        }
+      }
+    },
+    {
+      "symbol": "GILD",
+      "price": 156.0399932861328,
+      "market_cap": null,
+      "average_dollar_volume": 869917531.4526367,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.18860446935607866,
+          "volatility": 0.2561301324698491
+        },
+        "20": {
+          "momentum": 0.03385676047390107,
+          "volatility": 0.2848070455726566
+        },
+        "5": {
+          "momentum": -0.0009604273828582865,
+          "volatility": 0.3428779086447888
+        }
+      }
+    },
+    {
+      "symbol": "GLW",
+      "price": 123.69000244140625,
+      "market_cap": null,
+      "average_dollar_volume": 1161999491.5068054,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.0852684416152154,
+          "volatility": 0.6777745684454117
+        },
+        "20": {
+          "momentum": -0.2108587590498664,
+          "volatility": 0.635144108259012
+        },
+        "5": {
+          "momentum": -0.06295452695904358,
+          "volatility": 0.6282669374654538
+        }
+      }
+    },
+    {
+      "symbol": "GLXY",
+      "price": 14.680000305175781,
+      "market_cap": null,
+      "average_dollar_volume": 122247103.70907784,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.31784386650048857,
+          "volatility": 0.81917216262116
+        },
+        "20": {
+          "momentum": -0.39438942063576554,
+          "volatility": 0.6939791929731541
+        },
+        "5": {
+          "momentum": -0.09045843492466565,
+          "volatility": 0.9942498802162493
+        }
+      }
+    },
+    {
+      "symbol": "GOOGL",
+      "price": 320.2099914550781,
+      "market_cap": null,
+      "average_dollar_volume": 8118638423.873901,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.04031053185700917,
+          "volatility": 0.29482752860251327
+        },
+        "20": {
+          "momentum": -0.06894051246493771,
+          "volatility": 0.20911833157568638
+        },
+        "5": {
+          "momentum": -0.05983735606431029,
+          "volatility": 0.2389110788916207
+        }
+      }
+    },
+    {
+      "symbol": "GPN",
+      "price": 82.81999969482422,
+      "market_cap": null,
+      "average_dollar_volume": 162510620.3503418,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.04629199461760425,
+          "volatility": 0.32880939911703544
+        },
+        "20": {
+          "momentum": -0.04243263105088668,
+          "volatility": 0.346400446713923
+        },
+        "5": {
+          "momentum": -0.010158939795896549,
+          "volatility": 0.3892090436653284
+        }
+      }
+    },
+    {
+      "symbol": "GS",
+      "price": 875.6799926757812,
+      "market_cap": null,
+      "average_dollar_volume": 2056494243.3688354,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.14556133989815923,
+          "volatility": 0.2434898274228889
+        },
+        "20": {
+          "momentum": -0.06389440242801758,
+          "volatility": 0.19219758189162417
+        },
+        "5": {
+          "momentum": -0.006331862365260177,
+          "volatility": 0.27170755453737444
+        }
+      }
+    },
+    {
+      "symbol": "HAL",
+      "price": 34.91999816894531,
+      "market_cap": null,
+      "average_dollar_volume": 340315739.87397194,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.10366620867793008,
+          "volatility": 0.3136066174367404
+        },
+        "20": {
+          "momentum": 0.06593406465446416,
+          "volatility": 0.3150568518263087
+        },
+        "5": {
+          "momentum": 0.04238800504314355,
+          "volatility": 0.4774126311660942
+        }
+      }
+    },
+    {
+      "symbol": "HD",
+      "price": 319.8299865722656,
+      "market_cap": null,
+      "average_dollar_volume": 1567736026.7581177,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.04055802994961277,
+          "volatility": 0.2613192519724632
+        },
+        "20": {
+          "momentum": 0.09082528395814227,
+          "volatility": 0.29563400742795454
+        },
+        "5": {
+          "momentum": 0.03294248467073979,
+          "volatility": 0.3984130566974965
+        }
+      }
+    },
+    {
+      "symbol": "HII",
+      "price": 274.0799865722656,
+      "market_cap": null,
+      "average_dollar_volume": 149345630.83831787,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.14323228570940683,
+          "volatility": 0.23035280512774142
+        },
+        "20": {
+          "momentum": 0.03810316634045763,
+          "volatility": 0.27680679881955106
+        },
+        "5": {
+          "momentum": 0.007647009456858811,
+          "volatility": 0.2258454387039959
+        }
+      }
+    },
+    {
+      "symbol": "HLT",
+      "price": 349.6300048828125,
+      "market_cap": null,
+      "average_dollar_volume": 558337521.224823,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.08574006835323633,
+          "volatility": 0.24138128550397697
+        },
+        "20": {
+          "momentum": 0.11361324499474668,
+          "volatility": 0.27143224623077883
+        },
+        "5": {
+          "momentum": 0.013067946886397008,
+          "volatility": 0.37145888223055984
+        }
+      }
+    },
+    {
+      "symbol": "HON",
+      "price": 221.14999389648438,
+      "market_cap": null,
+      "average_dollar_volume": 516988315.79444885,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.08581707846452591,
+          "volatility": 0.22953055786162485
+        },
+        "20": {
+          "momentum": 0.04046102432956622,
+          "volatility": 0.1635275480422219
+        },
+        "5": {
+          "momentum": 0.04607156740767171,
+          "volatility": 0.1540757680057763
+        }
+      }
+    },
+    {
+      "symbol": "HOOD",
+      "price": 95.06999969482422,
+      "market_cap": null,
+      "average_dollar_volume": 1990532884.0763092,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.0978060204381439,
+          "volatility": 0.6901730310143426
+        },
+        "20": {
+          "momentum": -0.20376885695249658,
+          "volatility": 0.48139516005253785
+        },
+        "5": {
+          "momentum": -0.0384343374754198,
+          "volatility": 0.5634391455321325
+        }
+      }
+    },
+    {
+      "symbol": "HPE",
+      "price": 56.689998626708984,
+      "market_cap": null,
+      "average_dollar_volume": 1296310218.1727219,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.20258802207701443,
+          "volatility": 0.6686949241213257
+        },
+        "20": {
+          "momentum": -0.09930092367920351,
+          "volatility": 0.652314522741768
+        },
+        "5": {
+          "momentum": 0.02829670829620179,
+          "volatility": 0.5037948112297775
+        }
+      }
+    },
+    {
+      "symbol": "HUBB",
+      "price": 448.1000061035156,
+      "market_cap": null,
+      "average_dollar_volume": 243324889.64677733,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.05402266504675912,
+          "volatility": 0.2724171700409241
+        },
+        "20": {
+          "momentum": -0.03968966012487474,
+          "volatility": 0.22985893970061236
+        },
+        "5": {
+          "momentum": -0.028193450071396287,
+          "volatility": 0.2689640711093161
+        }
+      }
+    },
+    {
+      "symbol": "HUBS",
+      "price": 270.8800048828125,
+      "market_cap": null,
+      "average_dollar_volume": 278878496.77604675,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.16207635259571562,
+          "volatility": 0.7805957687641844
+        },
+        "20": {
+          "momentum": 0.2673341345613276,
+          "volatility": 0.5747135148064972
+        },
+        "5": {
+          "momentum": 0.1729453625148365,
+          "volatility": 0.5367109170742617
+        }
+      }
+    },
+    {
+      "symbol": "HUT",
+      "price": 61.22999954223633,
+      "market_cap": null,
+      "average_dollar_volume": 501001713.02928925,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.434469368793894,
+          "volatility": 0.8788255553921577
+        },
+        "20": {
+          "momentum": -0.3675893437798725,
+          "volatility": 0.8567244773458236
+        },
+        "5": {
+          "momentum": -0.09623616911828303,
+          "volatility": 0.9031645708751916
+        }
+      }
+    },
+    {
+      "symbol": "IBKR",
+      "price": 80.27999877929688,
+      "market_cap": null,
+      "average_dollar_volume": 355820239.2237091,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.11273214190099912,
+          "volatility": 0.3774253851605416
+        },
+        "20": {
+          "momentum": -0.10040339868845194,
+          "volatility": 0.3605033701682302
+        },
+        "5": {
+          "momentum": -0.02914504282204,
+          "volatility": 0.4486592887962809
+        }
+      }
+    },
+    {
+      "symbol": "ICE",
+      "price": 162.74000549316406,
+      "market_cap": null,
+      "average_dollar_volume": 449109516.9985199,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.04140270713388161,
+          "volatility": 0.21686456910636087
+        },
+        "20": {
+          "momentum": 0.05463034196063221,
+          "volatility": 0.2212365210472844
+        },
+        "5": {
+          "momentum": 0.007303837288944903,
+          "volatility": 0.35202575969373034
+        }
+      }
+    },
+    {
+      "symbol": "INTC",
+      "price": 86.95999908447266,
+      "market_cap": null,
+      "average_dollar_volume": 10165399129.815254,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.04575878738752959,
+          "volatility": 0.637498478589504
+        },
+        "20": {
+          "momentum": -0.2930081375246125,
+          "volatility": 0.503537840239051
+        },
+        "5": {
+          "momentum": -0.03216471272930321,
+          "volatility": 0.6819521744671077
+        }
+      }
+    },
+    {
+      "symbol": "INTU",
+      "price": 343.3900146484375,
+      "market_cap": null,
+      "average_dollar_volume": 1061462521.8579102,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.08839941251485728,
+          "volatility": 0.4355917253557019
+        },
+        "20": {
+          "momentum": 0.24511405057846636,
+          "volatility": 0.3974585030480679
+        },
+        "5": {
+          "momentum": 0.056097250789923336,
+          "volatility": 0.53758894791229
+        }
+      }
+    },
+    {
+      "symbol": "IREN",
+      "price": 24.905000686645508,
+      "market_cap": null,
+      "average_dollar_volume": 1675424544.157505,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.349059023020692,
+          "volatility": 0.8048320198106431
+        },
+        "20": {
+          "momentum": -0.4355807209825381,
+          "volatility": 0.7299672970650496
+        },
+        "5": {
+          "momentum": -0.07725080037621201,
+          "volatility": 0.8294526654586799
+        }
+      }
+    },
+    {
+      "symbol": "ISRG",
+      "price": 452.2900085449219,
+      "market_cap": null,
+      "average_dollar_volume": 962047415.2377319,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.28138370677602276,
+          "volatility": 0.3159976639234102
+        },
+        "20": {
+          "momentum": 0.11626935367175784,
+          "volatility": 0.2919906776952038
+        },
+        "5": {
+          "momentum": 0.05997186689902079,
+          "volatility": 0.3429082407927169
+        }
+      }
+    },
+    {
+      "symbol": "JCI",
+      "price": 143.9600067138672,
+      "market_cap": null,
+      "average_dollar_volume": 516182965.4048157,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.0005560316120356568,
+          "volatility": 0.30992994510998295
+        },
+        "20": {
+          "momentum": -0.04154454301703647,
+          "volatility": 0.3303697854794383
+        },
+        "5": {
+          "momentum": -0.010380109260774817,
+          "volatility": 0.4792027547908377
+        }
+      }
+    },
+    {
+      "symbol": "JD",
+      "price": 25.360000610351562,
+      "market_cap": null,
+      "average_dollar_volume": 217267120.27314186,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.21510369754068326,
+          "volatility": 0.2651503508808087
+        },
+        "20": {
+          "momentum": -0.043379841893678495,
+          "volatility": 0.24246077708741368
+        },
+        "5": {
+          "momentum": -0.061088471105080755,
+          "volatility": 0.22249604269524967
+        }
+      }
+    },
+    {
+      "symbol": "JNJ",
+      "price": 263.80999755859375,
+      "market_cap": null,
+      "average_dollar_volume": 2037031109.8752594,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.03123285906347717,
+          "volatility": 0.23161370461115033
+        },
+        "20": {
+          "momentum": -0.02732100740638055,
+          "volatility": 0.32469449281573937
+        },
+        "5": {
+          "momentum": 0.03228204757713882,
+          "volatility": 0.35554501032221036
+        }
+      }
+    },
+    {
+      "symbol": "JPM",
+      "price": 331.5799865722656,
+      "market_cap": null,
+      "average_dollar_volume": 2503662376.131134,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.054923811304037784,
+          "volatility": 0.15458769324137445
+        },
+        "20": {
+          "momentum": -0.03346356633832648,
+          "volatility": 0.1455399778569115
+        },
+        "5": {
+          "momentum": -0.023960952016920722,
+          "volatility": 0.1734674660012337
+        }
+      }
+    },
+    {
+      "symbol": "KKR",
+      "price": 91.33999633789062,
+      "market_cap": null,
+      "average_dollar_volume": 538742576.3830566,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.0954645147412847,
+          "volatility": 0.3595808724642688
+        },
+        "20": {
+          "momentum": -0.05513604977771602,
+          "volatility": 0.3245227770389285
+        },
+        "5": {
+          "momentum": 0.059505826561851105,
+          "volatility": 0.3296648123657061
+        }
+      }
+    },
+    {
+      "symbol": "KLAC",
+      "price": 145.61000061035156,
+      "market_cap": null,
+      "average_dollar_volume": 1823256886.3902283,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.19253591120811475,
+          "volatility": 0.4879691534067611
+        },
+        "20": {
+          "momentum": -0.22514898877636158,
+          "volatility": 0.4958668374724147
+        },
+        "5": {
+          "momentum": -0.121455316855548,
+          "volatility": 0.672037324894359
+        }
+      }
+    },
+    {
+      "symbol": "KO",
+      "price": 92.70999908447266,
+      "market_cap": null,
+      "average_dollar_volume": 1483132013.6834717,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.047689019353349016,
+          "volatility": 0.16819172753482042
+        },
+        "20": {
+          "momentum": 0.05580231934990354,
+          "volatility": 0.21661281625286213
+        },
+        "5": {
+          "momentum": -0.01267308223715291,
+          "volatility": 0.32320116938291377
+        }
+      }
+    },
+    {
+      "symbol": "KTOS",
+      "price": 38.68000030517578,
+      "market_cap": null,
+      "average_dollar_volume": 193281534.28564072,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.16222651420435674,
+          "volatility": 0.4529692984520718
+        },
+        "20": {
+          "momentum": -0.15212623387105073,
+          "volatility": 0.3451862425302878
+        },
+        "5": {
+          "momentum": -0.043047945140837984,
+          "volatility": 0.23852561048815343
+        }
+      }
+    },
+    {
+      "symbol": "LEU",
+      "price": 102.44999694824219,
+      "market_cap": null,
+      "average_dollar_volume": 111443549.2211914,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.4203677683267769,
+          "volatility": 0.7266675260751114
+        },
+        "20": {
+          "momentum": -0.3033929975784312,
+          "volatility": 0.7119887925603793
+        },
+        "5": {
+          "momentum": -0.10866543612204271,
+          "volatility": 0.3038394924335565
+        }
+      }
+    },
+    {
+      "symbol": "LIN",
+      "price": 508.8299865722656,
+      "market_cap": null,
+      "average_dollar_volume": 1005767471.1781311,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.0003734899307115125,
+          "volatility": 0.1912760077255636
+        },
+        "20": {
+          "momentum": 0.08287039670966889,
+          "volatility": 0.1426430851094385
+        },
+        "5": {
+          "momentum": 0.020865505786786365,
+          "volatility": 0.16296267849706253
+        }
+      }
+    },
+    {
+      "symbol": "LITE",
+      "price": 756.1699829101562,
+      "market_cap": null,
+      "average_dollar_volume": 4662374593.456116,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.090776633723201,
+          "volatility": 0.8896933727255055
+        },
+        "20": {
+          "momentum": -0.19697343672806722,
+          "volatility": 0.8438395289372513
+        },
+        "5": {
+          "momentum": -0.0824627444335313,
+          "volatility": 0.9276211037414426
+        }
+      }
+    },
+    {
+      "symbol": "LLY",
+      "price": 1273.4599609375,
+      "market_cap": null,
+      "average_dollar_volume": 2798907944.6228027,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.10259140344769357,
+          "volatility": 0.30222556254775734
+        },
+        "20": {
+          "momentum": 0.07604820016784086,
+          "volatility": 0.31029425056941007
+        },
+        "5": {
+          "momentum": 0.013070436869209168,
+          "volatility": 0.4275929121963752
+        }
+      }
+    },
+    {
+      "symbol": "LMT",
+      "price": 604.1799926757812,
+      "market_cap": null,
+      "average_dollar_volume": 692354055.6539917,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.05237673632484374,
+          "volatility": 0.28857826125519415
+        },
+        "20": {
+          "momentum": 0.16286857247443187,
+          "volatility": 0.3384511823777508
+        },
+        "5": {
+          "momentum": 0.0943504922865579,
+          "volatility": 0.48839943143128184
+        }
+      }
+    },
+    {
+      "symbol": "LOW",
+      "price": 198.67999267578125,
+      "market_cap": null,
+      "average_dollar_volume": 622005274.4612122,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.054265084995768764,
+          "volatility": 0.26194973644517683
+        },
+        "20": {
+          "momentum": 0.049661844659270704,
+          "volatility": 0.31660223308023566
+        },
+        "5": {
+          "momentum": 0.006586218263296528,
+          "volatility": 0.41029453627997814
+        }
+      }
+    },
+    {
+      "symbol": "LRCX",
+      "price": 230.10000610351562,
+      "market_cap": null,
+      "average_dollar_volume": 2804550759.9095154,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.22712614147498966,
+          "volatility": 0.5686160764293141
+        },
+        "20": {
+          "momentum": -0.27001043005862924,
+          "volatility": 0.5603462518094963
+        },
+        "5": {
+          "momentum": -0.12821094197497773,
+          "volatility": 0.8917624671795474
+        }
+      }
+    },
+    {
+      "symbol": "LUNR",
+      "price": 10.520000457763672,
+      "market_cap": null,
+      "average_dollar_volume": 100931496.308918,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.1412244524274554,
+          "volatility": 0.7595704797288018
+        },
+        "20": {
+          "momentum": -0.32607298596168155,
+          "volatility": 0.6388662866135153
+        },
+        "5": {
+          "momentum": -0.024118671766966582,
+          "volatility": 0.45682140128974574
+        }
+      }
+    },
+    {
+      "symbol": "MA",
+      "price": 623.5999755859375,
+      "market_cap": null,
+      "average_dollar_volume": 1828755975.8157349,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.08010739058759309,
+          "volatility": 0.18149150204910475
+        },
+        "20": {
+          "momentum": 0.09856416588659078,
+          "volatility": 0.1915332076488962
+        },
+        "5": {
+          "momentum": 0.010009382344012163,
+          "volatility": 0.18723579003937435
+        }
+      }
+    },
+    {
+      "symbol": "MAR",
+      "price": 390.7099914550781,
+      "market_cap": null,
+      "average_dollar_volume": 515377036.3948059,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.040561361518934635,
+          "volatility": 0.26338424211215167
+        },
+        "20": {
+          "momentum": 0.10987697869473734,
+          "volatility": 0.22482647834759142
+        },
+        "5": {
+          "momentum": 0.006854796407128161,
+          "volatility": 0.2701657137648769
+        }
+      }
+    },
+    {
+      "symbol": "MARA",
+      "price": 7.019999980926514,
+      "market_cap": null,
+      "average_dollar_volume": 328367217.71380186,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.4060913568381517,
+          "volatility": 0.8249988927829123
+        },
+        "20": {
+          "momentum": -0.4406374602201931,
+          "volatility": 0.5557510877398356
+        },
+        "5": {
+          "momentum": -0.06772911217419686,
+          "volatility": 0.6753310520198149
+        }
+      }
+    },
+    {
+      "symbol": "MCD",
+      "price": 248.4600067138672,
+      "market_cap": null,
+      "average_dollar_volume": 1362103960.0449371,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.07443002363964069,
+          "volatility": 0.2079921238504366
+        },
+        "20": {
+          "momentum": 0.05057085291275776,
+          "volatility": 0.18717281268084424
+        },
+        "5": {
+          "momentum": 0.02259540464082721,
+          "volatility": 0.262400411934259
+        }
+      }
+    },
+    {
+      "symbol": "MCHP",
+      "price": 74.05000305175781,
+      "market_cap": null,
+      "average_dollar_volume": 725560503.6208725,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.012798280990968913,
+          "volatility": 0.48484565564960597
+        },
+        "20": {
+          "momentum": -0.05896555147654814,
+          "volatility": 0.3646093997257098
+        },
+        "5": {
+          "momentum": 0.002708254323211756,
+          "volatility": 0.3476647780336537
+        }
+      }
+    },
+    {
+      "symbol": "MDB",
+      "price": 371.0899963378906,
+      "market_cap": null,
+      "average_dollar_volume": 1170484578.9414978,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.13873202030709364,
+          "volatility": 0.7857293907111946
+        },
+        "20": {
+          "momentum": -0.09587273625731252,
+          "volatility": 0.901539023324605
+        },
+        "5": {
+          "momentum": 0.09929788869387801,
+          "volatility": 0.8678999367213361
+        }
+      }
+    },
+    {
+      "symbol": "MDLZ",
+      "price": 63.79999923706055,
+      "market_cap": null,
+      "average_dollar_volume": 473691595.7152748,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.011414035908467568,
+          "volatility": 0.2099477291797406
+        },
+        "20": {
+          "momentum": 0.058921149162830755,
+          "volatility": 0.2643708502929059
+        },
+        "5": {
+          "momentum": -0.0017211799501516412,
+          "volatility": 0.40049331183032444
+        }
+      }
+    },
+    {
+      "symbol": "MDT",
+      "price": 95.41000366210938,
+      "market_cap": null,
+      "average_dollar_volume": 3077490637.7341843,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.11317237990023488,
+          "volatility": 0.2403023364628322
+        },
+        "20": {
+          "momentum": 0.07637640251666733,
+          "volatility": 0.3030145040424559
+        },
+        "5": {
+          "momentum": 0.006965737858674048,
+          "volatility": 0.41429229900743986
+        }
+      }
+    },
+    {
+      "symbol": "MELI",
+      "price": 1810.1500244140625,
+      "market_cap": null,
+      "average_dollar_volume": 861306149.7229004,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.04007994614154675,
+          "volatility": 0.39710723127484615
+        },
+        "20": {
+          "momentum": 0.03283105741917702,
+          "volatility": 0.4101382272753878
+        },
+        "5": {
+          "momentum": -0.013004348738242966,
+          "volatility": 0.2437584284980741
+        }
+      }
+    },
+    {
+      "symbol": "META",
+      "price": 642.6199951171875,
+      "market_cap": null,
+      "average_dollar_volume": 13748107457.289734,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.1921784690835091,
+          "volatility": 0.4563121564294448
+        },
+        "20": {
+          "momentum": -0.14506556411562077,
+          "volatility": 0.41659735400858605
+        },
+        "5": {
+          "momentum": -0.09404652329016938,
+          "volatility": 0.4642449775077466
+        }
+      }
+    },
+    {
+      "symbol": "MO",
+      "price": 74.30999755859375,
+      "market_cap": null,
+      "average_dollar_volume": 538968512.3544693,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.09375912405480413,
+          "volatility": 0.22619307802993216
+        },
+        "20": {
+          "momentum": 0.07977329102171482,
+          "volatility": 0.23281610893578406
+        },
+        "5": {
+          "momentum": -0.010651085677764738,
+          "volatility": 0.33617624671262447
+        }
+      }
+    },
+    {
+      "symbol": "MPWR",
+      "price": 1140.1199951171875,
+      "market_cap": null,
+      "average_dollar_volume": 928716016.8572998,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.13376593734067987,
+          "volatility": 0.5346700969506247
+        },
+        "20": {
+          "momentum": -0.16623158016519746,
+          "volatility": 0.5535490140868441
+        },
+        "5": {
+          "momentum": -0.05842127999120916,
+          "volatility": 0.7971647974593757
+        }
+      }
+    },
+    {
+      "symbol": "MRK",
+      "price": 145.27000427246094,
+      "market_cap": null,
+      "average_dollar_volume": 1404820398.765564,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.11926968015323913,
+          "volatility": 0.35861985189702494
+        },
+        "20": {
+          "momentum": -0.023591843901294318,
+          "volatility": 0.30318362660197534
+        },
+        "5": {
+          "momentum": -0.00465907975333768,
+          "volatility": 0.34687253278358227
+        }
+      }
+    },
+    {
+      "symbol": "MRVL",
+      "price": 228.50999450683594,
+      "market_cap": null,
+      "average_dollar_volume": 5299784479.037857,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.24664479379366044,
+          "volatility": 0.7088263396954997
+        },
+        "20": {
+          "momentum": -0.12762467596772786,
+          "volatility": 0.6356922784314029
+        },
+        "5": {
+          "momentum": 0.0029846493890892667,
+          "volatility": 0.8030367102338489
+        }
+      }
+    },
+    {
+      "symbol": "MS",
+      "price": 179.49000549316406,
+      "market_cap": null,
+      "average_dollar_volume": 1173132078.2562256,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.14552981253321473,
+          "volatility": 0.23513108976482586
+        },
+        "20": {
+          "momentum": -0.08568077160924692,
+          "volatility": 0.2461900570873415
+        },
+        "5": {
+          "momentum": -0.005981069874552936,
+          "volatility": 0.3926680635954581
+        }
+      }
+    },
+    {
+      "symbol": "MSFT",
+      "price": 524.510009765625,
+      "market_cap": null,
+      "average_dollar_volume": 10633352253.750763,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.16273554127433032,
+          "volatility": 0.24376429535780036
+        },
+        "20": {
+          "momentum": 0.016157520064316477,
+          "volatility": 0.19692738346845878
+        },
+        "5": {
+          "momentum": -0.008581378191280464,
+          "volatility": 0.19614358951711724
+        }
+      }
+    },
+    {
+      "symbol": "MSTR",
+      "price": 146.00999450683594,
+      "market_cap": null,
+      "average_dollar_volume": 2930714709.6636963,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.49386124102790907,
+          "volatility": 0.871632349505197
+        },
+        "20": {
+          "momentum": -0.07944017435867345,
+          "volatility": 0.681266610290754
+        },
+        "5": {
+          "momentum": 0.06709049589223759,
+          "volatility": 0.7804240024393686
+        }
+      }
+    },
+    {
+      "symbol": "MU",
+      "price": 877.5499877929688,
+      "market_cap": null,
+      "average_dollar_volume": 26574508295.477905,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.003304157886689918,
+          "volatility": 0.53818095435062
+        },
+        "20": {
+          "momentum": -0.1891654987267143,
+          "volatility": 0.49453357334002
+        },
+        "5": {
+          "momentum": -0.0014678883790896213,
+          "volatility": 0.6086903597680209
+        }
+      }
+    },
+    {
+      "symbol": "NBIS",
+      "price": 158.74000549316406,
+      "market_cap": null,
+      "average_dollar_volume": 4067566420.9043884,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.1575650816571582,
+          "volatility": 1.0820861439835954
+        },
+        "20": {
+          "momentum": -0.3311422733390259,
+          "volatility": 0.778726355607512
+        },
+        "5": {
+          "momentum": -0.0406719990203096,
+          "volatility": 0.6054619222665306
+        }
+      }
+    },
+    {
+      "symbol": "NDAQ",
+      "price": 102.55999755859375,
+      "market_cap": null,
+      "average_dollar_volume": 308146494.8892975,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.07776369915621273,
+          "volatility": 0.2488054846817733
+        },
+        "20": {
+          "momentum": 0.09631207068856029,
+          "volatility": 0.314770994024448
+        },
+        "5": {
+          "momentum": 0.09141211265620486,
+          "volatility": 0.5354740480356053
+        }
+      }
+    },
+    {
+      "symbol": "NEE",
+      "price": 82.0999984741211,
+      "market_cap": null,
+      "average_dollar_volume": 990866980.5604172,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.066302761410448,
+          "volatility": 0.18205441247154278
+        },
+        "20": {
+          "momentum": 0.07912718846188471,
+          "volatility": 0.21863830609082238
+        },
+        "5": {
+          "momentum": 0.02882199667174845,
+          "volatility": 0.3982042958833558
+        }
+      }
+    },
+    {
+      "symbol": "NEM",
+      "price": 108.87000274658203,
+      "market_cap": null,
+      "average_dollar_volume": 647932443.5918045,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.13690476522443018,
+          "volatility": 0.43510221207473815
+        },
+        "20": {
+          "momentum": -0.10343405688073937,
+          "volatility": 0.35573187982755256
+        },
+        "5": {
+          "momentum": -0.08204043720676923,
+          "volatility": 0.30933549891116413
+        }
+      }
+    },
+    {
+      "symbol": "NET",
+      "price": 325.7300109863281,
+      "market_cap": null,
+      "average_dollar_volume": 991914343.4954834,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.14940539238976358,
+          "volatility": 0.636214026067497
+        },
+        "20": {
+          "momentum": -0.06672963944890686,
+          "volatility": 0.5688901127938255
+        },
+        "5": {
+          "momentum": 0.09932509080602037,
+          "volatility": 0.6514360810078127
+        }
+      }
+    },
+    {
+      "symbol": "NFLX",
+      "price": 65.8499984741211,
+      "market_cap": null,
+      "average_dollar_volume": 2914017262.981529,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.1000409987427191,
+          "volatility": 0.353427665864278
+        },
+        "20": {
+          "momentum": -0.07449055429507023,
+          "volatility": 0.3515386401833277
+        },
+        "5": {
+          "momentum": -0.06635474813802966,
+          "volatility": 0.475339171224237
+        }
+      }
+    },
+    {
+      "symbol": "NKE",
+      "price": 37.29999923706055,
+      "market_cap": null,
+      "average_dollar_volume": 1504812602.086792,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.11799483495954832,
+          "volatility": 0.2918396963735884
+        },
+        "20": {
+          "momentum": 0.04335662201567958,
+          "volatility": 0.30777905439694786
+        },
+        "5": {
+          "momentum": 0.004578458498653237,
+          "volatility": 0.3135077022132059
+        }
+      }
+    },
+    {
+      "symbol": "NOC",
+      "price": 551.4400024414062,
+      "market_cap": null,
+      "average_dollar_volume": 564696353.77594,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.03101809406889111,
+          "volatility": 0.27270407740494734
+        },
+        "20": {
+          "momentum": 0.08015359693709967,
+          "volatility": 0.338422794606595
+        },
+        "5": {
+          "momentum": 0.06074715881140058,
+          "volatility": 0.3855305197372499
+        }
+      }
+    },
+    {
+      "symbol": "NOK",
+      "price": 8.140000343322754,
+      "market_cap": null,
+      "average_dollar_volume": 732747498.6450481,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.10451042830782298,
+          "volatility": 0.6420884634253855
+        },
+        "20": {
+          "momentum": -0.2165543720550488,
+          "volatility": 0.7390257013957469
+        },
+        "5": {
+          "momentum": -0.10940918626229068,
+          "volatility": 1.1678449251692864
+        }
+      }
+    },
+    {
+      "symbol": "NOW",
+      "price": 158.9600067138672,
+      "market_cap": null,
+      "average_dollar_volume": 1604353576.2884521,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.4441719556154582,
+          "volatility": 0.4969215228949357
+        },
+        "20": {
+          "momentum": 0.172098602248967,
+          "volatility": 0.3897103640869039
+        },
+        "5": {
+          "momentum": 0.11967320805155035,
+          "volatility": 0.0974614450563247
+        }
+      }
+    },
+    {
+      "symbol": "NRG",
+      "price": 92.30999755859375,
+      "market_cap": null,
+      "average_dollar_volume": 323245138.48407745,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.3109651659514311,
+          "volatility": 0.5470962866669169
+        },
+        "20": {
+          "momentum": -0.08030292883759793,
+          "volatility": 0.5138158042718722
+        },
+        "5": {
+          "momentum": -0.11026508377259037,
+          "volatility": 0.4528284176334669
+        }
+      }
+    },
+    {
+      "symbol": "NTAP",
+      "price": 215.47999572753906,
+      "market_cap": null,
+      "average_dollar_volume": 563227060.6450653,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.23853317058928414,
+          "volatility": 0.434530564026252
+        },
+        "20": {
+          "momentum": 0.07124037914924908,
+          "volatility": 0.4823532814260516
+        },
+        "5": {
+          "momentum": 0.05731105250678015,
+          "volatility": 0.324322193346565
+        }
+      }
+    },
+    {
+      "symbol": "NVDA",
+      "price": 210.9600067138672,
+      "market_cap": null,
+      "average_dollar_volume": 23762022785.774994,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.08162435385433464,
+          "volatility": 0.3591986931404463
+        },
+        "20": {
+          "momentum": -0.06269160772730487,
+          "volatility": 0.29323028838706094
+        },
+        "5": {
+          "momentum": -0.014804082084059922,
+          "volatility": 0.4182313894836037
+        }
+      }
+    },
+    {
+      "symbol": "NVT",
+      "price": 125.4000015258789,
+      "market_cap": null,
+      "average_dollar_volume": 350161546.81747437,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.13397790826664902,
+          "volatility": 0.5463535632362104
+        },
+        "20": {
+          "momentum": -0.23727267968683152,
+          "volatility": 0.6086643677024077
+        },
+        "5": {
+          "momentum": -0.11708792083607378,
+          "volatility": 1.0003358283579733
+        }
+      }
+    },
+    {
+      "symbol": "NXPI",
+      "price": 234.9199981689453,
+      "market_cap": null,
+      "average_dollar_volume": 772880835.6044769,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.04176866267010382,
+          "volatility": 0.37142702369794817
+        },
+        "20": {
+          "momentum": -0.013272864742128854,
+          "volatility": 0.31441458407123335
+        },
+        "5": {
+          "momentum": 0.024375338129586366,
+          "volatility": 0.3393026103297319
+        }
+      }
+    },
+    {
+      "symbol": "O",
+      "price": 56.88999938964844,
+      "market_cap": null,
+      "average_dollar_volume": 469885242.21782684,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.1170262436724161,
+          "volatility": 0.1554355517493443
+        },
+        "20": {
+          "momentum": 0.024306778031465193,
+          "volatility": 0.20132833518440724
+        },
+        "5": {
+          "momentum": 0.01444360791987731,
+          "volatility": 0.3128123614157401
+        }
+      }
+    },
+    {
+      "symbol": "OKLO",
+      "price": 26.350000381469727,
+      "market_cap": null,
+      "average_dollar_volume": 311498816.3319969,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.35872474364519624,
+          "volatility": 0.789007026068725
+        },
+        "20": {
+          "momentum": -0.307308103383508,
+          "volatility": 0.5941196512129111
+        },
+        "5": {
+          "momentum": -0.05791916237592776,
+          "volatility": 0.2997541148592007
+        }
+      }
+    },
+    {
+      "symbol": "OKTA",
+      "price": 213.0500030517578,
+      "market_cap": null,
+      "average_dollar_volume": 672114070.677185,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.5172340537665314,
+          "volatility": 0.8256314915785528
+        },
+        "20": {
+          "momentum": 0.09150059115201326,
+          "volatility": 0.6513933714874077
+        },
+        "5": {
+          "momentum": 0.1377230017166342,
+          "volatility": 0.6806125116264747
+        }
+      }
+    },
+    {
+      "symbol": "ON",
+      "price": 72.25,
+      "market_cap": null,
+      "average_dollar_volume": 813513383.663063,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.13721039117366307,
+          "volatility": 0.5012520324464076
+        },
+        "20": {
+          "momentum": -0.06411913398857849,
+          "volatility": 0.47400799445145425
+        },
+        "5": {
+          "momentum": 0.0031936041051694453,
+          "volatility": 0.5147302304627333
+        }
+      }
+    },
+    {
+      "symbol": "ONTO",
+      "price": 198.67999267578125,
+      "market_cap": null,
+      "average_dollar_volume": 259635972.1800995,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.2069296292215429,
+          "volatility": 0.7805473839511461
+        },
+        "20": {
+          "momentum": -0.3092755438821192,
+          "volatility": 0.6628467655213384
+        },
+        "5": {
+          "momentum": -0.09977346885793115,
+          "volatility": 0.8274649176932233
+        }
+      }
+    },
+    {
+      "symbol": "ORCL",
+      "price": 126.16000366210938,
+      "market_cap": null,
+      "average_dollar_volume": 3961786317.570305,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.01097517970585804,
+          "volatility": 0.5283658771827077
+        },
+        "20": {
+          "momentum": -0.07979578376638541,
+          "volatility": 0.55451512240278
+        },
+        "5": {
+          "momentum": -0.016142806943766685,
+          "volatility": 0.27938267886055523
+        }
+      }
+    },
+    {
+      "symbol": "OXY",
+      "price": 64.16999816894531,
+      "market_cap": null,
+      "average_dollar_volume": 542152071.554718,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.14691684171433783,
+          "volatility": 0.30826563088947534
+        },
+        "20": {
+          "momentum": 0.1285613345080221,
+          "volatility": 0.26667821996862145
+        },
+        "5": {
+          "momentum": 0.028695047614306857,
+          "volatility": 0.1963256132618502
+        }
+      }
+    },
+    {
+      "symbol": "PANW",
+      "price": 380.54998779296875,
+      "market_cap": null,
+      "average_dollar_volume": 2044879779.9360657,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.16847824966580394,
+          "volatility": 0.6320819274188235
+        },
+        "20": {
+          "momentum": 0.015504076719861093,
+          "volatility": 0.5819517671722455
+        },
+        "5": {
+          "momentum": 0.11271926255254017,
+          "volatility": 0.5192574143928421
+        }
+      }
+    },
+    {
+      "symbol": "PEP",
+      "price": 135.77000427246094,
+      "market_cap": null,
+      "average_dollar_volume": 1313503435.6717682,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.03159766599293634,
+          "volatility": 0.1962088561387218
+        },
+        "20": {
+          "momentum": 0.05550803948233751,
+          "volatility": 0.25193114237439135
+        },
+        "5": {
+          "momentum": 0.032549993159133095,
+          "volatility": 0.30710058912776755
+        }
+      }
+    },
+    {
+      "symbol": "PFE",
+      "price": 30.030000686645508,
+      "market_cap": null,
+      "average_dollar_volume": 856024347.171278,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.20553997874734287,
+          "volatility": 0.19690610035948233
+        },
+        "20": {
+          "momentum": 0.04743636577371668,
+          "volatility": 0.20728906993836246
+        },
+        "5": {
+          "momentum": 0.015213007576068804,
+          "volatility": 0.262628317407126
+        }
+      }
+    },
+    {
+      "symbol": "PG",
+      "price": 161.02000427246094,
+      "market_cap": null,
+      "average_dollar_volume": 1551065561.6482544,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.11850511783110673,
+          "volatility": 0.20413609306485075
+        },
+        "20": {
+          "momentum": 0.10114209790773132,
+          "volatility": 0.2914870338780352
+        },
+        "5": {
+          "momentum": 0.010480063413743856,
+          "volatility": 0.5204998221730519
+        }
+      }
+    },
+    {
+      "symbol": "PL",
+      "price": 13.40999984741211,
+      "market_cap": null,
+      "average_dollar_volume": 162276644.80581284,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.3367952372503126,
+          "volatility": 0.5929537616386482
+        },
+        "20": {
+          "momentum": -0.2306368552713075,
+          "volatility": 0.6839063020330424
+        },
+        "5": {
+          "momentum": -0.011061988758318209,
+          "volatility": 0.4672976155825792
+        }
+      }
+    },
+    {
+      "symbol": "PLD",
+      "price": 126.44999694824219,
+      "market_cap": null,
+      "average_dollar_volume": 559109856.1534882,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.13502979111773372,
+          "volatility": 0.1864404954524984
+        },
+        "20": {
+          "momentum": -0.04960545623548884,
+          "volatility": 0.22691377228155424
+        },
+        "5": {
+          "momentum": 0.005566576129162559,
+          "volatility": 0.24681772886531875
+        }
+      }
+    },
+    {
+      "symbol": "PM",
+      "price": 199.47000122070312,
+      "market_cap": null,
+      "average_dollar_volume": 899629334.4082642,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.03890625635782885,
+          "volatility": 0.2363896398316825
+        },
+        "20": {
+          "momentum": 0.04719658596603127,
+          "volatility": 0.29184295790760423
+        },
+        "5": {
+          "momentum": -0.027923956202515643,
+          "volatility": 0.25515421488624
+        }
+      }
+    },
+    {
+      "symbol": "POWL",
+      "price": 150.9499969482422,
+      "market_cap": null,
+      "average_dollar_volume": 120068164.06822205,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.2787864560569846,
+          "volatility": 0.5076248356366964
+        },
+        "20": {
+          "momentum": -0.2035561762229533,
+          "volatility": 0.5976661979471038
+        },
+        "5": {
+          "momentum": -0.08592710726566544,
+          "volatility": 0.905427969884296
+        }
+      }
+    },
+    {
+      "symbol": "PURR",
+      "price": 8.779999732971191,
+      "market_cap": null,
+      "average_dollar_volume": 137778815.9901476,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.39365070907197053,
+          "volatility": 1.0736516010372135
+        },
+        "20": {
+          "momentum": -0.31673155857393265,
+          "volatility": 0.7487635333274338
+        },
+        "5": {
+          "momentum": -0.031973536009986314,
+          "volatility": 0.894846182999127
+        }
+      }
+    },
+    {
+      "symbol": "PYPL",
+      "price": 57.02000045776367,
+      "market_cap": null,
+      "average_dollar_volume": 579610358.3400536,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.01092803211518445,
+          "volatility": 0.3712965057798895
+        },
+        "20": {
+          "momentum": 0.03597382829399165,
+          "volatility": 0.19180162181899219
+        },
+        "5": {
+          "momentum": 0.005643733518842842,
+          "volatility": 0.1240912121295668
+        }
+      }
+    },
+    {
+      "symbol": "QCOM",
+      "price": 175.91000366210938,
+      "market_cap": null,
+      "average_dollar_volume": 1805174844.083023,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.16035617796739654,
+          "volatility": 0.44113165382384917
+        },
+        "20": {
+          "momentum": -0.12902905085452088,
+          "volatility": 0.3759248649162225
+        },
+        "5": {
+          "momentum": 0.022078920680273617,
+          "volatility": 0.3007964901435101
+        }
+      }
+    },
+    {
+      "symbol": "RDW",
+      "price": 8.359999656677246,
+      "market_cap": null,
+      "average_dollar_volume": 120918357.18144894,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.0129870846379736,
+          "volatility": 0.7335876327558527
+        },
+        "20": {
+          "momentum": -0.2805507969869472,
+          "volatility": 0.51082874098718
+        },
+        "5": {
+          "momentum": -0.0035757670343106174,
+          "volatility": 0.5351682213237505
+        }
+      }
+    },
+    {
+      "symbol": "REGN",
+      "price": 805.02001953125,
+      "market_cap": null,
+      "average_dollar_volume": 537455171.2893677,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.09031068376418117,
+          "volatility": 0.28082796018548567
+        },
+        "20": {
+          "momentum": 0.02154718285538193,
+          "volatility": 0.3205492487530072
+        },
+        "5": {
+          "momentum": 0.018059070583545944,
+          "volatility": 0.32594895881736935
+        }
+      }
+    },
+    {
+      "symbol": "RIOT",
+      "price": 12.529999732971191,
+      "market_cap": null,
+      "average_dollar_volume": 274831246.62828445,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.43354433736063835,
+          "volatility": 0.7941555527514796
+        },
+        "20": {
+          "momentum": -0.455217402914296,
+          "volatility": 0.6541786742432967
+        },
+        "5": {
+          "momentum": -0.08673473111493768,
+          "volatility": 0.6471428208519553
+        }
+      }
+    },
+    {
+      "symbol": "RKLB",
+      "price": 52.599998474121094,
+      "market_cap": null,
+      "average_dollar_volume": 1337683919.971695,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.1867656427652804,
+          "volatility": 0.6108957268433796
+        },
+        "20": {
+          "momentum": -0.2887085781634855,
+          "volatility": 0.619206443618754
+        },
+        "5": {
+          "momentum": 0.03461837758164554,
+          "volatility": 0.5983332178365703
+        }
+      }
+    },
+    {
+      "symbol": "ROK",
+      "price": 426.1099853515625,
+      "market_cap": null,
+      "average_dollar_volume": 373475496.6567993,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.09532711297665375,
+          "volatility": 0.2633463189419615
+        },
+        "20": {
+          "momentum": -0.01851896500737682,
+          "volatility": 0.23913094449817815
+        },
+        "5": {
+          "momentum": -0.00028159827246299063,
+          "volatility": 0.3414226295624653
+        }
+      }
+    },
+    {
+      "symbol": "RTX",
+      "price": 191.00999450683594,
+      "market_cap": null,
+      "average_dollar_volume": 921604607.563858,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.10901208062175116,
+          "volatility": 0.20077141767620385
+        },
+        "20": {
+          "momentum": 0.008500531479591844,
+          "volatility": 0.2312550023528501
+        },
+        "5": {
+          "momentum": -0.015006207145145223,
+          "volatility": 0.22315510674019204
+        }
+      }
+    },
+    {
+      "symbol": "S",
+      "price": 24.0,
+      "market_cap": null,
+      "average_dollar_volume": 281230564.4360542,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.304347853128762,
+          "volatility": 0.6515554692977925
+        },
+        "20": {
+          "momentum": 0.07238609919491656,
+          "volatility": 0.5667370504641408
+        },
+        "5": {
+          "momentum": 0.11214087510887927,
+          "volatility": 0.4788896195810714
+        }
+      }
+    },
+    {
+      "symbol": "SBAC",
+      "price": 184.75,
+      "market_cap": null,
+      "average_dollar_volume": 200745018.55178833,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.01566798350272358,
+          "volatility": 0.3385033881648356
+        },
+        "20": {
+          "momentum": 0.11194707665835901,
+          "volatility": 0.4256940932739521
+        },
+        "5": {
+          "momentum": -0.012348966046950682,
+          "volatility": 0.5267733489998254
+        }
+      }
+    },
+    {
+      "symbol": "SBET",
+      "price": 7.630000114440918,
+      "market_cap": null,
+      "average_dollar_volume": 61420695.521473885,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.19032765929337048,
+          "volatility": 0.7515170995052244
+        },
+        "20": {
+          "momentum": -0.2076843173657753,
+          "volatility": 0.595583941455003
+        },
+        "5": {
+          "momentum": 0.00792601603949139,
+          "volatility": 0.8405720191587017
+        }
+      }
+    },
+    {
+      "symbol": "SBUX",
+      "price": 100.80000305175781,
+      "market_cap": null,
+      "average_dollar_volume": 895489263.2686996,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.047708979642526295,
+          "volatility": 0.2270436787650503
+        },
+        "20": {
+          "momentum": 0.06261862115946526,
+          "volatility": 0.26058083172623925
+        },
+        "5": {
+          "momentum": 0.033634193207538576,
+          "volatility": 0.24644638690878504
+        }
+      }
+    },
+    {
+      "symbol": "SCHW",
+      "price": 90.58000183105469,
+      "market_cap": null,
+      "average_dollar_volume": 825327731.939354,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.13179334571723544,
+          "volatility": 0.23189034292132127
+        },
+        "20": {
+          "momentum": -0.08532764871656984,
+          "volatility": 0.21466061729434283
+        },
+        "5": {
+          "momentum": -0.015006494858164743,
+          "volatility": 0.25129772713110476
+        }
+      }
+    },
+    {
+      "symbol": "SERV",
+      "price": 2.7799999713897705,
+      "market_cap": null,
+      "average_dollar_volume": 11870971.744154692,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.4220374211099679,
+          "volatility": 0.7152219270887578
+        },
+        "20": {
+          "momentum": -0.3752808785291041,
+          "volatility": 0.6541797958953997
+        },
+        "5": {
+          "momentum": -0.13931889938898412,
+          "volatility": 0.40772757981673835
+        }
+      }
+    },
+    {
+      "symbol": "SHOP",
+      "price": 168.67999267578125,
+      "market_cap": null,
+      "average_dollar_volume": 1349268335.615158,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.3781044981451034,
+          "volatility": 0.6031004130187974
+        },
+        "20": {
+          "momentum": 0.18579959701779436,
+          "volatility": 0.41909455845684346
+        },
+        "5": {
+          "momentum": -0.004955235815883863,
+          "volatility": 0.28507133791061984
+        }
+      }
+    },
+    {
+      "symbol": "SLB",
+      "price": 53.060001373291016,
+      "market_cap": null,
+      "average_dollar_volume": 640796980.0267792,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.084849755445225,
+          "volatility": 0.3717834914666005
+        },
+        "20": {
+          "momentum": 0.029491665323307048,
+          "volatility": 0.39970398406837526
+        },
+        "5": {
+          "momentum": 0.07191921966244474,
+          "volatility": 0.6033703211289283
+        }
+      }
+    },
+    {
+      "symbol": "SMCI",
+      "price": 32.939998626708984,
+      "market_cap": null,
+      "average_dollar_volume": 1354252772.800951,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.18788312911931948,
+          "volatility": 0.7968161062444169
+        },
+        "20": {
+          "momentum": -0.2385575611473686,
+          "volatility": 0.701300438353876
+        },
+        "5": {
+          "momentum": 0.04141636107177926,
+          "volatility": 0.8792933843994307
+        }
+      }
+    },
+    {
+      "symbol": "SMR",
+      "price": 5.380000114440918,
+      "market_cap": null,
+      "average_dollar_volume": 213242353.2546711,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.37441861909295815,
+          "volatility": 0.8222968091183266
+        },
+        "20": {
+          "momentum": -0.36104512283936707,
+          "volatility": 0.5772145431517602
+        },
+        "5": {
+          "momentum": -0.07718693227341888,
+          "volatility": 0.15224015393230375
+        }
+      }
+    },
+    {
+      "symbol": "SNDK",
+      "price": 1238.030029296875,
+      "market_cap": null,
+      "average_dollar_volume": 12176571376.59851,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.032758783805950986,
+          "volatility": 0.811081159387667
+        },
+        "20": {
+          "momentum": -0.30361683243683735,
+          "volatility": 0.5563107763090287
+        },
+        "5": {
+          "momentum": -0.047156174269762485,
+          "volatility": 0.8081895507548107
+        }
+      }
+    },
+    {
+      "symbol": "SNOW",
+      "price": 325.42999267578125,
+      "market_cap": null,
+      "average_dollar_volume": 1513268385.845337,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.09168059715763732,
+          "volatility": 0.5481078764722345
+        },
+        "20": {
+          "momentum": -0.0312853774163383,
+          "volatility": 0.5516977175272247
+        },
+        "5": {
+          "momentum": 0.06058531012827739,
+          "volatility": 0.38814324680865875
+        }
+      }
+    },
+    {
+      "symbol": "SO",
+      "price": 92.88999938964844,
+      "market_cap": null,
+      "average_dollar_volume": 563353757.0860672,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.015369906768374686,
+          "volatility": 0.1725953202998743
+        },
+        "20": {
+          "momentum": 0.12077705680447104,
+          "volatility": 0.21001713182710316
+        },
+        "5": {
+          "momentum": 0.01875410264037458,
+          "volatility": 0.36992426219221436
+        }
+      }
+    },
+    {
+      "symbol": "STM",
+      "price": 44.02000045776367,
+      "market_cap": null,
+      "average_dollar_volume": 495627808.0882263,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.17037317530258933,
+          "volatility": 0.4609441324888876
+        },
+        "20": {
+          "momentum": -0.15232042751641828,
+          "volatility": 0.5337528202896656
+        },
+        "5": {
+          "momentum": -0.030182836534631163,
+          "volatility": 0.6223429699173763
+        }
+      }
+    },
+    {
+      "symbol": "STX",
+      "price": 630.489990234375,
+      "market_cap": null,
+      "average_dollar_volume": 3926326407.5164795,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.25971022490087914,
+          "volatility": 0.6602663629256109
+        },
+        "20": {
+          "momentum": -0.31231528366005623,
+          "volatility": 0.6969584268275515
+        },
+        "5": {
+          "momentum": -0.013333155038330213,
+          "volatility": 0.7595968367871486
+        }
+      }
+    },
+    {
+      "symbol": "SYK",
+      "price": 307.1499938964844,
+      "market_cap": null,
+      "average_dollar_volume": 735045204.7053528,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.11748653500897666,
+          "volatility": 0.3552855991433813
+        },
+        "20": {
+          "momentum": 0.12773538851536848,
+          "volatility": 0.28271902174102714
+        },
+        "5": {
+          "momentum": 0.04238780316006996,
+          "volatility": 0.33162232658761526
+        }
+      }
+    },
+    {
+      "symbol": "SYM",
+      "price": 39.279998779296875,
+      "market_cap": null,
+      "average_dollar_volume": 61542336.6252327,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.08523521109606103,
+          "volatility": 0.5680085289025342
+        },
+        "20": {
+          "momentum": -0.09638836723590216,
+          "volatility": 0.5038058159658814
+        },
+        "5": {
+          "momentum": 0.013154457454515711,
+          "volatility": 0.5458969251728456
+        }
+      }
+    },
+    {
+      "symbol": "TER",
+      "price": 308.8500061035156,
+      "market_cap": null,
+      "average_dollar_volume": 1037354891.9433594,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.1549700009418542,
+          "volatility": 0.6855029625096211
+        },
+        "20": {
+          "momentum": -0.22473517165007573,
+          "volatility": 0.6551195746519468
+        },
+        "5": {
+          "momentum": -0.04969228891225963,
+          "volatility": 0.8937807010191915
+        }
+      }
+    },
+    {
+      "symbol": "TGT",
+      "price": 152.75999450683594,
+      "market_cap": null,
+      "average_dollar_volume": 613290224.2736053,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.057089476946937,
+          "volatility": 0.2855406571541243
+        },
+        "20": {
+          "momentum": -0.029787250125815956,
+          "volatility": 0.26864837688318366
+        },
+        "5": {
+          "momentum": -0.009723843208963245,
+          "volatility": 0.4136883662772899
+        }
+      }
+    },
+    {
+      "symbol": "TMO",
+      "price": 673.8200073242188,
+      "market_cap": null,
+      "average_dollar_volume": 1647180830.9768677,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.16826461935702341,
+          "volatility": 0.25551591978850563
+        },
+        "20": {
+          "momentum": -0.0017481372974537113,
+          "volatility": 0.288705703056953
+        },
+        "5": {
+          "momentum": -0.02344926474750908,
+          "volatility": 0.25250321683406957
+        }
+      }
+    },
+    {
+      "symbol": "TROW",
+      "price": 104.19999694824219,
+      "market_cap": null,
+      "average_dollar_volume": 207152637.18364716,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.12642523461923516,
+          "volatility": 0.21232878058603064
+        },
+        "20": {
+          "momentum": -0.012415933669462476,
+          "volatility": 0.19764269742987964
+        },
+        "5": {
+          "momentum": 0.03198965720995539,
+          "volatility": 0.17152016551643598
+        }
+      }
+    },
+    {
+      "symbol": "TSLA",
+      "price": 372.2200012207031,
+      "market_cap": null,
+      "average_dollar_volume": 13392199535.970001,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.20518048847293247,
+          "volatility": 0.3911011850755946
+        },
+        "20": {
+          "momentum": 0.0002956541707330729,
+          "volatility": 0.3650594261947557
+        },
+        "5": {
+          "momentum": 0.04933468634353,
+          "volatility": 0.4560479485071444
+        }
+      }
+    },
+    {
+      "symbol": "TSM",
+      "price": 418.510009765625,
+      "market_cap": null,
+      "average_dollar_volume": 5016605056.148834,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.03768816121356622,
+          "volatility": 0.28670015868195203
+        },
+        "20": {
+          "momentum": -0.07123671607253301,
+          "volatility": 0.3345376246313467
+        },
+        "5": {
+          "momentum": 0.014299276855928245,
+          "volatility": 0.4311926288359423
+        }
+      }
+    },
+    {
+      "symbol": "TT",
+      "price": 444.8999938964844,
+      "market_cap": null,
+      "average_dollar_volume": 616701338.9633179,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.010493311370029845,
+          "volatility": 0.24944776348505382
+        },
+        "20": {
+          "momentum": -0.020992889036329787,
+          "volatility": 0.27364775393545065
+        },
+        "5": {
+          "momentum": -0.030486653240147543,
+          "volatility": 0.42854401450399227
+        }
+      }
+    },
+    {
+      "symbol": "TXN",
+      "price": 284.69000244140625,
+      "market_cap": null,
+      "average_dollar_volume": 1760534946.9284058,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.021272752432341502,
+          "volatility": 0.30200987267119234
+        },
+        "20": {
+          "momentum": 0.0238069368965379,
+          "volatility": 0.27769952205870974
+        },
+        "5": {
+          "momentum": 0.029694701710222704,
+          "volatility": 0.26811657651299936
+        }
+      }
+    },
+    {
+      "symbol": "U",
+      "price": 40.790000915527344,
+      "market_cap": null,
+      "average_dollar_volume": 396536948.55119705,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.2234553307991265,
+          "volatility": 0.5870285709463885
+        },
+        "20": {
+          "momentum": -0.018291175342677768,
+          "volatility": 0.6408712604531329
+        },
+        "5": {
+          "momentum": 0.0096534498742189,
+          "volatility": 0.3049549401089789
+        }
+      }
+    },
+    {
+      "symbol": "UBER",
+      "price": 66.69999694824219,
+      "market_cap": null,
+      "average_dollar_volume": 1072047679.3330383,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.052152986430259896,
+          "volatility": 0.34385347634341046
+        },
+        "20": {
+          "momentum": -0.041942052328965196,
+          "volatility": 0.2935314063634165
+        },
+        "5": {
+          "momentum": -0.051883462758305465,
+          "volatility": 0.3275876890029509
+        }
+      }
+    },
+    {
+      "symbol": "UEC",
+      "price": 7.349999904632568,
+      "market_cap": null,
+      "average_dollar_volume": 90551923.0390954,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.24537986885509144,
+          "volatility": 0.6349882998534857
+        },
+        "20": {
+          "momentum": -0.21891604422778732,
+          "volatility": 0.6145152007287424
+        },
+        "5": {
+          "momentum": -0.07079645430875126,
+          "volatility": 0.37594639837992405
+        }
+      }
+    },
+    {
+      "symbol": "UI",
+      "price": 587.4199829101562,
+      "market_cap": null,
+      "average_dollar_volume": 55845503.267822266,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.10162594832677851,
+          "volatility": 0.42707681325634816
+        },
+        "20": {
+          "momentum": 0.04771077606322738,
+          "volatility": 0.44234019235150424
+        },
+        "5": {
+          "momentum": -0.022367943895519216,
+          "volatility": 0.2992753011154811
+        }
+      }
+    },
+    {
+      "symbol": "UMC",
+      "price": 18.889999389648438,
+      "market_cap": null,
+      "average_dollar_volume": 246428524.5374012,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.0026399758711341814,
+          "volatility": 0.558829058762031
+        },
+        "20": {
+          "momentum": -0.22295352510752664,
+          "volatility": 0.5381144537264212
+        },
+        "5": {
+          "momentum": -0.046922316826202626,
+          "volatility": 0.552750699641482
+        }
+      }
+    },
+    {
+      "symbol": "UNH",
+      "price": 418.0899963378906,
+      "market_cap": null,
+      "average_dollar_volume": 2356756524.9604797,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.008019562182416284,
+          "volatility": 0.23590511456007565
+        },
+        "20": {
+          "momentum": 0.1101994221927356,
+          "volatility": 0.2888784434909023
+        },
+        "5": {
+          "momentum": 0.041501641546661805,
+          "volatility": 0.29943125602916537
+        }
+      }
+    },
+    {
+      "symbol": "UNP",
+      "price": 292.8699951171875,
+      "market_cap": null,
+      "average_dollar_volume": 697377783.3296204,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.011780569898339754,
+          "volatility": 0.18822817025561037
+        },
+        "20": {
+          "momentum": 0.0696883961312822,
+          "volatility": 0.18407538493907238
+        },
+        "5": {
+          "momentum": 0.013250714292275534,
+          "volatility": 0.31575717477564935
+        }
+      }
+    },
+    {
+      "symbol": "UPS",
+      "price": 101.05999755859375,
+      "market_cap": null,
+      "average_dollar_volume": 425759149.28474426,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.03999239307233271,
+          "volatility": 0.2444415980078278
+        },
+        "20": {
+          "momentum": 0.07556405431355961,
+          "volatility": 0.15011577597163467
+        },
+        "5": {
+          "momentum": 0.03672542140311208,
+          "volatility": 0.15293709280400503
+        }
+      }
+    },
+    {
+      "symbol": "UUUU",
+      "price": 7.519999980926514,
+      "market_cap": null,
+      "average_dollar_volume": 86191304.97397661,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.35781383805046496,
+          "volatility": 0.6467110043716744
+        },
+        "20": {
+          "momentum": -0.33744495786944295,
+          "volatility": 0.5604355532046966
+        },
+        "5": {
+          "momentum": -0.11216059694830982,
+          "volatility": 0.4379663052915848
+        }
+      }
+    },
+    {
+      "symbol": "V",
+      "price": 407.9200134277344,
+      "market_cap": null,
+      "average_dollar_volume": 2303058171.106262,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.113713996951325,
+          "volatility": 0.18787339984470627
+        },
+        "20": {
+          "momentum": 0.11034897927516063,
+          "volatility": 0.19592000409472327
+        },
+        "5": {
+          "momentum": 0.013189012367726294,
+          "volatility": 0.18614050000031804
+        }
+      }
+    },
+    {
+      "symbol": "VRT",
+      "price": 194.32000732421875,
+      "market_cap": null,
+      "average_dollar_volume": 1246332441.832199,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.14584612165178568,
+          "volatility": 0.5661898360886831
+        },
+        "20": {
+          "momentum": -0.23278581703743095,
+          "volatility": 0.4597026536614904
+        },
+        "5": {
+          "momentum": -0.05861830710231508,
+          "volatility": 0.6844418755777764
+        }
+      }
+    },
+    {
+      "symbol": "VRTX",
+      "price": 523.9299926757812,
+      "market_cap": null,
+      "average_dollar_volume": 627760953.8526917,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.08766863068004205,
+          "volatility": 0.28245283296535567
+        },
+        "20": {
+          "momentum": -0.004295045050531243,
+          "volatility": 0.29445638416365005
+        },
+        "5": {
+          "momentum": 0.04840517652001641,
+          "volatility": 0.2986954529565325
+        }
+      }
+    },
+    {
+      "symbol": "VST",
+      "price": 140.16000366210938,
+      "market_cap": null,
+      "average_dollar_volume": 1189752135.2054596,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.05692364239688874,
+          "volatility": 0.5063774174282699
+        },
+        "20": {
+          "momentum": 0.012277891562978871,
+          "volatility": 0.7054211451806981
+        },
+        "5": {
+          "momentum": -0.07801605234200126,
+          "volatility": 0.80377106055677
+        }
+      }
+    },
+    {
+      "symbol": "WDAY",
+      "price": 209.99000549316406,
+      "market_cap": null,
+      "average_dollar_volume": 416143363.46092224,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.32812601785175044,
+          "volatility": 0.5498422269516035
+        },
+        "20": {
+          "momentum": 0.10841915479435671,
+          "volatility": 0.31904848822850157
+        },
+        "5": {
+          "momentum": 0.10051888360137173,
+          "volatility": 0.34334136138602267
+        }
+      }
+    },
+    {
+      "symbol": "WDC",
+      "price": 343.6700134277344,
+      "market_cap": null,
+      "average_dollar_volume": 3884346557.5068665,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.35526409351212884,
+          "volatility": 0.6795932853539411
+        },
+        "20": {
+          "momentum": -0.24767405427974942,
+          "volatility": 0.6982027807407389
+        },
+        "5": {
+          "momentum": 0.03515064285462155,
+          "volatility": 0.8359122855211552
+        }
+      }
+    },
+    {
+      "symbol": "WFC",
+      "price": 82.38999938964844,
+      "market_cap": null,
+      "average_dollar_volume": 1341939768.9904022,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.03558469980882306,
+          "volatility": 0.23069873631234483
+        },
+        "20": {
+          "momentum": -0.006990500452228043,
+          "volatility": 0.24088743997161013
+        },
+        "5": {
+          "momentum": -0.017646396905524275,
+          "volatility": 0.20796984525209364
+        }
+      }
+    },
+    {
+      "symbol": "WM",
+      "price": 239.3800048828125,
+      "market_cap": null,
+      "average_dollar_volume": 527072149.4631195,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.05765918325533814,
+          "volatility": 0.19019297226582527
+        },
+        "20": {
+          "momentum": 0.1573756358535725,
+          "volatility": 0.23475267828560456
+        },
+        "5": {
+          "momentum": 0.05518824049535698,
+          "volatility": 0.3330617998912925
+        }
+      }
+    },
+    {
+      "symbol": "WMT",
+      "price": 119.88999938964844,
+      "market_cap": null,
+      "average_dollar_volume": 2384637013.8098526,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.07911792111837723,
+          "volatility": 0.28180086662220794
+        },
+        "20": {
+          "momentum": 0.11029816320106711,
+          "volatility": 0.23988399418613762
+        },
+        "5": {
+          "momentum": 0.009090159525692032,
+          "volatility": 0.24226589254979292
+        }
+      }
+    },
+    {
+      "symbol": "WULF",
+      "price": 11.319999694824219,
+      "market_cap": null,
+      "average_dollar_volume": 497099754.50528145,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.36475870433869373,
+          "volatility": 0.8077054649364717
+        },
+        "20": {
+          "momentum": -0.28081322367007566,
+          "volatility": 0.8497335832482344
+        },
+        "5": {
+          "momentum": -0.030821969259027693,
+          "volatility": 1.053420501002994
+        }
+      }
+    },
+    {
+      "symbol": "XOM",
+      "price": 183.2100067138672,
+      "market_cap": null,
+      "average_dollar_volume": 1950204738.7000275,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.16716573414731695,
+          "volatility": 0.23878447325879443
+        },
+        "20": {
+          "momentum": 0.14085566281714557,
+          "volatility": 0.18341992165092424
+        },
+        "5": {
+          "momentum": 0.02363398752544099,
+          "volatility": 0.20864771287474154
+        }
+      }
+    },
+    {
+      "symbol": "XYZ",
+      "price": 76.45999908447266,
+      "market_cap": null,
+      "average_dollar_volume": 346938027.54226685,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": -0.07422203081761913,
+          "volatility": 0.366684372209265
+        },
+        "20": {
+          "momentum": 0.0005234351803948822,
+          "volatility": 0.3298532596835544
+        },
+        "5": {
+          "momentum": -0.018359228609338363,
+          "volatility": 0.2726245586755176
+        }
+      }
+    },
+    {
+      "symbol": "ZS",
+      "price": 255.14999389648438,
+      "market_cap": null,
+      "average_dollar_volume": 603022142.7423859,
+      "asof": "2026-10-23",
+      "periods": {
+        "60": {
+          "momentum": 0.7194554548551566,
+          "volatility": 0.6728583320292401
+        },
+        "20": {
+          "momentum": 0.3216782691688287,
+          "volatility": 0.5836732021636202
+        },
+        "5": {
+          "momentum": 0.23035002357467405,
+          "volatility": 0.4929900720937236
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "momentum": "close(t) / close(t-n) - 1",
+    "volatility": "sample standard deviation of last n daily simple returns × sqrt(252), ddof=1",
+    "return_basis": "split-adjusted price return, dividends excluded",
+    "model": null
+  }
+}
