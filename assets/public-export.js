@@ -28,10 +28,12 @@ export async function syncPublicSnapshot(workflow,fetcher=fetch){
  if(!response.ok)throw Error('公开快照同步失败：HTTP '+response.status);
 }
 export function mountPublicExport(){
- const host=document.querySelector('header .toolbar')||document.querySelector('header');
+ const footer=document.querySelector('footer');
+ const host=footer?document.createElement('div'):(document.querySelector('header .toolbar')||document.querySelector('header'));
+ if(footer){host.style.cssText='display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:8px';footer.append(host);}
  const button=document.createElement('button');button.textContent='更新公开快照';button.type='button';
- const preview=document.createElement('a');preview.textContent='预览公开版';const url=new URL(location.href);url.searchParams.set('view','public');preview.href=url.href;preview.style.margin='0 8px';
- const status=document.createElement('span');status.setAttribute('role','status');host?.append(button,preview,status);
+ const preview=document.createElement('a');preview.textContent='预览公开版';const url=new URL(location.href);url.searchParams.set('view','public');preview.href=url.href;
+ const status=document.createElement('span');status.setAttribute('role','status');host?.append(button,document.createTextNode('｜'),preview,status);
  const capture=()=>{const entries={};for(const key of [KEY,'riskPolicy','riskGroups','riskMaxHeat','riskStops','riskTargets','completedTheses','thesisEvents']){const value=localStorage.getItem(key);if(value)entries[key]=JSON.parse(value);}return entries[KEY]?{version:1,entries}:null;};
  button.onclick=async()=>{button.disabled=true;try{await exportPublicSnapshot(capture());status.textContent='公开快照已更新；同步全部可发布。';}catch(error){status.textContent='未更新：'+error.message;}finally{button.disabled=false;}};
  try{const workflow=capture();if(workflow)queuePublicExport(workflow);}catch{}
