@@ -39,13 +39,15 @@
     "CBRS",
     "SKHY",
     "GEV",
-    "CEG"
+    "CEG",
+    "FTNT"
   ],
   "deep": [
     "NVDA",
     "COHR",
     "CRWV",
-    "BE"
+    "BE",
+    "FTNT"
   ],
   "uncertain": [
     "GEV",
