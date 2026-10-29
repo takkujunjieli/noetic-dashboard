@@ -48,8 +48,7 @@
     "COHR",
     "CRWV",
     "BE",
-    "FTNT",
-    "TER"
+    "FTNT"
   ],
   "uncertain": [
     "GEV",
@@ -85,6 +84,7 @@
     "HOOD",
     "AVGO",
     "ASST",
-    "CEG"
+    "CEG",
+    "TER"
   ]
 }
