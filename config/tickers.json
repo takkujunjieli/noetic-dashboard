@@ -47,8 +47,7 @@
     "NVDA",
     "COHR",
     "CRWV",
-    "BE",
-    "FTNT"
+    "BE"
   ],
   "uncertain": [
     "GEV",
@@ -85,6 +84,7 @@
     "AVGO",
     "ASST",
     "CEG",
-    "TER"
+    "TER",
+    "FTNT"
   ]
 }
