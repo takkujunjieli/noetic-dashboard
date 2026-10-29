@@ -296,7 +296,7 @@ def realized_events(transactions):
         kind = t.get("kind", "equity")
         key = (acct, kind, t["sym"])
         p = float(t["price"])
-        dq = (1.0 if t["side"] == "buy" else -1.0) * float(t["qty"])
+        dq = (1.0 if "buy" in (t.get("side") or "").lower() else -1.0) * float(t["qty"])
         s = state[key]
         pos, avg = s["pos"], s["avg"]
         if pos == 0 or (pos > 0) == (dq > 0):

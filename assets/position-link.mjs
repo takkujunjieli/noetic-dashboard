@@ -1,3 +1,4 @@
+import {accountDisplayName} from './account-display.mjs';
 // Pure adapter for the existing private portfolio.json contract.
 // Legacy option prices are dollars per contract; Workflow legs use per-share premium.
 const copy = x => JSON.parse(JSON.stringify(x));
@@ -16,7 +17,7 @@ export function parseInstrument(p) {
 export function positionKey(row) {return JSON.stringify([row.broker||'',row.account,row.type,row.underlying,row.expiry,row.strike,row.side]);}
 export function normalizePortfolio(raw) {
  if(!raw||!Array.isArray(raw.accounts)||!Array.isArray(raw.positions)||!stamp(raw.updated_at))throw Error('持仓快照缺少账户、持仓列表或有效构建时间；保留旧记录');
- const accounts=raw.accounts.filter(a=>a&&typeof a.id==='string'&&!/agentic/i.test(`${a.label||''} ${a.nickname||''} ${a.name||''}`)).map(a=>({id:a.id,label:a.label||a.id,broker:a.broker||'',sourceAt:stamp(a.source_updated_at)||stamp(raw.source_updated_at)}));
+ const accounts=raw.accounts.filter(a=>a&&typeof a.id==='string'&&!/agentic/i.test(`${a.label||''} ${a.nickname||''} ${a.name||''}`)).map(a=>({id:a.id,label:accountDisplayName(a.id,a.label),broker:a.broker||'',sourceAt:stamp(a.source_updated_at)||stamp(raw.source_updated_at)}));
  if(new Set(accounts.map(a=>a.id)).size!==accounts.length)throw Error('账户 ID 重复，无法同步');
  const rows=[],unsupported=[],seen=new Set();
  for(const p of raw.positions){

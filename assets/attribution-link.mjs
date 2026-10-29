@@ -1,3 +1,4 @@
+import {accountDisplayName} from './account-display.mjs';
 // Read-only evidence: account P&L is never assigned automatically to a thesis.
 const day=x=>typeof x==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(x)&&!Number.isNaN(Date.parse(x))&&new Date(x).toISOString().slice(0,10)===x;
 export function attributionEvidence(c,pnl,{start,end,window='ytd'}){
@@ -13,7 +14,7 @@ export function attributionEvidence(c,pnl,{start,end,window='ytd'}){
  for(const account of new Set(rules.map(r=>r.account))){
   if(account==='_all')continue;
   const trades=pnl.accounts[account]?.windows?.[window]?.trades;
-  if(!Array.isArray(trades)){warnings.push(`账户 ${account} 缺少 ${window} 窗口记录。`);continue;}
+  if(!Array.isArray(trades)){warnings.push(`账户 ${accountDisplayName(account)} 缺少 ${window} 窗口记录。`);continue;}
   // Exactly one window: do not union overlapping windows or deduplicate identical fills.
   for(const t of trades){
    if(!pairs.has(JSON.stringify([account,t.s])))continue;

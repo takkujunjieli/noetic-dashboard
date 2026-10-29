@@ -48,6 +48,14 @@ def main():
         raise SystemExit(f"Account mismatch: existing={old_accounts}, fresh={fresh_accounts}")
 
     merged = {**old, **fresh}
+    # A broker refresh supplies identity and balances, not the user's chosen
+    # display name. Keep that name when the new snapshot omits it.
+    old_labels = {a.get("id"): a.get("label") for a in old.get("accounts", [])}
+    merged["accounts"] = [
+        {**a, **({"label": old_labels[a["id"]]}
+                  if not a.get("label") and old_labels.get(a.get("id")) else {})}
+        for a in fresh["accounts"]
+    ]
     if args.transactions_only:
         merged["positions"] = old.get("positions") or []
         merged["open_orders"] = old.get("open_orders") or []

@@ -18,6 +18,7 @@ from build_transaction_history import build_history
 from trade_journal import import_local_history, journal_summary, load_annotations, load_journal, update_annotations
 from trade_links import load_links, mutate_links
 from export_public_dashboard import write_public_snapshot
+import qlib_jobs
 
 ROOT = Path(__file__).resolve().parent.parent
 PRIVATE = ROOT.parent / "stock-dashboard-private" / "thesis_transactions"
@@ -117,6 +118,10 @@ class DashboardHandler(SimpleHTTPRequestHandler):
         if not path.startswith("/api/"):
             return super().do_GET()
         try:
+            if path == "/api/qlib/status":
+                return self.reply(200, qlib_jobs.status())
+            if path == "/api/qlib/universe":
+                return self.reply(200, qlib_jobs.universe_config())
             if path == "/api/transaction-history":
                 return self.reply(200, build_history(self.data_dir))
             if path == "/api/trade-journal":
@@ -147,6 +152,19 @@ class DashboardHandler(SimpleHTTPRequestHandler):
             self.reply(400, {"error": str(error)})
 
     def do_PUT(self):
+        if urlsplit(self.path).path == "/api/qlib/universe":
+            if not self.allowed(mutation=True):
+                return
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                if self.headers.get("Content-Type", "").split(";")[0] != "application/json" or not 0 < length <= 100000:
+                    raise ValueError("配置必须是100KB以内的JSON")
+                body = json.loads(self.rfile.read(length))
+                if not isinstance(body, dict) or set(body) != {"settings", "revision"}:
+                    raise ValueError("配置请求格式无效")
+                return self.reply(200, qlib_jobs.save_universe(body["settings"], body["revision"]))
+            except (ValueError, TypeError, OSError) as error:
+                return self.reply(400, {"error": str(error)})
         if urlsplit(self.path).path == "/api/trade-annotations":
             return self.mutate_annotation()
         self.mutate_file(delete=False)
@@ -171,6 +189,21 @@ class DashboardHandler(SimpleHTTPRequestHandler):
                         workflow=body.get("workflow"))
                 return self.reply(200, {"ok": True, "publishedAt": result["publishedAt"], "snapshot": result})
             except (ValueError, TypeError, KeyError, AttributeError, OSError) as error:
+                return self.reply(400, {"error": str(error)})
+        if urlsplit(self.path).path in ("/api/qlib/refresh", "/api/qlib/observations/refresh"):
+            if not self.allowed(mutation=True):
+                return
+            # Require an explicit same-origin JSON request. The body is fixed;
+            # clients cannot supply commands, paths, symbols or credentials.
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                if self.headers.get("Content-Type", "").split(";")[0] != "application/json" or not 0 < length <= 16:
+                    raise ValueError("需要空 JSON object")
+                if json.loads(self.rfile.read(length)) != {}:
+                    raise ValueError("刷新不接受参数")
+                result = qlib_jobs.start(observations=True) if urlsplit(self.path).path.endswith('/observations/refresh') else qlib_jobs.start()
+                return self.reply(202, result)
+            except (ValueError, OSError) as error:
                 return self.reply(400, {"error": str(error)})
         if urlsplit(self.path).path == "/api/trade-links":
             return self.mutate_trade_links()

@@ -96,6 +96,8 @@ def moomoo(data, account):
         if item.get("currency") != "USD":
             raise ValueError(f"Unexpected Moomoo position currency: {item.get('currency')}")
         quantity = number(item["qty"], "position quantity")
+        if quantity == 0:
+            continue  # Moomoo includes closed rows in the positions endpoint.
         price = number(item["nominal_price"], "position price")
         cost = number(item["cost_price"], "position cost")
         symbol = item["code"].removeprefix("US.")
@@ -147,6 +149,10 @@ def main():
               "positions": positions, "transactions": transactions,
               "source_updated_at": data["source_updated_at"],
               "sync_metadata": {"normalizer": "normalize_broker_mcp.py"}}
+    if "open_orders" in data:
+        if not isinstance(data["open_orders"], list):
+            raise SystemExit("Open orders must be a list")
+        output["open_orders"] = data["open_orders"]
     if summary:
         output["portfolio_summary"] = summary
         output["accounts"][0]["equity"] = summary.get("total_value", summary.get("total_assets"))

@@ -225,7 +225,7 @@ Future broker sync should provide a separate normalized snapshot adapter with so
 
 ## Shared Risk Budget integration
 
-- `risk-control.js` owns the original Portfolio editor (mounted through a compatibility wrapper in `strategy.js`) and the Workflow adapter. `risk-budget.mjs` provides the same stock sizing and current-position risk formulas to both entry points.
+- `risk-control.js` owns the original Portfolio editor (mounted through a compatibility wrapper in `portfolio-support.js`) and the Workflow adapter. `risk-budget.mjs` provides the same stock sizing and current-position risk formulas to both entry points.
 - Shared account fields: `riskPolicy.account_equity` (existing manually entered global calculator equity) and `riskMaxHeat` (existing account heat ceiling). Writes preserve other policy fields and bundles, set `riskPolicyDirty`, and do not synchronize remotely. The Portfolio manual sync button remains the only policy publishing action.
 - Portfolio heatmap still uses broker net liquidation value for its percentage denominator. Workflow explicitly uses the existing calculator's manual equity for sizing and budget dollars. These denominators are labeled separately rather than silently mixing them. This step does not introduce per-broker-account budgets.
 - Workflow reads `config/risk_policy.json`, `data/portfolio.json`, and `data/atr.json`; uses `riskGroups` / `riskStops` overrides; estimates open stock stop risk and the existing option market-value proxy. Missing coverage stays unknown. Source timestamps and build timestamps are separate. Account range is all available accounts, excluding Agentic and using the existing small-stock filter. The Portfolio account selector does not change this Workflow scope.
