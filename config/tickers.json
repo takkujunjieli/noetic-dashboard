@@ -40,14 +40,16 @@
     "SKHY",
     "GEV",
     "CEG",
-    "FTNT"
+    "FTNT",
+    "TER"
   ],
   "deep": [
     "NVDA",
     "COHR",
     "CRWV",
     "BE",
-    "FTNT"
+    "FTNT",
+    "TER"
   ],
   "uncertain": [
     "GEV",
