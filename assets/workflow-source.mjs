@@ -1,4 +1,4 @@
-import {createCase,record,clone} from './workflow-model.mjs?v=20261015-no-signal';
+import {createCase,record,clone} from './workflow-model.mjs?v=20261028-manual-versions';
 import {normalizePortfolio} from './position-link.mjs';
 export function sourceCatalog(policy,portfolio,localPolicy={},groups={}){
  const merged={...policy,...localPolicy,bundles:localPolicy?.bundles&&Object.keys(localPolicy.bundles).length?localPolicy.bundles:policy.bundles||{}};

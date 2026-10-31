@@ -1,5 +1,5 @@
-import {dashboardStorage as localStorage} from './dashboard-data.mjs';
-import {greekScenarioMatrix} from './expected-return.mjs?v=20261015-1';
+import {dashboardStorage as localStorage} from './dashboard-data.mjs?v=20261028-manual-versions';
+import {greekScenarioMatrix} from './expected-return.mjs?v=20261028-deadline';
 import {bundleMetrics} from './trade-structure.mjs';
 
 export const ACTIVE_NEBULAE_KEY='research-desk.workflow.active-nebulae.v1';

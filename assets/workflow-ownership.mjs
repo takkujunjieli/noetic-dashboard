@@ -1,4 +1,4 @@
-import {dashboardStorage as localStorage} from './dashboard-data.mjs';
+import {dashboardStorage as localStorage} from './dashboard-data.mjs?v=20261028-manual-versions';
 import {thesisUnderlyings} from './attribution-transactions.mjs';
 
 export const WORKFLOW_STORE_KEY='research-desk.workflow.v1';

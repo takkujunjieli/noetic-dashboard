@@ -1,8 +1,10 @@
 ## 实际持仓成本（2026-10-19）
 
-Portfolio 热力图原“参考成本”改名为“成本”，直接读取本地券商持仓库 `portfolio.json` 的 `avg_cost`。单账户使用该账户均价，全部账户先合并同标的同方向持仓，再按绝对数量加权；没有 Workflow 归属也显示成本。正股按每股、期权按每张合约显示，成本缺失留空。浮盈、自动正股止盈和距目标股数均使用这一实际成本；行情与 Workflow 草稿参考价变化不覆盖持仓成本。
+Portfolio 热力图原“参考成本”改名为“成本”，直接读取本地券商持仓库 `portfolio.json` 的 `avg_cost`。单账户使用该账户均价，全部账户先合并同标的同方向持仓，再按绝对数量加权；没有 Workflow 归属也显示成本。正股按每股、期权按每张合约显示，成本缺失留空。浮盈使用这一实际成本；自动止盈使用 In Action Reference Spot，距目标股数按当前价格换算；行情与 Workflow 草稿参考价变化不覆盖持仓成本。
 
-Portfolio Construction 保留 Reference Spot / Reference Mark / Reference Capital 字段名和手工编辑功能，支持尚未买入时建立模拟 Bundle。“自动填写”读取已关联标的全部账户的实际持仓成本：Reference Mark 使用各腿成本（期权转换为每股权利金），正股 Reference Spot 按绝对股数加权并统一到该 Bundle 所有腿，Reference Capital 汇总各腿绝对成本金额。保留原始成本精度计算，仅显示时格式化；任一成本缺失则不计算部分 Reference Capital，也不拿现价补成本。纯期权 Bundle 的 Reference Spot 仍是底层标的参考价，不把权利金混成底层股价。锁定 Bundle 继续跳过自动填写，手工输入不会被后台刷新覆盖。
+Portfolio Construction 的“自动填写”使用本地持仓快照行情建立计算草案：Reference Spot 取时间最新的有效底层现价并统一到各腿；Reference Mark 使用各腿现价（期权转换为每股权利金）；Reference Capital 汇总各腿绝对市场价值。它是资本分母的市场价值口径，不是券商保证金估计。缺少报价时留空，不回退到成本价、不计算部分 Capital。成本继续保留在实际 Portfolio 和 Attribution 中。锁定 Bundle 跳过自动填写；手工模拟仍可修改 Reference Spot、Mark 和 Capital。
+
+刷新 Construction、保存 Bundle 或 Scenario 只修改草案；正式 Reference Spot、Reference Capital、Greeks 风险基准和 Bull/Bear 结果仅在设置 In Action Risk Budget 时一起冻结。Portfolio 自动止盈使用冻结 Spot × (1 + Bull Price Move)，目标股数使用目标市场价值除以当前价格。
 
 预算的 Bull Price Move、Bear Return 和止损仍属于 In Action 快照。旧预算缺少字段时，仅从对应激活历史恢复，不读取后续草稿。热力图的实际成本独立于这份预算快照。
 
@@ -24,7 +26,7 @@ Portfolio 风险敞口表与 B/S/O 新成交关联共用 `workflow-ownership.mjs
 
 ## 全部账户合并持仓（2026-10-17）
 
-Portfolio 风险敞口表选择全部账户时，先以 instrument、完整 symbol、方向（期权还区分乘数）分组，一次汇总股数、市值、实际成本和浮盈。相同标的同方向合并，完整合约不同或多空相反保留分行，合约标识不完整的期权不猜测合并。小额正股过滤在合并后执行。实际成本与各来源报价按绝对数量加权，浮盈率按合并成本重算。仓位和在险百分比使用账户净值合计，距目标用冻结比例换算目标资本、再除以实际持仓成本并减去合并股数。股数单元格悬停可查看账户数量组成。
+Portfolio 风险敞口表选择全部账户时，先以 instrument、完整 symbol、方向（期权还区分乘数）分组，一次汇总股数、市值、实际成本和浮盈。相同标的同方向合并，完整合约不同或多空相反保留分行，合约标识不完整的期权不猜测合并。小额正股过滤在合并后执行。实际成本与各来源报价按绝对数量加权，浮盈率按合并成本重算。仓位和在险百分比使用账户净值合计，距目标用冻结比例换算目标资本、再除以当前价格并减去合并股数。股数单元格悬停可查看账户数量组成。
 
 ## Underlying Greek Bundles · 第一阶段（2026-09-28）
 
@@ -46,7 +48,7 @@ Workflow 不输入账户 Capital Base，只将 Bundle 相对权重乘以 Nebula 
 
 风险等权与 Kelly Tilt 确定相对比例后，沿该组合方向求一个无杠杆的一维 Kelly 仓位，再乘全局固定的 0.5。Nebula Target = min(Half Kelly Cap, At-Risk Cap)，余下资金保留现金；不将现金重新归一化。UI 只显示 Half Kelly Cap、At-Risk Cap、Nebula Target 和 Limiting Constraint，不显示 Full Kelly。Kelly Tilt 与 Kelly Fraction 含义不同。
 
-Portfolio 的账户范围跟随持仓账户选择，要求真实券商净值，复用共享的 riskMaxHeat 总风险百分比；单账户与 ALL 为替代视图，不能当作多份预算叠加。每个 Nebula 的冻结 ATR Stop Risk 与联合 Scenario Risk 取大，乘自身目标后跨 Nebula 相加，暂不给跨 thesis 分散折扣。其他持仓预留风险及资本，映射的实际仓位由目标替换，不能再加一遍。超额时等比例缩小全部目标，并受剩余资本约束，不重新分配未用额度。
+Portfolio 的账户范围跟随持仓账户选择，要求真实券商净值，复用共享的 riskMaxHeat 总风险百分比；单账户与 ALL 为替代视图，不能当作多份预算叠加。每个 Nebula 的冻结 ATR Stop Risk 与联合 Scenario Risk 取大，乘自身目标后跨 Nebula 相加，暂不给跨 thesis 分散折扣。其他持仓预留风险，市值仅用于展示目标总市值；映射的实际仓位由目标替换，不能再加一遍。超出风险预算时等比例缩小全部目标，不施加账户资本上限，不重新分配未用额度。
 
 账户区分实际已用风险／剩余预算，与约束前／后目标风险、缩放系数和现金。Nebula 汇总展示自身目标与 Account Target；Bundle 明细展示最终美元与试算数量。2026-10-20 起，Nebula 实际风险与下方热力图使用同一函数：当前持仓市值 × max(0, −冻结 Bear 收益率)，逐行相加，不扣除到旧情景终值的价格变化、不与止损风险取大；按现有热力图规则略去正股 ±1 股以内的行。该显示口径对期权也沿用热力图现有 Bear 收益率代理，不代表完整期权重定价。缺少 Bear 收益或市值返回未知，旧冻结预算无新风险基准仍可显示实际 Bear 在险；归属冲突显示未知而非零。账户已用风险汇总各 Nebula 的实际风险与其他持仓预留，再计算实际剩余／超额预算。其他正股仍按手填止损或 2.5 ATR 预留；未知其他持仓仍会阻止目标检查。Kelly、Nebula Target、Account Target 与目标风险计算保持原规则，目标风险仍采用冻结预算的止损／情景风险较大者。
 
@@ -430,4 +432,43 @@ Marker color update: B uses translucent green, S translucent red, and O transluc
 
 Review cadence 为 `Days Forward / 4`，限制在 2–7 天；没有正数 Days Forward 时使用 7 天。超过一个 cadence 进入 Review，超过两个进入 Stale；超过激活时冻结的 Days Forward 或目标日期进入 Expired。当前价格相对冻结参考价偏移 1 ATR 进入 Review，偏移 2 ATR 进入 Stale；价格不可用时进入 Review。Bundle、Scenario 或 Risk Budget 参数与冻结输入不一致时进入 Stale，Eligibility 改变也会提醒。价格 drift 只使用底层现价和冻结 ATR，不检查期权 IV、Greeks 或期权权利金 drift。
 
-“确认仍然有效”只更新人工复核时间。它不会更新价格基准、输入指纹或 Scenario 有效期，因此不能清除价格 drift、Draft newer than In Action 或 Expired。要采用新参数和新基准，必须重新设置 In Action Risk Budget。旧快照缺少 freshness baseline 时显示 Stale，重新激活一次即可建立基准。
+已移除独立的“确认已复核”操作。要采用新参数、新价格和资本基准，必须重新设置 In Action Risk Budget；刷新草案不能清除既有基准产生的 drift。预测期限规则保持原样。旧快照缺少 freshness baseline 时显示 Stale，重新激活一次即可建立基准。
+
+
+## Hypothesis Horizon（2026-10-28）
+
+原 Scenario Underwriting 的 Days Forward / Theta horizon 改名为 Horizon，移至 Hypothesis，与四项文字共用“保存节点”。单位仍为天，允许留空；存储沿用原 daysForward 字段，既有值和历史快照无需迁移。Scenario 页面不再提供天数字段，保存概率与涨跌幅不会清空 Horizon。保存 Hypothesis 同步更新情景与 Kelly 计算的期限草案；In Action 的正式期限只在重新激活 Risk Budget 时更新。
+
+## Workflow 本地配额与无损存储（2026-10-28）
+
+`dashboardStorage` 对主键 `research-desk.workflow.v1` 使用无损子树/长字符串去重，物理值带 `workflow-storage-dag` 标记。历史事件、快照和文本全部保留，重复结构仅物理存储一份。`getItem` 恢复原完整 JSON 字符串，Portfolio、成交关联、同步与公开快照导出共用同一适配器。远端 workflow.json 继续是原有完整业务格式，不使用物理存储格式。
+
+旧的普通 JSON 可直接读取；下一次保存时自动使用更小的格式，单次原子替换，无需删除旧数据或清空浏览器。写入失败时不改变旧物理值或读取缓存。跨页面冲突检测仍比较恢复后的完整字符串；重新打开页面会从持久化值恢复，不依赖内存缓存。公开页面继续使用隔离的内存存储。
+
+测试覆盖逼近真实浏览器 localStorage 配额时设置 In Action、完整快照重载、同步 JSON、旧数据兼容、写入失败保护、Unicode 与异常存储引用。
+
+存储依赖链统一使用 `20261028-storage-v2` 版本，避免入口更新后仍命中无版本依赖的旧缓存。带版本与无版本 `dashboard-data.mjs` 均转发到同一个存储 runtime，公开模式不会产生两个隔离状态。Workflow 加载并校验旧数据后立即无损转换，释放配额；保存失败时提示去重前后体积和旧值大小，保留旧数据。
+
+## In Action 重复点击（2026-10-28）
+
+相同的正式配置再次点击 In Action 时，不生成事件或快照、不增加版本、不写入 Workflow 或未同步标记，也不重置激活/复核时间；页面提示“已是当前 In Action 配置，无需重复保存”。比较包含冻结输入指纹、配置比例、期限和市场风险基准（Spot、Capital、Greeks、ATR 等），忽略激活时间字段。真实参数或市场基准改变时仍保存一条正式配置变化，供 Attribution 与历史回放使用。重复点击不能延长已过期的 Horizon。
+
+
+## Hypothesis 截止日期（2026-10-28，替代天数 Horizon）
+
+Hypothesis 的 Horizon 现为 `mm/dd/yyyy` 截止日期，与论点文字共用“保存节点”。保存时更新现有 Thesis 目标日期（`case.horizon`）和情景的 `deadline`，以此替代旧目标日期/固定天数的双时钟。旧的目标日期直接显示在输入框，便于修改；原历史快照保持不变。
+
+Theta 和 Kelly 使用纽约日历日到截止日期的剩余天数，缓存随剩余天数变化而失效。正式到期日期随 In Action 冻结；采用截止日期后的预算不再用旧 Days Forward 额外触发到期，截止日期当天仍有效，下一纽约日进入 Expired。修改日期后重新设为 In Action 才采用新正式期限，重复点击同一配置仍不会新增版本。
+
+
+## 手动版本与本地数据库（2026-10-28，替代浏览器 Workflow 缓存）
+
+Workflow 的唯一工作态来源为私有库 `workflow.sqlite3`，由 8642 服务的 `GET/PUT /api/workflow` 访问。`current_workflow` 保存当前态且不嵌入历史；`workflow_versions` 保存不可变的旧历史与显式生成的版本。普通保存节点、Bundle、In Action、归属、成交关联和状态切换只更新工作态，不再生成事件快照或增加版本号。
+
+Hypothesis 的“生成版本并保存到数据库”在当前表单已保存后可用，手动生成当前整个 Nebula 的完整快照。当前态与版本在同一 SQLite 事务提交，数据库 revision 乐观锁阻止跨页面覆盖。界面在数据库确认成功后更新；保存失败保留原工作态和输入。旧版本可继续回放。普通数据库保存不能更改手动版本号。
+
+首次迁移优先使用存在的旧浏览器 Workflow（包括主动删除结果），没有浏览器数据才使用原私有 workflow.json。SQLite 确认完整导入后才移除浏览器主 Workflow/Active catalog 缓存，原 workflow.json 保留为迁移备份。浏览器只保留运行时内存；未同步标记及普通偏好设置仍为小型 localStorage 项。BroadcastChannel 通知其他页面重新读取数据库。同步全部仍以完整 JSON 备份当前态和历史版本，公开快照改为手动更新，不随普通保存自动生成。
+
+### 账户资本约束取消（2026-10-28）
+
+Account Target 仅按剩余账户风险预算统一缩放：`min(1, (账户总风险预算 − 其他持仓风险) / Nebula 目标风险合计)`，目标风险为零时不缩放。取消总市值不超过净值的资本约束，其他持仓市值超过净值也不阻止计算；其他持仓仍预留风险。目标总市值可超过净值的 100%，界面显示目标总市值比例，现金比例最低为零。Workflow 原有 Half Kelly 与 Thesis At-Risk 规则保持不变。

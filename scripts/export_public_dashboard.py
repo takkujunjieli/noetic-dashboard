@@ -193,6 +193,13 @@ def export_snapshot(portfolio,workflow,*,pnl=None,monthly=None,robustness=None,p
     published_store={'version':published_store.get('version',1),'cases':published_store['cases']}
     settings={k:workflow_projection({KEY:[],'cases':[], 'value':entries[k]},other,fill_accounts)['value']
               for k in ['riskPolicy','riskGroups','riskMaxHeat','riskStops','riskTargets','completedTheses','thesisEvents'] if k in entries}
+    # Exit labels are per underlying, shared by accounts. Publish only Takku's tickers.
+    exit_rules=entries.get('portfolioExitRules')
+    if isinstance(exit_rules,dict):
+        symbols={str(p.get('sym','')).split()[0].upper() for p in pf['positions'] if p.get('sym')}
+        settings['portfolioExitRules']={str(symbol).strip().upper():value for symbol,value in exit_rules.items()
+                                        if str(symbol).strip().upper() in symbols and isinstance(value,str)
+                                        and value in ('expected-return-based','target-based','trailing-based')}
     risk_policy=workflow_projection({'cases':[],'value':policy or settings.get('riskPolicy',{})},other,fill_accounts)['value']
     risk_policy['account_equity']=TARGET
     settings['riskPolicy']={**settings.get('riskPolicy',{}),'account_equity':TARGET}

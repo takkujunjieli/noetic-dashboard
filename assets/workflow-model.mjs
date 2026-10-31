@@ -1,11 +1,12 @@
+import {parseDeadline,daysToDeadline} from './horizon-date.mjs';
 import {validateExecutionLinks} from './trade-link-model.mjs';
-import {emptyScenarioUnderwriting,returnInputError,scenarioUnderwritingError,captureReturnBasis,validateReturnBasis,numeric} from './expected-return.mjs?v=20261015-atr-uncertainty';
+import {emptyScenarioUnderwriting,scenarioUnderwriting,returnInputError,scenarioUnderwritingError,captureReturnBasis,validateReturnBasis,numeric} from './expected-return.mjs?v=20261028-deadline';
 import {structureDraft,structureError,ticker,structureExposure,positionLabel,candidateDraft} from './trade-structure.mjs';
 import { validateAttributionEvidence } from './attribution-link.mjs';
 import { parseTransactionFile } from './attribution-transactions.mjs?v=20261004-3';
 import { allocationIssues } from "./risk-budget.mjs";
-import {emptyKellyPolicy,kellyPolicyError} from './kelly-allocation.mjs?v=20261019-half-kelly';
-import {allocationInputFingerprint} from './workflow-freshness.mjs?v=20261018-thesis-freshness';
+import {emptyKellyPolicy,kellyPolicyError} from './kelly-allocation.mjs?v=20261028-deadline';
+import {allocationInputFingerprint} from './workflow-freshness.mjs?v=20261028-deadline';
 // Standalone workflow domain. No dependencies on dashboard data or broker credentials.
 export const VERSION = 1;
 export const KEY = 'research-desk.workflow.v1';
@@ -33,8 +34,8 @@ export const LAYERS = [
 export const clone = value => JSON.parse(JSON.stringify(value));
 const now = () => new Date().toISOString();
 const uid = () => globalThis.crypto.randomUUID();
-export function createCase({title,symbol='',horizon='',rationale='',demo=false}) {
- const c={id:uid(),title:title.trim(),symbol:symbol.trim().toUpperCase(),horizon,demo,createdAt:now(),updatedAt:now(),revision:0,stateVersion:2,positionNodeVersion:1,archived:false,activeThesis:false,nodes:{},events:[]};
+export function createCase({title,symbol='',horizon='',rationale='',demo=false,historyMode='automatic'}) {
+ const c={...(historyMode==='manual'?{historyMode:'manual'}:{}),id:uid(),title:title.trim(),symbol:symbol.trim().toUpperCase(),horizon,demo,createdAt:now(),updatedAt:now(),revision:0,stateVersion:2,positionNodeVersion:1,archived:false,activeThesis:false,nodes:{},events:[]};
  for(const [key,node] of Object.entries(NODES)) c.nodes[key]={state:node.initial,data:{}};
  Object.assign(c.nodes.hypothesis.data,{expectation:'',rationale,verification:'',invalidation:''});
  c.nodes.returns.data=emptyScenarioUnderwriting();
@@ -47,7 +48,12 @@ export function createCase({title,symbol='',horizon='',rationale='',demo=false})
  return c;
 }
 export function snapshot(c){ const {events,...body}=c; return clone(body); }
-export function record(c,type,node,reason){c.revision++;c.updatedAt=now();c.events.push({id:uid(),at:c.updatedAt,type,node,reason,revision:c.revision,snapshot:snapshot(c)});}
+export function record(c,type,node,reason){if(c.historyMode==='manual'){c.updatedAt=now();return;}c.revision++;c.updatedAt=now();c.events.push({id:uid(),at:c.updatedAt,type,node,reason,revision:c.revision,snapshot:snapshot(c)});}
+export function generateVersion(c){
+ writable(c);c.historyMode='manual';c.revision++;c.updatedAt=now();
+ const event={id:uid(),at:c.updatedAt,type:'手动生成版本',node:'hypothesis',reason:'保存当前完整 Workflow 版本',revision:c.revision,snapshot:snapshot(c)};
+ c.events.push(event);return event;
+}
 export function legError(legs,positions=false){
  if(!Array.isArray(legs)||legs.length>60)return '持仓腿格式无效（最多 60 条）';
  for(const l of legs){
@@ -120,11 +126,27 @@ export function saveNode(c,key,data,reason='更新节点内容'){
  if(c.archived)throw Error('归档实例只读');
  if(key==='attribution'&&data.transactionFile){const file=parseTransactionFile(data.transactionFile);if(file.thesis.id!==c.id)throw Error('交易历史文件不属于此 thesis');}
 
+ // Horizon is edited with Hypothesis. Keep its established calculation key
+ // so legacy theses, snapshots and all Greek/Kelly consumers share one value.
+ let horizonChanged=false,horizonValue,deadlineChanged=false,deadlineValue;
+ if(key==='hypothesis'&&Object.hasOwn(data,'horizonDate')){
+  data=clone(data);deadlineValue=parseDeadline(data.horizonDate);delete data.horizonDate;
+  if(deadlineValue===null)throw Error('Horizon 请填写有效的 mm/dd/yyyy 截止日期，或留空');
+  deadlineChanged=deadlineValue!==(c.nodes.returns.data.deadline??null)||deadlineValue!==c.horizon;
+ }
+ if(key==='hypothesis'&&Object.hasOwn(data,'daysForward')){
+  data=clone(data);horizonValue=data.daysForward;delete data.daysForward;
+  if(horizonValue!==''&&(!numeric(horizonValue)||Number(horizonValue)<0))throw Error('Horizon 须为非负天数，或留空');
+  horizonValue=horizonValue===''?'':Number(horizonValue);
+  horizonChanged=horizonValue!==(c.nodes.returns.data.daysForward??'');
+ }
  if(key==='returns'){const error=[1,2,3].includes(data?.scenarioVersion)?scenarioUnderwritingError(data,c.design?.plans||[]):returnInputError(data);if(error)throw Error(error);}
  if(key==='risk'&&[1,2].includes(data?.allocationVersion)){const error=kellyPolicyError(c,data);if(error)throw Error(error);}
  if(key==='positions')throw Error('Monitor 当前为空节点，暂不保存字段');
  if(key==='construction'){const error=data.structureVersion===1?structureError(data):legError(data.legs);if(error)throw Error(error);}
- if(JSON.stringify(c.nodes[key].data)===JSON.stringify(data))return false;
+ if(JSON.stringify(c.nodes[key].data)===JSON.stringify(data)&&!horizonChanged&&!deadlineChanged)return false;
+ if(horizonChanged)c.nodes.returns.data.daysForward=horizonValue;
+ if(deadlineChanged){c.horizon=deadlineValue;c.nodes.returns.data.deadline=deadlineValue;c.nodes.returns.data.daysForward=daysToDeadline(deadlineValue);}
  c.nodes[key].data=clone(data);
  if(key==='construction'){
   if(!c.design?.plans.length)initializePlans(c);
@@ -162,6 +184,12 @@ export function setAllPlansFrozen(c,frozen){
 }
 export function selectPlan(c,id){writable(c);if(!c.design.plans.some(p=>p.id===id))throw Error('方案不存在');if(c.design.selectedId===id)return;projectPlan(c,id);record(c,'切换查看方案','construction',c.design.plans.find(p=>p.id===id).name);}
 export function setActivePlan(c,id){writable(c);if(id&&!c.design.plans.some(p=>p.id===id))throw Error('方案不存在');c.design.activeId=id;captureReturnBasis(c,now());record(c,'设置 In Action','construction',id?c.design.plans.find(p=>p.id===id).name:'取消 In Action');}
+function allocationContent(allocation){
+ if(!allocation)return '';
+ const {at,underwrittenAt,reviewedAt,...content}=allocation;
+ const canonical=value=>Array.isArray(value)?value.map(canonical):value&&typeof value==='object'?Object.fromEntries(Object.keys(value).sort().map(key=>[key,canonical(value[key])])):value;
+ return JSON.stringify(canonical(content));
+}
 export function setActiveAllocation(c,result){
  writable(c);
  if(result?.complete===false)throw Error((result.issues||[]).join('；')||'Risk Budget 输入不完整');
@@ -170,21 +198,18 @@ export function setActiveAllocation(c,result){
   const items=result.bundles.map(({bundleId,name,underlying,eligible,exclusionReason,standaloneExpectedReturn,fullFraction,kellyFraction,kellyWeight,baselineRiskShare,baselineWeight,kellyRiskShare,riskShare,weight,fraction,referencePrice,referenceCapital,riskBasis,scenarioReturns,atr,stopDistance,downStopPrice,upStopPrice,adverseStopMove,adverseStopPrice,adverseStopDirection,stopRiskRate,estimatedStopRiskFraction,bullPriceMove,bearReturn})=>({bundleId,name,underlying:underlying||name,eligible,exclusionReason,standaloneExpectedReturn,fullFraction,kellyFraction,kellyWeight,baselineRiskShare,baselineWeight,kellyRiskShare,riskShare,weight,fraction,referencePrice,referenceCapital,riskBasis:clone(riskBasis),scenarioReturns:clone(scenarioReturns),atr,stopDistance,downStopPrice,upStopPrice,adverseStopMove,adverseStopPrice,adverseStopDirection,stopRiskRate,estimatedStopRiskFraction,bullPriceMove,bearReturn}));
   const scenarios=result.scenarios.map(({id,name,probability,weightReturn,portfolioReturn,wealth})=>({id,name,probability,weightReturn,portfolioReturn,wealth}));
   const activatedAt=now();
-  c.design.allocation={method:'risk-budget-kelly',weightingMethod:result.weightingMethod,kellyTiltPct:result.kellyTiltPct,inAction:true,at:activatedAt,underwrittenAt:activatedAt,reviewedAt:activatedAt,scenarioDaysForward:c.nodes.returns.data?.daysForward??'',scenarioHorizon:c.horizon||'',sourceFingerprint:allocationInputFingerprint(c),allocatedFraction:result.allocatedFraction,cashFraction:result.cashFraction,expectedLogGrowth:result.expectedLogGrowth,kellyExpectedLogGrowth:result.kellyExpectedLogGrowth,thesisAtRiskLimitPct:result.atRiskLimitPct,atrStopMultiple:result.atrStopMultiple,stopRiskRate:result.stopRiskRate,scenarioRiskRate:result.scenarioRiskRate,effectiveLossRate:result.effectiveLossRate,bindingRisk:result.bindingRisk,estimatedStopRiskPct:result.estimatedStopRiskFraction*100,items,scenarios,monteCarlo:result.monteCarlo?{samples:result.monteCarlo.samples}:null};
-  delete c.returnBasis;
-  Object.assign(c.design.allocation,{sizingMethod:result.sizingMethod,kellyFraction:result.kellyFraction,halfKellyCap:result.halfKellyCap,atRiskCap:result.atRiskCap,limitingConstraint:result.limitingConstraint});
+  const allocation={method:'risk-budget-kelly',weightingMethod:result.weightingMethod,kellyTiltPct:result.kellyTiltPct,inAction:true,at:activatedAt,underwrittenAt:activatedAt,reviewedAt:activatedAt,scenarioDaysForward:scenarioUnderwriting(c.nodes.returns.data).daysForward,scenarioHorizon:c.horizon||'',sourceFingerprint:allocationInputFingerprint(c),allocatedFraction:result.allocatedFraction,cashFraction:result.cashFraction,expectedLogGrowth:result.expectedLogGrowth,kellyExpectedLogGrowth:result.kellyExpectedLogGrowth,thesisAtRiskLimitPct:result.atRiskLimitPct,atrStopMultiple:result.atrStopMultiple,stopRiskRate:result.stopRiskRate,scenarioRiskRate:result.scenarioRiskRate,effectiveLossRate:result.effectiveLossRate,bindingRisk:result.bindingRisk,estimatedStopRiskPct:result.estimatedStopRiskFraction*100,items,scenarios,monteCarlo:result.monteCarlo?{samples:result.monteCarlo.samples}:null};
+  if(Object.hasOwn(c.nodes.returns.data,'deadline'))allocation.horizonMode='deadline';
+  Object.assign(allocation,{sizingMethod:result.sizingMethod,kellyFraction:result.kellyFraction,halfKellyCap:result.halfKellyCap,atRiskCap:result.atRiskCap,limitingConstraint:result.limitingConstraint});
+  if(allocationContent(c.design.allocation)===allocationContent(allocation))return false;
+  c.design.allocation=allocation;delete c.returnBasis;
   const active=result.bundles.filter(x=>x.fraction>0).map(x=>`${x.name} ${Number(x.fraction*100).toFixed(2)}%`).join('；');
-  record(c,'设置 In Action Risk Budget','risk',active||'Target Allocation 0% · 保持现金');return;
+  record(c,'设置 In Action Risk Budget','risk',active||'Target Allocation 0% · 保持现金');return true;
  }
  if(!result||!Array.isArray(result.allocations)||!result.allocations.some(x=>x.quantity>0))throw Error('当前没有可执行的优化数量');
  c.design.allocation={inAction:true,at:now(),items:clone(result.allocations),riskBudget:result.riskBudget,usedRisk:result.usedRisk,usedCapital:result.usedCapital,expected:result.expected,dollarDelta:result.dollarDelta};
  if(result.usedCapital>0)c.returnBasis={planId:'allocation',planName:'Optimized Allocation',expectedNet:result.expected,capital:result.usedCapital,expectedDate:c.horizon||'',rate:result.expected/result.usedCapital*100,at:c.design.allocation.at};
  record(c,'设置 In Action Allocation','risk',c.design.allocation.items.filter(x=>x.quantity).map(x=>`${x.positionId} × ${x.quantity}`).join('；'));
-}
-export function confirmAllocationReview(c){
- writable(c);const allocation=c.design?.allocation;
- if(!allocation?.inAction)throw Error('当前没有 In Action Risk Budget');
- allocation.reviewedAt=now();record(c,'确认 Thesis 仍然有效','risk','仅更新人工复核时间；不修改冻结参数或价格基准');
 }
 export function deletePlan(c,id){writable(c);const p=c.design.plans.find(p=>p.id===id);if(!p)throw Error('Underlying Greek Bundle 不存在');c.design.plans=c.design.plans.filter(p=>p.id!==id);if(c.design.activeId===id)c.design.activeId='';delete c.design.allocation;if(c.design.selectedId===id)projectPlan(c,c.design.plans[0]?.id||'');record(c,'删除 Underlying Greek Bundle','construction',p.name+'；历史快照保留');}
 export function planView(c,id){const copy=clone(c),p=c.design?.plans.find(p=>p.id===id);if(p)for(const key of DESIGN_KEYS)copy.nodes[key].data=clone(p[key]);return copy;}
@@ -199,7 +224,7 @@ export function validateStore(store){
  if(!store||store.version!==VERSION||!Array.isArray(store.cases)||store.cases.length>500)throw Error('备份格式不支持');
  const ids=new Set();
  function body(c){
-  if(!c||typeof c.id!=='string'||typeof c.title!=='string'||typeof c.symbol!=='string'||typeof c.horizon!=='string'||typeof c.archived!=='boolean'||(c.activeThesis!=null&&typeof c.activeThesis!=='boolean')||!Number.isInteger(c.revision)||c.revision<1)throw Error('实例内容不完整');
+  if(!c||typeof c.id!=='string'||typeof c.title!=='string'||typeof c.symbol!=='string'||typeof c.horizon!=='string'||typeof c.archived!=='boolean'||(c.activeThesis!=null&&typeof c.activeThesis!=='boolean')||!Number.isInteger(c.revision)||c.revision<(c.historyMode==='manual'?0:1))throw Error('实例内容不完整');
   if(c.linkedSymbols!=null&&(!Array.isArray(c.linkedSymbols)||c.linkedSymbols.some(x=>typeof x!=='string')))throw Error('关联标的格式无效');
   if(c.portfolioUnderlyings!=null&&(!Array.isArray(c.portfolioUnderlyings)||c.portfolioUnderlyings.length>1000||new Set(c.portfolioUnderlyings).size!==c.portfolioUnderlyings.length||c.portfolioUnderlyings.some(x=>typeof x!=='string'||!/^[A-Z0-9.\-]{1,24}$/.test(x))))throw Error('Portfolio 归属标的格式无效');
   if(c.sourceLink!=null&&(c.sourceLink.kind!=='risk-policy'||typeof c.sourceLink.name!=='string'||!Array.isArray(c.sourceLink.warnings)||c.sourceLink.warnings.some(x=>typeof x!=='string')))throw Error('数据来源关联格式无效');
@@ -240,9 +265,10 @@ export function validateStore(store){
   if(c.nodes.construction.data.structureVersion===1?structureError(c.nodes.construction.data):legError(c.nodes.construction.data.legs))throw Error('组合腿格式无效');
   if(c.stateVersion!==2&&c.archived!==(c.nodes.attribution.state==='archived'))throw Error('归档状态不一致');
  }
- for(const c of store.cases){body(c);if(ids.has(c.id))throw Error('实例 ID 重复');ids.add(c.id);if(!Array.isArray(c.events)||(!c.events.length&&!(c.historyClearedRevision===c.revision&&Number.isFinite(Date.parse(c.historyClearedAt)))))throw Error('缺少历史记录');let last=0;
+ for(const c of store.cases){body(c);if(ids.has(c.id))throw Error('实例 ID 重复');ids.add(c.id);if(!Array.isArray(c.events)||(!c.events.length&&c.historyMode!=='manual'&&!(c.historyClearedRevision===c.revision&&Number.isFinite(Date.parse(c.historyClearedAt)))))throw Error('缺少历史记录');let last=0;
   for(const e of c.events){if(typeof e.id!=='string'||typeof e.type!=='string'||typeof e.reason!=='string'||!Object.hasOwn(LEGACY_NODES,e.node)||!Number.isFinite(Date.parse(e.at))||!Number.isInteger(e.revision)||e.revision<=last)throw Error('历史记录格式无效');body(e.snapshot);if(e.snapshot.id!==c.id||e.snapshot.revision!==e.revision)throw Error('快照不匹配');last=e.revision;}
-  if(c.events.length&&(last!==c.revision||JSON.stringify(c.events.at(-1).snapshot)!==JSON.stringify(snapshot(c))))throw Error('最新快照与实例不一致');
+  if(c.historyMode==='manual'&&last>c.revision)throw Error('手动版本号无效');
+  if(c.historyMode!=='manual'&&c.events.length&&(last!==c.revision||JSON.stringify(c.events.at(-1).snapshot)!==JSON.stringify(snapshot(c))))throw Error('最新快照与实例不一致');
  }
  // Preserve original snapshots verbatim; migration creates one new current revision.
  const result=clone(store);

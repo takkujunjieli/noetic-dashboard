@@ -19,6 +19,7 @@ from trade_journal import import_local_history, journal_summary, load_annotation
 from trade_links import load_links, mutate_links
 from export_public_dashboard import write_public_snapshot
 import qlib_jobs
+import workflow_database
 
 ROOT = Path(__file__).resolve().parent.parent
 PRIVATE = ROOT.parent / "stock-dashboard-private" / "thesis_transactions"
@@ -74,6 +75,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
         self.journal_path = Path(journal_path) if journal_path else self.private_dir.parent / "trade_journal" / "journal.json"
         self.annotations_path = Path(annotations_path) if annotations_path else self.journal_path.with_name("annotations.json")
         self.links_path = self.journal_path.with_name("trade_links.json")
+        self.workflow_db_path = self.private_dir.parent / "workflow.sqlite3"
         self.broker_pnl_path = self.journal_path.with_name("broker_pnl.json")
         super().__init__(*args, **kwargs)
 
@@ -118,6 +120,11 @@ class DashboardHandler(SimpleHTTPRequestHandler):
         if not path.startswith("/api/"):
             return super().do_GET()
         try:
+            if path == "/api/workflow":
+                result = workflow_database.read(self.workflow_db_path)
+                if result['store'] is None:
+                    result['legacyStore'] = workflow_database.legacy(self.private_dir.parent / 'workflow.json')
+                return self.reply(200, result)
             if path == "/api/qlib/status":
                 return self.reply(200, qlib_jobs.status())
             if path == "/api/qlib/universe":
@@ -148,10 +155,26 @@ class DashboardHandler(SimpleHTTPRequestHandler):
             file = json.loads(raw)
             validate_file(file, thesis_id)
             self.reply(200, {"file": file, "path": str(target)}, etag(raw))
-        except (ValueError, TypeError, KeyError, OSError) as error:
+        except (ValueError, TypeError, KeyError, OSError, workflow_database.sqlite3.Error) as error:
             self.reply(400, {"error": str(error)})
 
     def do_PUT(self):
+        if urlsplit(self.path).path == '/api/workflow':
+            if not self.allowed(mutation=True):
+                return
+            try:
+                length = int(self.headers.get('Content-Length', '0'))
+                if self.headers.get('Content-Type', '').split(';')[0] != 'application/json' or not 0 < length <= 50_000_000:
+                    raise ValueError('Workflow 请求必须为 50 MB 以内的 JSON')
+                body = json.loads(self.rfile.read(length))
+                if not isinstance(body, dict) or set(body) - {'store','revision','version'} or 'revision' not in body:
+                    raise ValueError('Workflow 保存请求无效')
+                result = workflow_database.save(self.workflow_db_path, body.get('store'), body['revision'], body.get('version'))
+                return self.reply(200, result)
+            except workflow_database.WorkflowConflict as error:
+                return self.reply(409, {'error': str(error)})
+            except (ValueError, TypeError, KeyError, OSError, workflow_database.sqlite3.Error) as error:
+                return self.reply(400, {'error': str(error)})
         if urlsplit(self.path).path == "/api/qlib/universe":
             if not self.allowed(mutation=True):
                 return
@@ -322,7 +345,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
                     if temp_path and temp_path.exists():
                         temp_path.unlink()
             self.reply(200, {"path": str(target)}, etag(content))
-        except (ValueError, TypeError, KeyError, OSError) as error:
+        except (ValueError, TypeError, KeyError, OSError, workflow_database.sqlite3.Error) as error:
             self.reply(400, {"error": str(error)})
 
 

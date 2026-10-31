@@ -288,3 +288,8 @@ gh workflow run gex.yml
 ## Workflow / Portfolio 公开策略更新（2026-10-26）
 
 最新用户决定：取消化名。Workflow 使用本地同一套界面及真实标题、ticker、正文、方案和节点历史，同时过滤其他账户的真实财务数据。Portfolio 只公开 Takku，并用 100000 / 该账户实际净值统一缩放数量、市值和美元 P&L；每单位价格及收益率不缩放。每次刷新重新计算比例；不可上传原始账户净值、其他账户记录或私有 public_workflow_source.json。详见 docs/public-dashboard.md。验证不使用浏览器。此规则优先于早前匿名快照说明。
+
+
+### Workflow 当前态与版本（2026-10-28）
+
+当前权威数据在 `../stock-dashboard-private/workflow.sqlite3`，不要再用旧 `workflow.json` 或 localStorage 作为当前源。通过本机 8642 `/api/workflow` GET 获取 store/revision，PUT 保存时带该 revision，冲突为 409。普通保存仅更新当前态；Hypothesis 的手动版本按钮才追加快照。旧 workflow.json 保留为迁移备份。重新启动 `scripts/serve_dashboard.py --port 8642` 才会加载 Python 接口改动。详见 docs/workflow.md 的“手动版本与本地数据库”。

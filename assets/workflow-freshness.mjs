@@ -1,4 +1,5 @@
-import {riskBudgetAllocation} from './kelly-allocation.mjs?v=20261019-tilt-slider';
+import {displayDeadline} from './horizon-date.mjs';
+import {riskBudgetAllocation} from './kelly-allocation.mjs?v=20261028-deadline';
 
 const DAY=86400000;
 const severity={none:0,fresh:0,review:1,stale:2,expired:3};
@@ -54,8 +55,8 @@ export function thesisFreshness(c,{now=new Date().toISOString(),atr={},prices={}
  const underwritingAge=ageDays(underwrittenAt,now),reviewAge=ageDays(reviewedAt,now);
  const today=easternDate(now);
  const horizon=allocation.scenarioHorizon??c?.horizon??'';
- if(horizon&&/^\d{4}-\d{2}-\d{2}$/.test(horizon)&&today>horizon)add(issue('expired','horizon-expired',`Thesis 目标日期 ${horizon} 已过`));
- if(daysForward!=null&&underwritingAge!=null&&underwritingAge>=daysForward)add(issue('expired','scenario-expired',`Scenario 的 ${daysForward} Days Forward 已到期`));
+ if(horizon&&/^\d{4}-\d{2}-\d{2}$/.test(horizon)&&today>horizon)add(issue('expired','horizon-expired',`Horizon 截止日期 ${displayDeadline(horizon)} 已过，请在 Hypothesis 修改日期并重新设为 In Action`));
+ if(allocation.horizonMode!=='deadline'&&daysForward!=null&&underwritingAge!=null&&underwritingAge>=daysForward)add(issue('expired','scenario-expired',`Horizon ${daysForward} 天已到期，请在 Hypothesis 更新并重新设为 In Action`));
  else if(reviewAge!=null&&reviewAge>=cadence*2)add(issue('stale','review-overdue',`已 ${Math.floor(reviewAge)} 天未复核，超过 ${Math.round(cadence*2)} 天`));
  else if(reviewAge!=null&&reviewAge>=cadence)add(issue('review','review-due',`已 ${Math.floor(reviewAge)} 天未复核`));
  if(!allocation.sourceFingerprint)add(issue('stale','missing-baseline','旧版 In Action 配置缺少 freshness baseline，请重新激活 Risk Budget'));

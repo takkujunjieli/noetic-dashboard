@@ -1,7 +1,7 @@
-import {dashboardStorage as localStorage} from './dashboard-data.mjs';
-import {KEY,validateStore,record} from './workflow-model.mjs?v=20261017-portfolio-assignment';
-import {workflowAssignmentCases,workflowOwnershipIndex,workflowHasBudgetUnderlying} from './workflow-ownership.mjs?v=20261017-portfolio-assignment';
-import {refreshActiveNebulaCatalog,readUnsyncedNebulae,writeUnsyncedNebulae} from './workflow-sync.js?v=20260929-3';
+import {dashboardStorage as localStorage} from './dashboard-data.mjs?v=20261028-manual-versions';
+import {KEY,validateStore,record} from './workflow-model.mjs?v=20261028-manual-versions';
+import {workflowAssignmentCases,workflowOwnershipIndex,workflowHasBudgetUnderlying} from './workflow-ownership.mjs?v=20261028-manual-versions';
+import {refreshActiveNebulaCatalog,readUnsyncedNebulae,writeUnsyncedNebulae} from './workflow-sync.js?v=20261028-manual-versions';
 
 // Commit the early ownership directly into the Workflow, including history and
 // the existing sync marker. No second Portfolio-only assignment is created.
@@ -28,7 +28,7 @@ export function savePortfolioWorkflowOwner(symbol,caseId,storage=localStorage){
  if(!changed.length)return;
  validateStore(store);
  if(storage.getItem(KEY)!==raw)throw Error('Workflow 已被其他页面更新，请刷新后重试');
- storage.setItem(KEY,JSON.stringify(store));
- refreshActiveNebulaCatalog(store,storage);
- const unsynced=readUnsyncedNebulae(storage);for(const id of changed)unsynced.add(id);writeUnsyncedNebulae(unsynced,storage);
+ const finish=()=>{refreshActiveNebulaCatalog(store,storage);const unsynced=readUnsyncedNebulae(storage);for(const id of changed)unsynced.add(id);writeUnsyncedNebulae(unsynced,storage);};
+ if(storage.databaseActive)return storage.saveWorkflow(JSON.stringify(store),raw).then(finish);
+ storage.setItem(KEY,JSON.stringify(store));finish();
 }

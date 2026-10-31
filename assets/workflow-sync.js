@@ -1,10 +1,10 @@
-import {dashboardStorage as localStorage} from './dashboard-data.mjs';
-import {KEY,validateStore} from './workflow-model.mjs?v=20261015-no-signal';
-import {ACTIVE_NEBULAE_KEY,activeNebulaCatalog} from './workflow-risk-bridge.mjs?v=20261019-frozen-reference';
-import {getPat,ghHeaders} from './shared.js';
+import {dashboardStorage as localStorage} from './dashboard-data.mjs?v=20261028-manual-versions';
+import {KEY,validateStore} from './workflow-model.mjs?v=20261028-manual-versions';
+import {ACTIVE_NEBULAE_KEY,activeNebulaCatalog} from './workflow-risk-bridge.mjs?v=20261028-manual-versions';
+import {getPat,ghHeaders} from './shared.js?v=20261028-manual-versions';
 const URL='https://api.github.com/repos/takkujunjieli/stock-dashboard-private/contents/workflow.json';
 export const UNSYNCED_KEY=KEY+'.unsynced-nebulae';
-export const SYNC_KEYS=[KEY,ACTIVE_NEBULAE_KEY,'riskPolicy','riskGroups','riskMaxHeat','riskStops','riskTargets','completedTheses','thesisEvents'];
+export const SYNC_KEYS=[KEY,ACTIVE_NEBULAE_KEY,'riskPolicy','riskGroups','riskMaxHeat','riskStops','riskTargets','portfolioExitRules','completedTheses','thesisEvents'];
 export function refreshActiveNebulaCatalog(store,storage=localStorage){const catalog=activeNebulaCatalog(store),json=JSON.stringify(catalog);try{storage.setItem(ACTIVE_NEBULAE_KEY,json);}catch(error){
  // Older versions stored complete cases and their recursive event snapshots in
  // this derived cache. Remove that disposable copy before retrying the compact projection.
