@@ -37,7 +37,7 @@ export function mountPublicExport({english=false,placement='auto'}={}){
  const host=footer?document.createElement('div'):(document.querySelector('header .toolbar')||document.querySelector('header'));
  if(!host)return;
  if(footer){host.style.cssText='display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:8px';footer.append(host);}
- const controls=document.createElement('span');controls.id='public-export-controls';host.append(controls);
+ const controls=document.createElement('span');controls.id='public-export-controls';controls.style.cssText='display:flex;align-items:center;flex-wrap:wrap;gap:8px';host.append(controls);
  const button=document.createElement('button');button.textContent=english?'Update Public Snapshot':'更新公开快照';button.type='button';
  const preview=document.createElement('a');preview.textContent=english?'Preview Public View':'预览公开版';const url=new URL(location.href);url.searchParams.set('view','public');preview.href=url.href;
  const status=document.createElement('span');status.setAttribute('role','status');controls.append(button,document.createTextNode('｜'),preview,status);
