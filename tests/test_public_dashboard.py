@@ -70,6 +70,19 @@ class PublicDataTest(unittest.TestCase):
         raw=json.dumps(r);self.assertNotIn(OTHER,raw);self.assertNotIn('PRIVATE_LABEL',raw)
         self.assertNotIn('7777',raw);self.assertNotIn('9876',raw)
         self.assertEqual(json.loads(c['accountRiskSnapshot'])['policy']['account_equity'],100000)
+    def test_exit_labels_only_publish_valid_rules_for_takku_underlyings(self):
+        pf,w=source()
+        w['entries']['portfolioExitRules']={'real':'expected-return-based','PRIVATE_TICKER':'target-based','OTHER':'trailing-based'}
+        r=export_snapshot(pf,w)
+        self.assertEqual(r['workflow']['settings']['portfolioExitRules'],{'REAL':'expected-return-based'})
+        self.assertNotIn('PRIVATE_TICKER',json.dumps(r))
+        pf['positions'][0].update(kind='option',sym='REAL 2030-01-01 20C')
+        w['entries']['portfolioExitRules']={'REAL':'trailing-based'}
+        self.assertEqual(export_snapshot(pf,w)['workflow']['settings']['portfolioExitRules'],{'REAL':'trailing-based'})
+        for invalid in ['sell-everything','',123,{'pnl':999}]:
+            w['entries']['portfolioExitRules']={'REAL':invalid}
+            self.assertEqual(export_snapshot(pf,w)['workflow']['settings']['portfolioExitRules'],{})
+
     def test_fail_closed_on_unknown_or_nonpositive_equity_and_tampered_account(self):
         for equity in [None,0,-1,float('nan')]:
             pf,w=source();pf['accounts'][0]['equity']=equity
