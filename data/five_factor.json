@@ -1,0 +1,4363 @@
+{
+  "version": 1,
+  "generated_at": "2026-09-28T03:35:38.843148+00:00",
+  "as_of": "2026-09-27",
+  "methodology": "Latest available SEC-filed TTM on or before each comparison date; split-adjusted closes; currently restated facts.",
+  "sources": {
+    "financials": "https://data.sec.gov/api/xbrl/companyfacts/",
+    "prices": "Yahoo Finance via https://yfin-h.tigzig.com/v1/get-all-prices/",
+    "ticker_mapping": "https://www.sec.gov/files/company_tickers.json"
+  },
+  "periods": {
+    "1y": [
+      {
+        "ticker": "AMD",
+        "entity": "ADVANCED MICRO DEVICES INC",
+        "cik": "0000002488",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-27",
+          "revenue": 41305000000.0,
+          "operating_income": 6488000000.0,
+          "net_income": 6434000000.0,
+          "diluted_shares": 1649250000.0,
+          "filed": "2026-08-05",
+          "accessions": [
+            "0000002488-25-000166",
+            "0000002488-26-000018",
+            "0000002488-26-000076",
+            "0000002488-26-000123"
+          ],
+          "price": 630.63,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-09-27",
+          "revenue": 32027000000.0,
+          "operating_income": 2813000000.0,
+          "net_income": 3306000000.0,
+          "diluted_shares": 1633250000.0,
+          "filed": "2026-08-05",
+          "accessions": [
+            "0000002488-25-000166",
+            "0000002488-26-000018",
+            "0000002488-26-000076",
+            "0000002488-26-000123"
+          ],
+          "price": 159.46,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "CCL",
+        "entity": "Carnival Corp Ltd.",
+        "cik": "0000815097",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-05-31",
+          "revenue": 27312000000.0,
+          "operating_income": 4464000000.0,
+          "net_income": 3068000000.0,
+          "diluted_shares": 1419441095.890411,
+          "filed": "2026-06-26",
+          "accessions": [
+            "0000815097-25-000084",
+            "0000815097-26-000007",
+            "0000815097-26-000037",
+            "0000815097-26-000096"
+          ],
+          "price": 22.25,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-08-31",
+          "revenue": 26229000000.0,
+          "operating_income": 4308000000.0,
+          "net_income": 2642000000.0,
+          "diluted_shares": 1442734246.5753424,
+          "filed": "2026-06-26",
+          "accessions": [
+            "0000815097-25-000084",
+            "0000815097-26-000007",
+            "0000815097-26-000037",
+            "0000815097-26-000096"
+          ],
+          "price": 30.14,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "SNDK",
+        "entity": "Sandisk Corp",
+        "cik": "0002023554",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-07-03",
+          "revenue": 20248000000.0,
+          "operating_income": 12389000000.0,
+          "net_income": 11433000000.0,
+          "diluted_shares": 155000000.0,
+          "filed": "2026-08-17",
+          "accessions": [
+            "0001628280-25-050698",
+            "0001628280-26-004407",
+            "0001628280-26-029401",
+            "0001628280-26-057406"
+          ],
+          "price": 1777.8,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-06-27",
+          "revenue": 7355000000.0,
+          "operating_income": -1377000000.0,
+          "net_income": -1641000000.0,
+          "diluted_shares": 145000000.0,
+          "filed": "2026-08-17",
+          "accessions": [
+            "0001628280-25-050698",
+            "0001628280-26-004407",
+            "0001628280-26-029401",
+            "0001628280-26-057406"
+          ],
+          "price": 97.12,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "TSLA",
+        "entity": "Tesla, Inc.",
+        "cik": "0001318605",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 103619000000.0,
+          "operating_income": 4372000000.0,
+          "net_income": 3804000000.0,
+          "diluted_shares": 3537427397.260274,
+          "filed": "2026-07-23",
+          "accessions": [
+            "0001628280-25-045968",
+            "0001628280-26-003952",
+            "0001628280-26-026673",
+            "0001628280-26-049270"
+          ],
+          "price": 372.11,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-06-30",
+          "revenue": 92720000000.0,
+          "operating_income": 5622000000.0,
+          "net_income": 5882000000.0,
+          "diluted_shares": 3516635616.4383564,
+          "filed": "2026-07-23",
+          "accessions": [
+            "0001628280-25-045968",
+            "0001628280-26-003952",
+            "0001628280-26-026673",
+            "0001628280-26-049270"
+          ],
+          "price": 440.4,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "HOOD",
+        "entity": "Robinhood Markets, Inc.",
+        "cik": "0001783879",
+        "status": "unavailable",
+        "reason": "SEC facts missing: operating_income",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "MU",
+        "entity": "MICRON TECHNOLOGY INC",
+        "cik": "0000723125",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-05-28",
+          "revenue": 90274000000.0,
+          "operating_income": 59243000000.0,
+          "net_income": 50469000000.0,
+          "diluted_shares": 1138750000.0,
+          "filed": "2026-06-25",
+          "accessions": [
+            "0000723125-25-000028",
+            "0000723125-25-000046",
+            "0000723125-26-000006",
+            "0000723125-26-000015"
+          ],
+          "price": 1082.28,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-08-28",
+          "revenue": 37378000000.0,
+          "operating_income": 9770000000.0,
+          "net_income": 8539000000.0,
+          "diluted_shares": 1125000000.0,
+          "filed": "2026-06-25",
+          "accessions": [
+            "0000723125-25-000028",
+            "0000723125-25-000046",
+            "0000723125-26-000006",
+            "0000723125-26-000015"
+          ],
+          "price": 157.02,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "RKLB",
+        "entity": "Rocket Lab Corp",
+        "cik": "0001819994",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 769146000.0,
+          "operating_income": -223494000.0,
+          "net_income": -165459000.0,
+          "diluted_shares": 583848347.5260274,
+          "filed": "2026-08-10",
+          "accessions": [
+            "0001819994-25-000021",
+            "0001819994-26-000013",
+            "0001819994-26-000028",
+            "0001819994-26-000062"
+          ],
+          "price": 73.95,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-06-30",
+          "revenue": 504263000.0,
+          "operating_income": -222275000.0,
+          "net_income": -231314000.0,
+          "diluted_shares": 505007167.8082192,
+          "filed": "2026-08-10",
+          "accessions": [
+            "0001819994-25-000021",
+            "0001819994-26-000013",
+            "0001819994-26-000028",
+            "0001819994-26-000062"
+          ],
+          "price": 46.26,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "COIN",
+        "entity": "Coinbase Global, Inc.",
+        "cik": "0001679788",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 6282872000.0,
+          "operating_income": 619376000.0,
+          "net_income": -987766000.0,
+          "diluted_shares": 281747545.20547944,
+          "filed": "2026-07-30",
+          "accessions": [
+            "0001679788-25-000208",
+            "0001679788-26-000015",
+            "0001679788-26-000054",
+            "0001679788-26-000088"
+          ],
+          "price": 195.11,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-06-30",
+          "revenue": 7008333000.0,
+          "operating_income": 1884738000.0,
+          "net_income": 2861179000.0,
+          "diluted_shares": 277219284.9315069,
+          "filed": "2026-07-30",
+          "accessions": [
+            "0001679788-25-000208",
+            "0001679788-26-000015",
+            "0001679788-26-000054",
+            "0001679788-26-000088"
+          ],
+          "price": 312.59,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "FIG",
+        "entity": "Figma, Inc.",
+        "cik": "0001579878",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 1281471000.0,
+          "operating_income": -1586969000.0,
+          "net_income": -1578125000.0,
+          "diluted_shares": 482881775.34246576,
+          "filed": "2026-08-05",
+          "accessions": [
+            "0001628280-25-049683",
+            "0001628280-26-009228",
+            "0001628280-26-035209",
+            "0001628280-26-053348"
+          ],
+          "price": 20.85,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2024-12-31",
+          "revenue": 749011000.0,
+          "operating_income": -877433000.0,
+          "net_income": -732120000.0,
+          "diluted_shares": 195612000.0,
+          "filed": "2026-02-18",
+          "accessions": [
+            "0001628280-26-009228"
+          ],
+          "price": 52.91,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "AAOI",
+        "entity": "APPLIED OPTOELECTRONICS, INC.",
+        "cik": "0001158114",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 595970000.0,
+          "operating_income": -67407000.0,
+          "net_income": -57020000.0,
+          "diluted_shares": 72761921.24657534,
+          "filed": "2026-08-06",
+          "accessions": [
+            "0001437749-25-033627",
+            "0001437749-26-005875",
+            "0001437749-26-015620",
+            "0001437749-26-026278"
+          ],
+          "price": 101.4,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-06-30",
+          "revenue": 368233000.0,
+          "operating_income": -47931000.0,
+          "net_income": -155718000.0,
+          "diluted_shares": 48766834.70136987,
+          "filed": "2026-08-06",
+          "accessions": [
+            "0001437749-25-033627",
+            "0001437749-26-005875",
+            "0001437749-26-015620",
+            "0001437749-26-026278"
+          ],
+          "price": 25.77,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "SPCX",
+        "entity": "SPACE EXPLORATION TECHNOLOGIES CORP",
+        "cik": "0001181412",
+        "status": "unavailable",
+        "reason": "No four-quarter SEC TTM history with aligned concepts",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "LITE",
+        "entity": "Lumentum Holdings Inc.",
+        "cik": "0001633978",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-27",
+          "revenue": 3014000000.0,
+          "operating_income": 524800000.0,
+          "net_income": -6935100000.0,
+          "diluted_shares": 74600000.0,
+          "filed": "2026-08-17",
+          "accessions": [
+            "0001628280-25-049073",
+            "0001628280-26-005129",
+            "0001628280-26-030777",
+            "0001628280-26-057358"
+          ],
+          "price": 941.65,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-09-27",
+          "revenue": 1841900000.0,
+          "operating_income": -91000000.0,
+          "net_income": 112500000.0,
+          "diluted_shares": 72100000.0,
+          "filed": "2026-08-17",
+          "accessions": [
+            "0001628280-25-049073",
+            "0001628280-26-005129",
+            "0001628280-26-030777",
+            "0001628280-26-057358"
+          ],
+          "price": 160.75,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "INTC",
+        "entity": "INTEL CORP",
+        "cik": "0000050863",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-27",
+          "revenue": 57032000000.0,
+          "operating_income": -77000000.0,
+          "net_income": -11289000000.0,
+          "diluted_shares": 4898750000.0,
+          "filed": "2026-07-24",
+          "accessions": [
+            "0000050863-25-000179",
+            "0000050863-26-000011",
+            "0000050863-26-000079",
+            "0000050863-26-000157"
+          ],
+          "price": 123.0,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-09-27",
+          "revenue": 53439000000.0,
+          "operating_income": -2382000000.0,
+          "net_income": 198000000.0,
+          "diluted_shares": 4390500000.0,
+          "filed": "2026-07-24",
+          "accessions": [
+            "0000050863-25-000179",
+            "0000050863-26-000011",
+            "0000050863-26-000079",
+            "0000050863-26-000157"
+          ],
+          "price": 35.5,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "SOXX",
+        "entity": null,
+        "cik": null,
+        "status": "unavailable",
+        "reason": "Investment fund: issuer-level revenue decomposition is not applicable",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "GLW",
+        "entity": "CORNING INC /NY",
+        "cik": "0000024741",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 16964000000.0,
+          "operating_income": 2598000000.0,
+          "net_income": 1900000000.0,
+          "diluted_shares": 874726027.3972603,
+          "filed": "2026-07-29",
+          "accessions": [
+            "0000024741-25-000121",
+            "0000024741-26-000124",
+            "0000024741-26-000205",
+            "0000024741-26-000255"
+          ],
+          "price": 156.74,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-06-30",
+          "revenue": 14206000000.0,
+          "operating_income": 1713000000.0,
+          "net_income": 819000000.0,
+          "diluted_shares": 870254794.520548,
+          "filed": "2026-07-29",
+          "accessions": [
+            "0000024741-25-000121",
+            "0000024741-26-000124",
+            "0000024741-26-000205",
+            "0000024741-26-000255"
+          ],
+          "price": 78.66,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "CRWD",
+        "entity": "CrowdStrike Holdings, Inc.",
+        "cik": "0001535527",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-07-31",
+          "revenue": 5396145000.0,
+          "operating_income": -132954000.0,
+          "net_income": 44995000.0,
+          "diluted_shares": 266933260.2739726,
+          "filed": "2026-08-27",
+          "accessions": [
+            "0001535527-25-000033",
+            "0001535527-26-000010",
+            "0001535527-26-000025",
+            "0001535527-26-000031"
+          ],
+          "price": 252.13,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-07-31",
+          "revenue": 4341102000.0,
+          "operating_income": -361164000.0,
+          "net_income": -279491000.0,
+          "diluted_shares": 975883726.0273973,
+          "filed": "2026-08-27",
+          "accessions": [
+            "0001535527-25-000033",
+            "0001535527-26-000010",
+            "0001535527-26-000025",
+            "0001535527-26-000031"
+          ],
+          "price": 120.36,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "NOW",
+        "entity": "ServiceNow, Inc.",
+        "cik": "0001373715",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 14732000000.0,
+          "operating_income": 1680000000.0,
+          "net_income": 1670000000.0,
+          "diluted_shares": 1253139728.7671232,
+          "filed": "2026-07-23",
+          "accessions": [
+            "0001373715-25-000309",
+            "0001373715-26-000007",
+            "0001373715-26-000056",
+            "0001373715-26-000076"
+          ],
+          "price": 135.62,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-06-30",
+          "revenue": 12057000000.0,
+          "operating_income": 1601000000.0,
+          "net_income": 1661000000.0,
+          "diluted_shares": 1670711093.1506848,
+          "filed": "2026-07-23",
+          "accessions": [
+            "0001373715-25-000309",
+            "0001373715-26-000007",
+            "0001373715-26-000056",
+            "0001373715-26-000076"
+          ],
+          "price": 187.2,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "NBIS",
+        "entity": "Nebius Group N.V.",
+        "cik": "0001513845",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2025-12-31",
+          "revenue": 529800000.0,
+          "operating_income": -611700000.0,
+          "net_income": 82500000.0,
+          "diluted_shares": 247679946.0,
+          "filed": "2026-04-30",
+          "accessions": [
+            "0001104659-26-052948"
+          ],
+          "price": 237.33,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2024-12-31",
+          "revenue": 91500000.0,
+          "operating_income": -399600000.0,
+          "net_income": -641400000.0,
+          "diluted_shares": 281005226.0,
+          "filed": "2026-04-30",
+          "accessions": [
+            "0001104659-26-052948"
+          ],
+          "price": 107.7,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:ProfitLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "ALAB",
+        "entity": "Astera Labs, Inc.",
+        "cik": "0001736297",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 1201919000.0,
+          "operating_income": 273445000.0,
+          "net_income": 369494000.0,
+          "diluted_shares": 181607246.57534248,
+          "filed": "2026-08-05",
+          "accessions": [
+            "0001736297-25-000147",
+            "0001736297-26-000010",
+            "0001736297-26-000020",
+            "0001736297-26-000035"
+          ],
+          "price": 364.62,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-06-30",
+          "revenue": 605549000.0,
+          "operating_income": 42307000.0,
+          "net_income": 100158000.0,
+          "diluted_shares": 168153180.8219178,
+          "filed": "2026-08-05",
+          "accessions": [
+            "0001736297-25-000147",
+            "0001736297-26-000010",
+            "0001736297-26-000020",
+            "0001736297-26-000035"
+          ],
+          "price": 197.78,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "SMCI",
+        "entity": "Super Micro Computer, Inc.",
+        "cik": "0001375365",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 39063072000.0,
+          "operating_income": 2770486000.0,
+          "net_income": 2230453000.0,
+          "diluted_shares": 697348000.0,
+          "filed": "2026-08-31",
+          "accessions": [
+            "0001375365-25-000030",
+            "0001375365-26-000007",
+            "0001375365-26-000014",
+            "0001375365-26-000022"
+          ],
+          "price": 43.26,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-06-30",
+          "revenue": 21972042000.0,
+          "operating_income": 1252994000.0,
+          "net_income": 1048854000.0,
+          "diluted_shares": 628402000.0,
+          "filed": "2026-08-31",
+          "accessions": [
+            "0001375365-25-000030",
+            "0001375365-26-000007",
+            "0001375365-26-000014",
+            "0001375365-26-000022"
+          ],
+          "price": 45.82,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "NVDA",
+        "entity": "NVIDIA CORP",
+        "cik": "0001045810",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-07-26",
+          "revenue": 302969000000.0,
+          "operating_income": 197579000000.0,
+          "net_income": 192879000000.0,
+          "diluted_shares": 24397250000.0,
+          "filed": "2026-08-26",
+          "accessions": [
+            "0001045810-25-000230",
+            "0001045810-26-000021",
+            "0001045810-26-000052",
+            "0001045810-26-000075"
+          ],
+          "price": 225.07,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-07-27",
+          "revenue": 165218000000.0,
+          "operating_income": 95980000000.0,
+          "net_income": 86597000000.0,
+          "diluted_shares": 24655250000.0,
+          "filed": "2026-08-26",
+          "accessions": [
+            "0001045810-25-000230",
+            "0001045810-26-000021",
+            "0001045810-26-000052",
+            "0001045810-26-000075"
+          ],
+          "price": 177.76,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "CRWV",
+        "entity": "CoreWeave, Inc.",
+        "cik": "0001769628",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 7590000000.0,
+          "operating_income": -231000000.0,
+          "net_income": -1928000000.0,
+          "diluted_shares": 520504109.5890411,
+          "filed": "2026-08-12",
+          "accessions": [
+            "0001769628-25-000062",
+            "0001769628-26-000104",
+            "0001769628-26-000222",
+            "0001769628-26-000366"
+          ],
+          "price": 87.59,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-06-30",
+          "revenue": 3524945000.0,
+          "operating_income": 221432000.0,
+          "net_income": -1015731000.0,
+          "diluted_shares": 296984345.20547944,
+          "filed": "2026-08-12",
+          "accessions": [
+            "0001769628-25-000062",
+            "0001769628-26-000104",
+            "0001769628-26-000222",
+            "0001769628-26-000366"
+          ],
+          "price": 120.34,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "NET",
+        "entity": "Cloudflare, Inc.",
+        "cik": "0001477333",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 2512350000.0,
+          "operating_income": -354384000.0,
+          "net_income": -206275000.0,
+          "diluted_shares": 351829424.65753424,
+          "filed": "2026-08-06",
+          "accessions": [
+            "0001477333-25-000141",
+            "0001477333-26-000016",
+            "0001477333-26-000038",
+            "0001477333-26-000054"
+          ],
+          "price": 349.02,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-06-30",
+          "revenue": 1881431000.0,
+          "operating_income": -186024000.0,
+          "net_income": -117079000.0,
+          "diluted_shares": 344884860.27397263,
+          "filed": "2026-08-06",
+          "accessions": [
+            "0001477333-25-000141",
+            "0001477333-26-000016",
+            "0001477333-26-000038",
+            "0001477333-26-000054"
+          ],
+          "price": 216.34,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "IREN",
+        "entity": "IREN Ltd",
+        "cik": "0001878848",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 707007000.0,
+          "operating_income": -1046714000.0,
+          "net_income": -702621000.0,
+          "diluted_shares": 316123145.0,
+          "filed": "2026-08-27",
+          "accessions": [
+            "0001878848-25-000081",
+            "0001878848-26-000015",
+            "0001878848-26-000026",
+            "0001878848-26-000052"
+          ],
+          "price": 44.12,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-06-30",
+          "revenue": 501023000.0,
+          "operating_income": 17327000.0,
+          "net_income": 86941000.0,
+          "diluted_shares": 223245651.0,
+          "filed": "2026-08-27",
+          "accessions": [
+            "0001878848-25-000081",
+            "0001878848-26-000015",
+            "0001878848-26-000026",
+            "0001878848-26-000052"
+          ],
+          "price": 41.86,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "IGV",
+        "entity": null,
+        "cik": null,
+        "status": "unavailable",
+        "reason": "Investment fund: issuer-level revenue decomposition is not applicable",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "COHR",
+        "entity": "COHERENT CORP.",
+        "cik": "0000820318",
+        "status": "unavailable",
+        "reason": "SEC TTM snapshot is stale for 1Y",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "PANW",
+        "entity": "Palo Alto Networks Inc",
+        "cik": "0001327567",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-07-31",
+          "revenue": 11480000000.0,
+          "operating_income": 695000000.0,
+          "net_income": 307000000.0,
+          "diluted_shares": 764000000.0,
+          "filed": "2026-09-10",
+          "accessions": [
+            "0001327567-25-000035",
+            "0001327567-26-000005",
+            "0001327567-26-000015",
+            "0001327567-26-000023"
+          ],
+          "price": 374.74,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-07-31",
+          "revenue": 9221000000.0,
+          "operating_income": 1243000000.0,
+          "net_income": 1134000000.0,
+          "diluted_shares": 709000000.0,
+          "filed": "2026-09-10",
+          "accessions": [
+            "0001327567-25-000035",
+            "0001327567-26-000005",
+            "0001327567-26-000015",
+            "0001327567-26-000023"
+          ],
+          "price": 202.37,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "SNOW",
+        "entity": "Snowflake Inc.",
+        "cik": "0001640147",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-07-31",
+          "revenue": 5434647000.0,
+          "operating_income": -1236753000.0,
+          "net_income": -1090798000.0,
+          "diluted_shares": 344137356.1643836,
+          "filed": "2026-09-04",
+          "accessions": [
+            "0001640147-25-000211",
+            "0001640147-26-000008",
+            "0001640147-26-000030",
+            "0001640147-26-000037"
+          ],
+          "price": 335.94,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-01-31",
+          "revenue": 3626396000.0,
+          "operating_income": -1456010000.0,
+          "net_income": -1285640000.0,
+          "diluted_shares": 332707000.0,
+          "filed": "2026-03-20",
+          "accessions": [
+            "0001640147-25-000110",
+            "0001640147-25-000187",
+            "0001640147-25-000211",
+            "0001640147-26-000008"
+          ],
+          "price": 224.64,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "ASTS",
+        "entity": "AST SpaceMobile, Inc.",
+        "cik": "0001780312",
+        "status": "unavailable",
+        "reason": "No four-quarter SEC TTM history with aligned concepts",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "MRVL",
+        "entity": "Marvell Technology, Inc.",
+        "cik": "0001835632",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-08-01",
+          "revenue": 9450300000.0,
+          "operating_income": 1561300000.0,
+          "net_income": 2639900000.0,
+          "diluted_shares": 886825000.0,
+          "filed": "2026-08-28",
+          "accessions": [
+            "0001835632-25-000197",
+            "0001835632-26-000011",
+            "0001835632-26-000019",
+            "0001835632-26-000025"
+          ],
+          "price": 261.94,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-08-02",
+          "revenue": 7234900000.0,
+          "operating_income": 93100000.0,
+          "net_income": -103400000.0,
+          "diluted_shares": 869325000.0,
+          "filed": "2026-08-28",
+          "accessions": [
+            "0001835632-25-000197",
+            "0001835632-26-000011",
+            "0001835632-26-000019",
+            "0001835632-26-000025"
+          ],
+          "price": 82.99,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "AVGO",
+        "entity": "Broadcom Inc.",
+        "cik": "0001730168",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-08-02",
+          "revenue": 89104000000.0,
+          "operating_income": 42814000000.0,
+          "net_income": 38265000000.0,
+          "diluted_shares": 4885250000.0,
+          "filed": "2026-09-10",
+          "accessions": [
+            "0001730168-25-000121",
+            "0001730168-26-000016",
+            "0001730168-26-000054",
+            "0001730168-26-000080"
+          ],
+          "price": 352.81,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-08-03",
+          "revenue": 59926000000.0,
+          "operating_income": 22603000000.0,
+          "net_income": 18932000000.0,
+          "diluted_shares": 4878653846.153846,
+          "filed": "2026-09-10",
+          "accessions": [
+            "0001730168-25-000121",
+            "0001730168-26-000016",
+            "0001730168-26-000054",
+            "0001730168-26-000080"
+          ],
+          "price": 332.06,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:ProfitLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "MSTR",
+        "entity": "Strategy Inc",
+        "cik": "0001050446",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 498347000.0,
+          "operating_income": -36356332000.0,
+          "net_income": -30413926000.0,
+          "diluted_shares": 308165945.20547944,
+          "filed": "2026-08-03",
+          "accessions": [
+            "0001050446-26-000020",
+            "0001050446-26-000031",
+            "0001050446-26-000044",
+            "0001193125-25-262568"
+          ],
+          "price": 158.61,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-06-30",
+          "revenue": 462322000.0,
+          "operating_income": 6661576000.0,
+          "net_income": 4792492000.0,
+          "diluted_shares": 245400189.04109588,
+          "filed": "2026-08-03",
+          "accessions": [
+            "0000950170-25-063536",
+            "0001050446-26-000020",
+            "0001050446-26-000031",
+            "0001050446-26-000044",
+            "0001193125-25-262568"
+          ],
+          "price": 309.06,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "PURR",
+        "entity": "Hyperliquid Strategies Inc",
+        "cik": "0002078856",
+        "status": "unavailable",
+        "reason": "Split-adjusted price history unavailable for 1Y",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "AXTI",
+        "entity": "AXT INC",
+        "cik": "0001051627",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 125509000.0,
+          "operating_income": 3882000.0,
+          "net_income": 4054000.0,
+          "diluted_shares": 51268271.23287671,
+          "filed": "2026-08-13",
+          "accessions": [
+            "0001437749-25-034843",
+            "0001437749-26-008612",
+            "0001437749-26-017054",
+            "0001437749-26-027677"
+          ],
+          "price": 78.94,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-06-30",
+          "revenue": 86080000.0,
+          "operating_income": -26591000.0,
+          "net_income": -23831000.0,
+          "diluted_shares": 43448342.46575342,
+          "filed": "2026-08-13",
+          "accessions": [
+            "0001437749-25-034843",
+            "0001437749-26-008612",
+            "0001437749-26-017054",
+            "0001437749-26-027677"
+          ],
+          "price": 4.66,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "ASST",
+        "entity": "Strive, Inc.",
+        "cik": "0001920406",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 8501000.0,
+          "operating_income": -816630000.0,
+          "net_income": -931473000.0,
+          "diluted_shares": 47367261.38616438,
+          "filed": "2026-08-10",
+          "accessions": [
+            "0001628280-25-052343",
+            "0001628280-26-019879",
+            "0001628280-26-034805",
+            "0001628280-26-054985"
+          ],
+          "price": 29.44,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2024-12-31",
+          "revenue": 3650000.0,
+          "operating_income": -22654000.0,
+          "net_income": -21580000.0,
+          "diluted_shares": 313110.44808743167,
+          "filed": "2026-03-19",
+          "accessions": [
+            "0001213900-25-044239",
+            "0001213900-25-071724",
+            "0001628280-25-052343",
+            "0001628280-26-019879"
+          ],
+          "price": 48.8,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "DELL",
+        "entity": "Dell Technologies Inc.",
+        "cik": "0001571996",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-07-31",
+          "revenue": 151197000000.0,
+          "operating_income": 14252000000.0,
+          "net_income": 11378000000.0,
+          "diluted_shares": 664000000.0,
+          "filed": "2026-09-08",
+          "accessions": [
+            "0001571996-25-000127",
+            "0001571996-26-000008",
+            "0001571996-26-000030",
+            "0001571996-26-000046"
+          ],
+          "price": 562.89,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-08-01",
+          "revenue": 101451000000.0,
+          "operating_income": 6818000000.0,
+          "net_income": 4837000000.0,
+          "diluted_shares": 704250000.0,
+          "filed": "2026-09-08",
+          "accessions": [
+            "0001571996-25-000034",
+            "0001571996-25-000127",
+            "0001571996-26-000008",
+            "0001571996-26-000030",
+            "0001571996-26-000046"
+          ],
+          "price": 129.11,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "RCL",
+        "entity": "ROYAL CARIBBEAN CRUISES LTD",
+        "cik": "0000884887",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 18682000000.0,
+          "operating_income": 5105000000.0,
+          "net_income": 4397000000.0,
+          "diluted_shares": 271021917.8082192,
+          "filed": "2026-07-28",
+          "accessions": [
+            "0000884887-25-000148",
+            "0000884887-26-000007",
+            "0000884887-26-000026",
+            "0000884887-26-000038"
+          ],
+          "price": 242.7,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-06-30",
+          "revenue": 17183000000.0,
+          "operating_income": 4531000000.0,
+          "net_income": 3603000000.0,
+          "diluted_shares": 276265753.4246575,
+          "filed": "2026-07-28",
+          "accessions": [
+            "0000884887-25-000148",
+            "0000884887-26-000007",
+            "0000884887-26-000026",
+            "0000884887-26-000038"
+          ],
+          "price": 320.48,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "STRL",
+        "entity": "STERLING INFRASTRUCTURE, INC.",
+        "cik": "0000874238",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 3438486000.0,
+          "operating_income": 602351000.0,
+          "net_income": 460437000.0,
+          "diluted_shares": 31080701.369863015,
+          "filed": "2026-08-04",
+          "accessions": [
+            "0000874238-25-000136",
+            "0000874238-26-000024",
+            "0000874238-26-000055",
+            "0000874238-26-000103"
+          ],
+          "price": 512.29,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-06-30",
+          "revenue": 2137991000.0,
+          "operating_income": 310403000.0,
+          "net_income": 304284000.0,
+          "diluted_shares": 30975197.260273974,
+          "filed": "2026-08-04",
+          "accessions": [
+            "0000874238-25-000136",
+            "0000874238-26-000024",
+            "0000874238-26-000055",
+            "0000874238-26-000103"
+          ],
+          "price": 342.11,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:ProfitLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "MOD",
+        "entity": "MODINE MANUFACTURING CO",
+        "cik": "0000067347",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 3372400000.0,
+          "operating_income": 341500000.0,
+          "net_income": 144200000.0,
+          "diluted_shares": 53874794.52054795,
+          "filed": "2026-07-30",
+          "accessions": [
+            "0001104659-25-103646",
+            "0001104659-26-010790",
+            "0001104659-26-066795",
+            "0001104659-26-088569"
+          ],
+          "price": 198.07,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-06-30",
+          "revenue": 2604800000.0,
+          "operating_income": 284800000.0,
+          "net_income": 187900000.0,
+          "diluted_shares": 53850136.98630137,
+          "filed": "2026-07-30",
+          "accessions": [
+            "0001104659-25-103646",
+            "0001104659-26-010790",
+            "0001104659-26-066795",
+            "0001104659-26-088569"
+          ],
+          "price": 138.65,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "BE",
+        "entity": "Bloom Energy Corp",
+        "cik": "0001664703",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-03-31",
+          "revenue": 2449027000.0,
+          "operating_income": 164062000.0,
+          "net_income": 9965000.0,
+          "diluted_shares": 262470000.0,
+          "filed": "2026-04-29",
+          "accessions": [
+            "0001628280-25-037074",
+            "0001628280-25-046844",
+            "0001628280-26-006516",
+            "0001628280-26-028021"
+          ],
+          "price": 288.7,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-06-30",
+          "revenue": 1630054000.0,
+          "operating_income": 72481000.0,
+          "net_income": 24919000.0,
+          "diluted_shares": 229849857.53424656,
+          "filed": "2026-04-29",
+          "accessions": [
+            "0001628280-25-037074",
+            "0001628280-25-046844",
+            "0001628280-26-006516",
+            "0001628280-26-028021"
+          ],
+          "price": 70.32,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:ProfitLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "U",
+        "entity": "Unity Software Inc.",
+        "cik": "0001810806",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 2028410000.0,
+          "operating_income": -615998000.0,
+          "net_income": -587541000.0,
+          "diluted_shares": 431507101.36986303,
+          "filed": "2026-08-06",
+          "accessions": [
+            "0001810806-25-000169",
+            "0001810806-26-000011",
+            "0001810806-26-000032",
+            "0001810806-26-000043"
+          ],
+          "price": 41.55,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2025-06-30",
+          "revenue": 1779560000.0,
+          "operating_income": -497487000.0,
+          "net_income": -433906000.0,
+          "diluted_shares": 408305873.9726027,
+          "filed": "2026-08-06",
+          "accessions": [
+            "0001810806-25-000169",
+            "0001810806-26-000011",
+            "0001810806-26-000032",
+            "0001810806-26-000043"
+          ],
+          "price": 42.76,
+          "price_date": "2025-09-26"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "CBRS",
+        "entity": "Cerebras Systems Inc.",
+        "cik": "0002021728",
+        "status": "unavailable",
+        "reason": "No four-quarter SEC TTM history with aligned concepts",
+        "current": null,
+        "prior": null
+      }
+    ],
+    "3y": [
+      {
+        "ticker": "AMD",
+        "entity": "ADVANCED MICRO DEVICES INC",
+        "cik": "0000002488",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-27",
+          "revenue": 41305000000.0,
+          "operating_income": 6488000000.0,
+          "net_income": 6434000000.0,
+          "diluted_shares": 1649250000.0,
+          "filed": "2026-08-05",
+          "accessions": [
+            "0000002488-25-000166",
+            "0000002488-26-000018",
+            "0000002488-26-000076",
+            "0000002488-26-000123"
+          ],
+          "price": 630.63,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-07-01",
+          "revenue": 21876000000.0,
+          "operating_income": -378000000.0,
+          "net_income": -25000000.0,
+          "diluted_shares": 1619075471.6981132,
+          "filed": "2025-02-05",
+          "accessions": [
+            "0000002488-23-000195",
+            "0000002488-24-000056",
+            "0000002488-24-000123",
+            "0000002488-25-000012"
+          ],
+          "price": 98.07,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "CCL",
+        "entity": "Carnival Corp Ltd.",
+        "cik": "0000815097",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-05-31",
+          "revenue": 27312000000.0,
+          "operating_income": 4464000000.0,
+          "net_income": 3068000000.0,
+          "diluted_shares": 1419441095.890411,
+          "filed": "2026-06-26",
+          "accessions": [
+            "0000815097-25-000084",
+            "0000815097-26-000007",
+            "0000815097-26-000037",
+            "0000815097-26-000096"
+          ],
+          "price": 22.25,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-08-31",
+          "revenue": 20036000000.0,
+          "operating_income": 436000000.0,
+          "net_income": -1624000000.0,
+          "diluted_shares": 1294515068.4931507,
+          "filed": "2025-01-27",
+          "accessions": [
+            "0000815097-24-000035",
+            "0000815097-24-000057",
+            "0000815097-24-000071",
+            "0000815097-25-000007"
+          ],
+          "price": 13.76,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "SNDK",
+        "entity": "Sandisk Corp",
+        "cik": "0002023554",
+        "status": "unavailable",
+        "reason": "Split-adjusted price history unavailable for 3Y",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "TSLA",
+        "entity": "Tesla, Inc.",
+        "cik": "0001318605",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 103619000000.0,
+          "operating_income": 4372000000.0,
+          "net_income": 3804000000.0,
+          "diluted_shares": 3537427397.260274,
+          "filed": "2026-07-23",
+          "accessions": [
+            "0001628280-25-045968",
+            "0001628280-26-003952",
+            "0001628280-26-026673",
+            "0001628280-26-049270"
+          ],
+          "price": 372.11,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-06-30",
+          "revenue": 94028000000.0,
+          "operating_income": 12652000000.0,
+          "net_income": 12195000000.0,
+          "diluted_shares": 3477504109.589041,
+          "filed": "2025-01-30",
+          "accessions": [
+            "0001628280-23-034847",
+            "0001628280-24-017503",
+            "0001628280-24-032662",
+            "0001628280-25-003063"
+          ],
+          "price": 240.5,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "HOOD",
+        "entity": "Robinhood Markets, Inc.",
+        "cik": "0001783879",
+        "status": "unavailable",
+        "reason": "SEC facts missing: operating_income",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "MU",
+        "entity": "MICRON TECHNOLOGY INC",
+        "cik": "0000723125",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-05-28",
+          "revenue": 90274000000.0,
+          "operating_income": 59243000000.0,
+          "net_income": 50469000000.0,
+          "diluted_shares": 1138750000.0,
+          "filed": "2026-06-25",
+          "accessions": [
+            "0000723125-25-000028",
+            "0000723125-25-000046",
+            "0000723125-26-000006",
+            "0000723125-26-000015"
+          ],
+          "price": 1082.28,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-08-31",
+          "revenue": 15540000000.0,
+          "operating_income": -5745000000.0,
+          "net_income": -5833000000.0,
+          "diluted_shares": 1093000000.0,
+          "filed": "2025-10-03",
+          "accessions": [
+            "0000723125-23-000077",
+            "0000723125-24-000007",
+            "0000723125-24-000019",
+            "0000723125-25-000028"
+          ],
+          "price": 67.46,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "RKLB",
+        "entity": "Rocket Lab Corp",
+        "cik": "0001819994",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 769146000.0,
+          "operating_income": -223494000.0,
+          "net_income": -165459000.0,
+          "diluted_shares": 583848347.5260274,
+          "filed": "2026-08-10",
+          "accessions": [
+            "0001819994-25-000021",
+            "0001819994-26-000013",
+            "0001819994-26-000028",
+            "0001819994-26-000062"
+          ],
+          "price": 73.95,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-06-30",
+          "revenue": 231759000.0,
+          "operating_income": -160401000.0,
+          "net_income": -163324000.0,
+          "diluted_shares": 474816418.21643835,
+          "filed": "2025-02-27",
+          "accessions": [
+            "0000950170-23-061189",
+            "0000950170-24-053646",
+            "0000950170-24-094122",
+            "0000950170-24-125529",
+            "0001628280-25-008724"
+          ],
+          "price": 4.3,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "COIN",
+        "entity": "Coinbase Global, Inc.",
+        "cik": "0001679788",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 6282872000.0,
+          "operating_income": 619376000.0,
+          "net_income": -987766000.0,
+          "diluted_shares": 281747545.20547944,
+          "filed": "2026-07-30",
+          "accessions": [
+            "0001679788-25-000208",
+            "0001679788-26-000015",
+            "0001679788-26-000054",
+            "0001679788-26-000088"
+          ],
+          "price": 195.11,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-06-30",
+          "revenue": 2699887000.0,
+          "operating_income": -1308806000.0,
+          "net_income": -1277937000.0,
+          "diluted_shares": 229186676.71232876,
+          "filed": "2025-02-13",
+          "accessions": [
+            "0001679788-23-000113",
+            "0001679788-24-000089",
+            "0001679788-24-000149",
+            "0001679788-25-000022"
+          ],
+          "price": 71.52,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "FIG",
+        "entity": "Figma, Inc.",
+        "cik": "0001579878",
+        "status": "unavailable",
+        "reason": "Split-adjusted price history unavailable for 3Y",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "AAOI",
+        "entity": "APPLIED OPTOELECTRONICS, INC.",
+        "cik": "0001158114",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 595970000.0,
+          "operating_income": -67407000.0,
+          "net_income": -57020000.0,
+          "diluted_shares": 72761921.24657534,
+          "filed": "2026-08-06",
+          "accessions": [
+            "0001437749-25-033627",
+            "0001437749-26-005875",
+            "0001437749-26-015620",
+            "0001437749-26-026278"
+          ],
+          "price": 101.4,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-06-30",
+          "revenue": 212922000.0,
+          "operating_income": -61992000.0,
+          "net_income": -69115000.0,
+          "diluted_shares": 28661473.646575343,
+          "filed": "2025-02-28",
+          "accessions": [
+            "0001437749-23-031255",
+            "0001437749-24-015696",
+            "0001437749-24-024888",
+            "0001437749-25-005575"
+          ],
+          "price": 10.28,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "SPCX",
+        "entity": "SPACE EXPLORATION TECHNOLOGIES CORP",
+        "cik": "0001181412",
+        "status": "unavailable",
+        "reason": "No four-quarter SEC TTM history with aligned concepts",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "LITE",
+        "entity": "Lumentum Holdings Inc.",
+        "cik": "0001633978",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-27",
+          "revenue": 3014000000.0,
+          "operating_income": 524800000.0,
+          "net_income": -6935100000.0,
+          "diluted_shares": 74600000.0,
+          "filed": "2026-08-17",
+          "accessions": [
+            "0001628280-25-049073",
+            "0001628280-26-005129",
+            "0001628280-26-030777",
+            "0001628280-26-057358"
+          ],
+          "price": 941.65,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-07-01",
+          "revenue": 1767000000.0,
+          "operating_income": -115700000.0,
+          "net_income": -131600000.0,
+          "diluted_shares": 68300000.0,
+          "filed": "2025-08-19",
+          "accessions": [
+            "0001628280-23-037591",
+            "0001628280-24-003796",
+            "0001628280-24-020767",
+            "0001628280-25-040830"
+          ],
+          "price": 43.83,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "INTC",
+        "entity": "INTEL CORP",
+        "cik": "0000050863",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-27",
+          "revenue": 57032000000.0,
+          "operating_income": -77000000.0,
+          "net_income": -11289000000.0,
+          "diluted_shares": 4898750000.0,
+          "filed": "2026-07-24",
+          "accessions": [
+            "0000050863-25-000179",
+            "0000050863-26-000011",
+            "0000050863-26-000079",
+            "0000050863-26-000157"
+          ],
+          "price": 123.0,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-07-01",
+          "revenue": 54044000000.0,
+          "operating_income": -3791000000.0,
+          "net_income": -922000000.0,
+          "diluted_shares": 4159057692.3076925,
+          "filed": "2025-01-31",
+          "accessions": [
+            "0000050863-23-000103",
+            "0000050863-24-000076",
+            "0000050863-24-000124",
+            "0000050863-25-000009"
+          ],
+          "price": 34.04,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "SOXX",
+        "entity": null,
+        "cik": null,
+        "status": "unavailable",
+        "reason": "Investment fund: issuer-level revenue decomposition is not applicable",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "GLW",
+        "entity": "CORNING INC /NY",
+        "cik": "0000024741",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 16964000000.0,
+          "operating_income": 2598000000.0,
+          "net_income": 1900000000.0,
+          "diluted_shares": 874726027.3972603,
+          "filed": "2026-07-29",
+          "accessions": [
+            "0000024741-25-000121",
+            "0000024741-26-000124",
+            "0000024741-26-000205",
+            "0000024741-26-000255"
+          ],
+          "price": 156.74,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-06-30",
+          "revenue": 13315000000.0,
+          "operating_income": 954000000.0,
+          "net_income": 629000000.0,
+          "diluted_shares": 857747945.2054795,
+          "filed": "2025-02-13",
+          "accessions": [
+            "0001437749-23-029347",
+            "0001437749-24-014319",
+            "0001437749-24-024494",
+            "0001628280-25-005347"
+          ],
+          "price": 28.23,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "CRWD",
+        "entity": "CrowdStrike Holdings, Inc.",
+        "cik": "0001535527",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-07-31",
+          "revenue": 5396145000.0,
+          "operating_income": -132954000.0,
+          "net_income": 44995000.0,
+          "diluted_shares": 266933260.2739726,
+          "filed": "2026-08-27",
+          "accessions": [
+            "0001535527-25-000033",
+            "0001535527-26-000010",
+            "0001535527-26-000025",
+            "0001535527-26-000031"
+          ],
+          "price": 252.13,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-07-31",
+          "revenue": 2642455000.0,
+          "operating_income": -152751000.0,
+          "net_income": -93474000.0,
+          "diluted_shares": 951411572.6027397,
+          "filed": "2025-03-10",
+          "accessions": [
+            "0001535527-23-000026",
+            "0001535527-24-000013",
+            "0001535527-24-000020",
+            "0001535527-25-000009"
+          ],
+          "price": 40.76,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "NOW",
+        "entity": "ServiceNow, Inc.",
+        "cik": "0001373715",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 14732000000.0,
+          "operating_income": 1680000000.0,
+          "net_income": 1670000000.0,
+          "diluted_shares": 1253139728.7671232,
+          "filed": "2026-07-23",
+          "accessions": [
+            "0001373715-25-000309",
+            "0001373715-26-000007",
+            "0001373715-26-000056",
+            "0001373715-26-000076"
+          ],
+          "price": 135.62,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-06-30",
+          "revenue": 8017000000.0,
+          "operating_income": 507000000.0,
+          "net_income": 1424000000.0,
+          "diluted_shares": 1022386958.9041096,
+          "filed": "2025-01-30",
+          "accessions": [
+            "0001373715-23-000419",
+            "0001373715-24-000169",
+            "0001373715-24-000272",
+            "0001373715-25-000010"
+          ],
+          "price": 109.28,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "NBIS",
+        "entity": "Nebius Group N.V.",
+        "cik": "0001513845",
+        "status": "unavailable",
+        "reason": "Split-adjusted price history unavailable for 3Y",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "ALAB",
+        "entity": "Astera Labs, Inc.",
+        "cik": "0001736297",
+        "status": "unavailable",
+        "reason": "Split-adjusted price history unavailable for 3Y",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "SMCI",
+        "entity": "Super Micro Computer, Inc.",
+        "cik": "0001375365",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 39063072000.0,
+          "operating_income": 2770486000.0,
+          "net_income": 2230453000.0,
+          "diluted_shares": 697348000.0,
+          "filed": "2026-08-31",
+          "accessions": [
+            "0001375365-25-000030",
+            "0001375365-26-000007",
+            "0001375365-26-000014",
+            "0001375365-26-000022"
+          ],
+          "price": 43.26,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-06-30",
+          "revenue": 7123482000.0,
+          "operating_income": 761142000.0,
+          "net_income": 639998000.0,
+          "diluted_shares": 936663008.2191781,
+          "filed": "2025-08-28",
+          "accessions": [
+            "0001375365-23-000041",
+            "0001375365-24-000011",
+            "0001375365-24-000022",
+            "0001375365-25-000027"
+          ],
+          "price": 25.75,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "NVDA",
+        "entity": "NVIDIA CORP",
+        "cik": "0001045810",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-07-26",
+          "revenue": 302969000000.0,
+          "operating_income": 197579000000.0,
+          "net_income": 192879000000.0,
+          "diluted_shares": 24397250000.0,
+          "filed": "2026-08-26",
+          "accessions": [
+            "0001045810-25-000230",
+            "0001045810-26-000021",
+            "0001045810-26-000052",
+            "0001045810-26-000075"
+          ],
+          "price": 225.07,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-07-30",
+          "revenue": 32681000000.0,
+          "operating_income": 10797000000.0,
+          "net_income": 10325000000.0,
+          "diluted_shares": 41903000000.0,
+          "filed": "2025-02-26",
+          "accessions": [
+            "0001045810-23-000227",
+            "0001045810-24-000124",
+            "0001045810-24-000264",
+            "0001045810-25-000023"
+          ],
+          "price": 42.34,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "CRWV",
+        "entity": "CoreWeave, Inc.",
+        "cik": "0001769628",
+        "status": "unavailable",
+        "reason": "Split-adjusted price history unavailable for 3Y",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "NET",
+        "entity": "Cloudflare, Inc.",
+        "cik": "0001477333",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 2512350000.0,
+          "operating_income": -354384000.0,
+          "net_income": -206275000.0,
+          "diluted_shares": 351829424.65753424,
+          "filed": "2026-08-06",
+          "accessions": [
+            "0001477333-25-000141",
+            "0001477333-26-000016",
+            "0001477333-26-000038",
+            "0001477333-26-000054"
+          ],
+          "price": 349.02,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-06-30",
+          "revenue": 1127226000.0,
+          "operating_income": -200082000.0,
+          "net_income": -221012000.0,
+          "diluted_shares": 329841726.0273973,
+          "filed": "2025-02-20",
+          "accessions": [
+            "0001477333-23-000064",
+            "0001477333-24-000050",
+            "0001477333-24-000070",
+            "0001477333-25-000043"
+          ],
+          "price": 60.54,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "IREN",
+        "entity": "IREN Ltd",
+        "cik": "0001878848",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 707007000.0,
+          "operating_income": -1046714000.0,
+          "net_income": -702621000.0,
+          "diluted_shares": 316123145.0,
+          "filed": "2026-08-27",
+          "accessions": [
+            "0001878848-25-000081",
+            "0001878848-26-000015",
+            "0001878848-26-000026",
+            "0001878848-26-000052"
+          ],
+          "price": 44.12,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-06-30",
+          "revenue": 75509000.0,
+          "operating_income": -157241000.0,
+          "net_income": -171827000.0,
+          "diluted_shares": 54775771.0,
+          "filed": "2025-08-28",
+          "accessions": [
+            "0001878848-25-000063"
+          ],
+          "price": 3.61,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "IGV",
+        "entity": null,
+        "cik": null,
+        "status": "unavailable",
+        "reason": "Investment fund: issuer-level revenue decomposition is not applicable",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "COHR",
+        "entity": "COHERENT CORP.",
+        "cik": "0000820318",
+        "status": "unavailable",
+        "reason": "SEC TTM snapshot is stale for 3Y",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "PANW",
+        "entity": "Palo Alto Networks Inc",
+        "cik": "0001327567",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-07-31",
+          "revenue": 11480000000.0,
+          "operating_income": 695000000.0,
+          "net_income": 307000000.0,
+          "diluted_shares": 764000000.0,
+          "filed": "2026-09-10",
+          "accessions": [
+            "0001327567-25-000035",
+            "0001327567-26-000005",
+            "0001327567-26-000015",
+            "0001327567-26-000023"
+          ],
+          "price": 374.74,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-07-31",
+          "revenue": 6892700000.0,
+          "operating_income": 387300000.0,
+          "net_income": 439700000.0,
+          "diluted_shares": 937426849.3150685,
+          "filed": "2025-08-29",
+          "accessions": [
+            "0001327567-23-000032",
+            "0001327567-24-000005",
+            "0001327567-24-000017",
+            "0001327567-25-000027"
+          ],
+          "price": 115.95,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "SNOW",
+        "entity": "Snowflake Inc.",
+        "cik": "0001640147",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-07-31",
+          "revenue": 5434647000.0,
+          "operating_income": -1236753000.0,
+          "net_income": -1090798000.0,
+          "diluted_shares": 344137356.1643836,
+          "filed": "2026-09-04",
+          "accessions": [
+            "0001640147-25-000211",
+            "0001640147-26-000008",
+            "0001640147-26-000030",
+            "0001640147-26-000037"
+          ],
+          "price": 335.94,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-07-31",
+          "revenue": 2443657000.0,
+          "operating_income": -1004414000.0,
+          "net_income": -860599000.0,
+          "diluted_shares": 323381813.69863015,
+          "filed": "2025-03-21",
+          "accessions": [
+            "0001640147-23-000102",
+            "0001640147-23-000199",
+            "0001640147-23-000260",
+            "0001640147-24-000135",
+            "0001640147-24-000207",
+            "0001640147-25-000052"
+          ],
+          "price": 147.52,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "ASTS",
+        "entity": "AST SpaceMobile, Inc.",
+        "cik": "0001780312",
+        "status": "unavailable",
+        "reason": "No four-quarter SEC TTM history with aligned concepts",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "MRVL",
+        "entity": "Marvell Technology, Inc.",
+        "cik": "0001835632",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-08-01",
+          "revenue": 9450300000.0,
+          "operating_income": 1561300000.0,
+          "net_income": 2639900000.0,
+          "diluted_shares": 886825000.0,
+          "filed": "2026-08-28",
+          "accessions": [
+            "0001835632-25-000197",
+            "0001835632-26-000011",
+            "0001835632-26-000019",
+            "0001835632-26-000025"
+          ],
+          "price": 261.94,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-07-29",
+          "revenue": 5618400000.0,
+          "operating_income": -259000000.0,
+          "net_income": -378500000.0,
+          "diluted_shares": 854325000.0,
+          "filed": "2025-03-12",
+          "accessions": [
+            "0001835632-23-000046",
+            "0001835632-24-000063",
+            "0001835632-24-000142",
+            "0001835632-24-000200",
+            "0001835632-25-000057"
+          ],
+          "price": 52.06,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "AVGO",
+        "entity": "Broadcom Inc.",
+        "cik": "0001730168",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-08-02",
+          "revenue": 89104000000.0,
+          "operating_income": 42814000000.0,
+          "net_income": 38265000000.0,
+          "diluted_shares": 4885250000.0,
+          "filed": "2026-09-10",
+          "accessions": [
+            "0001730168-25-000121",
+            "0001730168-26-000016",
+            "0001730168-26-000054",
+            "0001730168-26-000080"
+          ],
+          "price": 352.81,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-07-30",
+          "revenue": 35454000000.0,
+          "operating_income": 15953000000.0,
+          "net_income": 13917000000.0,
+          "diluted_shares": 7118500000.0,
+          "filed": "2024-12-20",
+          "accessions": [
+            "0001730168-24-000023",
+            "0001730168-24-000080",
+            "0001730168-24-000099",
+            "0001730168-24-000139"
+          ],
+          "price": 79.07,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:ProfitLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "MSTR",
+        "entity": "Strategy Inc",
+        "cik": "0001050446",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 498347000.0,
+          "operating_income": -36356332000.0,
+          "net_income": -30413926000.0,
+          "diluted_shares": 308165945.20547944,
+          "filed": "2026-08-03",
+          "accessions": [
+            "0001050446-26-000020",
+            "0001050446-26-000031",
+            "0001050446-26-000044",
+            "0001193125-25-262568"
+          ],
+          "price": 158.61,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-06-30",
+          "revenue": 500229000.0,
+          "operating_income": -234674000.0,
+          "net_income": 206688000.0,
+          "diluted_shares": 209325887.67123288,
+          "filed": "2025-02-18",
+          "accessions": [
+            "0000950170-23-057418",
+            "0000950170-24-051230",
+            "0000950170-24-091778",
+            "0000950170-24-119263",
+            "0000950170-25-021814"
+          ],
+          "price": 31.56,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "PURR",
+        "entity": "Hyperliquid Strategies Inc",
+        "cik": "0002078856",
+        "status": "unavailable",
+        "reason": "Split-adjusted price history unavailable for 3Y",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "AXTI",
+        "entity": "AXT INC",
+        "cik": "0001051627",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 125509000.0,
+          "operating_income": 3882000.0,
+          "net_income": 4054000.0,
+          "diluted_shares": 51268271.23287671,
+          "filed": "2026-08-13",
+          "accessions": [
+            "0001437749-25-034843",
+            "0001437749-26-008612",
+            "0001437749-26-017054",
+            "0001437749-26-027677"
+          ],
+          "price": 78.94,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-06-30",
+          "revenue": 99978000.0,
+          "operating_income": -7716000.0,
+          "net_income": -1337000.0,
+          "diluted_shares": 42693260.2739726,
+          "filed": "2025-03-14",
+          "accessions": [
+            "0001558370-23-018573",
+            "0001558370-24-003410",
+            "0001558370-24-007792",
+            "0001558370-24-011747",
+            "0001558370-25-003004"
+          ],
+          "price": 2.34,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "ASST",
+        "entity": "Strive, Inc.",
+        "cik": "0001920406",
+        "status": "unavailable",
+        "reason": "Insufficient four-quarter SEC history for 3Y",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "DELL",
+        "entity": "Dell Technologies Inc.",
+        "cik": "0001571996",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-07-31",
+          "revenue": 151197000000.0,
+          "operating_income": 14252000000.0,
+          "net_income": 11378000000.0,
+          "diluted_shares": 664000000.0,
+          "filed": "2026-09-08",
+          "accessions": [
+            "0001571996-25-000127",
+            "0001571996-26-000008",
+            "0001571996-26-000030",
+            "0001571996-26-000046"
+          ],
+          "price": 562.89,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-08-04",
+          "revenue": 93616000000.0,
+          "operating_income": 5276000000.0,
+          "net_income": 1985000000.0,
+          "diluted_shares": 738283018.8679246,
+          "filed": "2025-03-25",
+          "accessions": [
+            "0001571996-23-000046",
+            "0001571996-24-000062",
+            "0001571996-24-000090",
+            "0001571996-25-000034"
+          ],
+          "price": 64.76,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "RCL",
+        "entity": "ROYAL CARIBBEAN CRUISES LTD",
+        "cik": "0000884887",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 18682000000.0,
+          "operating_income": 5105000000.0,
+          "net_income": 4397000000.0,
+          "diluted_shares": 271021917.8082192,
+          "filed": "2026-07-28",
+          "accessions": [
+            "0000884887-25-000148",
+            "0000884887-26-000007",
+            "0000884887-26-000026",
+            "0000884887-26-000038"
+          ],
+          "price": 242.7,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-06-30",
+          "revenue": 12005527000.0,
+          "operating_income": 1354852000.0,
+          "net_income": -56276000.0,
+          "diluted_shares": 261784619.1780822,
+          "filed": "2025-02-14",
+          "accessions": [
+            "0000884887-23-000056",
+            "0000884887-24-000108",
+            "0000884887-24-000130",
+            "0000884887-25-000050"
+          ],
+          "price": 88.9,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "STRL",
+        "entity": "STERLING INFRASTRUCTURE, INC.",
+        "cik": "0000874238",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 3438486000.0,
+          "operating_income": 602351000.0,
+          "net_income": 460437000.0,
+          "diluted_shares": 31080701.369863015,
+          "filed": "2026-08-04",
+          "accessions": [
+            "0000874238-25-000136",
+            "0000874238-26-000024",
+            "0000874238-26-000055",
+            "0000874238-26-000103"
+          ],
+          "price": 512.29,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-06-30",
+          "revenue": 1867551000.0,
+          "operating_income": 179408000.0,
+          "net_income": 122576000.0,
+          "diluted_shares": 30889994.520547945,
+          "filed": "2025-02-26",
+          "accessions": [
+            "0000874238-23-000023",
+            "0000874238-23-000118",
+            "0000874238-24-000081",
+            "0000874238-24-000121",
+            "0000874238-24-000144",
+            "0000874238-25-000025"
+          ],
+          "price": 73.18,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:ProfitLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "MOD",
+        "entity": "MODINE MANUFACTURING CO",
+        "cik": "0000067347",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 3372400000.0,
+          "operating_income": 341500000.0,
+          "net_income": 144200000.0,
+          "diluted_shares": 53874794.52054795,
+          "filed": "2026-07-30",
+          "accessions": [
+            "0001104659-25-103646",
+            "0001104659-26-010790",
+            "0001104659-26-066795",
+            "0001104659-26-088569"
+          ],
+          "price": 198.07,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-06-30",
+          "revenue": 2379300000.0,
+          "operating_income": 191300000.0,
+          "net_income": 183600000.0,
+          "diluted_shares": 52949589.04109589,
+          "filed": "2025-05-21",
+          "accessions": [
+            "0001140361-23-051058",
+            "0001140361-24-004740",
+            "0001140361-24-035058",
+            "0001558370-25-008058"
+          ],
+          "price": 45.07,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "BE",
+        "entity": "Bloom Energy Corp",
+        "cik": "0001664703",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-03-31",
+          "revenue": 2449027000.0,
+          "operating_income": 164062000.0,
+          "net_income": 9965000.0,
+          "diluted_shares": 262470000.0,
+          "filed": "2026-04-29",
+          "accessions": [
+            "0001628280-25-037074",
+            "0001628280-25-046844",
+            "0001628280-26-006516",
+            "0001628280-26-028021"
+          ],
+          "price": 288.7,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-06-30",
+          "revenue": 1331136000.0,
+          "operating_income": -211297000.0,
+          "net_income": -255150000.0,
+          "diluted_shares": 200715178.0821918,
+          "filed": "2025-02-27",
+          "accessions": [
+            "0001628280-23-037836",
+            "0001628280-24-022309",
+            "0001628280-24-036219",
+            "0001628280-25-008747"
+          ],
+          "price": 13.42,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:ProfitLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "U",
+        "entity": "Unity Software Inc.",
+        "cik": "0001810806",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 2028410000.0,
+          "operating_income": -615998000.0,
+          "net_income": -587541000.0,
+          "diluted_shares": 431507101.36986303,
+          "filed": "2026-08-06",
+          "accessions": [
+            "0001810806-25-000169",
+            "0001810806-26-000011",
+            "0001810806-26-000032",
+            "0001810806-26-000043"
+          ],
+          "price": 41.55,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2023-06-30",
+          "revenue": 1807694000.0,
+          "operating_income": -959822000.0,
+          "net_income": -984540000.0,
+          "diluted_shares": 351435961.6438356,
+          "filed": "2025-02-21",
+          "accessions": [
+            "0001810806-23-000181",
+            "0001810806-24-000098",
+            "0001810806-24-000189",
+            "0001810806-25-000026"
+          ],
+          "price": 30.56,
+          "price_date": "2023-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "CBRS",
+        "entity": "Cerebras Systems Inc.",
+        "cik": "0002021728",
+        "status": "unavailable",
+        "reason": "No four-quarter SEC TTM history with aligned concepts",
+        "current": null,
+        "prior": null
+      }
+    ],
+    "5y": [
+      {
+        "ticker": "AMD",
+        "entity": "ADVANCED MICRO DEVICES INC",
+        "cik": "0000002488",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-27",
+          "revenue": 41305000000.0,
+          "operating_income": 6488000000.0,
+          "net_income": 6434000000.0,
+          "diluted_shares": 1649250000.0,
+          "filed": "2026-08-05",
+          "accessions": [
+            "0000002488-25-000166",
+            "0000002488-26-000018",
+            "0000002488-26-000076",
+            "0000002488-26-000123"
+          ],
+          "price": 630.63,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-09-25",
+          "revenue": 14852000000.0,
+          "operating_income": 3011000000.0,
+          "net_income": 3969000000.0,
+          "diluted_shares": 1229750000.0,
+          "filed": "2022-11-02",
+          "accessions": [
+            "0000002488-22-000078",
+            "0000002488-22-000123",
+            "0000002488-22-000170",
+            "0001628280-21-001185"
+          ],
+          "price": 108.16,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "CCL",
+        "entity": "Carnival Corp Ltd.",
+        "cik": "0000815097",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-05-31",
+          "revenue": 27312000000.0,
+          "operating_income": 4464000000.0,
+          "net_income": 3068000000.0,
+          "diluted_shares": 1419441095.890411,
+          "filed": "2026-06-26",
+          "accessions": [
+            "0000815097-25-000084",
+            "0000815097-26-000007",
+            "0000815097-26-000037",
+            "0000815097-26-000096"
+          ],
+          "price": 22.25,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-08-31",
+          "revenue": 657000000.0,
+          "operating_income": -6839000000.0,
+          "net_income": -9104000000.0,
+          "diluted_shares": 1070421917.8082192,
+          "filed": "2023-01-27",
+          "accessions": [
+            "0000815097-22-000029",
+            "0000815097-22-000054",
+            "0000815097-22-000073",
+            "0000815097-23-000012"
+          ],
+          "price": 25.96,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "SNDK",
+        "entity": "Sandisk Corp",
+        "cik": "0002023554",
+        "status": "unavailable",
+        "reason": "Split-adjusted price history unavailable for 5Y",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "TSLA",
+        "entity": "Tesla, Inc.",
+        "cik": "0001318605",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 103619000000.0,
+          "operating_income": 4372000000.0,
+          "net_income": 3804000000.0,
+          "diluted_shares": 3537427397.260274,
+          "filed": "2026-07-23",
+          "accessions": [
+            "0001628280-25-045968",
+            "0001628280-26-003952",
+            "0001628280-26-026673",
+            "0001628280-26-049270"
+          ],
+          "price": 372.11,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-06-30",
+          "revenue": 41862000000.0,
+          "operating_income": 3290000000.0,
+          "net_income": 2181000000.0,
+          "diluted_shares": 4983893150.684932,
+          "filed": "2023-01-31",
+          "accessions": [
+            "0000950170-21-002253",
+            "0000950170-22-006034",
+            "0000950170-22-012936",
+            "0000950170-23-001409",
+            "0001564590-21-004599"
+          ],
+          "price": 263.79,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "HOOD",
+        "entity": "Robinhood Markets, Inc.",
+        "cik": "0001783879",
+        "status": "unavailable",
+        "reason": "SEC facts missing: operating_income",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "MU",
+        "entity": "MICRON TECHNOLOGY INC",
+        "cik": "0000723125",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-05-28",
+          "revenue": 90274000000.0,
+          "operating_income": 59243000000.0,
+          "net_income": 50469000000.0,
+          "diluted_shares": 1138750000.0,
+          "filed": "2026-06-25",
+          "accessions": [
+            "0000723125-25-000028",
+            "0000723125-25-000046",
+            "0000723125-26-000006",
+            "0000723125-26-000015"
+          ],
+          "price": 1082.28,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-09-02",
+          "revenue": 27705000000.0,
+          "operating_income": 6283000000.0,
+          "net_income": 5861000000.0,
+          "diluted_shares": 1141000000.0,
+          "filed": "2023-10-06",
+          "accessions": [
+            "0000723125-22-000004",
+            "0000723125-22-000016",
+            "0000723125-22-000036",
+            "0000723125-23-000054"
+          ],
+          "price": 73.31,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "RKLB",
+        "entity": "Rocket Lab Corp",
+        "cik": "0001819994",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 769146000.0,
+          "operating_income": -223494000.0,
+          "net_income": -165459000.0,
+          "diluted_shares": 583848347.5260274,
+          "filed": "2026-08-10",
+          "accessions": [
+            "0001819994-25-000021",
+            "0001819994-26-000013",
+            "0001819994-26-000028",
+            "0001819994-26-000062"
+          ],
+          "price": 73.95,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2020-12-31",
+          "revenue": 35160000.0,
+          "operating_income": -54952000.0,
+          "net_income": -55005000.0,
+          "diluted_shares": 75414888.0,
+          "filed": "2023-03-07",
+          "accessions": [
+            "0000950170-23-006499",
+            "0001193125-21-330184"
+          ],
+          "price": 14.32,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "COIN",
+        "entity": "Coinbase Global, Inc.",
+        "cik": "0001679788",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 6282872000.0,
+          "operating_income": 619376000.0,
+          "net_income": -987766000.0,
+          "diluted_shares": 281747545.20547944,
+          "filed": "2026-07-30",
+          "accessions": [
+            "0001679788-25-000208",
+            "0001679788-26-000015",
+            "0001679788-26-000054",
+            "0001679788-26-000088"
+          ],
+          "price": 195.11,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-06-30",
+          "revenue": 4929543000.0,
+          "operating_income": 2190528000.0,
+          "net_income": 2635896000.0,
+          "diluted_shares": 151240761.6438356,
+          "filed": "2023-02-21",
+          "accessions": [
+            "0001679788-21-000071",
+            "0001679788-22-000048",
+            "0001679788-22-000085",
+            "0001679788-23-000031"
+          ],
+          "price": 232.24,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "FIG",
+        "entity": "Figma, Inc.",
+        "cik": "0001579878",
+        "status": "unavailable",
+        "reason": "Split-adjusted price history unavailable for 5Y",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "AAOI",
+        "entity": "APPLIED OPTOELECTRONICS, INC.",
+        "cik": "0001158114",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 595970000.0,
+          "operating_income": -67407000.0,
+          "net_income": -57020000.0,
+          "diluted_shares": 72761921.24657534,
+          "filed": "2026-08-06",
+          "accessions": [
+            "0001437749-25-033627",
+            "0001437749-26-005875",
+            "0001437749-26-015620",
+            "0001437749-26-026278"
+          ],
+          "price": 101.4,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-06-30",
+          "revenue": 232824000.0,
+          "operating_income": -47627000.0,
+          "net_income": -46880000.0,
+          "diluted_shares": 24901052.271232877,
+          "filed": "2023-02-27",
+          "accessions": [
+            "0001437749-21-004108",
+            "0001437749-21-025322",
+            "0001437749-22-011149",
+            "0001437749-22-018915",
+            "0001437749-23-004648"
+          ],
+          "price": 7.24,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "SPCX",
+        "entity": "SPACE EXPLORATION TECHNOLOGIES CORP",
+        "cik": "0001181412",
+        "status": "unavailable",
+        "reason": "No four-quarter SEC TTM history with aligned concepts",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "LITE",
+        "entity": "Lumentum Holdings Inc.",
+        "cik": "0001633978",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-27",
+          "revenue": 3014000000.0,
+          "operating_income": 524800000.0,
+          "net_income": -6935100000.0,
+          "diluted_shares": 74600000.0,
+          "filed": "2026-08-17",
+          "accessions": [
+            "0001628280-25-049073",
+            "0001628280-26-005129",
+            "0001628280-26-030777",
+            "0001628280-26-057358"
+          ],
+          "price": 941.65,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-07-03",
+          "revenue": 1742800000.0,
+          "operating_income": 527000000.0,
+          "net_income": 397300000.0,
+          "diluted_shares": 78341509.43396227,
+          "filed": "2022-05-04",
+          "accessions": [
+            "0001628280-21-017799",
+            "0001628280-21-021632",
+            "0001628280-22-001745",
+            "0001628280-22-012157"
+          ],
+          "price": 85.99,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "INTC",
+        "entity": "INTEL CORP",
+        "cik": "0000050863",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-27",
+          "revenue": 57032000000.0,
+          "operating_income": -77000000.0,
+          "net_income": -11289000000.0,
+          "diluted_shares": 4898750000.0,
+          "filed": "2026-07-24",
+          "accessions": [
+            "0000050863-25-000179",
+            "0000050863-26-000011",
+            "0000050863-26-000079",
+            "0000050863-26-000157"
+          ],
+          "price": 123.0,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-09-25",
+          "revenue": 78474000000.0,
+          "operating_income": 20351000000.0,
+          "net_income": 21102000000.0,
+          "diluted_shares": 4096750000.0,
+          "filed": "2023-01-27",
+          "accessions": [
+            "0000050863-22-000020",
+            "0000050863-22-000030",
+            "0000050863-22-000038",
+            "0000050863-23-000006"
+          ],
+          "price": 50.35,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "SOXX",
+        "entity": null,
+        "cik": null,
+        "status": "unavailable",
+        "reason": "Investment fund: issuer-level revenue decomposition is not applicable",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "GLW",
+        "entity": "CORNING INC /NY",
+        "cik": "0000024741",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 16964000000.0,
+          "operating_income": 2598000000.0,
+          "net_income": 1900000000.0,
+          "diluted_shares": 874726027.3972603,
+          "filed": "2026-07-29",
+          "accessions": [
+            "0000024741-25-000121",
+            "0000024741-26-000124",
+            "0000024741-26-000205",
+            "0000024741-26-000255"
+          ],
+          "price": 156.74,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-06-30",
+          "revenue": 13142000000.0,
+          "operating_income": 1810000000.0,
+          "net_income": 1727000000.0,
+          "diluted_shares": 827252054.7945205,
+          "filed": "2023-02-13",
+          "accessions": [
+            "0001437749-21-024640",
+            "0001437749-22-010222",
+            "0001437749-22-018099",
+            "0001437749-23-003123"
+          ],
+          "price": 33.95,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "CRWD",
+        "entity": "CrowdStrike Holdings, Inc.",
+        "cik": "0001535527",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-07-31",
+          "revenue": 5396145000.0,
+          "operating_income": -132954000.0,
+          "net_income": 44995000.0,
+          "diluted_shares": 266933260.2739726,
+          "filed": "2026-08-27",
+          "accessions": [
+            "0001535527-25-000033",
+            "0001535527-26-000010",
+            "0001535527-26-000025",
+            "0001535527-26-000031"
+          ],
+          "price": 252.13,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-07-31",
+          "revenue": 1137922000.0,
+          "operating_income": -118712000.0,
+          "net_income": -185900000.0,
+          "diluted_shares": 891573336.9863014,
+          "filed": "2023-03-09",
+          "accessions": [
+            "0001535527-21-000028",
+            "0001535527-22-000012",
+            "0001535527-22-000018",
+            "0001535527-23-000008"
+          ],
+          "price": 63.33,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "NOW",
+        "entity": "ServiceNow, Inc.",
+        "cik": "0001373715",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 14732000000.0,
+          "operating_income": 1680000000.0,
+          "net_income": 1670000000.0,
+          "diluted_shares": 1253139728.7671232,
+          "filed": "2026-07-23",
+          "accessions": [
+            "0001373715-25-000309",
+            "0001373715-26-000007",
+            "0001373715-26-000056",
+            "0001373715-26-000076"
+          ],
+          "price": 135.62,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-06-30",
+          "revenue": 5171000000.0,
+          "operating_income": 235000000.0,
+          "net_income": 171443000.0,
+          "diluted_shares": 1016320835.6164384,
+          "filed": "2023-01-31",
+          "accessions": [
+            "0001373715-21-000292",
+            "0001373715-22-000134",
+            "0001373715-22-000241",
+            "0001373715-23-000035"
+          ],
+          "price": 129.91,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "NBIS",
+        "entity": "Nebius Group N.V.",
+        "cik": "0001513845",
+        "status": "unavailable",
+        "reason": "Split-adjusted price history unavailable for 5Y",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "ALAB",
+        "entity": "Astera Labs, Inc.",
+        "cik": "0001736297",
+        "status": "unavailable",
+        "reason": "Split-adjusted price history unavailable for 5Y",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "SMCI",
+        "entity": "Super Micro Computer, Inc.",
+        "cik": "0001375365",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 39063072000.0,
+          "operating_income": 2770486000.0,
+          "net_income": 2230453000.0,
+          "diluted_shares": 697348000.0,
+          "filed": "2026-08-31",
+          "accessions": [
+            "0001375365-25-000030",
+            "0001375365-26-000007",
+            "0001375365-26-000014",
+            "0001375365-26-000022"
+          ],
+          "price": 43.26,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-06-30",
+          "revenue": 3557422000.0,
+          "operating_income": 123947000.0,
+          "net_income": 111865000.0,
+          "diluted_shares": 535070000.0,
+          "filed": "2023-08-28",
+          "accessions": [
+            "0001375365-21-000083",
+            "0001375365-22-000013",
+            "0001375365-22-000058",
+            "0001375365-23-000036"
+          ],
+          "price": 3.79,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "NVDA",
+        "entity": "NVIDIA CORP",
+        "cik": "0001045810",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-07-26",
+          "revenue": 302969000000.0,
+          "operating_income": 197579000000.0,
+          "net_income": 192879000000.0,
+          "diluted_shares": 24397250000.0,
+          "filed": "2026-08-26",
+          "accessions": [
+            "0001045810-25-000230",
+            "0001045810-26-000021",
+            "0001045810-26-000052",
+            "0001045810-26-000075"
+          ],
+          "price": 225.07,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-08-01",
+          "revenue": 21897000000.0,
+          "operating_income": 7305000000.0,
+          "net_income": 7079000000.0,
+          "diluted_shares": 29843773584.90566,
+          "filed": "2023-02-24",
+          "accessions": [
+            "0001045810-21-000163",
+            "0001045810-22-000079",
+            "0001045810-22-000147",
+            "0001045810-23-000017"
+          ],
+          "price": 21.57,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "CRWV",
+        "entity": "CoreWeave, Inc.",
+        "cik": "0001769628",
+        "status": "unavailable",
+        "reason": "Split-adjusted price history unavailable for 5Y",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "NET",
+        "entity": "Cloudflare, Inc.",
+        "cik": "0001477333",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 2512350000.0,
+          "operating_income": -354384000.0,
+          "net_income": -206275000.0,
+          "diluted_shares": 351829424.65753424,
+          "filed": "2026-08-06",
+          "accessions": [
+            "0001477333-25-000141",
+            "0001477333-26-000016",
+            "0001477333-26-000038",
+            "0001477333-26-000054"
+          ],
+          "price": 349.02,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2020-12-31",
+          "revenue": 431059000.0,
+          "operating_income": -106768000.0,
+          "net_income": -119370000.0,
+          "diluted_shares": 299774000.0,
+          "filed": "2023-02-24",
+          "accessions": [
+            "0001477333-21-000026",
+            "0001477333-21-000036",
+            "0001477333-21-000045",
+            "0001477333-23-000017"
+          ],
+          "price": 122.81,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "IREN",
+        "entity": "IREN Ltd",
+        "cik": "0001878848",
+        "status": "unavailable",
+        "reason": "Split-adjusted price history unavailable for 5Y",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "IGV",
+        "entity": null,
+        "cik": null,
+        "status": "unavailable",
+        "reason": "Investment fund: issuer-level revenue decomposition is not applicable",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "COHR",
+        "entity": "COHERENT CORP.",
+        "cik": "0000820318",
+        "status": "unavailable",
+        "reason": "SEC TTM snapshot is stale for 5Y",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "PANW",
+        "entity": "Palo Alto Networks Inc",
+        "cik": "0001327567",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-07-31",
+          "revenue": 11480000000.0,
+          "operating_income": 695000000.0,
+          "net_income": 307000000.0,
+          "diluted_shares": 764000000.0,
+          "filed": "2026-09-10",
+          "accessions": [
+            "0001327567-25-000035",
+            "0001327567-26-000005",
+            "0001327567-26-000015",
+            "0001327567-26-000023"
+          ],
+          "price": 374.74,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-07-31",
+          "revenue": 4256100000.0,
+          "operating_income": -304100000.0,
+          "net_income": -498900000.0,
+          "diluted_shares": 578200000.0,
+          "filed": "2023-09-01",
+          "accessions": [
+            "0001327567-21-000040",
+            "0001327567-22-000008",
+            "0001327567-22-000016",
+            "0001327567-23-000024"
+          ],
+          "price": 81.01,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "SNOW",
+        "entity": "Snowflake Inc.",
+        "cik": "0001640147",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-07-31",
+          "revenue": 5434647000.0,
+          "operating_income": -1236753000.0,
+          "net_income": -1090798000.0,
+          "diluted_shares": 344137356.1643836,
+          "filed": "2026-09-04",
+          "accessions": [
+            "0001640147-25-000211",
+            "0001640147-26-000008",
+            "0001640147-26-000030",
+            "0001640147-26-000037"
+          ],
+          "price": 335.94,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-01-31",
+          "revenue": 592049000.0,
+          "operating_income": -543937000.0,
+          "net_income": -539102000.0,
+          "diluted_shares": 141613000.0,
+          "filed": "2023-03-29",
+          "accessions": [
+            "0001640147-21-000122",
+            "0001640147-21-000212",
+            "0001640147-21-000271",
+            "0001640147-23-000030"
+          ],
+          "price": 311.2,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "ASTS",
+        "entity": "AST SpaceMobile, Inc.",
+        "cik": "0001780312",
+        "status": "unavailable",
+        "reason": "No four-quarter SEC TTM history with aligned concepts",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "MRVL",
+        "entity": "Marvell Technology, Inc.",
+        "cik": "0001835632",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-08-01",
+          "revenue": 9450300000.0,
+          "operating_income": 1561300000.0,
+          "net_income": 2639900000.0,
+          "diluted_shares": 886825000.0,
+          "filed": "2026-08-28",
+          "accessions": [
+            "0001835632-25-000197",
+            "0001835632-26-000011",
+            "0001835632-26-000019",
+            "0001835632-26-000025"
+          ],
+          "price": 261.94,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-07-31",
+          "revenue": 3456162000.0,
+          "operating_income": -360137000.0,
+          "net_income": -370974000.0,
+          "diluted_shares": 714644750.0,
+          "filed": "2023-03-09",
+          "accessions": [
+            "0001835632-21-000032",
+            "0001835632-22-000028",
+            "0001835632-22-000041",
+            "0001835632-22-000053",
+            "0001835632-23-000013"
+          ],
+          "price": 61.91,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "AVGO",
+        "entity": "Broadcom Inc.",
+        "cik": "0001730168",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-08-02",
+          "revenue": 89104000000.0,
+          "operating_income": 42814000000.0,
+          "net_income": 38265000000.0,
+          "diluted_shares": 4885250000.0,
+          "filed": "2026-09-10",
+          "accessions": [
+            "0001730168-25-000121",
+            "0001730168-26-000016",
+            "0001730168-26-000054",
+            "0001730168-26-000080"
+          ],
+          "price": 352.81,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-08-01",
+          "revenue": 26510000000.0,
+          "operating_income": 7464000000.0,
+          "net_income": 6071000000.0,
+          "diluted_shares": 4277500000.0,
+          "filed": "2022-12-16",
+          "accessions": [
+            "0001730168-20-000226",
+            "0001730168-22-000029",
+            "0001730168-22-000081",
+            "0001730168-22-000094",
+            "0001730168-22-000118"
+          ],
+          "price": 46.21,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:ProfitLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "MSTR",
+        "entity": "Strategy Inc",
+        "cik": "0001050446",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 498347000.0,
+          "operating_income": -36356332000.0,
+          "net_income": -30413926000.0,
+          "diluted_shares": 308165945.20547944,
+          "filed": "2026-08-03",
+          "accessions": [
+            "0001050446-26-000020",
+            "0001050446-26-000031",
+            "0001050446-26-000044",
+            "0001193125-25-262568"
+          ],
+          "price": 158.61,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-06-30",
+          "revenue": 506980000.0,
+          "operating_income": -617280000.0,
+          "net_income": -420935000.0,
+          "diluted_shares": 95896109.5890411,
+          "filed": "2023-02-16",
+          "accessions": [
+            "0001564590-21-005783",
+            "0001564590-21-052646",
+            "0001564590-22-017437",
+            "0001564590-22-027479",
+            "0001564590-22-036073",
+            "0001564590-23-002012"
+          ],
+          "price": 59.47,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "PURR",
+        "entity": "Hyperliquid Strategies Inc",
+        "cik": "0002078856",
+        "status": "unavailable",
+        "reason": "Split-adjusted price history unavailable for 5Y",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "AXTI",
+        "entity": "AXT INC",
+        "cik": "0001051627",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 125509000.0,
+          "operating_income": 3882000.0,
+          "net_income": 4054000.0,
+          "diluted_shares": 51268271.23287671,
+          "filed": "2026-08-13",
+          "accessions": [
+            "0001437749-25-034843",
+            "0001437749-26-008612",
+            "0001437749-26-017054",
+            "0001437749-26-027677"
+          ],
+          "price": 78.94,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-06-30",
+          "revenue": 117589000.0,
+          "operating_income": 11563000.0,
+          "net_income": 10865000.0,
+          "diluted_shares": 42239739.7260274,
+          "filed": "2023-03-16",
+          "accessions": [
+            "0001558370-21-015790",
+            "0001558370-22-003664",
+            "0001558370-22-007829",
+            "0001558370-22-013498",
+            "0001558370-23-004035"
+          ],
+          "price": 8.8,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "ASST",
+        "entity": "Strive, Inc.",
+        "cik": "0001920406",
+        "status": "unavailable",
+        "reason": "Split-adjusted price history unavailable for 5Y",
+        "current": null,
+        "prior": null
+      },
+      {
+        "ticker": "DELL",
+        "entity": "Dell Technologies Inc.",
+        "cik": "0001571996",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-07-31",
+          "revenue": 151197000000.0,
+          "operating_income": 14252000000.0,
+          "net_income": 11378000000.0,
+          "diluted_shares": 664000000.0,
+          "filed": "2026-09-08",
+          "accessions": [
+            "0001571996-25-000127",
+            "0001571996-26-000008",
+            "0001571996-26-000030",
+            "0001571996-26-000046"
+          ],
+          "price": 562.89,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-07-30",
+          "revenue": 92520000000.0,
+          "operating_income": 3851000000.0,
+          "net_income": 3777000000.0,
+          "diluted_shares": 780000000.0,
+          "filed": "2023-03-30",
+          "accessions": [
+            "0001571996-21-000063",
+            "0001571996-22-000009",
+            "0001571996-22-000021",
+            "0001571996-22-000031",
+            "0001571996-23-000007"
+          ],
+          "price": 48.28,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "RCL",
+        "entity": "ROYAL CARIBBEAN CRUISES LTD",
+        "cik": "0000884887",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 18682000000.0,
+          "operating_income": 5105000000.0,
+          "net_income": 4397000000.0,
+          "diluted_shares": 271021917.8082192,
+          "filed": "2026-07-28",
+          "accessions": [
+            "0000884887-25-000148",
+            "0000884887-26-000007",
+            "0000884887-26-000026",
+            "0000884887-26-000038"
+          ],
+          "price": 242.7,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-06-30",
+          "revenue": 93378000.0,
+          "operating_income": -3845428000.0,
+          "net_income": -5192668000.0,
+          "diluted_shares": 233977027.39726028,
+          "filed": "2023-02-23",
+          "accessions": [
+            "0000884887-21-000006",
+            "0000884887-21-000028",
+            "0000884887-22-000018",
+            "0000884887-22-000028",
+            "0000884887-23-000006"
+          ],
+          "price": 89.34,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "STRL",
+        "entity": "STERLING INFRASTRUCTURE, INC.",
+        "cik": "0000874238",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 3438486000.0,
+          "operating_income": 602351000.0,
+          "net_income": 460437000.0,
+          "diluted_shares": 31080701.369863015,
+          "filed": "2026-08-04",
+          "accessions": [
+            "0000874238-25-000136",
+            "0000874238-26-000024",
+            "0000874238-26-000055",
+            "0000874238-26-000103"
+          ],
+          "price": 512.29,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-06-30",
+          "revenue": 1301358000.0,
+          "operating_income": 103011000.0,
+          "net_income": 53309000.0,
+          "diluted_shares": 28659164.383561645,
+          "filed": "2023-02-28",
+          "accessions": [
+            "0000874238-21-000091",
+            "0000874238-22-000048",
+            "0000874238-22-000079",
+            "0000874238-22-000089",
+            "0000874238-23-000023"
+          ],
+          "price": 23.18,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:ProfitLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "MOD",
+        "entity": "MODINE MANUFACTURING CO",
+        "cik": "0000067347",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 3372400000.0,
+          "operating_income": 341500000.0,
+          "net_income": 144200000.0,
+          "diluted_shares": 53874794.52054795,
+          "filed": "2026-07-30",
+          "accessions": [
+            "0001104659-25-103646",
+            "0001104659-26-010790",
+            "0001104659-26-066795",
+            "0001104659-26-088569"
+          ],
+          "price": 198.07,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2021-06-30",
+          "revenue": 1955200000.0,
+          "operating_income": -85800000.0,
+          "net_income": -199800000.0,
+          "diluted_shares": 51698904.10958904,
+          "filed": "2023-05-25",
+          "accessions": [
+            "0001140361-21-036331",
+            "0001140361-22-003725",
+            "0001140361-22-028168",
+            "0001140361-23-026536"
+          ],
+          "price": 11.8,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "BE",
+        "entity": "Bloom Energy Corp",
+        "cik": "0001664703",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-03-31",
+          "revenue": 2449027000.0,
+          "operating_income": 164062000.0,
+          "net_income": 9965000.0,
+          "diluted_shares": 262470000.0,
+          "filed": "2026-04-29",
+          "accessions": [
+            "0001628280-25-037074",
+            "0001628280-25-046844",
+            "0001628280-26-006516",
+            "0001628280-26-028021"
+          ],
+          "price": 288.7,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2020-12-31",
+          "revenue": 794247000.0,
+          "operating_income": -80785000.0,
+          "net_income": -179087000.0,
+          "diluted_shares": 138722000.0,
+          "filed": "2023-02-21",
+          "accessions": [
+            "0001628280-23-004301",
+            "0001664703-21-000046",
+            "0001664703-21-000135",
+            "0001664703-21-000172"
+          ],
+          "price": 20.1,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:ProfitLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "U",
+        "entity": "Unity Software Inc.",
+        "cik": "0001810806",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-06-30",
+          "revenue": 2028410000.0,
+          "operating_income": -615998000.0,
+          "net_income": -587541000.0,
+          "diluted_shares": 431507101.36986303,
+          "filed": "2026-08-06",
+          "accessions": [
+            "0001810806-25-000169",
+            "0001810806-26-000011",
+            "0001810806-26-000032",
+            "0001810806-26-000043"
+          ],
+          "price": 41.55,
+          "price_date": "2026-09-25"
+        },
+        "prior": {
+          "ttm_end": "2020-12-31",
+          "revenue": 772445000.0,
+          "operating_income": -274812000.0,
+          "net_income": -282308000.0,
+          "diluted_shares": 169973000.0,
+          "filed": "2023-02-27",
+          "accessions": [
+            "0001810806-21-000103",
+            "0001810806-21-000152",
+            "0001810806-21-000171",
+            "0001810806-23-000016"
+          ],
+          "price": 137.83,
+          "price_date": "2021-09-27"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "CBRS",
+        "entity": "Cerebras Systems Inc.",
+        "cik": "0002021728",
+        "status": "unavailable",
+        "reason": "No four-quarter SEC TTM history with aligned concepts",
+        "current": null,
+        "prior": null
+      }
+    ]
+  }
+}
