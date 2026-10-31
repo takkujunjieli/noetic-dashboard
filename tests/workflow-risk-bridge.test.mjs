@@ -4,6 +4,8 @@ import {activeNebulaCatalog,nebulaRiskModels,setHeatmapAssignment,effectiveHeatm
 import {createCase,savePlan,saveNode,setActiveAllocation,setPlanFrozen} from '../assets/workflow-model.mjs';
 import {newStructureLeg} from '../assets/trade-structure.mjs';
 import {riskBudgetAllocation} from '../assets/kelly-allocation.mjs';
+import {portfolioBundleDrafts} from '../assets/portfolio-autofill.mjs';
+import {allocationInputFingerprint,thesisFreshness} from '../assets/workflow-freshness.mjs';
 
 function activeCase(title='Active'){
  const c=createCase({title});c.activeThesis=true;c.nodes.risk.state='running';
@@ -87,4 +89,26 @@ test('legacy heatmap edits cannot rewrite frozen Workflow ownership or In Action
  groups=setHeatmapAssignment(groups,'AMD','Third thesis');assert.deepEqual(groups,{AMD:'Third thesis'});
  groups=setHeatmapAssignment(groups,'AMD','');assert.deepEqual(groups,{});
  assert.equal(JSON.stringify(c),workflowBefore);assert.equal(JSON.stringify(c.design.allocation),allocationBefore);assert.equal(JSON.stringify(c.design.plans[0]),planBefore);
+});
+
+
+test('market refresh changes the calculation draft; only In Action replaces official spot and capital',()=>{
+ const {c,id}=activeCase('Market review'),before=structuredClone(c.design.allocation);
+ const raw={updated_at:new Date().toISOString(),accounts:[{id:'rh'}],positions:[{account:'rh',kind:'equity',sym:'MU',qty:100,avg_cost:80,price:140}]};
+ const draft=portfolioBundleDrafts(c,raw,{assignments:{MU:c.title}}).bundles[0].construction;
+ savePlan(c,id,'',draft);
+ assert.equal(c.design.plans[0].construction.legs[0].underlyingPrice,140);
+ assert.equal(c.design.plans[0].construction.candidate.referenceCapital,14000);
+ assert.deepEqual(c.design.allocation,before);
+ assert.equal(nebulaRiskModels(c,100000)[0].referencePrice,100);
+ assert.equal(nebulaRiskModels(c,100000)[0].referenceCapital,10000);
+ const result=riskBudgetAllocation(c,c.nodes.risk.data,{MU:4}),pending=thesisFreshness(c,{prices:{MU:140},preview:result});
+ assert.ok(pending.issues.some(issue=>issue.code==='draft-newer'));
+ setActiveAllocation(c,result);
+ const model=nebulaRiskModels(c,100000)[0];
+ assert.equal(model.referencePrice,140);assert.equal(model.referenceCapital,14000);
+ assert.equal(c.design.allocation.sourceFingerprint,allocationInputFingerprint(c));
+ const activated=thesisFreshness(c,{prices:{MU:140},preview:result});
+ assert.ok(!activated.issues.some(issue=>['draft-newer','price-drift'].includes(issue.code)));
+ assert.deepEqual(activeNebulaCatalog({cases:[c]}).cases[0].design.allocation,c.design.allocation);
 });

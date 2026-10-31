@@ -1,8 +1,8 @@
-import {KEY,validateStore,record} from './workflow-model.mjs?v=20261015-no-signal';
-import {dashboardStorage as localStorage,dashboardFetch as fetch} from './dashboard-data.mjs';
+import {KEY,validateStore,record} from './workflow-model.mjs?v=20261028-manual-versions';
+import {dashboardStorage as localStorage,dashboardFetch as fetch} from './dashboard-data.mjs?v=20261028-manual-versions';
 import {applyExecutionEvent,TRADE_ROLES} from './trade-link-model.mjs';
-import {readWorkflowOwnershipCases,workflowOwnershipIndex} from './workflow-ownership.mjs?v=20261017-portfolio-assignment';
-import {readUnsyncedNebulae,writeUnsyncedNebulae} from './workflow-sync.js?v=20260929-3';
+import {readWorkflowOwnershipCases,workflowOwnershipIndex} from './workflow-ownership.mjs?v=20261028-manual-versions';
+import {readUnsyncedNebulae,writeUnsyncedNebulae} from './workflow-sync.js?v=20261028-manual-versions';
 export {TRADE_ROLES};
 export function workflowLinkCases(storage=localStorage) {
   const cases=readWorkflowOwnershipCases(storage),ownership=workflowOwnershipIndex(cases);
@@ -31,11 +31,11 @@ export function reconcileTradeLinks(document, storage=localStorage) {
   }
   if(!changed)return false;
   if(storage.getItem(KEY)!==raw)throw Error('Workflow 已被其他页面更新；关联已保存，请在 Monitor 重新读取');
-  storage.setItem(KEY,JSON.stringify(store));
-  const ids=readUnsyncedNebulae(storage);
-  for(const event of document.events)if(store.cases.some(c=>c.id===event.link.workflow_case_id))ids.add(event.link.workflow_case_id);
-  writeUnsyncedNebulae(ids,storage);return true;
+  const finish=()=>{const ids=readUnsyncedNebulae(storage);for(const event of document.events)if(store.cases.some(c=>c.id===event.link.workflow_case_id))ids.add(event.link.workflow_case_id);writeUnsyncedNebulae(ids,storage);return true;};
+  if(storage.databaseActive)return storage.saveWorkflow(JSON.stringify(store),raw).then(finish);
+  storage.setItem(KEY,JSON.stringify(store));return finish();
 }
+
 export async function writeTradeLink(body, state) {
   const fingerprint=JSON.stringify(body);
   if(state.pending?.fingerprint!==fingerprint)state.pending={fingerprint,operation_id:crypto.randomUUID()};
@@ -52,6 +52,6 @@ export async function writeTradeLink(body, state) {
   }else if(!response.ok){state.pending=null;throw Error(data.error||'保存关联失败');}
   state.data=data;state.etag=tag;
   state.pending=null;
-  try{reconcileTradeLinks(data);}catch(error){return {warning:'关联已保存；Workflow 待恢复：'+error.message};}
+  try{await reconcileTradeLinks(data);}catch(error){return {warning:'关联已保存；Workflow 待恢复：'+error.message};}
   return {};
 }

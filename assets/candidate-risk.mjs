@@ -1,4 +1,4 @@
-import {numeric,legPayoff,payoffGroups} from './expected-return.mjs';
+import {numeric,legPayoff,payoffGroups} from './expected-return.mjs?v=20261028-deadline';
 import {structureExposure,ticker,candidateDraft,positionLabel} from './trade-structure.mjs';
 
 const finite=value=>value!==''&&value!=null&&Number.isFinite(Number(value));

@@ -27,7 +27,7 @@
 
   <!-- Full-watchlist mini quote cards: ticker switcher + four-state status control + add box -->
   <div class="ticker-card-toolbar">
-    <span class="muted small">Ticker cards:</span>
+
     <div id="ticker-card-filter" class="ticker-card-filter" role="group" aria-label="Filter ticker cards by category">
       <label><input type="checkbox" data-card-filter="all"> All</label>
       <label><input type="checkbox" data-card-filter="deep"> Beat</label>
@@ -94,7 +94,7 @@
         <button data-vm="vol">成交量</button>
         <button data-vm="turnover">成交额</button>
       </div>
-      <span class="muted small">Overlays:</span>
+
       <div id="overlay-chips" class="chips"></div>
       <span class="muted small" title="开启后点图上任一根 bar,从那时刻起画一条锚定 VWAP(成本线);可留多条,聚拢处=强支撑/压力。按时间戳锚,切周期仍在。">AVWAP:</span>
       <div id="avwap-ctrl" class="chips">
@@ -108,7 +108,7 @@
       <label>账户 <select id="trade-account-filter"><option value="all">全部账户</option></select></label>
       <span class="trade-coverage muted small" id="trade-coverage-end">已回填至 —</span>
       <button type="button" class="mini-btn" id="trade-sync">同步成交记录</button>
-      <span class="trade-import-status muted small" id="trade-import-status" role="status">仅同步本地历史</span>
+      <span class="trade-import-status muted small" id="trade-import-status" role="status"></span>
     </div>
 
     <!-- Main: candles + strike ladder -->
@@ -126,7 +126,7 @@
         <div id="macd-sub" style="display:none"></div>
         <div class="sub-title muted small" id="ind-sub-title" style="display:none"></div>
         <div id="ind-sub" style="display:none"></div>
-        <div class="sub-title muted small" id="gex-sub-title">Intraday net GEX trend (accumulates per collection)</div>
+        <div class="sub-title muted small" id="gex-sub-title"></div>
         <div id="gex-sub"></div>
       </div>
       <div class="wb-ladder">
@@ -149,8 +149,7 @@
 
   <!-- Collection control -->
   <section>
-    <h2>Collection <span class="muted">(auto rolling collection on trading days ET 9:30-16:00; manual trigger
-        here)</span></h2>
+    <h2>Collection </h2>
     <div class="card gex-controls">
       <div class="ctl-row">
         <input type="password" id="gex-pat"
@@ -165,13 +164,10 @@
 
   <div id="errors" class="muted small"></div>
 
-  <footer class="muted small">
-    Candles/indicators: Alpaca delayed SIP (Yahoo fallback) · Options/GEX: paused while Massive is unavailable
-    collected snapshot — personal research only
-  </footer>
+  <footer class="muted small">Options/GEX: paused while Massive is unavailable.</footer>
 
   <script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
-  <script type="module" src="assets/trading.js?v=20261020-account-name"></script>
+  <script type="module" src="assets/trading-entry.js?v=20261029-clean-notes"></script>
 </body>
 
 </html>

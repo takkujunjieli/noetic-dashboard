@@ -1,7 +1,7 @@
 import {accountDisplayName} from './account-display.mjs';
-import {dashboardFetch as fetch} from './dashboard-data.mjs';
-import {esc} from './shared.js';
-import {readTradeLinks,writeTradeLink,workflowLinkCases} from './trade-link-client.js?v=20261017-portfolio-assignment';
+import {dashboardFetch as fetch} from './dashboard-data.mjs?v=20261028-manual-versions';
+import {esc} from './shared.js?v=20261028-manual-versions';
+import {readTradeLinks,writeTradeLink,workflowLinkCases} from './trade-link-client.js?v=20261028-manual-versions';
 import {thesisUnderlyings} from './attribution-transactions.mjs';
 const etDay=ts=>new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(ts));
 
@@ -27,7 +27,7 @@ function brokerPnlView(c,ledger){let syms=[];try{syms=thesisUnderlyings(c);}catc
 export async function mountMonitorTrades(host,c,{readonly=false,replay=false,onRefresh}={}){
  host.innerHTML='<h3>执行记录</h3><p>读取成交事实…</p>';
  try{const [jr,nr,pr]=await Promise.all([fetch('/api/trade-journal',{cache:'no-store'}),fetch('/api/trade-annotations',{cache:'no-store'}),fetch('/api/broker-pnl',{cache:'no-store'})]);if(!jr.ok||!nr.ok||!pr.ok)throw Error('本地成交服务不可用');const journal=await jr.json(),notes=await nr.json(),ledger=await pr.json();if(!host.isConnected)return;const fills=new Map(journal.fills.map(f=>[f.fill_id,f])),links=c.nodes.positions.data.executionLinks||[];
- host.innerHTML=`<h3>执行记录 · Monitor</h3><p class="hint">${replay?'按快照中冻结的关联展示。':'成交由 Trading Desk 按唯一 active thesis 自动关联。'}${readonly?' · 只读':''}</p>${!readonly?'<button type="button" data-monitor-refresh>重新读取关联</button>':''}<div class="table-wrap"><table><thead><tr><th>美东日期</th><th>标的 / 合约</th><th>方向</th><th>数量</th><th>成交价</th><th>理由</th><th>状态</th></tr></thead><tbody>${links.flatMap(l=>l.allocations.map(a=>{const f=fills.get(a.fill_id);if(!f)return `<tr><td colspan="7">${esc(a.fill_id)} · 成交源缺失</td></tr>`;const url=`trading.html?sym=${encodeURIComponent(f.underlying)}&tf=1d&date=${etDay(f.timestamp)}&trade=${encodeURIComponent(l.trade_id)}`;return `<tr><td><a href="${url}">${etDay(f.timestamp)}</a></td><td>${esc(f.symbol)}</td><td>${esc(f.side)}</td><td>${fixed2(a.quantity)}</td><td>${fixed2(f.price)}</td><td>${esc(notes.annotations?.[l.trade_id]?.reason||'未填写')}</td><td>${l.status==='active'?'已关联':'已解除'}</td></tr>`;})).join('')||'<tr><td colspan="7">暂无关联成交。</td></tr>'}</tbody></table></div>`;host.querySelector('[data-monitor-refresh]')?.addEventListener('click',onRefresh);
+ host.innerHTML=`<h3>执行记录 · Monitor</h3><p class="hint">${replay?'按快照中冻结的关联展示。':'成交由 Trading Desk 按唯一 active thesis 自动关联。'}${readonly?' · 只读':''}</p>${!readonly?'<button type="button" data-monitor-refresh>Refresh Links</button>':''}<div class="table-wrap"><table><thead><tr><th>美东日期</th><th>标的 / 合约</th><th>方向</th><th>数量</th><th>成交价</th><th>理由</th><th>状态</th></tr></thead><tbody>${links.flatMap(l=>l.allocations.map(a=>{const f=fills.get(a.fill_id);if(!f)return `<tr><td colspan="7">${esc(a.fill_id)} · 成交源缺失</td></tr>`;const url=`trading.html?sym=${encodeURIComponent(f.underlying)}&tf=1d&date=${etDay(f.timestamp)}&trade=${encodeURIComponent(l.trade_id)}`;return `<tr><td><a href="${url}">${etDay(f.timestamp)}</a></td><td>${esc(f.symbol)}</td><td>${esc(f.side)}</td><td>${fixed2(a.quantity)}</td><td>${fixed2(f.price)}</td><td>${esc(notes.annotations?.[l.trade_id]?.reason||'未填写')}</td><td>${l.status==='active'?'已关联':'已解除'}</td></tr>`;})).join('')||'<tr><td colspan="7">暂无关联成交。</td></tr>'}</tbody></table></div>`;host.querySelector('[data-monitor-refresh]')?.addEventListener('click',onRefresh);
  host.insertAdjacentHTML('beforeend',brokerPnlView(c,ledger));
  }catch(e){if(host.isConnected)host.textContent=e.message;}
 }

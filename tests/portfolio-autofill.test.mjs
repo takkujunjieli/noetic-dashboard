@@ -14,41 +14,47 @@ test('Portfolio autofill matches thesis assignments and aggregates positions by 
  const c={title:'Renamed Nebula',sourceLink:{name:'memory thesis'}},policy={assignments:{MU:'memory thesis',NVDA:'other'}},result=portfolioBundleDrafts(c,portfolio,policy,{});
  assert.equal(result.matchedPositions,2);assert.equal(result.bundles.length,1);
  const construction=result.bundles[0].construction,m=bundleMetrics(construction);
- assert.equal(m.underlying,'MU');assert.equal(m.referenceSpot,90);assert.equal(m.referenceCapital,1600);
- assert.equal(construction.legs[0].entry,90);
- assert.equal(construction.legs.length,2);assert.equal(construction.greekScale,10000);assert.equal(construction.legs[1].entry,3.5);assert.equal(construction.legs[1].delta,5500);assert.equal(construction.legs[1].iv,.4);
+ assert.equal(m.underlying,'MU');assert.equal(m.referenceSpot,100);assert.equal(m.referenceCapital,2000);
+ assert.equal(construction.legs[0].entry,100);
+ assert.equal(construction.legs.length,2);assert.equal(construction.greekScale,10000);assert.equal(construction.legs[1].entry,5);assert.equal(construction.legs[1].delta,5500);assert.equal(construction.legs[1].iv,.4);
  assert.equal(construction.legs[1].quoteAt,at);
 });
 
-test('autofill preserves actual account costs and weights the stock reference by absolute quantity, independent of market prices',()=>{
+test('autofill uses the latest market spot and current gross value across accounts, independent of cost',()=>{
  const raw={updated_at:at,accounts:[{id:'a'},{id:'b'},{id:'c'}],positions:[
-  {account:'a',kind:'equity',sym:'A',qty:20,avg_cost:68.177,price:51.825},
-  {account:'b',kind:'equity',sym:'A',qty:101,avg_cost:68.29,price:52},
-  {account:'c',kind:'equity',sym:'A',qty:16,avg_cost:67.64,price:53}]};
- const build=()=>portfolioBundleDrafts({title:'Cost'},raw,{assignments:{A:'Cost'}}).bundles[0].construction;
- const construction=build(),metrics=bundleMetrics(construction),expected=(20*68.177+101*68.29+16*67.64)/137;
- assert.equal(metrics.referenceSpot,expected);assert.equal(metrics.spotConflict,false);assert.equal(metrics.referenceCapital,9343.07);
- assert.deepEqual(construction.legs.map(l=>l.entry),[68.177,68.29,67.64]);
- for(const p of raw.positions)p.price=200;
+  {account:'a',kind:'equity',sym:'A',qty:20,avg_cost:68.177,price:51.825,price_as_of:'2026-09-29T12:00:00Z'},
+  {account:'b',kind:'equity',sym:'A',qty:101,avg_cost:68.29,price:52,price_as_of:at},
+  {account:'c',kind:'equity',sym:'A',qty:16,avg_cost:67.64,price:53,price_as_of:'2026-09-29T13:00:00Z'}]};
+ const original=structuredClone(raw),build=()=>portfolioBundleDrafts({title:'Market'},raw,{assignments:{A:'Market'}}).bundles[0].construction;
+ const construction=build(),metrics=bundleMetrics(construction);
+ assert.equal(metrics.referenceSpot,52);assert.equal(metrics.spotConflict,false);assert.equal(metrics.referenceCapital,7136.5);
+ assert.deepEqual(construction.legs.map(l=>l.entry),[51.825,52,53]);assert.deepEqual(raw,original);
+ for(const p of raw.positions)p.avg_cost=999;
  assert.deepEqual(build(),construction);
+ for(const p of raw.positions)p.price=200;
+ assert.equal(bundleMetrics(build()).referenceSpot,200);assert.equal(bundleMetrics(build()).referenceCapital,27400);
  raw.positions[2].qty=-16;
- assert.equal(bundleMetrics(build()).referenceSpot,expected);assert.equal(build().legs[2].side,'short');
+ assert.equal(bundleMetrics(build()).referenceCapital,27400);assert.equal(build().legs[2].side,'short');
 });
 
-test('missing costs stay empty, and do not produce a partial Reference Capital',()=>{
+test('missing costs do not block current valuation; missing marks leave capital incomplete',()=>{
  const raw=structuredClone(portfolio);delete raw.positions[0].avg_cost;
- const construction=portfolioBundleDrafts({title:'Cost'},raw,{assignments:{MU:'Cost'}}).bundles[0].construction;
- assert.equal(construction.legs[0].entry,'');assert.equal(bundleMetrics(construction).referenceSpot,null);
- assert.equal(construction.candidate.referenceCapital,'');assert.equal(construction.legs[1].entry,3.5);
+ const build=()=>portfolioBundleDrafts({title:'Market'},raw,{assignments:{MU:'Market'}}).bundles[0].construction;
+ assert.equal(bundleMetrics(build()).referenceSpot,100);assert.equal(bundleMetrics(build()).referenceCapital,2000);
+ delete raw.positions[0].price;
+ assert.equal(build().legs[0].entry,'');assert.equal(bundleMetrics(build()).referenceSpot,100);assert.equal(build().candidate.referenceCapital,'');
+ delete raw.positions[1].underlying_price;
+ assert.equal(bundleMetrics(build()).referenceSpot,null);
 });
 
-test('option-only autofill uses acquisition premium as Reference Mark while keeping underlying spot in its own unit',()=>{
+test('option-only autofill uses current premium separately from underlying spot, without cost fallback',()=>{
  const raw=structuredClone(portfolio);raw.positions=raw.positions.filter(p=>p.kind==='option');
- const construction=portfolioBundleDrafts({title:'Cost'},raw,{assignments:{MU:'Cost'}}).bundles[0].construction;
- assert.equal(construction.legs[0].entry,3.5);assert.equal(bundleMetrics(construction).referenceSpot,100);
- assert.equal(construction.candidate.referenceCapital,700);
+ const build=()=>portfolioBundleDrafts({title:'Market'},raw,{assignments:{MU:'Market'}}).bundles[0].construction;
+ assert.equal(build().legs[0].entry,5);assert.equal(bundleMetrics(build()).referenceSpot,100);assert.equal(build().candidate.referenceCapital,1000);
  delete raw.positions[0].underlying_price;
- assert.equal(bundleMetrics(portfolioBundleDrafts({title:'Cost'},raw,{assignments:{MU:'Cost'}}).bundles[0].construction).referenceSpot,null);
+ assert.equal(bundleMetrics(build()).referenceSpot,null);
+ delete raw.positions[0].price;
+ assert.equal(build().legs[0].entry,'');assert.equal(build().candidate.referenceCapital,'');
 });
 
 test('local assignment overrides file and exact option assignment overrides Underlying fallback',()=>{

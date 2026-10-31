@@ -1,5 +1,5 @@
 import {accountDisplayName} from './account-display.mjs';
-import { loadJSON } from './shared.js';
+import { loadJSON } from './shared.js?v=20261028-manual-versions';
 import { normalizePortfolio, liveClaims } from './position-link.mjs';
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=x=>x===''||x==null?'未知':Number(x).toLocaleString('en-US',{maximumFractionDigits:4});

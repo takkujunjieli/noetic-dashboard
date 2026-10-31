@@ -1,6 +1,6 @@
-import {loadJSON} from './shared.js';
-import {localReferenceIv,portfolioBundleDrafts} from './portfolio-autofill.mjs?v=20261019-actual-cost';
-import {readWorkflowOwnershipCases,workflowOwnershipIndex} from './workflow-ownership.mjs?v=20261017-portfolio-assignment';
+import {loadJSON} from './shared.js?v=20261028-manual-versions';
+import {localReferenceIv,portfolioBundleDrafts} from './portfolio-autofill.mjs?v=20261028-market-reference';
+import {readWorkflowOwnershipCases,workflowOwnershipIndex} from './workflow-ownership.mjs?v=20261028-manual-versions';
 
 export async function loadPortfolioBundleDrafts(c){
  const [portfolio,referenceIv]=await Promise.all([loadJSON('data/portfolio.json'),loadJSON('data/reference_iv.json')]);

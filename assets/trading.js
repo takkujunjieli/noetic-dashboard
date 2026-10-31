@@ -1,11 +1,11 @@
-import {dashboardStorage as localStorage} from './dashboard-data.mjs';
+import {dashboardStorage as localStorage} from './dashboard-data.mjs?v=20261028-manual-versions';
 import {accountDisplayName} from './account-display.mjs';
-import {mountTradeLinkGroupEditor} from './trade-link-ui.js?v=20261020-account-name';
+import {mountTradeLinkGroupEditor} from './trade-link-ui.js?v=20261028-manual-versions';
 /* 交易台 — 单票工作台:K线主图 + 共享价格轴行权价梯 + 期权面板 + 采集控制
    图表库: TradingView lightweight-charts v4(CDN,全局 LightweightCharts) */
 import {
   $, esc, fmtDT, fmtMoney, fmtNum, REPO, loadJSON, loadFreshJSON, getPat, setPat, ghHeaders,
-} from "./shared.js";
+} from "./shared.js?v=20261028-manual-versions";
 import { monthlyLogStats } from "./portfolio-monthly.mjs";
 import { aggregateTradeDetails, dedupeTradeFills, equityPositionsAtBars, groupTradeFills } from "./trade-markers.mjs?v=20261010-position-anchor";
 
@@ -973,7 +973,7 @@ function renderGexSub() {
   if (gt) {
     const upd = GEX?.updated_at ? ` · updated ${fmtDT(GEX.updated_at)}` : "";
     const scope = eff?.bucket === "all" ? "≤30d 聚合" : `${eff?.label || ""}(所在 ${GEX_BUCKET_LABEL[bkey]} 序列)`;
-    gt.textContent = `Intraday net GEX trend · ${scope} · ${useFlow ? "Real" : "Raw"}${upd}`;
+    gt.textContent = `${scope} · ${useFlow ? "Real" : "Raw"}${upd}`;
   }
   requestAnimationFrame(syncSubs);  // 对齐主图时间范围(替代 fitContent 自适应,否则会覆盖 x 轴对齐)
 }
@@ -1472,7 +1472,7 @@ function renderOptPanel() {
     ${emTile}${ivTile}${skewTile}${termTile}${vrpTile}${pcrTile}${mpTile}${earnTile}${premTile}${dTile}
   </div>
     <div class="prem-bar" title="Call premium share: ${cwInt}% (Put ${100 - cwInt}%)"><div class="prem-call" style="width:${cw}%"></div></div>
-    <div class="muted small">Premium = activity (not buy/sell) — read direction with OI change + Real(sampled) GEX.</div>
+
     ${(o.top_strikes || []).length ? `<details><summary class="muted small">Most active strikes today</summary>
       <table><tr><th>Exp</th><th>Strike</th><th>Side</th><th>Vol</th><th>OI</th><th>Prem</th></tr>${(o.top_strikes || []).map((t) => `<tr>
         <td>${mmdd(t.exp)}</td><td>${t.strike}</td><td class="${t.side === "call" ? "up" : "down"}">${t.side === "call" ? "C" : "P"}</td>
@@ -1497,7 +1497,11 @@ function buildDonut(items, { value = (x) => x.mkt_value, centerSub, emptyMsg } =
   const slices = items.map((x) => ({ x, v: value(x) })).filter((o) => o.v >= PF_MIN_VALUE)
     .sort((a, b) => b.v - a.v);
   const total = slices.reduce((s, o) => s + o.v, 0);
-  if (!slices.length || !total) return emptyMsg ? `<div class="muted small">${emptyMsg}</div>` : "";
+  if (!slices.length || !total) return `<div class="pf-donut pf-donut-empty"><svg viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="${esc(emptyMsg || 'No positions')}">
+    <circle cx="100" cy="100" r="71" fill="none" stroke="#6b7280" stroke-width="34"/>
+    <text x="100" y="97" text-anchor="middle" fill="#e5e9f0" font-size="15" font-weight="600">$0</text>
+    <text x="100" y="113" text-anchor="middle" fill="#8b96ad" font-size="10">No Positions</text>
+    </svg><div class="pf-legend muted small">${esc(emptyMsg || 'No positions')}</div></div>`;
   const dispTotal = slices.reduce((s, o) => s + o.x.mkt_value, 0);   // 有符号实际市值合计(空头为负)
   const selSlice = pfFilter ? slices.find((o) => o.x.sym === pfFilter) : null;  // 选中的票在本饼图里?
   const centerBig = fmtMoney(selSlice ? selSlice.x.mkt_value : dispTotal);
@@ -1510,7 +1514,8 @@ function buildDonut(items, { value = (x) => x.mkt_value, centerSub, emptyMsg } =
     const s = o.x, frac = o.v / total, a0 = ang, a1 = ang + TAU * frac; ang = a1;
     const col = pfColor(i, slices.length), large = (a1 - a0) > Math.PI ? 1 : 0;
     const sel = pfFilter === s.sym, dim = selSlice && !sel;   // 仅当选中的票在本饼图时才暗化其余
-    arcs.push(`<path class="pf-slice${sel ? " sel" : ""}" data-sym="${esc(s.sym)}" d="M${pt(R, a0)} A${R} ${R} 0 ${large} 1 ${pt(R, a1)} L${pt(r, a1)} A${r} ${r} 0 ${large} 0 ${pt(r, a0)} Z" fill="${col}" opacity="${dim ? 0.28 : 0.9}"${sel ? ' stroke="#e5e9f0" stroke-width="1.5"' : ""}><title>${esc(s.sym)}: ${fmtMoney(o.x.mkt_value)} (${(frac * 100).toFixed(1)}%)</title></path>`);
+    if (slices.length === 1) arcs.push(`<circle class="pf-slice${sel ? " sel" : ""}" data-sym="${esc(s.sym)}" cx="100" cy="100" r="71" fill="none" stroke="${col}" stroke-width="34" opacity="0.9"><title>${esc(s.sym)}: ${fmtMoney(o.x.mkt_value)} (100.0%)</title></circle>`);
+    else arcs.push(`<path class="pf-slice${sel ? " sel" : ""}" data-sym="${esc(s.sym)}" d="M${pt(R, a0)} A${R} ${R} 0 ${large} 1 ${pt(R, a1)} L${pt(r, a1)} A${r} ${r} 0 ${large} 0 ${pt(r, a0)} Z" fill="${col}" opacity="${dim ? 0.28 : 0.9}"${sel ? ' stroke="#e5e9f0" stroke-width="1.5"' : ""}><title>${esc(s.sym)}: ${fmtMoney(o.x.mkt_value)} (${(frac * 100).toFixed(1)}%)</title></path>`);
     legend.push(`<div class="pf-leg${sel ? " sel" : ""}" data-sym="${esc(s.sym)}"><span class="pf-sw" style="background:${col}"></span>${esc(s.sym)} <span class="muted">${(frac * 100).toFixed(0)}%</span></div>`);
   });
   return `<div class="pf-donut"><svg viewBox="0 0 200 200" width="200" height="200">${arcs.join("")}` +
@@ -1519,13 +1524,13 @@ function buildDonut(items, { value = (x) => x.mkt_value, centerSub, emptyMsg } =
     `</svg><div class="pf-legend">${legend.join("")}</div></div>`;
 }
 
-/* 整数美元格式(盈亏诊断用;fmtMoney 是 K/M/B 组合口径,几百块会显成 $0K)。 */
+/* 整数美元格式(P&L Analytics用;fmtMoney 是 K/M/B 组合口径,几百块会显成 $0K)。 */
 const usd = (v) => (v < 0 ? "−$" : "$") + Math.round(Math.abs(v)).toLocaleString("en-US");
 
 /* 每笔已实现盈亏的分布直方图(红=亏/绿=盈,灰线=0,黄虚线=均值)。trades: [{d,s,k,p}]。 */
 function buildHist(trades) {
   const ps = trades.map((t) => t.p);
-  if (!ps.length) return `<div class="muted small">窗口内无平仓记录</div>`;
+  if (!ps.length) return `<div class="muted small">No closed trades in this period</div>`;
   const min = Math.min(...ps, 0), max = Math.max(...ps, 0), span = (max - min) || 1;
   const NB = 25, bw = span / NB, counts = new Array(NB).fill(0);
   for (const p of ps) counts[Math.min(NB - 1, Math.max(0, Math.floor((p - min) / bw)))]++;
@@ -1536,12 +1541,12 @@ function buildHist(trades) {
   const bars = counts.map((c, i) => {
     const bx = padL + i / NB * iw, wpx = iw / NB - 1, h = c / maxc * ih;
     const lo = min + i * bw, hi = min + (i + 1) * bw, col = (lo + hi) / 2 < 0 ? "#f87171" : "#34d399";
-    return c ? `<rect x="${bx.toFixed(1)}" y="${(padT + ih - h).toFixed(1)}" width="${wpx.toFixed(1)}" height="${h.toFixed(1)}" fill="${col}" opacity="0.85"><title>[${usd(lo)}, ${usd(hi)}): ${c} 笔</title></rect>` : "";
+    return c ? `<rect x="${bx.toFixed(1)}" y="${(padT + ih - h).toFixed(1)}" width="${wpx.toFixed(1)}" height="${h.toFixed(1)}" fill="${col}" opacity="0.85"><title>[${usd(lo)}, ${usd(hi)}): ${c} trades</title></rect>` : "";
   }).join("");
   const axis = (v, dy = 12) => `<text x="${Math.min(W - padR, Math.max(padL, xat(v)))}" y="${H - padB + dy}" fill="#8b96ad" font-size="9" text-anchor="middle">${usd(v)}</text>`;
   return `<svg viewBox="0 0 ${W} ${H}" width="100%" preserveAspectRatio="xMidYMid meet">${bars}` +
     `<line x1="${xat(0).toFixed(1)}" y1="${padT}" x2="${xat(0).toFixed(1)}" y2="${padT + ih}" stroke="#8b96ad" stroke-width="1"/>` +
-    `<line x1="${xat(mean).toFixed(1)}" y1="${padT}" x2="${xat(mean).toFixed(1)}" y2="${padT + ih}" stroke="#fbbf24" stroke-width="1" stroke-dasharray="3 2"><title>均值 ${usd(mean)}</title></line>` +
+    `<line x1="${xat(mean).toFixed(1)}" y1="${padT}" x2="${xat(mean).toFixed(1)}" y2="${padT + ih}" stroke="#fbbf24" stroke-width="1" stroke-dasharray="3 2"><title>Mean ${usd(mean)}</title></line>` +
     axis(min) + axis(0) + axis(max) + `</svg>`;
 }
 
@@ -1556,14 +1561,14 @@ function buildExtremeTrades(trades) {
   const rows = Array.from({ length: 5 }, (_, i) =>
     `<tr><td class="pf-ext-rank">${i + 1}</td>${cells(wins[i], "up")}<td class="pf-ext-rank pf-ext-split">${i + 1}</td>${cells(losses[i], "down")}</tr>`
   ).join("");
-  return `<div class="pf-extreme"><div class="pf-extreme-head"><b>单笔最大盈亏</b><span class="muted small">跟随账户与 ${pfPnlWin.toUpperCase()} 窗口</span></div>
+  return `<div class="pf-extreme"><div class="pf-extreme-head"><b>Largest Trade P&L</b><span class="muted small">Selected account · ${pfPnlWin.toUpperCase()}</span></div>
     <div class="pf-extreme-wrap"><table class="bt-table pf-extreme-tbl"><thead>
-      <tr><th colspan="4" class="pf-ext-win">最大盈利 5 笔</th><th colspan="4" class="pf-ext-loss">最大亏损 5 笔</th></tr>
-      <tr><th>#</th><th>日期</th><th>标的</th><th>P&L</th><th class="pf-ext-split">#</th><th>日期</th><th>标的</th><th>P&L</th></tr>
+      <tr><th colspan="4" class="pf-ext-win">Top 5 Winners</th><th colspan="4" class="pf-ext-loss">Top 5 Losers</th></tr>
+      <tr><th>#</th><th>Date</th><th>Ticker</th><th>P&L</th><th class="pf-ext-split">#</th><th>Date</th><th>Ticker</th><th>P&L</th></tr>
     </thead><tbody>${rows}</tbody></table></div></div>`;
 }
 
-/* 盈亏诊断块:窗口切换(YTD/3M/1M)+ 量化指标 tiles + 收益分布 + 单笔极值。仅对有完整历史数据的账户显示。 */
+/* P&L Analytics块:窗口切换(YTD/3M/1M)+ 量化指标 tiles + 收益分布 + 单笔极值。仅对有完整历史数据的账户显示。 */
 function buildPnlPanel() {
   if (!PNL || !PNL.accounts) return "";
   const aid = pfAccount
@@ -1577,19 +1582,19 @@ function buildPnlPanel() {
     .map((w) => `<button data-pw="${w}"${w === win ? ' class="active"' : ""}>${w.toUpperCase()}</button>`).join("");
   const skewTxt = m.skew == null ? "—" : `${m.skew > 0 ? "+" : ""}${m.skew}`;
   const tiles = [
-    tile("净已实现", usd(m.net), `${m.n} 笔`, m.net >= 0 ? "up" : "down"),
-    tile("胜率", `${(m.win_rate * 100).toFixed(0)}%`, `${m.wins}胜/${m.losses}亏`),
-    tile("盈亏比", m.payoff != null ? m.payoff.toFixed(2) : "—", `均盈${usd(m.avg_win)} / 均亏${usd(m.avg_loss)}`, (m.payoff ?? 0) >= 1 ? "up" : "down", "平均盈利 ÷ 平均亏损;<1=靠胜率撑,>1=payoff 占优"),
-    tile("偏度", skewTxt, m.skew == null ? "" : (m.skew < 0 ? "左尾·大亏拖累" : "右尾·大赢主导"), (m.skew ?? 0) >= 0 ? "up" : "down", "收益分布偏度;负=有大亏肥尾,正=有大赢肥尾"),
-    tile("亏损集中度", m.loss_conc != null ? `${(m.loss_conc * 100).toFixed(0)}%` : "—", "最大输家占毛亏", (m.loss_conc ?? 0) > 0.5 ? "down" : "", "单只票占全部亏损的比例;越高=亏损越集中在一只"),
-    tile("期望/笔", usd(m.expectancy), "每笔平均", m.expectancy >= 0 ? "up" : "down"),
-    tile("波动率", m.vol_daily != null ? usd(m.vol_daily) : "—", "日已实现P&L σ", "", "日已实现盈亏的标准差(美元);衡量每日盈亏波动大小"),
-    tile("Sharpe", m.sharpe != null ? m.sharpe.toFixed(2) : "—", "年化·日P&L口径", (m.sharpe ?? 0) >= 1 ? "up" : "", "基于日已实现$P&L,超额=日均P&L−每日$门槛(账户资本×15%年化/252),÷日σ×√252;非账户%收益 Sharpe,勿与标准 Sharpe 直接比较"),
-    tile("Sortino", m.sortino != null ? m.sortino.toFixed(2) : "—", "年化·仅下行", (m.sortino ?? 0) >= 1 ? "up" : "", "同 Sharpe(MAR=15%年化门槛),但分母只用低于门槛的下行波动"),
-    tile("最大回撤", m.max_dd != null ? usd(m.max_dd) : "—", "已实现累计峰谷", (m.max_dd ?? 0) < 0 ? "down" : "", "已实现盈亏累计曲线从峰值的最大回落(美元)"),
+    tile("Net Realized P&L", usd(m.net), `${m.n} trades`, m.net >= 0 ? "up" : "down"),
+    tile("Win Rate", `${(m.win_rate * 100).toFixed(0)}%`, `${m.wins} wins / ${m.losses} losses`),
+    tile("Payoff Ratio", m.payoff != null ? m.payoff.toFixed(2) : "—", `Avg. win ${usd(m.avg_win)} / Avg. loss ${usd(m.avg_loss)}`, (m.payoff ?? 0) >= 1 ? "up" : "down", "Average win ÷ average loss; below 1 relies on win rate; above 1 favors payoff"),
+    tile("Skewness", skewTxt, m.skew == null ? "" : (m.skew < 0 ? "Left tail · Large losses" : "Right tail · Large gains"), (m.skew ?? 0) >= 0 ? "up" : "down", "P&L distribution skewness; negative indicates a heavier loss tail, positive a heavier gain tail"),
+    tile("Loss Concentration", m.loss_conc != null ? `${(m.loss_conc * 100).toFixed(0)}%` : "—", "Largest loser / gross losses", (m.loss_conc ?? 0) > 0.5 ? "down" : "", "Share of gross losses attributable to the largest losing ticker"),
+    tile("Expectancy / Trade", usd(m.expectancy), "Average per trade", m.expectancy >= 0 ? "up" : "down"),
+    tile("Volatility", m.vol_daily != null ? usd(m.vol_daily) : "—", "Daily realized P&L σ", "", "Standard deviation of daily realized P&L in dollars"),
+    tile("Sharpe", m.sharpe != null ? m.sharpe.toFixed(2) : "—", "Annualized · Daily dollar P&L", (m.sharpe ?? 0) >= 1 ? "up" : "", "Daily realized dollar P&L Sharpe: (mean daily P&L − daily dollar hurdle) / daily standard deviation × √252. The hurdle is account capital × 15% / 252. Not an account percentage-return Sharpe."),
+    tile("Sortino", m.sortino != null ? m.sortino.toFixed(2) : "—", "Annualized · Downside only", (m.sortino ?? 0) >= 1 ? "up" : "", "Uses the same 15% annual MAR hurdle as Sharpe, with downside deviation in the denominator"),
+    tile("Max Drawdown", m.max_dd != null ? usd(m.max_dd) : "—", "Cumulative realized P&L peak-to-trough", (m.max_dd ?? 0) < 0 ? "down" : "", "Largest peak-to-trough decline in cumulative realized dollar P&L"),
   ].join("");
-  return `<details open class="pf-pnl"><summary class="muted small">盈亏诊断</summary>
-      <div class="pf-pnl-bar"><div class="chips seg" id="pf-pw">${toggle}</div><span class="muted small">无风险收益为 ${(((PNL && PNL.risk_free_annual) || 0) * 100).toFixed(0)}%</span></div>
+  return `<details open class="pf-pnl"><summary class="muted small">P&L Analytics</summary>
+      <div class="pf-pnl-bar"><div class="chips seg" id="pf-pw">${toggle}</div><span class="muted small">Risk-free Rate:  ${(((PNL && PNL.risk_free_annual) || 0) * 100).toFixed(0)}%</span></div>
       <div class="opt-grid">${tiles}</div>
       <div class="pf-hist">${buildHist(trades)}</div>
       ${buildExtremeTrades(trades)}
@@ -1601,9 +1606,9 @@ function renderPortfolio() {
   if (!el) return;
   const p = PORTFOLIO;
   const allPos = (p?.positions || []).filter((x) => x.mkt_value != null);
-  if (!allPos.length) {
+  if (!p || !Array.isArray(p.positions)) {
     pfFilter = null; pfAccount = null;
-    el.innerHTML = `<div class="card empty">暂无持仓数据 — 认证券商后跑 <code>scripts/build_portfolio.py</code> 生成 <code>data/portfolio.json</code>。</div>`;
+    el.innerHTML = `<div class="card empty">No portfolio data available.</div>`;
     return;
   }
   // 账户下拉:>1 个账户才显示;选中的账户已不存在(数据变了)则回退到全部
@@ -1611,13 +1616,13 @@ function renderPortfolio() {
   if (pfAccount && !accounts.some((a) => a.id === pfAccount)) pfAccount = null;
   const pos = pfAccount ? allPos.filter((x) => x.account === pfAccount) : allPos;
   const acctSel = accounts.length > 1
-    ? `<select id="pf-acct" class="pf-acct"><option value=""${pfAccount ? "" : " selected"}>全部账户</option>`
+    ? `<select id="pf-acct" class="pf-acct"><option value=""${pfAccount ? "" : " selected"}>All Accounts</option>`
       + accounts.map((a) => `<option value="${esc(a.id)}"${pfAccount === a.id ? " selected" : ""}>${esc(accountDisplayName(a.id,a.label))}</option>`).join("")
       + `</select>`
     : "";
-  const acctBar = acctSel ? `<div class="pf-acctbar"><span class="muted small">账户</span>${acctSel}</div>` : "";
+  const acctBar = acctSel ? `<div class="pf-acctbar"><span class="muted small">Account</span>${acctSel}</div>` : "";
   const curAcct = pfAccount ? accountDisplayName(pfAccount,accounts.find((a) => a.id === pfAccount)?.label)
-    : (accounts.length > 1 ? `全部 ${accounts.length} 户` : accountDisplayName(accounts[0]?.id,accounts[0]?.label)||((p.brokers || []).join("/") || "—"));
+    : (accounts.length > 1 ? `All ${accounts.length} Accounts` : accountDisplayName(accounts[0]?.id,accounts[0]?.label)||((p.brokers || []).join("/") || "—"));
   const total = pos.reduce((s, x) => s + x.mkt_value, 0);
   const pnl = pos.reduce((s, x) => s + (x.pnl || 0), 0);
   // 收益率统一以账户 net liq 为资本分母;不要用持仓成本或含 margin 的 buying power。
@@ -1626,18 +1631,18 @@ function renderPortfolio() {
     : accounts.reduce((s, a) => s + (a.equity || 0), 0);
   const selectedAccount = pfAccount ? accounts.find((a) => a.id === pfAccount) : null;
   const sourceSummary = pfAccount
-    ? (selectedAccount?.source_updated_at ? fmtDT(selectedAccount.source_updated_at) : "未记录")
-    : accounts.map((a) => `${accountDisplayName(a.id,a.label)}: ${a.source_updated_at ? fmtDT(a.source_updated_at) : "未记录"}`).join(" · ");
+    ? (selectedAccount?.source_updated_at ? fmtDT(selectedAccount.source_updated_at) : "Not recorded")
+    : accounts.map((a) => `${accountDisplayName(a.id,a.label)}: ${a.source_updated_at ? fmtDT(a.source_updated_at) : "Not recorded"}`).join(" · ");
   const tiles = [
-    tile("总市值", fmtMoney(total)),
-    tile("未实现盈亏", `${pnl >= 0 ? "+" : ""}${fmtMoney(pnl)}`, netLiq > 0 ? `${(pnl / netLiq * 100).toFixed(1)}% net liq` : "", pnl >= 0 ? "up" : "down"),
-    tile("持仓数", String(pos.length)),
-    tile("账户", curAcct),
-    tile("券商源更新", pfAccount ? sourceSummary : "分别记录", pfAccount ? "" : sourceSummary),
+    tile("Market Value", fmtMoney(total)),
+    tile("Unrealized P&L", `${pnl >= 0 ? "+" : ""}${fmtMoney(pnl)}`, netLiq > 0 ? `${(pnl / netLiq * 100).toFixed(1)}% net liq` : "", pnl >= 0 ? "up" : "down"),
+    tile("Positions", String(pos.length)),
+    tile("Account", curAcct),
+    tile("Broker Source Updated", pfAccount ? sourceSummary : "Per-account timestamps", pfAccount ? "" : sourceSummary),
   ].join("");
   // 交易明细已移除,改为月历(见 buildMonthlyCalendar)。pfFilter 仍由饼图点击驱动(控制饼图中心显示)。
   // 多头饼图(市值) + 空头饼图(按 |市值|,有做空仓位才显示)。标题右侧显示该饼图总仓位。
-  // 全部账户时同一股票会来自多个账户 → 画饼前按 sym 合并(市值/盈亏/数量相加),避免同票裂成多块。
+  // All Accounts时同一股票会来自多个账户 → 画饼前按 sym 合并(市值/盈亏/数量相加),避免同票裂成多块。
   const bySym = new Map();
   for (const x of pos) {
     const e = bySym.get(x.sym);
@@ -1651,19 +1656,16 @@ function renderPortfolio() {
   const longTotal = longs.filter((x) => x.mkt_value >= PF_MIN_VALUE).reduce((s, x) => s + x.mkt_value, 0);
   const shortTotal = shorts.filter((x) => -x.mkt_value >= PF_MIN_VALUE).reduce((s, x) => s + x.mkt_value, 0);
   const cap = (name, tot) => `<div class="pf-pie-cap muted small">${name} <span class="pf-cap-tot">${fmtMoney(tot)}</span></div>`;
-  const longBox = `<div class="pf-pie">${cap("多头", longTotal)}`
-    + `${buildDonut(longs, { centerSub: K, emptyMsg: `无 ${K} 的持仓可画饼图` })}</div>`;
-  const donuts = shorts.length
-    ? `<div class="pf-pies">${longBox}`
-      + `<div class="pf-pie">${cap("空头", shortTotal)}`
-      + `${buildDonut(shorts, { value: (x) => -x.mkt_value, centerSub: K, emptyMsg: `无 ${K} 的做空仓位` })}</div>`
-      + `</div>`
-    : `<div class="pf-pies">${longBox}</div>`;
+  const longBox = `<div class="pf-pie">${cap("Long", longTotal)}`
+    + `${buildDonut(longs, { centerSub: K, emptyMsg: `No long positions ${K}` })}</div>`;
+  const shortBox = `<div class="pf-pie">${cap("Short", shortTotal)}`
+    + `${buildDonut(shorts, { value: (x) => -x.mkt_value, centerSub: K, emptyMsg: `No short positions ${K}` })}</div>`;
+  const donuts = `<div class="pf-pies">${longBox}${shortBox}</div>`;
   el.innerHTML = `<div class="card">${acctBar}<div class="opt-grid">${tiles}</div>${donuts}${buildPnlPanel()}</div>`;
 }
 
 /* monthly_returns.json 的账户视图;_all = 各账户 realized/snapshots 前端聚合。
-   聚合 Net Liq 只有在该月覆盖全部账户时才有效，避免拿部分账户净值跨月误算。 */
+   聚合 Net Liq 只有在该月覆盖All Accounts时才有效，避免拿部分账户净值跨月误算。 */
 function monthlyExact(acctKey) {
   const accts = MONTHLY?.accounts; if (!accts) return null;
   if (acctKey !== "_all") return accts[acctKey] || null;
@@ -1705,7 +1707,7 @@ function buildMonthlyCalendar() {
   if (!MODES[mode]) mode = "realized";
   const kind = MODES[mode].kind;
   const modeChips = Object.entries(MODES).map(([k, m]) => `<button data-cal="${k}"${k === mode ? ' class="active"' : ""}>${m.label}</button>`).join("");
-  const head = `<div class="pf-cal-head"><b>月历</b> <span class="muted small">Realized P&L=券商精确(仅已实现); P&L=相邻月末 Net Liq 差−净现金流; P&L % 将当月净现金流视为月初到账: (月末−月初−净流)/(月初+净流); log P&L=ln(1 + P&L %)</span>`
+  const head = `<div class="pf-cal-head"><b>Monthly Returns</b> `
     + `<div class="chips seg" id="pf-calmode" style="margin-left:auto">${modeChips}</div></div>`;
   const prevYm = (ym) => { let [y, mm] = ym.split("-").map(Number); mm--; if (mm < 1) { mm = 12; y--; } return `${y}-${String(mm).padStart(2, "0")}`; };
   const finite = (v) => v != null && v !== "" && Number.isFinite(+v);
@@ -1746,7 +1748,7 @@ function buildMonthlyCalendar() {
   const usd = (v) => (v < 0 ? "−$" : "$") + Math.round(Math.abs(v)).toLocaleString();
   const fmtV = (o) => {
     if (o == null) return '<span class="muted">—</span>';
-    const tag = o.est ? "(估)" : "";
+    const tag = o.est ? "(Est.)" : "";
     if (kind === "pct") return `${tag}${o.v >= 0 ? "+" : ""}${o.v.toFixed(1)}%`;
     if (kind === "log") return `${tag}${o.v >= 0 ? "+" : ""}${o.v.toFixed(3)}`;
     return `${tag}${usd(o.v)}`;
@@ -1764,10 +1766,10 @@ function buildMonthlyCalendar() {
   }), currentYm);
   const pctStat = (v, signed = true) => v == null ? "—" : `${signed && v >= 0 ? "+" : ""}${(v * 100).toFixed(2)}%`;
   const statTiles = [
-    tile("Mean Log Return", pctStat(logStats.mean), `${logStats.n} 个完整月 · 月均`, (logStats.mean ?? 0) >= 0 ? "up" : "down",
-      "完整月份月度对数收益的算术平均；对数收益 = ln(1 + 月收益率)，不计当前月份"),
-    tile("Log Return Volatility", pctStat(logStats.volatility, false), `${logStats.n} 个完整月 · 月度样本 σ`, "",
-      "完整月份月度对数收益的样本标准差（n−1），未年化，不计当前月份"),
+    tile("Mean Log Return", pctStat(logStats.mean), `${logStats.n} completed months · Monthly mean`, (logStats.mean ?? 0) >= 0 ? "up" : "down",
+      "Arithmetic mean of monthly log returns, excluding the current month; log return = ln(1 + monthly return)"),
+    tile("Log Return Volatility", pctStat(logStats.volatility, false), `${logStats.n} completed months · Monthly sample σ`, "",
+      "Sample standard deviation (n−1) of completed monthly log returns; not annualized; excludes the current month"),
   ].join("");
   const maxAbs = Math.max(1e-9, ...allYm.map(valObj).filter(Boolean).map((o) => Math.abs(o.v)));
   const heat = (v) => v == null ? "" : `background:hsl(${v >= 0 ? 142 : 0} 65% 45% / ${(0.08 + Math.min(Math.abs(v) / maxAbs, 1) * 0.42).toFixed(2)})`;
@@ -1782,8 +1784,8 @@ function buildMonthlyCalendar() {
     const yt = yearAgg(y);
     return `<tr><td class="pf-cal-y">${y}</td>${cells}<td class="pf-cal-tot" style="${yt ? heat(yt.v) : ""}">${fmtV(yt)}</td></tr>`;
   }).join("");
-  if (!years.length) return `<div class="pf-cal">${head}<div class="muted small">暂无月度数据(需 data/monthly_returns.json / robustness.json,本地专用)。</div></div>`;
-  const th = `<tr><th></th>${MM.map((m) => `<th>${+m}</th>`).join("")}<th>年</th></tr>`;
+  if (!years.length) return `<div class="pf-cal">${head}<div class="muted small">No monthly return data available.</div></div>`;
+  const th = `<tr><th></th>${MM.map((m) => `<th>${+m}</th>`).join("")}<th>Year</th></tr>`;
   return `<div class="pf-cal"><div class="opt-grid pf-cal-stats">${statTiles}</div>${head}<div class="pf-cal-wrap"><table class="pf-cal-tbl"><thead>${th}</thead><tbody>${body}</tbody></table></div></div>`;
 }
 

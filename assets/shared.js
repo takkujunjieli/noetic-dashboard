@@ -1,5 +1,5 @@
 /* 信息页与交易页共享的工具函数与数据加载 */
-import {dashboardStorage as localStorage, publicJSON} from './dashboard-data.mjs';
+import {dashboardStorage as localStorage, publicJSON} from './dashboard-data.mjs?v=20261028-manual-versions';
 
 export const REPO = "takkujunjieli/noetic-dashboard";
 

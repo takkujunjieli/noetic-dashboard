@@ -1,6 +1,6 @@
-import {dashboardStorage as localStorage} from './dashboard-data.mjs';
+import {dashboardStorage as localStorage} from './dashboard-data.mjs?v=20261028-manual-versions';
 // Shared risk-control component: legacy Portfolio editor and Workflow instance adapter.
-import { esc, loadJSON, getPat, setPat } from "./shared.js";
+import { esc, loadJSON, getPat, setPat } from "./shared.js?v=20261028-manual-versions";
 import { positiveNum, calculateSizing, calculateManualSizing } from "./risk-budget.mjs";
 
 export async function mountLegacyRiskControl(host, services) {
@@ -250,15 +250,15 @@ export async function mountPortfolioSizingCalculator(host, storage = localStorag
   const tile = (k, v, sub = "", cls = "") => `<div class="opt-tile"><div class="opt-k">${k}</div><div class="opt-v ${cls}">${v}${sub ? ` <span class="opt-sub">${sub}</span>` : ""}</div></div>`;
   host.innerHTML = `<div class="risk-form portfolio-sizing-inputs">
     <label>Risk Budget Thesis<select id="ps-bundle">${names.map(name => `<option value="${esc(name)}"${name === initial ? " selected" : ""}>${esc(name)}</option>`).join("")}</select></label>
-    <label>账户净值 $<input id="ps-equity" type="number" min="0.01" step="1000" value="${esc(policy.account_equity ?? 100000)}"></label>
-    <label>单笔风险 %<input id="ps-risk" type="number" min="0.01" step="0.05"></label>
-    <label>买入价 $<input id="ps-entry" type="number" min="0.01" step="0.01" value="100"></label>
-    <label>止损价 $<input id="ps-stop" type="number" min="0" step="0.01" value="94"></label>
-    <label>仓位上限 %<input id="ps-cap" type="number" min="0.01" step="1" placeholder="沿用 Thesis / 自动"></label>
+    <label>Net Liquidation Value $<input id="ps-equity" type="number" min="0.01" step="1000" value="${esc(policy.account_equity ?? 100000)}"></label>
+    <label>Risk per Trade %<input id="ps-risk" type="number" min="0.01" step="0.05"></label>
+    <label>Entry Price $<input id="ps-entry" type="number" min="0.01" step="0.01" value="100"></label>
+    <label>Stop Price $<input id="ps-stop" type="number" min="0" step="0.01" value="94"></label>
+    <label>Position Cap %<input id="ps-cap" type="number" min="0.01" step="1" placeholder="Thesis default / Auto"></label>
   </div>
   <div id="ps-out" class="wb-statbar" style="margin-top:12px"></div>
   <div id="ps-note" class="muted small" style="margin-top:6px"></div>
-  <p class="muted small">这是正股多头的手工试算，不会修改所选 Thesis 的风险参数。账户净值会写入共享风险设置；期权与组合结构请在 Workflow 中管理。</p>`;
+  `;
   const $ = id => host.querySelector(`#${id}`), bundle = () => policy.bundles[$("ps-bundle").value] || {};
   function loadBundle() {
     const b = bundle();
@@ -268,15 +268,20 @@ export async function mountPortfolioSizingCalculator(host, storage = localStorag
   }
   function calculate() {
     const result = calculateManualSizing({ equity: $("ps-equity").value, riskPct: $("ps-risk").value, entry: $("ps-entry").value, stop: $("ps-stop").value, maxPositionPct: $("ps-cap").value });
-    if (result.error) { $("ps-out").innerHTML = tile("提示", "—", result.error); $("ps-note").textContent = ""; return; }
+    if (result.error) {
+      const message = result.error === '止损价须低于买入价且不得为负'
+        ? 'Stop Price must be below Entry Price and nonnegative.'
+        : 'Net Liquidation Value, Risk per Trade, Entry Price and Stop Price must be valid.';
+      $("ps-out").innerHTML = tile("Notice", "—", message); $("ps-note").textContent = ""; return;
+    }
     $("ps-out").innerHTML = [
-      tile("风险预算", "$" + result.budget.toFixed(0), `${$("ps-risk").value}% × 净值`, "down"),
-      tile("每股风险", "$" + result.perShare.toFixed(2), `买入价 − 止损价`),
-      tile("仓位股数", result.shares.toLocaleString(), result.capped ? `触发 ${result.cap}% 上限` : `风险预算反推`, "up"),
-      tile("仓位金额", "$" + result.positionValue.toFixed(0), `${result.positionPct.toFixed(1)}% 净值`),
-      tile("实际风险", "$" + result.actualRisk.toFixed(0), `${(result.actualRisk / +$("ps-equity").value * 100).toFixed(2)}% 净值`, "down"),
+      tile("Risk Budget", "$" + result.budget.toFixed(0), `${$("ps-risk").value}% × Net Liq`, "down"),
+      tile("Risk per Share", "$" + result.perShare.toFixed(2), `Entry Price − Stop Price`),
+      tile("Position Size (Shares)", result.shares.toLocaleString(), result.capped ? `${result.cap}% cap applied` : `Risk-based sizing`, "up"),
+      tile("Position Value", "$" + result.positionValue.toFixed(0), `${result.positionPct.toFixed(1)}% Net Liq`),
+      tile("Actual Risk", "$" + result.actualRisk.toFixed(0), `${(result.actualRisk / +$("ps-equity").value * 100).toFixed(2)}% Net Liq`, "down"),
     ].join("");
-    $("ps-note").textContent = `${result.shares.toLocaleString()} 股 = 风险预算 $${result.budget.toFixed(0)} ÷ 每股风险 $${result.perShare.toFixed(2)}`;
+    $("ps-note").textContent = `${result.shares.toLocaleString()} shares = Risk Budget $${result.budget.toFixed(0)} ÷ Risk per Share $${result.perShare.toFixed(2)}`;
   }
   $("ps-bundle").addEventListener("change", loadBundle);
   host.querySelectorAll("input").forEach(input => input.addEventListener("input", calculate));

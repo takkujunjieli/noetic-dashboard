@@ -1,4 +1,4 @@
-import {deriveBaseScenario,greekScenarioMatrix,scenarioUnderwriting,scenarioUnderwritingError} from './expected-return.mjs?v=20261015-atr-uncertainty';
+import {deriveBaseScenario,greekScenarioMatrix,scenarioUnderwriting,scenarioUnderwritingError} from './expected-return.mjs?v=20261028-deadline';
 import {bundleMetrics} from './trade-structure.mjs';
 
 const finite=value=>value!==''&&value!=null&&Number.isFinite(Number(value));
@@ -108,7 +108,7 @@ function calculateMonteCarloKelly(data,bundles,atrByUnderlying={},samples=500){
 }
 
 export function riskBudgetAllocation(c,data=c.nodes.risk.data,atrByUnderlying={}){
- const key=calculationInputs({underwriting:c.nodes.returns.data,policy:data},c.design?.plans||[],atrByUnderlying);
+ const key=calculationInputs({underwriting:Object.hasOwn(c.nodes.returns.data,'deadline')?scenarioUnderwriting(c.nodes.returns.data):c.nodes.returns.data,policy:data},c.design?.plans||[],atrByUnderlying);
  if(allocationCache.has(key))return structuredClone(allocationCache.get(key));
  return structuredClone(remember(allocationCache,key,calculateRiskBudgetAllocation(c,data,atrByUnderlying)));
 }

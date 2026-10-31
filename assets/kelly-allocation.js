@@ -1,4 +1,4 @@
-import {riskBudgetAllocation,RISK_WEIGHTING_METHOD,DEFAULT_KELLY_TILT_PCT,SIZING_METHOD,KELLY_FRACTION} from './kelly-allocation.mjs?v=20261019-half-kelly';
+import {riskBudgetAllocation,RISK_WEIGHTING_METHOD,DEFAULT_KELLY_TILT_PCT,SIZING_METHOD,KELLY_FRACTION} from './kelly-allocation.mjs?v=20261028-deadline';
 
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const n=(x,d=2)=>x==null||!Number.isFinite(Number(x))?'—':Number(x).toLocaleString('en-US',{maximumFractionDigits:d});

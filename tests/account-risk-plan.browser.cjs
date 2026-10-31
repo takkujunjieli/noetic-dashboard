@@ -35,7 +35,7 @@ const path=require('node:path');
   await page.goto('http://127.0.0.1:8765/portfolio.html');
   await page.locator('#account-budget-table').waitFor();
   const first=page.locator('#account-budget-table tbody tr').first();
-  assert.deepEqual(await first.locator('td').allTextContents(),['Thesis A','$2,000 · 2.00%','25.00%','15.00%','$3,000 · 3.00%','账户预算／可用资本缩放至 60.0%']);
+  assert.deepEqual(await first.locator('td').allTextContents(),['Thesis A','$2,000 · 2.00%','25.00%','15.00%','$3,000 · 3.00%','账户风险预算缩放至 60.0%']);
   assert.match(await page.locator('#risk-heat').innerText(),/实际持仓 · 当前已用风险/);assert.match(await page.locator('#risk-heat').innerText(),/目标方案 · 约束后风险/);
   assert.equal(await page.locator('#risk-heat .wb-statbar').first().evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length),4);
   await page.locator('#account-bundle-targets').evaluate(el=>el.closest('details').open=true);

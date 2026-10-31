@@ -88,9 +88,9 @@ test('duplicate underlying ownership blocks the plan even with no current holdin
  assert.equal(plan.valid,false);assert.equal(plan.scale,null);assert.match(plan.issues.join(' '),/重复归属/);
 });
 
-test('capital already occupied by other holdings can tighten sizing without using risk budget',()=>{
+test('other holdings reserve risk without imposing a capital cap',()=>{
  const plan=accountRiskPlan({equity:100000,maxRiskPct:20,cases:[fixture()],positions:[stock('OTHER',900)],atr:{OTHER:.01}});
- assert.equal(plan.valid,true);close(plan.scale,.4);close(plan.rows[0].accountFraction,.1);close(plan.cashFraction,0);
+ assert.equal(plan.valid,true);close(plan.scale,1);close(plan.rows[0].accountFraction,.25);close(plan.targetCapitalFraction,1.15);close(plan.cashFraction,0);
 });
 
 test('a fixed other holding above the risk cap cannot be presented as a compliant target',()=>{
@@ -133,4 +133,28 @@ test('displayed and aggregate risk both fall back to mark times quantity for mis
  close(heatmapMarketValue(p),700);close(plan.actualRisk,140);
  const missing=accountRiskPlan({equity:100000,maxRiskPct:6,cases:[fixture()],positions:[{...p,price:null}]});
  assert.equal(heatmapMarketValue({...p,price:null}),null);assert.equal(missing.rows[0].actualRisk,null);assert.equal(missing.actualRisk,null);
+});
+
+
+test('combined Nebula targets may exceed equity when risk remains within budget',()=>{
+ const cases=['A','B','C','D','E'].map(symbol=>fixture(symbol));
+ const before=JSON.stringify(cases),plan=accountRiskPlan({equity:100000,maxRiskPct:30,cases});
+ assert.equal(plan.valid,true);close(plan.scale,1);close(plan.targetRisk,25000);
+ close(plan.targetCapitalFraction,1.25);close(plan.cashFraction,0);
+ close(plan.rows.reduce((sum,row)=>sum+row.models[0].accountCapital,0),125000);
+ assert.equal(JSON.stringify(cases),before);
+});
+
+test('other holdings above equity do not block risk-compliant targets',()=>{
+ const plan=accountRiskPlan({equity:100000,maxRiskPct:20,cases:[fixture()],positions:[stock('OTHER',1200)],atr:{OTHER:.01}});
+ assert.equal(plan.valid,true);close(plan.scale,1);close(plan.otherCapital,120000);
+ close(plan.targetRisk,5030);close(plan.targetCapitalFraction,1.45);close(plan.cashFraction,0);
+});
+
+test('risk budget still scales leveraged targets after removing the capital cap',()=>{
+ const cases=['A','B','C','D','E'].map(symbol=>fixture(symbol));
+ const plan=accountRiskPlan({equity:100000,maxRiskPct:22,cases});
+ assert.equal(plan.valid,true);close(plan.scale,.88);close(plan.targetRisk,22000);
+ close(plan.targetCapitalFraction,1.1);close(plan.cashFraction,0);
+ assert.match(plan.rows[0].reason,/账户风险预算/);
 });

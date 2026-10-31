@@ -1,6 +1,6 @@
 import {accountDisplayName} from './account-display.mjs';
 import {createTransactionFile,easternTime,thesisUnderlyings,transactionRange} from './attribution-transactions.mjs?v=20261015-risk-budget';
-import {readTransactionStore,writeTransactionStore,deleteTransactionStore,readLocalBrokerHistory} from './thesis-transaction-store.mjs';
+import {readTransactionStore,writeTransactionStore,deleteTransactionStore,readLocalBrokerHistory} from './thesis-transaction-store.mjs?v=20261028-manual-versions';
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const cell=x=>x==null?'—':esc(x);
 function fileHTML(file,path,range,underlyings){
@@ -13,7 +13,7 @@ function fileHTML(file,path,range,underlyings){
 export function mountTransactionHistory(host,{c,readonly,onSave}){
  let underlyings=[],allocationError='';try{underlyings=thesisUnderlyings(c);}catch(e){allocationError=e.message;}
  const today=easternTime(new Date().toISOString()).slice(0,10);
- host.innerHTML=`<h3>Transaction History · 交易历史文件</h3><p class="hint">每个 thesis 固定一个 JSON 文件。生成 / 更新会保存当前日期范围的数据；查询只读取该文件，不重新拉取券商数据。</p><p class="${allocationError?'gate':'hint'}">${esc(allocationError||'In Action underlying：'+(underlyings.join(' · ')||'无配置标的'))}</p><fieldset data-tx-fields disabled><div class="fields"><label>开始日期 · 02:00 ET<input type="date" data-tx-start value="${esc(easternTime(c.createdAt).slice(0,10))}"></label><label>结束日期 · 24:00 ET<input type="date" data-tx-end value="${esc(today)}"></label></div><p class="hint">连续区间固定为开始日 02:00 至结束日 24:00，美东时间（自动适配夏令时）。${readonly?'当前节点只读，展示同一交易文件的当前内容。':''}</p><div class="toolbar">${readonly?'':`<button type="button" data-tx-generate ${allocationError||!underlyings.length?'disabled':''}>生成 / 更新交易历史文件</button>`}<button type="button" data-tx-query>查询已保存文件</button>${readonly?'':'<button type="button" data-tx-delete class="danger" hidden>删除交易文件</button>'}</div></fieldset><p data-tx-status role="status">正在读取交易文件…</p><div data-tx-file></div>`;
+ host.innerHTML=`<h3>Transaction History · 交易历史文件</h3><p class="hint">每个 thesis 固定一个 JSON 文件。生成 / 更新会保存当前日期范围的数据；查询只读取该文件，不重新拉取券商数据。</p><p class="${allocationError?'gate':'hint'}">${esc(allocationError||'In Action underlying：'+(underlyings.join(' · ')||'无配置标的'))}</p><fieldset data-tx-fields disabled><div class="fields"><label>开始日期 · 02:00 ET<input type="date" data-tx-start value="${esc(easternTime(c.createdAt).slice(0,10))}"></label><label>结束日期 · 24:00 ET<input type="date" data-tx-end value="${esc(today)}"></label></div><p class="hint">连续区间固定为开始日 02:00 至结束日 24:00，美东时间（自动适配夏令时）。${readonly?'当前节点只读，展示同一交易文件的当前内容。':''}</p><div class="toolbar">${readonly?'':`<button type="button" data-tx-generate ${allocationError||!underlyings.length?'disabled':''}>Generate / Update History</button>`}<button type="button" data-tx-query>Load Saved History</button>${readonly?'':'<button type="button" data-tx-delete class="danger" hidden>Delete History</button>'}</div></fieldset><p data-tx-status role="status">正在读取交易文件…</p><div data-tx-file></div>`;
  const fields=host.querySelector('[data-tx-fields]'),status=host.querySelector('[data-tx-status]'),view=host.querySelector('[data-tx-file]');
  let state=null;
  const options=()=>({start:host.querySelector('[data-tx-start]').value,end:host.querySelector('[data-tx-end]').value});
@@ -40,7 +40,7 @@ export function mountTransactionHistory(host,{c,readonly,onSave}){
    const file=createTransactionFile(c,history,options());
    state=await writeTransactionStore(c.id,file,state.etag);if(!host.isConnected)return;
    render();status.textContent='已保存到 '+state.path;
-   if(onSave&&onSave(state.path)===false)status.textContent+='；节点备注未保存，请查看页面提示。';
+   if(onSave&&(await onSave(state.path))===false)status.textContent+='；节点备注未保存，请查看页面提示。';
   }catch(e){if(host.isConnected)status.textContent='未完成更新：'+e.message;}
   finally{if(host.isConnected)fields.disabled=false;}
  });

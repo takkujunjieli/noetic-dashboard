@@ -1,5 +1,5 @@
-import {nebulaRiskModels} from './workflow-risk-bridge.mjs?v=20261019-half-kelly';
-import {KELLY_FRACTION,SIZING_METHOD} from './kelly-allocation.mjs?v=20261019-half-kelly';
+import {nebulaRiskModels} from './workflow-risk-bridge.mjs?v=20261028-manual-versions';
+import {KELLY_FRACTION,SIZING_METHOD} from './kelly-allocation.mjs?v=20261028-deadline';
 import {parseInstrument} from './position-link.mjs';
 
 const finite=v=>v!==''&&v!=null&&Number.isFinite(Number(v));
@@ -75,17 +75,18 @@ export function accountRiskPlan({equity,maxRiskPct,cases=[],positions=[],atr={},
  if(otherUnknown)issues.push('其他持仓风险不完整，无法保留其预算');
  const totalBudget=equityReliable&&equity>0&&maxRiskPct>0?equity*maxRiskPct/100:null;
  if(!otherUnknown&&totalBudget!=null&&otherRisk>totalBudget+1e-8)issues.push('其他持仓已超过账户总风险预算，需先调整其他持仓');
- if(otherCapital>equity+1e-8)issues.push('其他持仓资本超过账户净值，无法生成无杠杆目标');
  const proposedRisk=equityReliable&&rows.every(r=>r.proposedRisk!=null)?sum(rows.map(r=>r.proposedRisk)):null;
  // Active ownership conflicts are checked even for assets not currently held.
  for(const [symbol,models]of modelsBySymbol)if(new Set(models.map(m=>m.caseId)).size>1)issues.push(`${symbol}：多个 Nebula 重复归属`);
  const valid=issues.length===0,availableRisk=valid?Math.max(0,totalBudget-otherRisk):null;
  const proposedCapital=sum(rows.map(r=>(r.nebulaFraction||0)*equity));
- const scale=valid?Math.min(1,proposedRisk>0?availableRisk/proposedRisk:1,proposedCapital>0?Math.max(0,equity-otherCapital)/proposedCapital:1):null;
+ // Account targets are constrained by risk only; gross capital may exceed equity.
+ const scale=valid?Math.min(1,proposedRisk>0?availableRisk/proposedRisk:1):null;
+ const targetCapitalFraction=scale==null?null:(otherCapital+proposedCapital*scale)/equity;
  for(const row of rows){
   row.accountFraction=scale==null?null:row.nebulaFraction*scale;row.targetRisk=scale==null?null:row.proposedRisk*scale;
-  if(scale!=null)row.reason=scale<1?`账户预算／可用资本缩放至 ${(scale*100).toFixed(1)}%`:'无需缩放';
+  if(scale!=null)row.reason=scale<1?`账户风险预算缩放至 ${(scale*100).toFixed(1)}%`:'无需缩放';
   row.models=row.models.map(m=>({...m,accountFraction:scale==null||m.targetFraction==null?null:m.targetFraction*scale,accountCapital:scale==null||m.targetCapital==null?null:m.targetCapital*scale}));
  }
- return {valid,issues:[...new Set(issues)],actualIssues:[...new Set(actualIssues)],equity,totalBudget,actualRisk,knownActualRisk,actualRemaining:actualRisk==null||totalBudget==null?null:totalBudget-actualRisk,otherRisk:otherUnknown?null:otherRisk,otherCapital,proposedRisk:proposedRisk==null||otherUnknown?null:proposedRisk+otherRisk,targetRisk:scale==null?null:proposedRisk*scale+otherRisk,scale,rows,cashFraction:scale==null?null:Math.max(0,1-(otherCapital+proposedCapital*scale)/equity)};
+ return {valid,issues:[...new Set(issues)],actualIssues:[...new Set(actualIssues)],equity,totalBudget,actualRisk,knownActualRisk,actualRemaining:actualRisk==null||totalBudget==null?null:totalBudget-actualRisk,otherRisk:otherUnknown?null:otherRisk,otherCapital,proposedRisk:proposedRisk==null||otherUnknown?null:proposedRisk+otherRisk,targetRisk:scale==null?null:proposedRisk*scale+otherRisk,scale,rows,targetCapitalFraction,cashFraction:targetCapitalFraction==null?null:Math.max(0,1-targetCapitalFraction)};
 }
