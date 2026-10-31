@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import {privateDashboard} from '../assets/dashboard-mode.mjs';
 import {configurePublicDashboard,dashboardStorage,publicJSON,dashboardFetch,isPublicDashboard} from '../assets/dashboard-data.mjs';
 import {validateStore} from '../assets/workflow-model.mjs';
-import {exportPublicSnapshot,syncPublicSnapshot} from '../assets/public-export.js';
+import {exportPublicSnapshot,syncPublicSnapshot,mountPublicExport} from '../assets/public-export.js';
 
 test('published mode stays public on localhost and never uses private local storage',async()=>{
  assert.equal(privateDashboard({hostname:'localhost',search:''},'public'),false);
@@ -45,4 +45,31 @@ test('the actual published research store roundtrips through the same local Work
  assert.equal(store.cases.length,snapshot.workflow.store.cases.length);
  assert.ok(store.cases.some(c=>c.nodes.hypothesis.data.rationale));
  assert.ok(store.cases.some(c=>c.events.length));
+});
+
+
+test('Portfolio export controls stay at the bottom with or without a footer and mount only once',()=>{
+ const originalDocument=globalThis.document,originalLocation=globalThis.location;
+ const element=tag=>({tag,children:[],style:{},append(...nodes){this.children.push(...nodes);},setAttribute(){}});
+ try{
+  for(const hasFooter of [false,true]){
+   const body=element('body'),header=element('header');body.append(header);
+   if(hasFooter){const footer=element('footer');footer.textContent='Existing footer';body.append(footer);}
+   const all=()=>{const walk=node=>[node,...(node.children||[]).flatMap(walk)];return walk(body);};
+   globalThis.document={body,createElement:element,createTextNode:text=>({text}),
+    getElementById:id=>all().find(node=>node.id===id),
+    querySelector:selector=>all().find(node=>node.tag===selector)||null};
+   globalThis.location={href:'http://localhost:8642/portfolio.html'};
+   mountPublicExport({placement:'footer'});
+   const footer=document.querySelector('footer'),controls=document.getElementById('public-export-controls');
+   assert.equal(body.children.at(-1),footer);
+   assert.equal(header.children.length,0);
+   assert.equal(footer.children[0].children[0],controls);
+   assert.equal(controls.children[2].href,'http://localhost:8642/portfolio.html?view=public');
+   if(hasFooter)assert.equal(footer.textContent,'Existing footer');
+   mountPublicExport({placement:'footer'});
+   assert.equal(all().filter(node=>node.id==='public-export-controls').length,1);
+   assert.equal(all().filter(node=>node.tag==='footer').length,1);
+  }
+ }finally{globalThis.document=originalDocument;globalThis.location=originalLocation;}
 });
