@@ -245,6 +245,20 @@ def price_at(series, target):
     return {"date": best, "value": series[best]}
 
 
+def post_report_average(series, report_date, as_of):
+    """Average closes for the 2nd through 4th trading sessions after filing."""
+    sessions = sorted(key for key in series if report_date < key <= as_of)
+    window = sessions[1:4]
+    if len(window) != 3:
+        return None
+    return {
+        "value": sum(series[key] for key in window) / len(window),
+        "dates": window,
+        "report_date": report_date,
+        "rule": "average close of 2nd-4th trading sessions after SEC filing date",
+    }
+
+
 def shift_year(value, years):
     try:
         return value.replace(year=value.year - years)
@@ -350,16 +364,19 @@ def build(as_of, refresh_sec=False):
                 elif current_ttm["ttm_end"] == prior_ttm["ttm_end"]:
                     row.update(status="unavailable", reason=f"Distinct SEC TTM snapshots unavailable for {period.upper()}")
                 else:
-                    row["current"] = {**current_ttm, "price": current_price["value"], "price_date": current_price["date"]}
+                    report_price = post_report_average(
+                        prices.get(ticker, {}), current_ttm["filed"], as_of.isoformat())
+                    row["current"] = {**current_ttm, "price": current_price["value"], "price_date": current_price["date"],
+                                      "post_report_price": report_price}
                     row["prior"] = {**prior_ttm, "price": prior_price["value"], "price_date": prior_price["date"]}
                     row["concepts"] = {metric: f"{item['namespace']}:{item['concept']}" for metric, item in concepts.items()}
             periods[period].append(row)
 
     return {
-        "version": 1,
+        "version": 2,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "as_of": as_of.isoformat(),
-        "methodology": "Latest available SEC-filed TTM on or before each comparison date; split-adjusted closes; currently restated facts.",
+        "methodology": "Latest available SEC-filed TTM on or before each comparison date; split-adjusted closes; currently restated facts. Post-report anchor is the average close of the 2nd-4th trading sessions after the SEC filing date.",
         "sources": {
             "financials": "https://data.sec.gov/api/xbrl/companyfacts/",
             "prices": "Yahoo Finance via https://yfin-h.tigzig.com/v1/get-all-prices/",

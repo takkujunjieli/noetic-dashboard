@@ -4,7 +4,7 @@
 import { $, esc, loadJSON, loadFreshJSON, getPat, ghHeaders, REPO } from "./shared.js?v=20261028-manual-versions";
 import { loadRetailData } from "./retail-data.mjs";
 import { buildSnapshot } from "./macd-research.mjs";
-import { decomposeFiveFactor } from "./five-factor.mjs";
+import { decomposeFiveFactor, referenceMultipleForRows } from "./five-factor.mjs?v=20261031-shapley";
 import { REGIME_DIMENSIONS, defaultRegimeValues, isRegimeFriday, latestRegimeSnapshotBefore, mergeRegimeStores, radarPoint, radarValueFromPoint, regimeFriday, saveRegimeSnapshot } from "./regime.mjs?v=20261018-anchor";
 import { initScorecards } from "./trading.js?v=20261029-clean-notes";   // 个股分析 tab 复用交易台的 Scorecards 渲染(trading.js 自启动已守卫)
 
@@ -1269,13 +1269,51 @@ function ffShares(value) {
   return value >= 1e9 ? `${(value / 1e9).toFixed(2)}B` : value >= 1e6 ? `${(value / 1e6).toFixed(1)}M` : value.toLocaleString();
 }
 
-function ffCell(result, key, formatter, warning) {
-  const factor = result.factors[key], raw = result.raw[key];
-  if (!Number.isFinite(factor)) return `<td class="ff-missing">N/M<br>分母为零</td>`;
-  const cls = factor > 1 ? "up" : factor > 0 && factor < 1 ? "down" : "ff-warning";
-  return `<td${warning ? ` title="${esc(warning)}"` : ""}>
-    <div class="ff-factor ${cls}">${factor.toFixed(2)}×${warning ? ' <span class="ff-warning">⚠</span>' : ""}</div>
+function ffContribution(value) {
+  if (!Number.isFinite(value)) return "—";
+  const points = value * 100;
+  return `${points > 0 ? "+" : points < 0 ? "−" : ""}${Math.abs(points).toFixed(1)}pp`;
+}
+
+function ffEps(value) {
+  if (!Number.isFinite(value)) return "—";
+  return `${value < 0 ? "−" : ""}$${Math.abs(value).toFixed(2)}`;
+}
+
+function ffEpsContribution(value) {
+  if (!Number.isFinite(value)) return "—";
+  return `${value > 0 ? "+" : value < 0 ? "−" : ""}$${Math.abs(value).toFixed(2)} EPS`;
+}
+
+function ffPe(value) {
+  return Number.isFinite(value) && value > 0 ? `${value.toFixed(1)}×` : "N/M";
+}
+
+function ffCell(result, key, formatter, detail = "") {
+  const contribution = result.returnContributions[key], raw = result.raw[key];
+  if (!Number.isFinite(contribution)) return `<td class="ff-missing">N/M</td>`;
+  const cls = contribution > 0 ? "up" : contribution < 0 ? "down" : "muted";
+  return `<td>
+    <div class="ff-factor ${cls}">${ffContribution(contribution)}</div>
     <div class="ff-raw">${formatter(raw.prior)} → ${formatter(raw.current)}</div>
+    ${detail ? `<div class="ff-raw">${detail}</div>` : ""}
+  </td>`;
+}
+
+function ffValuationCell(result) {
+  const total = result.returnContributions.valuation;
+  const split = result.valuationComponents;
+  const cls = total > 0 ? "up" : total < 0 ? "down" : "muted";
+  const anchor = split.hasReportAnchor
+    ? `${split.reportDate} 申报 · ${split.priceDates.join(" / ")} 均价 $${split.reportPrice.toFixed(2)}`
+    : "当前快照缺少财报后价格锚，需重新生成数据";
+  return `<td>
+    <div class="ff-factor ${cls}">${ffContribution(total)}</div>
+    <div class="ff-residual-part"><span>截至财报锚</span><b>${ffContribution(split.throughReportReturn)}</b></div>
+    <div class="ff-residual-part"><span>财报后漂移</span><b>${ffContribution(split.postReportDriftReturn)}</b></div>
+    <div class="ff-raw">${anchor}</div>
+    <div class="ff-raw">P/E ${ffPe(result.raw.valuation.prior)} → ${ffPe(result.raw.valuation.current)}</div>
+    <div class="ff-raw">参考 P/E ${result.referenceMultiple.toFixed(1)}×</div>
   </td>`;
 }
 
@@ -1285,18 +1323,19 @@ function ffSortHeader(label, formula, key) {
   return `<button class="ff-sort-btn" data-ff-sort="${key}">${label}<br><span class="muted">${formula}</span><i>${arrow}</i></button>`;
 }
 
-function ffSortValue(row, key) {
-  const result = decomposeFiveFactor(row);
+function ffSortValue(row, key, referenceMultiple) {
+  const result = decomposeFiveFactor(row, referenceMultiple);
   if (!result) return null;
-  return key === "price" ? result.priceRatio : result.factors[key];
+  return key === "price" ? result.priceReturn : result.returnContributions[key];
 }
 
 function drawFiveFactorTable() {
   if (!fiveFactorSnapshot) return;
   const sourceRows = fiveFactorSnapshot.periods?.[fiveFactorPeriod] || [];
+  const referenceMultiple = referenceMultipleForRows(sourceRows);
   const rows = [...sourceRows];
   if (fiveFactorSort.key) rows.sort((a, b) => {
-    const av = ffSortValue(a, fiveFactorSort.key), bv = ffSortValue(b, fiveFactorSort.key);
+    const av = ffSortValue(a, fiveFactorSort.key, referenceMultiple), bv = ffSortValue(b, fiveFactorSort.key, referenceMultiple);
     if (!Number.isFinite(av)) return Number.isFinite(bv) ? 1 : 0;
     if (!Number.isFinite(bv)) return -1;
     return (av - bv) * (fiveFactorSort.direction === "asc" ? 1 : -1);
@@ -1304,36 +1343,36 @@ function drawFiveFactorTable() {
   const complete = rows.filter((row) => row.status === "ok").length;
   const body = rows.map((row) => {
     if (row.status !== "ok") return `<tr><td><b>${esc(row.ticker)}</b></td><td colspan="6" class="ff-missing">${esc(row.reason || "数据不足")}</td></tr>`;
-    const result = decomposeFiveFactor(row);
+    const result = decomposeFiveFactor(row, referenceMultiple);
     if (!result) return `<tr><td><b>${esc(row.ticker)}</b></td><td colspan="6" class="ff-missing">无法计算</td></tr>`;
-    const warning = result.unstable.join("；");
-    const priceClass = result.priceRatio > 1 ? "up" : result.priceRatio > 0 && result.priceRatio < 1 ? "down" : "ff-warning";
+    const priceClass = result.priceReturn > 0 ? "up" : result.priceReturn < 0 ? "down" : "muted";
     const source = row.cik ? `https://data.sec.gov/api/xbrl/companyfacts/CIK${row.cik}.json` : null;
     const ticker = source ? `<a href="${source}" target="_blank" rel="noopener"><b>${esc(row.ticker)}</b></a>` : `<b>${esc(row.ticker)}</b>`;
     return `<tr>
-      <td>${ticker}${warning ? ` <span class="ff-warning" title="${esc(warning)}">⚠</span>` : ""}
+      <td>${ticker}
         <div class="ff-price">TTM ${row.prior.ttm_end} → ${row.current.ttm_end}</div>
+        <div class="ff-price">EPS ${ffEps(result.raw.eps.prior)} → ${ffEps(result.raw.eps.current)}</div>
       </td>
-      <td><div class="ff-factor ${priceClass}">${result.priceRatio.toFixed(2)}×</div>
+      <td><div class="ff-factor ${priceClass}">${result.priceReturn >= 0 ? "+" : "−"}${Math.abs(result.priceReturn * 100).toFixed(1)}%</div>
         <div class="ff-raw">$${row.prior.price.toFixed(2)} → $${row.current.price.toFixed(2)}</div></td>
-      ${ffCell(result, "revenue", (value) => ffNumber(value, "money"), null)}
-      ${ffCell(result, "margin", (value) => ffNumber(value, "pct"), row.current.operating_income <= 0 || row.prior.operating_income <= 0 ? warning : null)}
-      ${ffCell(result, "conversion", (value) => ffNumber(value, "pct"), warning || null)}
-      ${ffCell(result, "buyback", ffShares, null)}
-      ${ffCell(result, "multiple", (value) => ffNumber(value, "pe"), row.current.net_income <= 0 || row.prior.net_income <= 0 ? warning : null)}
+      ${ffCell(result, "revenue", (value) => ffNumber(value, "money"), ffEpsContribution(result.epsContributions.revenue))}
+      ${ffCell(result, "margin", (value) => ffNumber(value, "pct"), ffEpsContribution(result.epsContributions.margin))}
+      ${ffCell(result, "below", (value) => ffNumber(value, "pct"), ffEpsContribution(result.epsContributions.below))}
+      ${ffCell(result, "buyback", ffShares, ffEpsContribution(result.epsContributions.shares))}
+      ${ffValuationCell(result)}
     </tr>`;
   }).join("");
   $("ff-table").innerHTML = `<div class="ff-table-wrap"><table class="bt-table ff-table"><thead><tr>
-    <th>Ticker</th><th>${ffSortHeader("Price Return", "P₁/P₀", "price")}</th>
-    <th>${ffSortHeader("Revenue Growth", "R₁/R₀", "revenue")}</th>
-    <th>${ffSortHeader("Margin Expansion", "OM₁/OM₀", "margin")}</th>
-    <th>${ffSortHeader("Earnings Conversion", "(NI/OI)₁/(NI/OI)₀", "conversion")}</th>
-    <th>${ffSortHeader("Buyback / Dilution", "Shares₀/Shares₁", "buyback")}</th>
-    <th>${ffSortHeader("Multiple Re-rating", "PE₁/PE₀", "multiple")}</th>
+    <th>Ticker</th><th>${ffSortHeader("Price Return", "(P₁−P₀)/P₀", "price")}</th>
+    <th>${ffSortHeader("Revenue", "return contribution", "revenue")}</th>
+    <th>${ffSortHeader("Operating Margin", "return contribution", "margin")}</th>
+    <th>${ffSortHeader("Below-line Earnings", "(NI−OI)/R", "below")}</th>
+    <th>${ffSortHeader("Buyback / Dilution", "return contribution", "buyback")}</th>
+    <th>${ffSortHeader("Valuation / Expectations", "return residual", "valuation")}</th>
   </tr></thead><tbody>${body}</tbody></table></div>`;
   const generated = fiveFactorSnapshot.generated_at
     ? new Date(fiveFactorSnapshot.generated_at).toLocaleString("zh-CN", { hour12: false, timeZone: "America/New_York" }) + " ET" : "—";
-  $("ff-status").textContent = `as of ${fiveFactorSnapshot.as_of} · ${complete}/${rows.length} 可计算 · 静态快照生成 ${generated}`;
+  $("ff-status").textContent = `as of ${fiveFactorSnapshot.as_of} · ${complete}/${rows.length} 可计算 · 参考 P/E ${referenceMultiple.toFixed(1)}×（期初盈利标的中位数，10×–40× winsorized）· 静态快照生成 ${generated}`;
   document.querySelectorAll("#ff-table [data-ff-sort]").forEach((button) => { button.onclick = () => {
     const key = button.dataset.ffSort;
     fiveFactorSort = fiveFactorSort.key === key

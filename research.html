@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Research · 研究台</title>
-  <link rel="stylesheet" href="assets/style.css?v=20261012-scorecard-sort-filter">
+  <link rel="stylesheet" href="assets/style.css?v=20261031-shapley-five-factor">
 <link rel="stylesheet" href="assets/theme.css">
 </head>
 <body class="trading">
@@ -53,7 +53,7 @@
     <span class="research-topic-label">个股基本面研究</span>
     <div class="research-topic-tabs">
       <span class="tab" data-topic="stocks">个股分析</span>
-      <span class="tab" data-topic="fivefactor">Five-Factor Equity Return Decomposition</span>
+      <span class="tab" data-topic="fivefactor">5因子分解</span>
     </div>
   </div>
 </nav>
@@ -201,7 +201,18 @@
       <button class="tab" data-ff-period="3y">3Y</button>
       <button class="tab" data-ff-period="5y">5Y</button>
     </div>
-    <div class="ff-formula">P₁/P₀ = (R₁/R₀) × (OM₁/OM₀) × ((NI/OI)₁/(NI/OI)₀) × (Shares₀/Shares₁) × (PE₁/PE₀)</div>
+    <div class="ff-formula" aria-label="Five-factor additive return decomposition">
+      <math display="block">
+        <mrow><mi>EPS</mi><mo>=</mo><mfrac><mi>Revenue</mi><mi>Shares</mi></mfrac><mo>×</mo><mo>(</mo><mi>OM</mi><mo>+</mo><mi>BelowMargin</mi><mo>)</mo></mrow>
+      </math>
+      <math display="block">
+        <mrow><mi>ΔEPS</mi><mo>=</mo><msub><mi>C</mi><mi>Revenue</mi></msub><mo>+</mo><msub><mi>C</mi><mi>OM</mi></msub><mo>+</mo><msub><mi>C</mi><mi>Below</mi></msub><mo>+</mo><msub><mi>C</mi><mi>Shares</mi></msub></mrow>
+      </math>
+      <math display="block">
+        <mrow><mi>ΔP</mi><mo>=</mo><msub><mi>M</mi><mi>ref</mi></msub><mo>×</mo><mi>ΔEPS</mi><mo>+</mo><msub><mi>C</mi><mi>ReportAnchor</mi></msub><mo>+</mo><msub><mi>C</mi><mi>PostReportDrift</mi></msub></mrow>
+      </math>
+      <div class="muted small"><i>BelowMargin</i> = (Net Income − Operating Income) / Revenue；四项 EPS 贡献使用 Shapley 平均全部 24 种变化顺序。财报价格锚为 SEC 申报日后第 2–4 个交易日收盘均价。</div>
+    </div>
     <div id="ff-status" class="muted small">加载中…</div>
   </div>
   <div id="ff-table" class="card"><span class="muted small">加载中…</span></div>
@@ -211,6 +222,6 @@
 
 
 <script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
-<script type="module" src="assets/research.js?v=20261028-manual-versions"></script>
+<script type="module" src="assets/research.js?v=20261031-report-price-split"></script>
 </body>
 </html>

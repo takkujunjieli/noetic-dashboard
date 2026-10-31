@@ -4,6 +4,10 @@
 
 ## Portfolio
 
+### Trading Reflections · 操作回顾
+
+Portfolio 末尾的独立纯文字回顾，默认折叠；展开后按最近修改列出文章，弹窗阅读、写作、编辑与删除。标题和正文必填，时间范围为自由选填文本。保存到当前浏览器的 `research-desk.portfolio-reflections.v1`，不关联账户、Thesis、成交或公开快照；公开模式不挂载，也不读取该存储。未保存关闭或离开页面会提醒，旧版本编辑和删除会拒绝覆盖其他标签页的更新。
+
 ### P2 · Portfolio Robustness
 
 Local · Trade-history reconstruction (equities only) · Cumulative P&L (including unrealized) · Beta/Alpha vs SPY

@@ -1,8 +1,8 @@
 {
-  "version": 1,
-  "generated_at": "2026-10-29T03:41:42.170458+00:00",
-  "as_of": "2026-10-28",
-  "methodology": "Latest available SEC-filed TTM on or before each comparison date; split-adjusted closes; currently restated facts.",
+  "version": 2,
+  "generated_at": "2026-10-31T21:09:12.914654+00:00",
+  "as_of": "2026-10-31",
+  "methodology": "Latest available SEC-filed TTM on or before each comparison date; split-adjusted closes; currently restated facts. Post-report anchor is the average close of the 2nd-4th trading sessions after the SEC filing date.",
   "sources": {
     "financials": "https://data.sec.gov/api/xbrl/companyfacts/",
     "prices": "Yahoo Finance via https://yfin-h.tigzig.com/v1/get-all-prices/",
@@ -29,8 +29,18 @@
             "0000002488-26-000076",
             "0000002488-26-000123"
           ],
-          "price": 578.44,
-          "price_date": "2026-10-28"
+          "price": 504.8,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 475.74666666666667,
+            "dates": [
+              "2026-08-07",
+              "2026-08-10",
+              "2026-08-11"
+            ],
+            "report_date": "2026-08-05",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-09-27",
@@ -45,8 +55,8 @@
             "0000002488-26-000076",
             "0000002488-26-000123"
           ],
-          "price": 258.01,
-          "price_date": "2025-10-28"
+          "price": 256.12,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -62,20 +72,21 @@
         "status": "ok",
         "reason": null,
         "current": {
-          "ttm_end": "2026-07-03",
-          "revenue": 20248000000.0,
-          "operating_income": 12389000000.0,
-          "net_income": 11433000000.0,
-          "diluted_shares": 155000000.0,
-          "filed": "2026-08-17",
+          "ttm_end": "2026-10-02",
+          "revenue": 28971000000.0,
+          "operating_income": 20993000000.0,
+          "net_income": 19422000000.0,
+          "diluted_shares": 156365384.6153846,
+          "filed": "2026-10-30",
           "accessions": [
-            "0001628280-25-050698",
             "0001628280-26-004407",
             "0001628280-26-029401",
-            "0001628280-26-057406"
+            "0001628280-26-057406",
+            "0001628280-26-068601"
           ],
-          "price": 1404.77,
-          "price_date": "2026-10-28"
+          "price": 1150.89,
+          "price_date": "2026-10-30",
+          "post_report_price": null
         },
         "prior": {
           "ttm_end": "2025-10-03",
@@ -83,15 +94,15 @@
           "operating_income": -1492000000.0,
           "net_income": -1740000000.0,
           "diluted_shares": 146056603.7735849,
-          "filed": "2026-08-17",
+          "filed": "2026-10-30",
           "accessions": [
-            "0001628280-25-050698",
             "0001628280-26-004407",
             "0001628280-26-029401",
-            "0001628280-26-057406"
+            "0001628280-26-057406",
+            "0001628280-26-068601"
           ],
-          "price": 175.53,
-          "price_date": "2025-10-28"
+          "price": 199.33,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -119,8 +130,18 @@
             "0001628280-26-049270",
             "0001628280-26-066775"
           ],
-          "price": 404.22,
-          "price_date": "2026-10-28"
+          "price": 399.81,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 401.09999999999997,
+            "dates": [
+              "2026-10-26",
+              "2026-10-27",
+              "2026-10-28"
+            ],
+            "report_date": "2026-10-22",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-09-30",
@@ -135,8 +156,8 @@
             "0001628280-26-049270",
             "0001628280-26-066775"
           ],
-          "price": 460.55,
-          "price_date": "2025-10-28"
+          "price": 456.56,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
@@ -173,8 +194,18 @@
             "0000723125-26-000015",
             "0000723125-26-000023"
           ],
-          "price": 983.23,
-          "price_date": "2026-10-28"
+          "price": 884.74,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 932.8033333333333,
+            "dates": [
+              "2026-10-13",
+              "2026-10-14",
+              "2026-10-15"
+            ],
+            "report_date": "2026-10-09",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-08-28",
@@ -189,8 +220,8 @@
             "0000723125-26-000015",
             "0000723125-26-000023"
           ],
-          "price": 221.66,
-          "price_date": "2025-10-28"
+          "price": 223.52,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -218,8 +249,18 @@
             "0001819994-26-000028",
             "0001819994-26-000062"
           ],
-          "price": 58.6,
-          "price_date": "2026-10-28"
+          "price": 54.73,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 80.50666666666666,
+            "dates": [
+              "2026-08-12",
+              "2026-08-13",
+              "2026-08-14"
+            ],
+            "report_date": "2026-08-10",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-09-30",
@@ -234,8 +275,8 @@
             "0001819994-26-000028",
             "0001819994-26-000062"
           ],
-          "price": 63.75,
-          "price_date": "2025-10-28"
+          "price": 62.98,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -251,20 +292,21 @@
         "status": "ok",
         "reason": null,
         "current": {
-          "ttm_end": "2026-06-30",
-          "revenue": 6282872000.0,
-          "operating_income": 619376000.0,
-          "net_income": -987766000.0,
-          "diluted_shares": 281747545.20547944,
-          "filed": "2026-07-30",
+          "ttm_end": "2026-09-30",
+          "revenue": 5629761000.0,
+          "operating_income": 200513000.0,
+          "net_income": -701621000.0,
+          "diluted_shares": 280744619.17808217,
+          "filed": "2026-10-29",
           "accessions": [
-            "0001679788-25-000208",
             "0001679788-26-000015",
             "0001679788-26-000054",
-            "0001679788-26-000088"
+            "0001679788-26-000088",
+            "0001679788-26-000122"
           ],
-          "price": 162.32,
-          "price_date": "2026-10-28"
+          "price": 143.54,
+          "price_date": "2026-10-30",
+          "post_report_price": null
         },
         "prior": {
           "ttm_end": "2025-09-30",
@@ -272,15 +314,15 @@
           "operating_income": 2195757000.0,
           "net_income": 3218236000.0,
           "diluted_shares": 283399164.3835617,
-          "filed": "2026-07-30",
+          "filed": "2026-10-29",
           "accessions": [
-            "0001679788-25-000208",
             "0001679788-26-000015",
             "0001679788-26-000054",
-            "0001679788-26-000088"
+            "0001679788-26-000088",
+            "0001679788-26-000122"
           ],
-          "price": 355.22,
-          "price_date": "2025-10-28"
+          "price": 343.78,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
@@ -308,8 +350,18 @@
             "0001628280-26-035209",
             "0001628280-26-053348"
           ],
-          "price": 23.21,
-          "price_date": "2026-10-28"
+          "price": 21.65,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 24.516666666666666,
+            "dates": [
+              "2026-08-07",
+              "2026-08-10",
+              "2026-08-11"
+            ],
+            "report_date": "2026-08-05",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2024-12-31",
@@ -321,8 +373,8 @@
           "accessions": [
             "0001628280-26-009228"
           ],
-          "price": 51.89,
-          "price_date": "2025-10-28"
+          "price": 49.84,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -350,8 +402,18 @@
             "0001437749-26-015620",
             "0001437749-26-026278"
           ],
-          "price": 82.22,
-          "price_date": "2026-10-28"
+          "price": 69.05,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 135.07333333333335,
+            "dates": [
+              "2026-08-10",
+              "2026-08-11",
+              "2026-08-12"
+            ],
+            "report_date": "2026-08-06",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-09-30",
@@ -366,8 +428,8 @@
             "0001437749-26-015620",
             "0001437749-26-026278"
           ],
-          "price": 36.87,
-          "price_date": "2025-10-28"
+          "price": 35.56,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -404,8 +466,18 @@
             "0001628280-26-030777",
             "0001628280-26-057358"
           ],
-          "price": 913.95,
-          "price_date": "2026-10-28"
+          "price": 840.7,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 857.8633333333333,
+            "dates": [
+              "2026-08-19",
+              "2026-08-20",
+              "2026-08-21"
+            ],
+            "report_date": "2026-08-17",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-09-27",
@@ -420,8 +492,8 @@
             "0001628280-26-030777",
             "0001628280-26-057358"
           ],
-          "price": 198.39,
-          "price_date": "2025-10-28"
+          "price": 201.56,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax",
@@ -437,20 +509,21 @@
         "status": "ok",
         "reason": null,
         "current": {
-          "ttm_end": "2026-06-27",
-          "revenue": 57032000000.0,
-          "operating_income": -77000000.0,
-          "net_income": -11289000000.0,
-          "diluted_shares": 4898750000.0,
-          "filed": "2026-07-24",
+          "ttm_end": "2026-09-26",
+          "revenue": 59892000000.0,
+          "operating_income": 1762000000.0,
+          "net_income": -12032000000.0,
+          "diluted_shares": 5092750000.0,
+          "filed": "2026-10-30",
           "accessions": [
-            "0000050863-25-000179",
             "0000050863-26-000011",
             "0000050863-26-000079",
-            "0000050863-26-000157"
+            "0000050863-26-000157",
+            "0000050863-26-000191"
           ],
-          "price": 95.53,
-          "price_date": "2026-10-28"
+          "price": 65.76,
+          "price_date": "2026-10-30",
+          "post_report_price": null
         },
         "prior": {
           "ttm_end": "2025-09-27",
@@ -458,15 +531,15 @@
           "operating_income": -2382000000.0,
           "net_income": 198000000.0,
           "diluted_shares": 4390500000.0,
-          "filed": "2026-07-24",
+          "filed": "2026-10-30",
           "accessions": [
-            "0000050863-25-000179",
             "0000050863-26-000011",
             "0000050863-26-000079",
-            "0000050863-26-000157"
+            "0000050863-26-000157",
+            "0000050863-26-000191"
           ],
-          "price": 41.53,
-          "price_date": "2025-10-28"
+          "price": 39.99,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -482,20 +555,21 @@
         "status": "ok",
         "reason": null,
         "current": {
-          "ttm_end": "2026-06-30",
-          "revenue": 16964000000.0,
-          "operating_income": 2598000000.0,
-          "net_income": 1900000000.0,
-          "diluted_shares": 874726027.3972603,
-          "filed": "2026-07-29",
+          "ttm_end": "2026-09-30",
+          "revenue": 17719000000.0,
+          "operating_income": 2920000000.0,
+          "net_income": 2150000000.0,
+          "diluted_shares": 875482191.7808219,
+          "filed": "2026-10-29",
           "accessions": [
-            "0000024741-25-000121",
             "0000024741-26-000124",
             "0000024741-26-000205",
-            "0000024741-26-000255"
+            "0000024741-26-000255",
+            "0000024741-26-000279"
           ],
-          "price": 131.2,
-          "price_date": "2026-10-28"
+          "price": 123.31,
+          "price_date": "2026-10-30",
+          "post_report_price": null
         },
         "prior": {
           "ttm_end": "2025-09-30",
@@ -503,15 +577,15 @@
           "operating_income": 2000000000.0,
           "net_income": 1366000000.0,
           "diluted_shares": 873783561.6438357,
-          "filed": "2026-07-29",
+          "filed": "2026-10-29",
           "accessions": [
-            "0000024741-25-000121",
             "0000024741-26-000124",
             "0000024741-26-000205",
-            "0000024741-26-000255"
+            "0000024741-26-000255",
+            "0000024741-26-000279"
           ],
-          "price": 85.68,
-          "price_date": "2025-10-28"
+          "price": 88.31,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
@@ -539,15 +613,25 @@
             "0001535527-26-000025",
             "0001535527-26-000031"
           ],
-          "price": 266.66,
-          "price_date": "2026-10-28"
+          "price": 250.43,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 216.49666666666667,
+            "dates": [
+              "2026-08-31",
+              "2026-09-01",
+              "2026-09-02"
+            ],
+            "report_date": "2026-08-27",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
-          "ttm_end": "2025-07-31",
-          "revenue": 4341102000.0,
-          "operating_income": -361164000.0,
-          "net_income": -279491000.0,
-          "diluted_shares": 975883726.0273973,
+          "ttm_end": "2025-10-31",
+          "revenue": 4565168000.0,
+          "operating_income": -374884000.0,
+          "net_income": -296666000.0,
+          "diluted_shares": 981721315.0684931,
           "filed": "2026-08-27",
           "accessions": [
             "0001535527-25-000033",
@@ -555,8 +639,8 @@
             "0001535527-26-000025",
             "0001535527-26-000031"
           ],
-          "price": 136.74,
-          "price_date": "2025-10-28"
+          "price": 135.75,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax",
@@ -584,8 +668,9 @@
             "0001373715-26-000076",
             "0001373715-26-000096"
           ],
-          "price": 150.13,
-          "price_date": "2026-10-28"
+          "price": 105.12,
+          "price_date": "2026-10-30",
+          "post_report_price": null
         },
         "prior": {
           "ttm_end": "2025-09-30",
@@ -600,8 +685,8 @@
             "0001373715-26-000076",
             "0001373715-26-000096"
           ],
-          "price": 187.58,
-          "price_date": "2025-10-28"
+          "price": 183.86,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -626,8 +711,18 @@
           "accessions": [
             "0001104659-26-052948"
           ],
-          "price": 182.34,
-          "price_date": "2026-10-28"
+          "price": 154.14,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 182.47666666666666,
+            "dates": [
+              "2026-05-04",
+              "2026-05-05",
+              "2026-05-06"
+            ],
+            "report_date": "2026-04-30",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2024-12-31",
@@ -639,8 +734,8 @@
           "accessions": [
             "0001104659-26-052948"
           ],
-          "price": 121.83,
-          "price_date": "2025-10-28"
+          "price": 130.82,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
@@ -668,8 +763,18 @@
             "0001736297-26-000020",
             "0001736297-26-000035"
           ],
-          "price": 297.2,
-          "price_date": "2026-10-28"
+          "price": 258.7,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 321.13000000000005,
+            "dates": [
+              "2026-08-07",
+              "2026-08-10",
+              "2026-08-11"
+            ],
+            "report_date": "2026-08-05",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-09-30",
@@ -684,8 +789,8 @@
             "0001736297-26-000020",
             "0001736297-26-000035"
           ],
-          "price": 168.25,
-          "price_date": "2025-10-28"
+          "price": 186.68,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -713,8 +818,18 @@
             "0001375365-26-000014",
             "0001375365-26-000022"
           ],
-          "price": 35.81,
-          "price_date": "2026-10-28"
+          "price": 32.95,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 38.153333333333336,
+            "dates": [
+              "2026-09-02",
+              "2026-09-03",
+              "2026-09-04"
+            ],
+            "report_date": "2026-08-31",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-09-30",
@@ -729,8 +844,8 @@
             "0001375365-26-000014",
             "0001375365-26-000022"
           ],
-          "price": 52.36,
-          "price_date": "2025-10-28"
+          "price": 51.96,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -758,8 +873,18 @@
             "0001045810-26-000052",
             "0001045810-26-000075"
           ],
-          "price": 215.38,
-          "price_date": "2026-10-28"
+          "price": 204.64,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 218.34666666666666,
+            "dates": [
+              "2026-08-28",
+              "2026-08-31",
+              "2026-09-01"
+            ],
+            "report_date": "2026-08-26",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-10-26",
@@ -774,8 +899,8 @@
             "0001045810-26-000052",
             "0001045810-26-000075"
           ],
-          "price": 200.55,
-          "price_date": "2025-10-28"
+          "price": 202.01,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
@@ -803,8 +928,18 @@
             "0001769628-26-000222",
             "0001769628-26-000366"
           ],
-          "price": 63.93,
-          "price_date": "2026-10-28"
+          "price": 54.87,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 101.47666666666667,
+            "dates": [
+              "2026-08-14",
+              "2026-08-17",
+              "2026-08-18"
+            ],
+            "report_date": "2026-08-12",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-09-30",
@@ -819,8 +954,8 @@
             "0001769628-26-000222",
             "0001769628-26-000366"
           ],
-          "price": 134.8,
-          "price_date": "2025-10-28"
+          "price": 133.71,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -848,8 +983,18 @@
             "0001477333-26-000038",
             "0001477333-26-000054"
           ],
-          "price": 318.72,
-          "price_date": "2026-10-28"
+          "price": 280.7,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 309.67,
+            "dates": [
+              "2026-08-10",
+              "2026-08-11",
+              "2026-08-12"
+            ],
+            "report_date": "2026-08-06",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-09-30",
@@ -864,8 +1009,8 @@
             "0001477333-26-000038",
             "0001477333-26-000054"
           ],
-          "price": 223.99,
-          "price_date": "2025-10-28"
+          "price": 253.3,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -893,8 +1038,18 @@
             "0001878848-26-000026",
             "0001878848-26-000052"
           ],
-          "price": 28.84,
-          "price_date": "2026-10-28"
+          "price": 23.95,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 37.846666666666664,
+            "dates": [
+              "2026-08-31",
+              "2026-09-01",
+              "2026-09-02"
+            ],
+            "report_date": "2026-08-27",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-09-30",
@@ -909,8 +1064,8 @@
             "0001878848-26-000026",
             "0001878848-26-000052"
           ],
-          "price": 62.42,
-          "price_date": "2025-10-28"
+          "price": 60.75,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -947,14 +1102,24 @@
             "0001327567-26-000015",
             "0001327567-26-000023"
           ],
-          "price": 394.49,
-          "price_date": "2026-10-28"
+          "price": 365.87,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 374.89333333333326,
+            "dates": [
+              "2026-09-14",
+              "2026-09-15",
+              "2026-09-16"
+            ],
+            "report_date": "2026-09-10",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
-          "ttm_end": "2025-07-31",
-          "revenue": 9221000000.0,
-          "operating_income": 1243000000.0,
-          "net_income": 1134000000.0,
+          "ttm_end": "2025-10-31",
+          "revenue": 9556000000.0,
+          "operating_income": 1266000000.0,
+          "net_income": 1117000000.0,
           "diluted_shares": 709000000.0,
           "filed": "2026-09-10",
           "accessions": [
@@ -963,8 +1128,8 @@
             "0001327567-26-000015",
             "0001327567-26-000023"
           ],
-          "price": 221.38,
-          "price_date": "2025-10-28"
+          "price": 220.24,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -992,8 +1157,18 @@
             "0001640147-26-000030",
             "0001640147-26-000037"
           ],
-          "price": 339.91,
-          "price_date": "2026-10-28"
+          "price": 306.08,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 330.06333333333333,
+            "dates": [
+              "2026-09-09",
+              "2026-09-10",
+              "2026-09-11"
+            ],
+            "report_date": "2026-09-04",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-01-31",
@@ -1008,8 +1183,8 @@
             "0001640147-25-000211",
             "0001640147-26-000008"
           ],
-          "price": 267.05,
-          "price_date": "2025-10-28"
+          "price": 274.88,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -1046,8 +1221,18 @@
             "0001835632-26-000019",
             "0001835632-26-000025"
           ],
-          "price": 251.65,
-          "price_date": "2026-10-28"
+          "price": 196.4,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 208.51666666666665,
+            "dates": [
+              "2026-09-01",
+              "2026-09-02",
+              "2026-09-03"
+            ],
+            "report_date": "2026-08-28",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-08-02",
@@ -1062,8 +1247,8 @@
             "0001835632-26-000019",
             "0001835632-26-000025"
           ],
-          "price": 88.31,
-          "price_date": "2025-10-28"
+          "price": 93.58,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -1091,8 +1276,18 @@
             "0001730168-26-000054",
             "0001730168-26-000080"
           ],
-          "price": 351.81,
-          "price_date": "2026-10-28"
+          "price": 326.08,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 340.54333333333335,
+            "dates": [
+              "2026-09-14",
+              "2026-09-15",
+              "2026-09-16"
+            ],
+            "report_date": "2026-09-10",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-08-03",
@@ -1107,8 +1302,8 @@
             "0001730168-26-000054",
             "0001730168-26-000080"
           ],
-          "price": 370.22,
-          "price_date": "2025-10-28"
+          "price": 366.9,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -1136,8 +1331,18 @@
             "0001050446-26-000044",
             "0001193125-25-262568"
           ],
-          "price": 145.16,
-          "price_date": "2026-10-28"
+          "price": 130.51,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 98.41000000000001,
+            "dates": [
+              "2026-08-05",
+              "2026-08-06",
+              "2026-08-07"
+            ],
+            "report_date": "2026-08-03",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-09-30",
@@ -1153,8 +1358,8 @@
             "0001050446-26-000044",
             "0001193125-25-262568"
           ],
-          "price": 284.64,
-          "price_date": "2025-10-28"
+          "price": 269.51,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -1191,8 +1396,18 @@
             "0001437749-26-017054",
             "0001437749-26-027677"
           ],
-          "price": 64.38,
-          "price_date": "2026-10-28"
+          "price": 55.06,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 83.90333333333334,
+            "dates": [
+              "2026-08-17",
+              "2026-08-18",
+              "2026-08-19"
+            ],
+            "report_date": "2026-08-13",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-09-30",
@@ -1207,8 +1422,8 @@
             "0001437749-26-017054",
             "0001437749-26-027677"
           ],
-          "price": 6.6,
-          "price_date": "2025-10-28"
+          "price": 7.95,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -1236,8 +1451,18 @@
             "0001628280-26-034805",
             "0001628280-26-054985"
           ],
-          "price": 27.53,
-          "price_date": "2026-10-28"
+          "price": 22.19,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 12.426666666666668,
+            "dates": [
+              "2026-08-12",
+              "2026-08-13",
+              "2026-08-14"
+            ],
+            "report_date": "2026-08-10",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2024-12-31",
@@ -1252,8 +1477,8 @@
             "0001628280-25-052343",
             "0001628280-26-019879"
           ],
-          "price": 28.8,
-          "price_date": "2025-10-28"
+          "price": 26.6,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -1281,15 +1506,25 @@
             "0001571996-26-000030",
             "0001571996-26-000046"
           ],
-          "price": 493.79,
-          "price_date": "2026-10-28"
+          "price": 424.3,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 535.3233333333334,
+            "dates": [
+              "2026-09-10",
+              "2026-09-11",
+              "2026-09-14"
+            ],
+            "report_date": "2026-09-08",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
-          "ttm_end": "2025-08-01",
-          "revenue": 101451000000.0,
-          "operating_income": 6818000000.0,
-          "net_income": 4837000000.0,
-          "diluted_shares": 704250000.0,
+          "ttm_end": "2025-10-31",
+          "revenue": 104090000000.0,
+          "operating_income": 7216000000.0,
+          "net_income": 5210000000.0,
+          "diluted_shares": 695000000.0,
           "filed": "2026-09-08",
           "accessions": [
             "0001571996-25-000034",
@@ -1298,8 +1533,8 @@
             "0001571996-26-000030",
             "0001571996-26-000046"
           ],
-          "price": 163.16,
-          "price_date": "2025-10-28"
+          "price": 160.32,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
@@ -1327,8 +1562,18 @@
             "0001628280-26-050325",
             "0001628280-26-066931"
           ],
-          "price": 228.08,
-          "price_date": "2026-10-28"
+          "price": 203.17,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 216.83333333333334,
+            "dates": [
+              "2026-10-26",
+              "2026-10-27",
+              "2026-10-28"
+            ],
+            "report_date": "2026-10-22",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-09-30",
@@ -1343,8 +1588,8 @@
             "0001628280-26-050325",
             "0001628280-26-066931"
           ],
-          "price": 113.28,
-          "price_date": "2025-10-28"
+          "price": 132.16,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
@@ -1372,8 +1617,18 @@
             "0001810806-26-000032",
             "0001810806-26-000043"
           ],
-          "price": 39.5,
-          "price_date": "2026-10-28"
+          "price": 37.7,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 43.833333333333336,
+            "dates": [
+              "2026-08-10",
+              "2026-08-11",
+              "2026-08-12"
+            ],
+            "report_date": "2026-08-06",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-09-30",
@@ -1388,8 +1643,8 @@
             "0001810806-26-000032",
             "0001810806-26-000043"
           ],
-          "price": 36.88,
-          "price_date": "2025-10-28"
+          "price": 37.9,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -1435,8 +1690,9 @@
             "0001996810-26-000148",
             "0001996810-26-000163"
           ],
-          "price": 878.03,
-          "price_date": "2026-10-28"
+          "price": 857.87,
+          "price_date": "2026-10-30",
+          "post_report_price": null
         },
         "prior": {
           "ttm_end": "2025-09-30",
@@ -1451,8 +1707,8 @@
             "0001996810-26-000148",
             "0001996810-26-000163"
           ],
-          "price": 569.59,
-          "price_date": "2025-10-28"
+          "price": 583.72,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -1480,8 +1736,18 @@
             "0001868275-26-000067",
             "0001868275-26-000104"
           ],
-          "price": 258.08,
-          "price_date": "2026-10-28"
+          "price": 262.38,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 275.3966666666667,
+            "dates": [
+              "2026-08-10",
+              "2026-08-11",
+              "2026-08-12"
+            ],
+            "report_date": "2026-08-06",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2025-09-30",
@@ -1496,13 +1762,160 @@
             "0001868275-26-000067",
             "0001868275-26-000104"
           ],
-          "price": 382.81,
-          "price_date": "2025-10-28"
+          "price": 374.9,
+          "price_date": "2025-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
           "operating_income": "us-gaap:OperatingIncomeLoss",
           "net_income": "us-gaap:ProfitLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "FTNT",
+        "entity": "Fortinet, Inc.",
+        "cik": "0001262039",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-09-30",
+          "revenue": 7880900000.0,
+          "operating_income": 2599200000.0,
+          "net_income": 2282300000.0,
+          "diluted_shares": 743350684.9315069,
+          "filed": "2026-10-30",
+          "accessions": [
+            "0001262039-26-000007",
+            "0001262039-26-000013",
+            "0001262039-26-000021",
+            "0001262039-26-000027"
+          ],
+          "price": 136.08,
+          "price_date": "2026-10-30",
+          "post_report_price": null
+        },
+        "prior": {
+          "ttm_end": "2025-09-30",
+          "revenue": 6554700000.0,
+          "operating_income": 2033200000.0,
+          "net_income": 1873600000.0,
+          "diluted_shares": 771458356.1643835,
+          "filed": "2026-10-30",
+          "accessions": [
+            "0001262039-26-000007",
+            "0001262039-26-000013",
+            "0001262039-26-000021",
+            "0001262039-26-000027"
+          ],
+          "price": 86.43,
+          "price_date": "2025-10-31"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "TER",
+        "entity": "TERADYNE, INC",
+        "cik": "0000097210",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-09-27",
+          "revenue": 5000771000.0,
+          "operating_income": 1605982000.0,
+          "net_income": 1373069000.0,
+          "diluted_shares": 157649428.57142857,
+          "filed": "2026-10-30",
+          "accessions": [
+            "0001193125-26-059002",
+            "0001193125-26-201058",
+            "0001193125-26-327715",
+            "0001193125-26-441091"
+          ],
+          "price": 274.37,
+          "price_date": "2026-10-30",
+          "post_report_price": null
+        },
+        "prior": {
+          "ttm_end": "2025-09-28",
+          "revenue": 2859571000.0,
+          "operating_income": 510433000.0,
+          "net_income": 443079000.0,
+          "diluted_shares": 161110491.75824177,
+          "filed": "2026-10-30",
+          "accessions": [
+            "0001193125-26-059002",
+            "0001193125-26-201058",
+            "0001193125-26-327715",
+            "0001193125-26-441091"
+          ],
+          "price": 181.41,
+          "price_date": "2025-10-31"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "ZS",
+        "entity": "Zscaler, Inc.",
+        "cik": "0001713683",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-07-31",
+          "revenue": 3352523000.0,
+          "operating_income": -133267000.0,
+          "net_income": -63179000.0,
+          "diluted_shares": 160219000.0,
+          "filed": "2026-09-03",
+          "accessions": [
+            "0001713683-25-000205",
+            "0001713683-26-000048",
+            "0001713683-26-000096",
+            "0001713683-26-000157"
+          ],
+          "price": 237.83,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 163.84,
+            "dates": [
+              "2026-09-08",
+              "2026-09-09",
+              "2026-09-10"
+            ],
+            "report_date": "2026-09-03",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
+        },
+        "prior": {
+          "ttm_end": "2025-10-31",
+          "revenue": 2833272000.0,
+          "operating_income": -134155000.0,
+          "net_income": -41042000.0,
+          "diluted_shares": 155926158.9041096,
+          "filed": "2026-09-03",
+          "accessions": [
+            "0001713683-25-000205",
+            "0001713683-26-000048",
+            "0001713683-26-000096",
+            "0001713683-26-000157"
+          ],
+          "price": 331.14,
+          "price_date": "2025-10-31"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
           "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
         }
       }
@@ -1527,8 +1940,18 @@
             "0000002488-26-000076",
             "0000002488-26-000123"
           ],
-          "price": 578.44,
-          "price_date": "2026-10-28"
+          "price": 504.8,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 475.74666666666667,
+            "dates": [
+              "2026-08-07",
+              "2026-08-10",
+              "2026-08-11"
+            ],
+            "report_date": "2026-08-05",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2023-09-30",
@@ -1543,8 +1966,8 @@
             "0000002488-24-000163",
             "0000002488-25-000012"
           ],
-          "price": 96.43,
-          "price_date": "2023-10-27"
+          "price": 98.5,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -1581,8 +2004,18 @@
             "0001628280-26-049270",
             "0001628280-26-066775"
           ],
-          "price": 404.22,
-          "price_date": "2026-10-28"
+          "price": 399.81,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 401.09999999999997,
+            "dates": [
+              "2026-10-26",
+              "2026-10-27",
+              "2026-10-28"
+            ],
+            "report_date": "2026-10-22",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2023-09-30",
@@ -1597,8 +2030,8 @@
             "0001628280-24-043486",
             "0001628280-25-003063"
           ],
-          "price": 207.3,
-          "price_date": "2023-10-27"
+          "price": 200.84,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
@@ -1635,8 +2068,18 @@
             "0000723125-26-000015",
             "0000723125-26-000023"
           ],
-          "price": 983.23,
-          "price_date": "2026-10-28"
+          "price": 884.74,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 932.8033333333333,
+            "dates": [
+              "2026-10-13",
+              "2026-10-14",
+              "2026-10-15"
+            ],
+            "report_date": "2026-10-09",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2023-08-31",
@@ -1651,8 +2094,8 @@
             "0000723125-24-000019",
             "0000723125-25-000028"
           ],
-          "price": 65.02,
-          "price_date": "2023-10-27"
+          "price": 66.23,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -1680,8 +2123,18 @@
             "0001819994-26-000028",
             "0001819994-26-000062"
           ],
-          "price": 58.6,
-          "price_date": "2026-10-28"
+          "price": 54.73,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 80.50666666666666,
+            "dates": [
+              "2026-08-12",
+              "2026-08-13",
+              "2026-08-14"
+            ],
+            "report_date": "2026-08-10",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2023-09-30",
@@ -1696,8 +2149,8 @@
             "0000950170-24-125529",
             "0001628280-25-008724"
           ],
-          "price": 4.16,
-          "price_date": "2023-10-27"
+          "price": 4.23,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -1713,20 +2166,21 @@
         "status": "ok",
         "reason": null,
         "current": {
-          "ttm_end": "2026-06-30",
-          "revenue": 6282872000.0,
-          "operating_income": 619376000.0,
-          "net_income": -987766000.0,
-          "diluted_shares": 281747545.20547944,
-          "filed": "2026-07-30",
+          "ttm_end": "2026-09-30",
+          "revenue": 5629761000.0,
+          "operating_income": 200513000.0,
+          "net_income": -701621000.0,
+          "diluted_shares": 280744619.17808217,
+          "filed": "2026-10-29",
           "accessions": [
-            "0001679788-25-000208",
             "0001679788-26-000015",
             "0001679788-26-000054",
-            "0001679788-26-000088"
+            "0001679788-26-000088",
+            "0001679788-26-000122"
           ],
-          "price": 162.32,
-          "price_date": "2026-10-28"
+          "price": 143.54,
+          "price_date": "2026-10-30",
+          "post_report_price": null
         },
         "prior": {
           "ttm_end": "2023-09-30",
@@ -1741,8 +2195,8 @@
             "0001679788-24-000187",
             "0001679788-25-000022"
           ],
-          "price": 70.78,
-          "price_date": "2023-10-27"
+          "price": 77.12,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
@@ -1779,8 +2233,18 @@
             "0001437749-26-015620",
             "0001437749-26-026278"
           ],
-          "price": 82.22,
-          "price_date": "2026-10-28"
+          "price": 69.05,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 135.07333333333335,
+            "dates": [
+              "2026-08-10",
+              "2026-08-11",
+              "2026-08-12"
+            ],
+            "report_date": "2026-08-06",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2023-09-30",
@@ -1795,8 +2259,8 @@
             "0001437749-24-033913",
             "0001437749-25-005575"
           ],
-          "price": 7.04,
-          "price_date": "2023-10-27"
+          "price": 7.43,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -1833,8 +2297,18 @@
             "0001628280-26-030777",
             "0001628280-26-057358"
           ],
-          "price": 913.95,
-          "price_date": "2026-10-28"
+          "price": 840.7,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 857.8633333333333,
+            "dates": [
+              "2026-08-19",
+              "2026-08-20",
+              "2026-08-21"
+            ],
+            "report_date": "2026-08-17",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2023-07-01",
@@ -1849,8 +2323,8 @@
             "0001628280-24-020767",
             "0001628280-25-040830"
           ],
-          "price": 36.07,
-          "price_date": "2023-10-27"
+          "price": 39.21,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax",
@@ -1866,20 +2340,21 @@
         "status": "ok",
         "reason": null,
         "current": {
-          "ttm_end": "2026-06-27",
-          "revenue": 57032000000.0,
-          "operating_income": -77000000.0,
-          "net_income": -11289000000.0,
-          "diluted_shares": 4898750000.0,
-          "filed": "2026-07-24",
+          "ttm_end": "2026-09-26",
+          "revenue": 59892000000.0,
+          "operating_income": 1762000000.0,
+          "net_income": -12032000000.0,
+          "diluted_shares": 5092750000.0,
+          "filed": "2026-10-30",
           "accessions": [
-            "0000050863-25-000179",
             "0000050863-26-000011",
             "0000050863-26-000079",
-            "0000050863-26-000157"
+            "0000050863-26-000157",
+            "0000050863-26-000191"
           ],
-          "price": 95.53,
-          "price_date": "2026-10-28"
+          "price": 65.76,
+          "price_date": "2026-10-30",
+          "post_report_price": null
         },
         "prior": {
           "ttm_end": "2023-09-30",
@@ -1894,8 +2369,8 @@
             "0000050863-24-000149",
             "0000050863-25-000009"
           ],
-          "price": 34.96,
-          "price_date": "2023-10-27"
+          "price": 35.9,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -1911,20 +2386,21 @@
         "status": "ok",
         "reason": null,
         "current": {
-          "ttm_end": "2026-06-30",
-          "revenue": 16964000000.0,
-          "operating_income": 2598000000.0,
-          "net_income": 1900000000.0,
-          "diluted_shares": 874726027.3972603,
-          "filed": "2026-07-29",
+          "ttm_end": "2026-09-30",
+          "revenue": 17719000000.0,
+          "operating_income": 2920000000.0,
+          "net_income": 2150000000.0,
+          "diluted_shares": 875482191.7808219,
+          "filed": "2026-10-29",
           "accessions": [
-            "0000024741-25-000121",
             "0000024741-26-000124",
             "0000024741-26-000205",
-            "0000024741-26-000255"
+            "0000024741-26-000255",
+            "0000024741-26-000279"
           ],
-          "price": 131.2,
-          "price_date": "2026-10-28"
+          "price": 123.31,
+          "price_date": "2026-10-30",
+          "post_report_price": null
         },
         "prior": {
           "ttm_end": "2023-09-30",
@@ -1939,8 +2415,8 @@
             "0001437749-24-032912",
             "0001628280-25-005347"
           ],
-          "price": 24.97,
-          "price_date": "2023-10-27"
+          "price": 25.13,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
@@ -1968,24 +2444,34 @@
             "0001535527-26-000025",
             "0001535527-26-000031"
           ],
-          "price": 266.66,
-          "price_date": "2026-10-28"
+          "price": 250.43,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 216.49666666666667,
+            "dates": [
+              "2026-08-31",
+              "2026-09-01",
+              "2026-09-02"
+            ],
+            "report_date": "2026-08-27",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
-          "ttm_end": "2023-07-31",
-          "revenue": 2642455000.0,
-          "operating_income": -152751000.0,
-          "net_income": -93474000.0,
-          "diluted_shares": 951411572.6027397,
+          "ttm_end": "2023-10-31",
+          "revenue": 2847587000.0,
+          "operating_income": -93166000.0,
+          "net_income": -11853000.0,
+          "diluted_shares": 961507879.4520547,
           "filed": "2025-03-10",
           "accessions": [
-            "0001535527-23-000026",
             "0001535527-24-000013",
             "0001535527-24-000020",
+            "0001535527-24-000026",
             "0001535527-25-000009"
           ],
-          "price": 43.21,
-          "price_date": "2023-10-27"
+          "price": 44.19,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax",
@@ -2013,8 +2499,9 @@
             "0001373715-26-000076",
             "0001373715-26-000096"
           ],
-          "price": 150.13,
-          "price_date": "2026-10-28"
+          "price": 105.12,
+          "price_date": "2026-10-30",
+          "post_report_price": null
         },
         "prior": {
           "ttm_end": "2023-09-30",
@@ -2029,8 +2516,8 @@
             "0001373715-24-000344",
             "0001373715-25-000010"
           ],
-          "price": 110.8,
-          "price_date": "2023-10-27"
+          "price": 116.37,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -2076,8 +2563,18 @@
             "0001375365-26-000014",
             "0001375365-26-000022"
           ],
-          "price": 35.81,
-          "price_date": "2026-10-28"
+          "price": 32.95,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 38.153333333333336,
+            "dates": [
+              "2026-09-02",
+              "2026-09-03",
+              "2026-09-04"
+            ],
+            "report_date": "2026-08-31",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2023-09-30",
@@ -2092,8 +2589,8 @@
             "0001375365-25-000005",
             "0001375365-25-000027"
           ],
-          "price": 24.14,
-          "price_date": "2023-10-27"
+          "price": 23.95,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -2121,24 +2618,34 @@
             "0001045810-26-000052",
             "0001045810-26-000075"
           ],
-          "price": 215.38,
-          "price_date": "2026-10-28"
+          "price": 204.64,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 218.34666666666666,
+            "dates": [
+              "2026-08-28",
+              "2026-08-31",
+              "2026-09-01"
+            ],
+            "report_date": "2026-08-26",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
-          "ttm_end": "2023-07-30",
-          "revenue": 32681000000.0,
-          "operating_income": 10797000000.0,
-          "net_income": 10325000000.0,
-          "diluted_shares": 41903000000.0,
+          "ttm_end": "2023-10-29",
+          "revenue": 44870000000.0,
+          "operating_income": 20613000000.0,
+          "net_income": 18888000000.0,
+          "diluted_shares": 41890500000.0,
           "filed": "2025-02-26",
           "accessions": [
-            "0001045810-23-000227",
             "0001045810-24-000124",
             "0001045810-24-000264",
+            "0001045810-24-000316",
             "0001045810-25-000023"
           ],
-          "price": 40.38,
-          "price_date": "2023-10-27"
+          "price": 40.66,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
@@ -2175,8 +2682,18 @@
             "0001477333-26-000038",
             "0001477333-26-000054"
           ],
-          "price": 318.72,
-          "price_date": "2026-10-28"
+          "price": 280.7,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 309.67,
+            "dates": [
+              "2026-08-10",
+              "2026-08-11",
+              "2026-08-12"
+            ],
+            "report_date": "2026-08-06",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2023-09-30",
@@ -2191,8 +2708,8 @@
             "0001477333-24-000085",
             "0001477333-25-000043"
           ],
-          "price": 55.35,
-          "price_date": "2023-10-27"
+          "price": 56.69,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -2220,8 +2737,18 @@
             "0001878848-26-000026",
             "0001878848-26-000052"
           ],
-          "price": 28.84,
-          "price_date": "2026-10-28"
+          "price": 23.95,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 37.846666666666664,
+            "dates": [
+              "2026-08-31",
+              "2026-09-01",
+              "2026-09-02"
+            ],
+            "report_date": "2026-08-27",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2023-06-30",
@@ -2233,8 +2760,8 @@
           "accessions": [
             "0001878848-25-000063"
           ],
-          "price": 3.2,
-          "price_date": "2023-10-27"
+          "price": 3.08,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -2271,24 +2798,34 @@
             "0001327567-26-000015",
             "0001327567-26-000023"
           ],
-          "price": 394.49,
-          "price_date": "2026-10-28"
+          "price": 365.87,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 374.89333333333326,
+            "dates": [
+              "2026-09-14",
+              "2026-09-15",
+              "2026-09-16"
+            ],
+            "report_date": "2026-09-10",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
-          "ttm_end": "2023-07-31",
-          "revenue": 6892700000.0,
-          "operating_income": 387300000.0,
-          "net_income": 439700000.0,
-          "diluted_shares": 937426849.3150685,
+          "ttm_end": "2023-10-31",
+          "revenue": 7207400000.0,
+          "operating_income": 587300000.0,
+          "net_income": 613900000.0,
+          "diluted_shares": 943173698.630137,
           "filed": "2025-08-29",
           "accessions": [
-            "0001327567-23-000032",
             "0001327567-24-000005",
             "0001327567-24-000017",
+            "0001327567-24-000040",
             "0001327567-25-000027"
           ],
-          "price": 119.39,
-          "price_date": "2023-10-27"
+          "price": 121.51,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -2316,15 +2853,25 @@
             "0001640147-26-000030",
             "0001640147-26-000037"
           ],
-          "price": 339.91,
-          "price_date": "2026-10-28"
+          "price": 306.08,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 330.06333333333333,
+            "dates": [
+              "2026-09-09",
+              "2026-09-10",
+              "2026-09-11"
+            ],
+            "report_date": "2026-09-04",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
-          "ttm_end": "2023-07-31",
-          "revenue": 2443657000.0,
-          "operating_income": -1004414000.0,
-          "net_income": -860599000.0,
-          "diluted_shares": 323381813.69863015,
+          "ttm_end": "2023-10-31",
+          "revenue": 2620802000.0,
+          "operating_income": -1059018000.0,
+          "net_income": -873914000.0,
+          "diluted_shares": 325694416.43835616,
           "filed": "2025-03-21",
           "accessions": [
             "0001640147-23-000102",
@@ -2332,10 +2879,11 @@
             "0001640147-23-000260",
             "0001640147-24-000135",
             "0001640147-24-000207",
+            "0001640147-24-000250",
             "0001640147-25-000052"
           ],
-          "price": 143.38,
-          "price_date": "2023-10-27"
+          "price": 145.13,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -2372,8 +2920,18 @@
             "0001835632-26-000019",
             "0001835632-26-000025"
           ],
-          "price": 251.65,
-          "price_date": "2026-10-28"
+          "price": 196.4,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 208.51666666666665,
+            "dates": [
+              "2026-09-01",
+              "2026-09-02",
+              "2026-09-03"
+            ],
+            "report_date": "2026-08-28",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2023-10-28",
@@ -2388,8 +2946,8 @@
             "0001835632-24-000200",
             "0001835632-25-000057"
           ],
-          "price": 46.87,
-          "price_date": "2023-10-27"
+          "price": 46.83,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -2417,24 +2975,34 @@
             "0001730168-26-000054",
             "0001730168-26-000080"
           ],
-          "price": 351.81,
-          "price_date": "2026-10-28"
+          "price": 326.08,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 340.54333333333335,
+            "dates": [
+              "2026-09-14",
+              "2026-09-15",
+              "2026-09-16"
+            ],
+            "report_date": "2026-09-10",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
-          "ttm_end": "2023-07-30",
-          "revenue": 35454000000.0,
-          "operating_income": 15953000000.0,
-          "net_income": 13917000000.0,
-          "diluted_shares": 7118500000.0,
-          "filed": "2024-12-20",
+          "ttm_end": "2023-10-29",
+          "revenue": 35819000000.0,
+          "operating_income": 16207000000.0,
+          "net_income": 14082000000.0,
+          "diluted_shares": 6198000000.0,
+          "filed": "2025-12-18",
           "accessions": [
             "0001730168-24-000023",
             "0001730168-24-000080",
             "0001730168-24-000099",
-            "0001730168-24-000139"
+            "0001730168-25-000121"
           ],
-          "price": 81.16,
-          "price_date": "2023-10-27"
+          "price": 81.45,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -2462,8 +3030,18 @@
             "0001050446-26-000044",
             "0001193125-25-262568"
           ],
-          "price": 145.16,
-          "price_date": "2026-10-28"
+          "price": 130.51,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 98.41000000000001,
+            "dates": [
+              "2026-08-05",
+              "2026-08-06",
+              "2026-08-07"
+            ],
+            "report_date": "2026-08-03",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2023-09-30",
@@ -2479,8 +3057,8 @@
             "0000950170-24-119263",
             "0000950170-25-021814"
           ],
-          "price": 40.68,
-          "price_date": "2023-10-27"
+          "price": 42.34,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -2517,8 +3095,18 @@
             "0001437749-26-017054",
             "0001437749-26-027677"
           ],
-          "price": 64.38,
-          "price_date": "2026-10-28"
+          "price": 55.06,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 83.90333333333334,
+            "dates": [
+              "2026-08-17",
+              "2026-08-18",
+              "2026-08-19"
+            ],
+            "report_date": "2026-08-13",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2023-09-30",
@@ -2534,8 +3122,8 @@
             "0001558370-24-015320",
             "0001558370-25-003004"
           ],
-          "price": 2.07,
-          "price_date": "2023-10-27"
+          "price": 1.99,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -2572,8 +3160,18 @@
             "0001571996-26-000030",
             "0001571996-26-000046"
           ],
-          "price": 493.79,
-          "price_date": "2026-10-28"
+          "price": 424.3,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 535.3233333333334,
+            "dates": [
+              "2026-09-10",
+              "2026-09-11",
+              "2026-09-14"
+            ],
+            "report_date": "2026-09-08",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2023-08-04",
@@ -2588,8 +3186,8 @@
             "0001571996-24-000090",
             "0001571996-25-000034"
           ],
-          "price": 63.13,
-          "price_date": "2023-10-27"
+          "price": 64.04,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
@@ -2617,8 +3215,18 @@
             "0001628280-26-050325",
             "0001628280-26-066931"
           ],
-          "price": 228.08,
-          "price_date": "2026-10-28"
+          "price": 203.17,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 216.83333333333334,
+            "dates": [
+              "2026-10-26",
+              "2026-10-27",
+              "2026-10-28"
+            ],
+            "report_date": "2026-10-22",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2023-09-30",
@@ -2633,8 +3241,8 @@
             "0001628280-24-046411",
             "0001628280-25-008747"
           ],
-          "price": 9.78,
-          "price_date": "2023-10-27"
+          "price": 10.4,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
@@ -2662,8 +3270,18 @@
             "0001810806-26-000032",
             "0001810806-26-000043"
           ],
-          "price": 39.5,
-          "price_date": "2026-10-28"
+          "price": 37.7,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 43.833333333333336,
+            "dates": [
+              "2026-08-10",
+              "2026-08-11",
+              "2026-08-12"
+            ],
+            "report_date": "2026-08-06",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2023-09-30",
@@ -2678,8 +3296,8 @@
             "0001810806-24-000227",
             "0001810806-25-000026"
           ],
-          "price": 25.54,
-          "price_date": "2023-10-27"
+          "price": 25.37,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -2734,8 +3352,18 @@
             "0001868275-26-000067",
             "0001868275-26-000104"
           ],
-          "price": 258.08,
-          "price_date": "2026-10-28"
+          "price": 262.38,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 275.3966666666667,
+            "dates": [
+              "2026-08-10",
+              "2026-08-11",
+              "2026-08-12"
+            ],
+            "report_date": "2026-08-06",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2023-09-30",
@@ -2750,13 +3378,160 @@
             "0001868275-24-000069",
             "0001868275-25-000023"
           ],
-          "price": 108.67,
-          "price_date": "2023-10-27"
+          "price": 110.77,
+          "price_date": "2023-10-31"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
           "operating_income": "us-gaap:OperatingIncomeLoss",
           "net_income": "us-gaap:ProfitLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "FTNT",
+        "entity": "Fortinet, Inc.",
+        "cik": "0001262039",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-09-30",
+          "revenue": 7880900000.0,
+          "operating_income": 2599200000.0,
+          "net_income": 2282300000.0,
+          "diluted_shares": 743350684.9315069,
+          "filed": "2026-10-30",
+          "accessions": [
+            "0001262039-26-000007",
+            "0001262039-26-000013",
+            "0001262039-26-000021",
+            "0001262039-26-000027"
+          ],
+          "price": 136.08,
+          "price_date": "2026-10-30",
+          "post_report_price": null
+        },
+        "prior": {
+          "ttm_end": "2023-09-30",
+          "revenue": 5172700000.0,
+          "operating_income": 1213500000.0,
+          "net_income": 1150700000.0,
+          "diluted_shares": 793138356.1643835,
+          "filed": "2025-02-21",
+          "accessions": [
+            "0001262039-24-000020",
+            "0001262039-24-000037",
+            "0001262039-24-000043",
+            "0001262039-25-000011"
+          ],
+          "price": 57.17,
+          "price_date": "2023-10-31"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "TER",
+        "entity": "TERADYNE, INC",
+        "cik": "0000097210",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-09-27",
+          "revenue": 5000771000.0,
+          "operating_income": 1605982000.0,
+          "net_income": 1373069000.0,
+          "diluted_shares": 157649428.57142857,
+          "filed": "2026-10-30",
+          "accessions": [
+            "0001193125-26-059002",
+            "0001193125-26-201058",
+            "0001193125-26-327715",
+            "0001193125-26-441091"
+          ],
+          "price": 274.37,
+          "price_date": "2026-10-30",
+          "post_report_price": null
+        },
+        "prior": {
+          "ttm_end": "2023-10-01",
+          "revenue": 2737534000.0,
+          "operating_income": 543331000.0,
+          "net_income": 503998000.0,
+          "diluted_shares": 206744561.2554945,
+          "filed": "2025-02-20",
+          "accessions": [
+            "0000950170-24-052761",
+            "0000950170-24-089858",
+            "0000950170-24-119923",
+            "0000950170-25-023784"
+          ],
+          "price": 82.37,
+          "price_date": "2023-10-31"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "ZS",
+        "entity": "Zscaler, Inc.",
+        "cik": "0001713683",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-07-31",
+          "revenue": 3352523000.0,
+          "operating_income": -133267000.0,
+          "net_income": -63179000.0,
+          "diluted_shares": 160219000.0,
+          "filed": "2026-09-03",
+          "accessions": [
+            "0001713683-25-000205",
+            "0001713683-26-000048",
+            "0001713683-26-000096",
+            "0001713683-26-000157"
+          ],
+          "price": 237.83,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 163.84,
+            "dates": [
+              "2026-09-08",
+              "2026-09-09",
+              "2026-09-10"
+            ],
+            "report_date": "2026-09-03",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
+        },
+        "prior": {
+          "ttm_end": "2023-10-31",
+          "revenue": 1758107000.0,
+          "operating_income": -211593000.0,
+          "net_income": -167656000.0,
+          "diluted_shares": 145987775.34246576,
+          "filed": "2025-09-11",
+          "accessions": [
+            "0001713683-24-000041",
+            "0001713683-24-000075",
+            "0001713683-24-000150",
+            "0001713683-25-000158"
+          ],
+          "price": 158.69,
+          "price_date": "2023-10-31"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
           "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
         }
       }
@@ -2781,8 +3556,18 @@
             "0000002488-26-000076",
             "0000002488-26-000123"
           ],
-          "price": 578.44,
-          "price_date": "2026-10-28"
+          "price": 504.8,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 475.74666666666667,
+            "dates": [
+              "2026-08-07",
+              "2026-08-10",
+              "2026-08-11"
+            ],
+            "report_date": "2026-08-05",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2021-09-25",
@@ -2797,8 +3582,8 @@
             "0000002488-22-000170",
             "0001628280-21-001185"
           ],
-          "price": 121.16,
-          "price_date": "2021-10-28"
+          "price": 120.23,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -2835,8 +3620,18 @@
             "0001628280-26-049270",
             "0001628280-26-066775"
           ],
-          "price": 404.22,
-          "price_date": "2026-10-28"
+          "price": 399.81,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 401.09999999999997,
+            "dates": [
+              "2026-10-26",
+              "2026-10-27",
+              "2026-10-28"
+            ],
+            "report_date": "2026-10-22",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2021-09-30",
@@ -2852,8 +3647,8 @@
             "0000950170-23-001409",
             "0001564590-21-004599"
           ],
-          "price": 359.01,
-          "price_date": "2021-10-28"
+          "price": 371.33,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
@@ -2890,8 +3685,18 @@
             "0000723125-26-000015",
             "0000723125-26-000023"
           ],
-          "price": 983.23,
-          "price_date": "2026-10-28"
+          "price": 884.74,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 932.8033333333333,
+            "dates": [
+              "2026-10-13",
+              "2026-10-14",
+              "2026-10-15"
+            ],
+            "report_date": "2026-10-09",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2021-09-02",
@@ -2906,8 +3711,8 @@
             "0000723125-22-000036",
             "0000723125-23-000054"
           ],
-          "price": 67.93,
-          "price_date": "2021-10-28"
+          "price": 67.47,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -2935,8 +3740,18 @@
             "0001819994-26-000028",
             "0001819994-26-000062"
           ],
-          "price": 58.6,
-          "price_date": "2026-10-28"
+          "price": 54.73,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 80.50666666666666,
+            "dates": [
+              "2026-08-12",
+              "2026-08-13",
+              "2026-08-14"
+            ],
+            "report_date": "2026-08-10",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2020-12-31",
@@ -2949,8 +3764,8 @@
             "0000950170-23-006499",
             "0001193125-21-330184"
           ],
-          "price": 13.37,
-          "price_date": "2021-10-28"
+          "price": 14.05,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -2966,20 +3781,21 @@
         "status": "ok",
         "reason": null,
         "current": {
-          "ttm_end": "2026-06-30",
-          "revenue": 6282872000.0,
-          "operating_income": 619376000.0,
-          "net_income": -987766000.0,
-          "diluted_shares": 281747545.20547944,
-          "filed": "2026-07-30",
+          "ttm_end": "2026-09-30",
+          "revenue": 5629761000.0,
+          "operating_income": 200513000.0,
+          "net_income": -701621000.0,
+          "diluted_shares": 280744619.17808217,
+          "filed": "2026-10-29",
           "accessions": [
-            "0001679788-25-000208",
             "0001679788-26-000015",
             "0001679788-26-000054",
-            "0001679788-26-000088"
+            "0001679788-26-000088",
+            "0001679788-26-000122"
           ],
-          "price": 162.32,
-          "price_date": "2026-10-28"
+          "price": 143.54,
+          "price_date": "2026-10-30",
+          "post_report_price": null
         },
         "prior": {
           "ttm_end": "2021-09-30",
@@ -2994,8 +3810,8 @@
             "0001679788-22-000116",
             "0001679788-23-000031"
           ],
-          "price": 319.13,
-          "price_date": "2021-10-28"
+          "price": 319.42,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
@@ -3032,8 +3848,18 @@
             "0001437749-26-015620",
             "0001437749-26-026278"
           ],
-          "price": 82.22,
-          "price_date": "2026-10-28"
+          "price": 69.05,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 135.07333333333335,
+            "dates": [
+              "2026-08-10",
+              "2026-08-11",
+              "2026-08-12"
+            ],
+            "report_date": "2026-08-06",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2021-09-30",
@@ -3049,8 +3875,8 @@
             "0001437749-22-025784",
             "0001437749-23-004648"
           ],
-          "price": 7.66,
-          "price_date": "2021-10-28"
+          "price": 7.65,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -3087,8 +3913,18 @@
             "0001628280-26-030777",
             "0001628280-26-057358"
           ],
-          "price": 913.95,
-          "price_date": "2026-10-28"
+          "price": 840.7,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 857.8633333333333,
+            "dates": [
+              "2026-08-19",
+              "2026-08-20",
+              "2026-08-21"
+            ],
+            "report_date": "2026-08-17",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2021-10-02",
@@ -3104,8 +3940,8 @@
             "0001628280-22-028783",
             "0001628280-23-016653"
           ],
-          "price": 82.1,
-          "price_date": "2021-10-28"
+          "price": 82.58,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax",
@@ -3121,20 +3957,21 @@
         "status": "ok",
         "reason": null,
         "current": {
-          "ttm_end": "2026-06-27",
-          "revenue": 57032000000.0,
-          "operating_income": -77000000.0,
-          "net_income": -11289000000.0,
-          "diluted_shares": 4898750000.0,
-          "filed": "2026-07-24",
+          "ttm_end": "2026-09-26",
+          "revenue": 59892000000.0,
+          "operating_income": 1762000000.0,
+          "net_income": -12032000000.0,
+          "diluted_shares": 5092750000.0,
+          "filed": "2026-10-30",
           "accessions": [
-            "0000050863-25-000179",
             "0000050863-26-000011",
             "0000050863-26-000079",
-            "0000050863-26-000157"
+            "0000050863-26-000157",
+            "0000050863-26-000191"
           ],
-          "price": 95.53,
-          "price_date": "2026-10-28"
+          "price": 65.76,
+          "price_date": "2026-10-30",
+          "post_report_price": null
         },
         "prior": {
           "ttm_end": "2021-09-25",
@@ -3149,8 +3986,8 @@
             "0000050863-22-000038",
             "0000050863-23-000006"
           ],
-          "price": 44.28,
-          "price_date": "2021-10-28"
+          "price": 45.13,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -3166,20 +4003,21 @@
         "status": "ok",
         "reason": null,
         "current": {
-          "ttm_end": "2026-06-30",
-          "revenue": 16964000000.0,
-          "operating_income": 2598000000.0,
-          "net_income": 1900000000.0,
-          "diluted_shares": 874726027.3972603,
-          "filed": "2026-07-29",
+          "ttm_end": "2026-09-30",
+          "revenue": 17719000000.0,
+          "operating_income": 2920000000.0,
+          "net_income": 2150000000.0,
+          "diluted_shares": 875482191.7808219,
+          "filed": "2026-10-29",
           "accessions": [
-            "0000024741-25-000121",
             "0000024741-26-000124",
             "0000024741-26-000205",
-            "0000024741-26-000255"
+            "0000024741-26-000255",
+            "0000024741-26-000279"
           ],
-          "price": 131.2,
-          "price_date": "2026-10-28"
+          "price": 123.31,
+          "price_date": "2026-10-30",
+          "post_report_price": null
         },
         "prior": {
           "ttm_end": "2021-09-30",
@@ -3194,8 +4032,8 @@
             "0001437749-22-024920",
             "0001437749-23-003123"
           ],
-          "price": 31.45,
-          "price_date": "2021-10-28"
+          "price": 31.39,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
@@ -3223,24 +4061,34 @@
             "0001535527-26-000025",
             "0001535527-26-000031"
           ],
-          "price": 266.66,
-          "price_date": "2026-10-28"
+          "price": 250.43,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 216.49666666666667,
+            "dates": [
+              "2026-08-31",
+              "2026-09-01",
+              "2026-09-02"
+            ],
+            "report_date": "2026-08-27",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
-          "ttm_end": "2021-07-31",
-          "revenue": 1137922000.0,
-          "operating_income": -118712000.0,
-          "net_income": -185900000.0,
-          "diluted_shares": 891573336.9863014,
+          "ttm_end": "2021-10-31",
+          "revenue": 1285513000.0,
+          "operating_income": -134817000.0,
+          "net_income": -211824000.0,
+          "diluted_shares": 900538421.9178082,
           "filed": "2023-03-09",
           "accessions": [
-            "0001535527-21-000028",
             "0001535527-22-000012",
             "0001535527-22-000018",
+            "0001535527-22-000025",
             "0001535527-23-000008"
           ],
-          "price": 70.29,
-          "price_date": "2021-10-28"
+          "price": 70.45,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax",
@@ -3268,8 +4116,9 @@
             "0001373715-26-000076",
             "0001373715-26-000096"
           ],
-          "price": 150.13,
-          "price_date": "2026-10-28"
+          "price": 105.12,
+          "price_date": "2026-10-30",
+          "post_report_price": null
         },
         "prior": {
           "ttm_end": "2021-09-30",
@@ -3284,8 +4133,8 @@
             "0001373715-22-000330",
             "0001373715-23-000035"
           ],
-          "price": 137.54,
-          "price_date": "2021-10-28"
+          "price": 139.55,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -3331,8 +4180,18 @@
             "0001375365-26-000014",
             "0001375365-26-000022"
           ],
-          "price": 35.81,
-          "price_date": "2026-10-28"
+          "price": 32.95,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 38.153333333333336,
+            "dates": [
+              "2026-09-02",
+              "2026-09-03",
+              "2026-09-04"
+            ],
+            "report_date": "2026-08-31",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2021-09-30",
@@ -3348,7 +4207,7 @@
             "0001375365-23-000036"
           ],
           "price": 3.54,
-          "price_date": "2021-10-28"
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -3376,24 +4235,34 @@
             "0001045810-26-000052",
             "0001045810-26-000075"
           ],
-          "price": 215.38,
-          "price_date": "2026-10-28"
+          "price": 204.64,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 218.34666666666666,
+            "dates": [
+              "2026-08-28",
+              "2026-08-31",
+              "2026-09-01"
+            ],
+            "report_date": "2026-08-26",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
-          "ttm_end": "2021-08-01",
-          "revenue": 21897000000.0,
-          "operating_income": 7305000000.0,
-          "net_income": 7079000000.0,
-          "diluted_shares": 29843773584.90566,
+          "ttm_end": "2021-10-31",
+          "revenue": 24274000000.0,
+          "operating_income": 8578000000.0,
+          "net_income": 8207000000.0,
+          "diluted_shares": 29887924528.301888,
           "filed": "2023-02-24",
           "accessions": [
-            "0001045810-21-000163",
             "0001045810-22-000079",
             "0001045810-22-000147",
+            "0001045810-22-000166",
             "0001045810-23-000017"
           ],
-          "price": 24.83,
-          "price_date": "2021-10-28"
+          "price": 25.45,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
@@ -3430,8 +4299,18 @@
             "0001477333-26-000038",
             "0001477333-26-000054"
           ],
-          "price": 318.72,
-          "price_date": "2026-10-28"
+          "price": 280.7,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 309.67,
+            "dates": [
+              "2026-08-10",
+              "2026-08-11",
+              "2026-08-12"
+            ],
+            "report_date": "2026-08-06",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2020-12-31",
@@ -3446,8 +4325,8 @@
             "0001477333-21-000045",
             "0001477333-23-000017"
           ],
-          "price": 184.05,
-          "price_date": "2021-10-28"
+          "price": 194.72,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -3493,8 +4372,18 @@
             "0001327567-26-000015",
             "0001327567-26-000023"
           ],
-          "price": 394.49,
-          "price_date": "2026-10-28"
+          "price": 365.87,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 374.89333333333326,
+            "dates": [
+              "2026-09-14",
+              "2026-09-15",
+              "2026-09-16"
+            ],
+            "report_date": "2026-09-10",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2021-07-31",
@@ -3509,8 +4398,8 @@
             "0001327567-22-000016",
             "0001327567-23-000024"
           ],
-          "price": 83.07,
-          "price_date": "2021-10-28"
+          "price": 84.85,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -3538,8 +4427,18 @@
             "0001640147-26-000030",
             "0001640147-26-000037"
           ],
-          "price": 339.91,
-          "price_date": "2026-10-28"
+          "price": 306.08,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 330.06333333333333,
+            "dates": [
+              "2026-09-09",
+              "2026-09-10",
+              "2026-09-11"
+            ],
+            "report_date": "2026-09-04",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2021-01-31",
@@ -3554,8 +4453,8 @@
             "0001640147-21-000271",
             "0001640147-23-000030"
           ],
-          "price": 348.0,
-          "price_date": "2021-10-28"
+          "price": 353.84,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -3592,25 +4491,34 @@
             "0001835632-26-000019",
             "0001835632-26-000025"
           ],
-          "price": 251.65,
-          "price_date": "2026-10-28"
+          "price": 196.4,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 208.51666666666665,
+            "dates": [
+              "2026-09-01",
+              "2026-09-02",
+              "2026-09-03"
+            ],
+            "report_date": "2026-08-28",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
-          "ttm_end": "2021-07-31",
-          "revenue": 3456162000.0,
-          "operating_income": -360137000.0,
-          "net_income": -370974000.0,
-          "diluted_shares": 714644750.0,
+          "ttm_end": "2021-10-30",
+          "revenue": 3917219000.0,
+          "operating_income": -384147000.0,
+          "net_income": -410666000.0,
+          "diluted_shares": 754173000.0,
           "filed": "2023-03-09",
           "accessions": [
-            "0001835632-21-000032",
             "0001835632-22-000028",
             "0001835632-22-000041",
             "0001835632-22-000053",
             "0001835632-23-000013"
           ],
-          "price": 67.27,
-          "price_date": "2021-10-28"
+          "price": 67.29,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -3638,25 +4546,34 @@
             "0001730168-26-000054",
             "0001730168-26-000080"
           ],
-          "price": 351.81,
-          "price_date": "2026-10-28"
+          "price": 326.08,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 340.54333333333335,
+            "dates": [
+              "2026-09-14",
+              "2026-09-15",
+              "2026-09-16"
+            ],
+            "report_date": "2026-09-10",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
-          "ttm_end": "2021-08-01",
-          "revenue": 26510000000.0,
-          "operating_income": 7464000000.0,
-          "net_income": 6071000000.0,
-          "diluted_shares": 4277500000.0,
-          "filed": "2022-12-16",
+          "ttm_end": "2021-10-31",
+          "revenue": 27450000000.0,
+          "operating_income": 8519000000.0,
+          "net_income": 6736000000.0,
+          "diluted_shares": 4290000000.0,
+          "filed": "2023-12-14",
           "accessions": [
-            "0001730168-20-000226",
             "0001730168-22-000029",
             "0001730168-22-000081",
             "0001730168-22-000094",
-            "0001730168-22-000118"
+            "0001730168-23-000096"
           ],
-          "price": 48.48,
-          "price_date": "2021-10-28"
+          "price": 48.67,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -3684,8 +4601,18 @@
             "0001050446-26-000044",
             "0001193125-25-262568"
           ],
-          "price": 145.16,
-          "price_date": "2026-10-28"
+          "price": 130.51,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 98.41000000000001,
+            "dates": [
+              "2026-08-05",
+              "2026-08-06",
+              "2026-08-07"
+            ],
+            "report_date": "2026-08-03",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2021-09-30",
@@ -3702,8 +4629,8 @@
             "0001564590-22-036073",
             "0001564590-23-002012"
           ],
-          "price": 71.71,
-          "price_date": "2021-10-28"
+          "price": 71.51,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -3740,8 +4667,18 @@
             "0001437749-26-017054",
             "0001437749-26-027677"
           ],
-          "price": 64.38,
-          "price_date": "2026-10-28"
+          "price": 55.06,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 83.90333333333334,
+            "dates": [
+              "2026-08-17",
+              "2026-08-18",
+              "2026-08-19"
+            ],
+            "report_date": "2026-08-13",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2021-09-30",
@@ -3757,8 +4694,8 @@
             "0001558370-22-017428",
             "0001558370-23-004035"
           ],
-          "price": 7.88,
-          "price_date": "2021-10-28"
+          "price": 8.17,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -3795,25 +4732,35 @@
             "0001571996-26-000030",
             "0001571996-26-000046"
           ],
-          "price": 493.79,
-          "price_date": "2026-10-28"
+          "price": 424.3,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 535.3233333333334,
+            "dates": [
+              "2026-09-10",
+              "2026-09-11",
+              "2026-09-14"
+            ],
+            "report_date": "2026-09-08",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
-          "ttm_end": "2021-07-30",
-          "revenue": 92520000000.0,
-          "operating_income": 3851000000.0,
-          "net_income": 3777000000.0,
-          "diluted_shares": 780000000.0,
+          "ttm_end": "2021-10-29",
+          "revenue": 97355000000.0,
+          "operating_income": 3768000000.0,
+          "net_income": 6788000000.0,
+          "diluted_shares": 784250000.0,
           "filed": "2023-03-30",
           "accessions": [
-            "0001571996-21-000063",
             "0001571996-22-000009",
             "0001571996-22-000021",
             "0001571996-22-000031",
+            "0001571996-22-000044",
             "0001571996-23-000007"
           ],
-          "price": 50.61,
-          "price_date": "2021-10-28"
+          "price": 50.57,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
@@ -3841,8 +4788,18 @@
             "0001628280-26-050325",
             "0001628280-26-066931"
           ],
-          "price": 228.08,
-          "price_date": "2026-10-28"
+          "price": 203.17,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 216.83333333333334,
+            "dates": [
+              "2026-10-26",
+              "2026-10-27",
+              "2026-10-28"
+            ],
+            "report_date": "2026-10-22",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2020-12-31",
@@ -3857,8 +4814,8 @@
             "0001664703-21-000135",
             "0001664703-21-000172"
           ],
-          "price": 29.25,
-          "price_date": "2021-10-28"
+          "price": 31.26,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:Revenues",
@@ -3886,8 +4843,18 @@
             "0001810806-26-000032",
             "0001810806-26-000043"
           ],
-          "price": 39.5,
-          "price_date": "2026-10-28"
+          "price": 37.7,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 43.833333333333336,
+            "dates": [
+              "2026-08-10",
+              "2026-08-11",
+              "2026-08-12"
+            ],
+            "report_date": "2026-08-06",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
         },
         "prior": {
           "ttm_end": "2020-12-31",
@@ -3902,8 +4869,8 @@
             "0001810806-21-000171",
             "0001810806-23-000016"
           ],
-          "price": 148.07,
-          "price_date": "2021-10-28"
+          "price": 151.31,
+          "price_date": "2021-10-29"
         },
         "concepts": {
           "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
@@ -3947,6 +4914,154 @@
         "reason": "Split-adjusted price history unavailable for 5Y",
         "current": null,
         "prior": null
+      },
+      {
+        "ticker": "FTNT",
+        "entity": "Fortinet, Inc.",
+        "cik": "0001262039",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-09-30",
+          "revenue": 7880900000.0,
+          "operating_income": 2599200000.0,
+          "net_income": 2282300000.0,
+          "diluted_shares": 743350684.9315069,
+          "filed": "2026-10-30",
+          "accessions": [
+            "0001262039-26-000007",
+            "0001262039-26-000013",
+            "0001262039-26-000021",
+            "0001262039-26-000027"
+          ],
+          "price": 136.08,
+          "price_date": "2026-10-30",
+          "post_report_price": null
+        },
+        "prior": {
+          "ttm_end": "2021-09-30",
+          "revenue": 3126600000.0,
+          "operating_income": 604900000.0,
+          "net_income": 554500000.0,
+          "diluted_shares": 1338990684.9315069,
+          "filed": "2023-02-24",
+          "accessions": [
+            "0001262039-22-000019",
+            "0001262039-22-000029",
+            "0001262039-22-000038",
+            "0001262039-23-000010"
+          ],
+          "price": 67.27,
+          "price_date": "2021-10-29"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "TER",
+        "entity": "TERADYNE, INC",
+        "cik": "0000097210",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-09-27",
+          "revenue": 5000771000.0,
+          "operating_income": 1605982000.0,
+          "net_income": 1373069000.0,
+          "diluted_shares": 157649428.57142857,
+          "filed": "2026-10-30",
+          "accessions": [
+            "0001193125-26-059002",
+            "0001193125-26-201058",
+            "0001193125-26-327715",
+            "0001193125-26-441091"
+          ],
+          "price": 274.37,
+          "price_date": "2026-10-30",
+          "post_report_price": null
+        },
+        "prior": {
+          "ttm_end": "2021-10-03",
+          "revenue": 3576804000.0,
+          "operating_income": 1178365000.0,
+          "net_income": 986879000.0,
+          "diluted_shares": 185801482.47978437,
+          "filed": "2023-02-22",
+          "accessions": [
+            "0001193125-21-050735",
+            "0001193125-22-143504",
+            "0001193125-22-213485",
+            "0001193125-22-277821",
+            "0001193125-23-044711"
+          ],
+          "price": 135.63,
+          "price_date": "2021-10-29"
+        },
+        "concepts": {
+          "revenue": "us-gaap:Revenues",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
+      },
+      {
+        "ticker": "ZS",
+        "entity": "Zscaler, Inc.",
+        "cik": "0001713683",
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2026-07-31",
+          "revenue": 3352523000.0,
+          "operating_income": -133267000.0,
+          "net_income": -63179000.0,
+          "diluted_shares": 160219000.0,
+          "filed": "2026-09-03",
+          "accessions": [
+            "0001713683-25-000205",
+            "0001713683-26-000048",
+            "0001713683-26-000096",
+            "0001713683-26-000157"
+          ],
+          "price": 237.83,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 163.84,
+            "dates": [
+              "2026-09-08",
+              "2026-09-09",
+              "2026-09-10"
+            ],
+            "report_date": "2026-09-03",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
+        },
+        "prior": {
+          "ttm_end": "2021-10-31",
+          "revenue": 761039000.0,
+          "operating_income": -239516000.0,
+          "net_income": -297824000.0,
+          "diluted_shares": 137127008.21917808,
+          "filed": "2023-09-14",
+          "accessions": [
+            "0001713683-22-000029",
+            "0001713683-22-000056",
+            "0001713683-22-000123",
+            "0001713683-23-000113"
+          ],
+          "price": 318.86,
+          "price_date": "2021-10-29"
+        },
+        "concepts": {
+          "revenue": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+          "operating_income": "us-gaap:OperatingIncomeLoss",
+          "net_income": "us-gaap:NetIncomeLoss",
+          "diluted_shares": "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+        }
       }
     ]
   }
