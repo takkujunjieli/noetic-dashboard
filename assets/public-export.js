@@ -28,13 +28,19 @@ export async function syncPublicSnapshot(workflow,fetcher=fetch){
  const response=await fetcher(PUBLIC_URL,{method:'PUT',headers:{...headers,'Content-Type':'application/json'},body:JSON.stringify({message:'Update public Workflow and Takku 100k portfolio',branch:'main',sha,content})});
  if(!response.ok)throw Error('公开快照同步失败：HTTP '+response.status);
 }
-export function mountPublicExport({english=false}={}){
- const footer=document.querySelector('footer');
+export function mountPublicExport({english=false,placement='auto'}={}){
+ if(document.getElementById('public-export-controls'))return;
+ let footer=document.querySelector('footer');
+ if(!footer&&placement==='footer'){
+  footer=document.createElement('footer');footer.className='muted small';document.body.append(footer);
+ }
  const host=footer?document.createElement('div'):(document.querySelector('header .toolbar')||document.querySelector('header'));
+ if(!host)return;
  if(footer){host.style.cssText='display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:8px';footer.append(host);}
+ const controls=document.createElement('span');controls.id='public-export-controls';host.append(controls);
  const button=document.createElement('button');button.textContent=english?'Update Public Snapshot':'更新公开快照';button.type='button';
  const preview=document.createElement('a');preview.textContent=english?'Preview Public View':'预览公开版';const url=new URL(location.href);url.searchParams.set('view','public');preview.href=url.href;
- const status=document.createElement('span');status.setAttribute('role','status');host?.append(button,document.createTextNode('｜'),preview,status);
+ const status=document.createElement('span');status.setAttribute('role','status');controls.append(button,document.createTextNode('｜'),preview,status);
  const capture=()=>{const entries={};for(const key of [KEY,'riskPolicy','riskGroups','riskMaxHeat','riskStops','riskTargets','portfolioExitRules','completedTheses','thesisEvents']){const value=localStorage.getItem(key);if(value)entries[key]=JSON.parse(value);}return entries[KEY]?{version:1,entries}:null;};
  button.onclick=async()=>{button.disabled=true;try{await exportPublicSnapshot(capture());status.textContent='公开快照已更新；同步全部可发布。';}catch(error){status.textContent='未更新：'+error.message;}finally{button.disabled=false;}};
  // Public exports are explicitly requested; opening a page does not save a snapshot.
