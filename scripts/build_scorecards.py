@@ -22,10 +22,10 @@ FEATURES = ["Operation", "Leadership", "Externality"]
 # 分值 -5~+5。★=需当前数据校准,⚠=身份/数据存疑。估值/EV/FCF 已并入 Operation(经营)。
 STOCKS = {
     "NVDA": (
-        "W",
+        "L",
         [
-            (4, "净现金+巨额 FCF、资产负债表极强;大额回购;轻晶圆(台积代工)"),
-            (4, "黄仁勋创始人掌舵、路线图执行顶级、高持股 alignment、适应力强"),
+            (5, "净现金+巨额 FCF、资产负债表极强;大额回购;轻晶圆(台积代工)"),
+            (4, "黄仁勋创始人掌舵，vendor finance风险"),
             (
                 2,
                 "AI 芯片垂直整合+CUDA 护城河;但 AI capex 绝对值过大、本身成 macro 风险",
@@ -44,11 +44,11 @@ STOCKS = {
         "L",
         [
             (
-                3,
+                4,
                 "GM 85% +5;capex $27b→FY27 mid-$40B, 过半建厂 -1;HBM 客户集中(NVDA/cloud) -1",
             ),
             (0, "unknown"),
-            (0, "ai bubble -0;美国产 +1；台湾地缘风险 -1"),
+            (0, "美国产 +1；台湾地缘风险 -1"),
         ],
     ),
     "SNDK": (
@@ -69,13 +69,13 @@ STOCKS = {
         "L",
         [
             (
-                4,
+                5,
                 "Q2’26 rev $56.6B +257% YoY、OP $43.2B +557%、OPM 76%，HBM/AI server memory高增长叠加DRAM/NAND涨价，盈利处于历史极强水平 4；HBM仍全球#1、Q2份额50，HBM4已量产/HBM4E送样，但份额Q1 58%→50、Samsung 21%→33，领先优势收窄 2；现金62.9B vs debt 13.3B净现金约49.6B，Q2 FCF约$39.1B，另宣布约$28.6B回购注销(~3.3% shares)，资产负债表/现金创造能力发生质变 +4；约10家客户签多年LTA，使HBM逐渐从传统commodity模式转向提前锁量/co-development，降低盈利周期性 +2；FY26 CapEx预计约$34B+，另批准Y2+M17合计约$38.8B fab投资，SKH/Samsung/Micron同步扩产，当前shortage及76% OPM明显不可直接外推，未来核心风险是供给释放+HBM竞争导致margin normalization -2。",
             ),
             (0, ""),
             (
-                3,
-                "AI/HBM需求仍极强：27年bit shipment仍预计+50–60%；9大CSP CapEx 26年>$887B +~90%、27年~$1.3T +~50% +3；HBM极耗wafer，预计占三大厂DRAM wafer input 18%(25)→22%(26)→~30%(27)，却仅贡献~13% DRAM bits，挤压传统DRAM供给，供给紧至27年 +3；但Samsung HBM份额21→33%、SKH 58→50%，Micron亦扩TSV/先进DRAM，SKH/Samsung/Micron巨额新fab约28年后陆续释放，当前shortage/76% OPM存在周期反转风险 -2；需求高度集中于NVIDIA/Google及少数hyperscaler，且NVIDIA已因HBM成本/供应考虑降低Rubin Ultra潜在单卡配置 -1；中国CXMT等成熟DRAM追赶压低端价格，但先进制程/HBM受美日荷设备限制，短期反而保护SKH高端壁垒 +1；无锡DRAM/大连NAND等中国资产暴露于美国出口管制及中美关系，政策变化可能限制设备升级/产能运营 -1",
+                -1,
+                "需求高度集中于NVIDIA/Google及少数hyperscaler",
             ),
         ],
     ),
@@ -83,16 +83,16 @@ STOCKS = {
         "L",
         [
             (
-                4,
+                5,
                 "Q2 rev $1.31B(+32%)、GAAP OM 43.9%/净利$573M +3;13 业务线过$100M、去 crypto 化(crypto 8%、−38%)+2;轻资产+回购+SBC 仅$105M/8%(偏低)+1;仍受交易量/风险偏好顺周期 -2",
             ),
             (
-                3,
-                "Tenev 创始人、产品创新极快(预测市场10x/futures/index options/tokenization/Legend)=adaptability 顶级 +3;高 alignment +1;2021 GME 停牌+PFOF/监管旧账 -1",
+                1,
+                "adaptability 顶级；",
             ),
             (
                 -1,
-                "散户经纪领先年轻用户+多元化 +1;竞争(Schwab/Coinbase/Webull)-1;顺周期(交易量/风险偏好/利率)+PFOF/预测市场监管灰色 -1",
+                "预测市场监管灰色 -1",
             ),
         ],
     ),
@@ -104,12 +104,12 @@ STOCKS = {
                 "FY26 rev $7.12B +23%(首破$70亿)、Q4 $2.05B +34%(pro forma +42%)、环比加速 1.58→1.69→1.81→2.05 +3;非GAAP GM 40.2%(+215bp)/op inc $446M +62%/EPS $1.74 +74% +2;去杠杆完成 net lev 2.0→0.7x(FY26 还债$513M+卖A&D $400M)、现金$3B、$4.1B 并购债已消化 +3;datacenter capex 暴增 Q4 $556M(去年$131M)、~18mo 回本、near-term FCF 承压 -2;GAAP 净利率仅 11.8%、光模块 GM 结构性偏低 -1",
             ),
             (
-                3,
-                "Jim Anderson 2024-06 上任、前 Lattice CEO(2018-24 经典 turnaround)=顶级运营者 +3;两年内 speed-to-market 聚焦 AI datacenter+剪枝(卖 A&D $400M/SiC 变现)+去杠杆+拿下 NVIDIA=执行强 +2;职业经理人非创始、上任仅两年、持股 alignment 一般 -1",
+                0,
+                "",
             ),
             (
-                2,
-                "AI 光互联超级周期 800G→1.6T、Datacenter&Comms 占 Q4 79%/+59% YoY=踩最强 secular +2;NVIDIA 战略入股$2B+多年数十亿采购承诺+产能权(2026-03)=需求锚+背书 +2;InP 铟磷激光垂直整合(自有 fab)=真护城河 +1;份额被超:InnoLight #1~27%、Eoptolink 2025 冲$3.5B(+189%)升#2 反超 COHR(~17%)、中系低价 20-25%/供~2/3 出货 -2;客户集中(datacom 79%+NVDA 锚)+AI capex 顺周期、消化即大回撤 -2;FCC 拟禁中系 transceiver=非对称利好 +1",
+                1,
+                "NVIDIA 战略入股$2B+多年数十亿采购承诺+产能权(2026-03);InP 铟磷激光垂直整合(自有 fab)=真护城河 +1;份额被超:InnoLight #1~27%、Eoptolink 2025 冲$3.5B(+189%)升#2 反超 COHR(~17%)、中系低价 20-25%/供~2/3 出货 -2;客户集中(datacom 79%+NVDA 锚);FCC 拟禁中系 transceiver=非对称利好 +1",
             ),
         ],
     ),
@@ -117,12 +117,12 @@ STOCKS = {
         "L",
         [
             (
-                4,
+                3,
                 "Q2 rev 记录 $6.7B 同比 +5.3%、net yields +2%(连续12季度增长)、客户存款史高 $9B;去杠杆到位:net debt/EBITDA 3.4→3.1x、Fitch 投资级、$19B 再融资一年内完成、利率降至 4.6%、恢复分红",
             ),
             (
-                2,
-                "Weinstein 职业经理人、turnaround 执行强(达投资级/复股息/$19B 再融资)+3;Arison 家族控盘 ~44% 股/~33% 投票权、Micky 任主席=长期 alignment +1;巴拿马注册+方便旗避 US 税/监管(政府关系弱、政治靶子)-1;无燃油对冲 -1",
+                1,
+                "Weinstein 职业经理人 + Arison 家族控盘 ~44% 股/~33% 投票权",
             ),
             (
                 -1,
@@ -134,12 +134,12 @@ STOCKS = {
         "L",
         [
             (
-                -2,
+                0,
                 "rev +62%($234M)、GM 41.5% +2;Space Systems 多元 +1;FCF -$110M/季、2028前难转正 -2;股数+20%/年 -2;未来预计稀释15% -1",
             ),
             (
-                4,
-                "Beck 创始人+Electron 50+ 发射 +2;美国国防关系深(SDA>$1.3B、NSSL上限$17B、HASTE) +2;欧洲 RL Germany/NZ本土 +1;创始人~10%但近期减持$286M +0;Neutron 反复跳票 -1",
+                2,
+                "Beck 创始人 +1;美国国防关系深(SDA>$1.3B、NSSL上限$17B、HASTE) +1;欧洲 RL Germany/NZ本土 +1;创始人~10%但近期减持$286M +0;Neutron 反复跳票 -1",
             ),
             (
                 2,
@@ -155,26 +155,26 @@ STOCKS = {
                 "Q2'26 rev $11.54B +50%、Data Center $6.72B +107%、segment OP $2.10B/OPM 31% +3；H1 OCF $5.32B、capex仅$1.20B→FCF约$4.12B，cash+ST investments $13.1B vs debt $3.2B，资本效率强 +1；未来采购Q2'26 $30.3B远高于2025年底 $12.2B，暗示营收大增 +2；DC leases约$14B(Q2后新增$9.5B)增速很快 -1; 价值$192B以上的股权换 openai+meta 换取约 $220B–$260B 的累计收入和约 $65B–$85B 的业务净利润 -3",
             ),
             (
-                3,
-                "Lisa Su 十余年完成濒危AMD→Zen→EPYC持续抢Intel server份额→chiplet/TSMC→Instinct/Helios，跨多个产品周期持续执行，属于顶级职业经理人 +3",
+                0,
+                "",
             ),
-            (2, "AI 加速器需求强但 NVDA 主导+云 ASIC 蚕食,竞争位第二、两头受压"),
+            (-1, "NVDA + 云 ASIC + INTC 3头受压"),
         ],
     ),
     "CRWV": (
         "S",
         [
             (
-                -4,
+                -2,
                 "Q2'26 rev $2.575B +112%、GM ~66%、adj EBITDA $1.51B(~59%)、backlog $104.2B +246%(Q3 初再+$25B)=看着很美 +3;债均利率 ~11%=光利息吃~1/4 营收、FY26 capex $35-39B(>2.5x 营收)+GPU 折旧快 -4;市值$55B/P/B 9.8/亏损无 P/E、EV ~$75-90B 对 ~$13B 营收+深负 FCF(TTM -$10.6B) -3",
             ),
             (
-                0,
-                "Intrator 联创/CEO(2017 挖矿转 AI 云)、爆发扩张+签 MSFT/OpenAI/Anthropic/Meta+2025-03 IPO=执行/拿单强 +2;内部人自 IPO 抛>$23 亿、CEO 每~2 周减持$25-38M(10b5-1)、lockup 解禁 83% Class A=alignment 差 -2",
+                -4,
+                "内部人自 IPO 抛>$23 亿、CEO 每~2 周减持$25-38M(10b5-1)、lockup 解禁 83% Class A=alignment 差 -2",
             ),
             (
                 -1,
-                "AI 云 capex 超级顺风+$104B 合约 backlog 背书 +2;客户极度集中 MSFT ~72% 1H26 营收(FY25 67%)、OpenAI 单笔$22.4B=前二撑绝大多数 -2;客户即对手(MSFT/Meta 自建产能)+neocloud(Nebius/Lambda/Crusoe)竞争 -1;债务融资模式对利率/信用极敏感+NVDA 供货/配额依赖 -1;新增 Anthropic/Meta 略分散 backlog +1",
+                "客户极度集中 MSFT ~72% 1H26 营收(FY25 67%)、OpenAI 单笔$22.4B=前二撑绝大多数 -2;客户即对手(MSFT/Meta 自建产能)+neocloud(Nebius/Lambda/Crusoe)竞争 -1;债务融资模式对利率/信用极敏感+NVDA 供货/配额依赖 -1",
             ),
         ],
     ),
@@ -186,12 +186,12 @@ STOCKS = {
                 "rev +454%($582M)、Nebius AI +514%、ARR $3B→FY26 guide $7-9B、adj EBITDA 转正 $236M/41% +3;资金优于 CRWV:$5.75B 可转债(0.5%'30/4.5%'34 低息)+Yandex $2.8B 现金垫+NVIDIA $2B 股权+客户预付款、现金~$8B≈债 $8.5B、Deloitte 审(2026 换掉小所 Reanda)+2;但代价是持续稀释:NVIDIA warrants 21M+$5.75B 可转债悬顶(转股价$313/$325)+债转股 15.8M+SBC(经济股 272M→293M)-1;capex $20-25B>>营收 $3-3.4B、FCF 深负 -2;mktcap $66B/P/E 856 on ~$3B 营收、52wk $63→$300→~$235 高 beta -3",
             ),
             (
-                1,
-                "Volozh(Yandex 创始人)技术深、把 Yandex 分拆快速重定位 AI 云、拿下 MSFT $17.5B/Meta $27B、EBITDA 转正=执行/拿单强 +2;Volozh 曾受欧盟制裁(2022-24 后撤销)+俄罗斯/Yandex legacy/治理地缘观感 -1;控股结构杂(Toloka 数据/Avride 自驾/TripleTen 教育+ClickHouse 股权)=聚焦/资本配置存疑 -0",
+                -2,
+                "Volozh(Yandex 创始人)技术深，Volozh 曾受欧盟制裁(2022-24 后撤销)+俄罗斯/Yandex legacy/治理地缘观感 -1;AI云贡献约99%收入，Toloka与ClickHouse已成为非控股投资；但Avride、TripleTen仍并表亏损",
             ),
             (
                 0,
-                "AI 云 capex 超级顺风+$40-46B 合约 backlog(Meta $27B/MSFT $17.5B)+四笔~$10 亿级大单 +2;客户高度集中(MSFT/Meta 撑 backlog)+客户即对手(自建+TPU/MTIA 自研)-2;neocloud 混战(CRWV/Lambda/Crusoe)+NVIDIA 供货/配额依赖 -1;客户预付款(覆盖 50-60% capex)+现金垫(低息可转债非11%高息)→对利率/信用敏感度低于 CRWV +1",
+                "客户高度集中(MSFT/Meta 撑 backlog)+客户即对手(自建+TPU/MTIA 自研)-2;NVIDIA 供货/配额依赖 -1;客户预付款(覆盖 50-60% capex)+现金垫(低息可转债非11%高息)→对利率/信用敏感度低于 CRWV +1；",
             ),
         ],
     ),
@@ -239,9 +239,9 @@ STOCKS = {
             ),
             (
                 0,
-                "创始人长期alignment，但dual-class下Armstrong约50% voting control、外部制衡弱 0;监管博弈/游说(政府关系)老练 +1;长期股东利润纪律弱 -1",
+                "监管博弈/游说(政府关系)老练 +1;长期股东利润纪律弱 -1",
             ),
-            (-1, "交易所竞争+费率压缩但合规龙头;极度受加密/风险偏好/利率驱动"),
+            (-3, "交易所竞争+费率压缩但合规龙头;极度受加密/风险偏好/利率驱动"),
         ],
     ),
     "SNOW": (
@@ -260,11 +260,11 @@ STOCKS = {
                 "Q2’26 rev $16.13B +25%、GAAP GM 40.4%(+12.9ppt)/OPM 11.1%(vs -24.7%)，核心Products明显复苏：rev $15.14B +28%、OP $4.82B=31.8% OPM，其中DCAI $6.26B +59%/OPM 39.5% +3；Foundry Q2 rev $5.77B、OP -$2.09B(-36%)，先进18A制程yield增大进一步拉低op -1；Q2末debt $50.5B，net debt $20.8B（25年底仅$9.2B)，gross interest约$2.4B年化，新债利率高6.5%且未来更高 -2.",
             ),
             (
-                -1,
-                "管理层动荡+信誉受损(屡次下调指引/路线图落后)、turnaround 未验证 -1;裁员可能是双刃剑 0",
+                -2,
+                "管理层动荡+信誉受损(屡次下调指引/路线图落后)、turnaround 未验证 -2",
             ),
             (
-                1,
+                2,
                 "竞争位弱 -1；政府注资，存在战略不可替代 0；政府可能强制second source chip maker +1；和skhy合作建memory的传闻 +1",
             ),
         ],
@@ -277,8 +277,8 @@ STOCKS = {
                 "本质=杠杆 BTC 持仓:845,050 BTC/成本 $63.73B(均价~$75.4k),软件业务仅~$0.5B/年 near-irrelevant;$15.5B 永续优先股+$6.75B 可转债、年股息~$1.7B(STRC $10.5B@11.5%),软件收入远不够付→Saylor 已承认或卖 BTC 付息=强制卖方 -3;mNAV 稀释 0.81×(<1)→增发买币/付息由增值变毁灭、flywheel 反转 -2;但已跌 63%($365→$82→~$135)、折价于 BTC NAV=froth 已挤 +2",
             ),
             (
-                0,
-                "Saylor(exec chairman)发明 BTC 国库打法+资本市场执行大师(募数百亿)+创始人高信念/重仓 alignment +2;all-in 单一资产 maximalism=零风险管理/bet-the-company -1;Saylor 法律旧账(2000 SEC 会计欺诈和解、2022 DC 逃税 $40M 和解)+集权治理 -1",
+                -3,
+                "Saylor(exec chairman) 零风险管理 + 法律旧账(2000 SEC 会计欺诈和解、2022 DC 逃税 $40M 和解)+集权治理 -3",
             ),
             (
                 -5,
@@ -288,15 +288,15 @@ STOCKS = {
     ),
     # 未分析标的：空分数，不视为中性评分，也不进入打分快照。
     "BE": (
-        "W",
+        "L",
         [
             (
                 1,
                 "Q2’26 rev $1.07B +166%、产品收入 +215%、GM 33.4%(+668bp)，由多年亏损转入规模化盈利，FY26 指引上调至 $3.9–4.2B +3；现金 $2.67B 基本覆盖 recourse debt $2.48B +1；但前两大客户分别占收入约44%/21%、应收/库存和项目融资占用资本 -1；股数半年 280M→293M 且约 $83B 市值/forward P/E~101 已计入多年增长 -2",
             ),
             (
-                2,
-                "创始人 KR Sridhar 长期押注固体氧化物燃料电池，在数据中心电力短缺出现前完成产品与供应链积累 +2；签下 Brookfield 最高 $5B 项目融资框架并把季度收入推过 $1B，融资和商业执行增强 +1；盈利历史短、客户与关联方集中度高，资本纪律仍需验证 -1",
+                -1,
+                "盈利历史短、客户与关联方集中度高，资本纪律仍需验证 -1",
             ),
             (
                 2,
@@ -412,19 +412,19 @@ STOCKS = {
     "GLW": ("W", [(None, ""), (None, ""), (None, "")]),
     "ALAB": ("W", [(None, ""), (None, ""), (None, "")]),
     "SMCI": (
-        "W",
+        "L",
         [
             (
                 3,
-                "FY26 revenue $39.1B +78%、net income $2.2B，Q4 revenue $11.1B且Q1 FY27 guide中值约$15B，订单与backlog继续增长 +4；约$27.5B市值对应低于1x trailing sales和约10x earnings，估值有支撑 +2；FY26 gross margin仅10.8%，现金$7.5B低于约$8.7B债务和可转债，扩张依赖营运资金 -2；股份数继续上升 -1",
+                "FY26 revenue $39.1B +78%、net income $2.2B，Q4 revenue $11.1B且Q1 FY27 guide中值约$15B，订单与backlog继续增长 +4；FY26 gross margin仅10.8%，现金$7.5B低于约$8.7B债务和可转债，扩张依赖营运资金 -2；股份数继续上升 -1",
             ),
             (
-                0,
-                "创始人CEO Charles Liang 具服务器工程与供应链经验，团队在rack-scale和liquid cooling的产品速度、定制和交付规模上表现强 +3；此前财报延迟、审计更换、内部控制和治理争议造成持续可信度折价 -3",
+                -3,
+                "此前财报延迟、审计更换、内部控制和治理争议造成持续可信度折价 -3",
             ),
             (
-                2,
-                "AI基础设施资本开支、整机柜部署和液冷渗透构成强顺风，快速导入NVIDIA与AMD平台及规模化DLC能力带来先发优势 +4；系统集成毛利低且易受ODM竞争、核心芯片供应商议价、客户集中和关税供应链影响 -2",
+                1,
+                "快速导入NVIDIA与AMD平台及规模化DLC能力带来先发优势 +3；系统集成毛利低且易受ODM竞争、核心芯片供应商议价、客户集中和关税供应链影响 -2",
             ),
         ],
     ),
@@ -448,18 +448,18 @@ STOCKS = {
         ],
     ),
     "AVGO": (
-        "W",
+        "L",
         [
             (
-                4,
+                3,
                 "Q3 FY26 rev $29.6B +86%、GAAP operating income $16.0B、FCF $13.7B/46% margin，AI semiconductor rev $16.7B +221%，规模与现金转换顶级 +5；VMware 带来高质量 recurring software cash flow；固定利率债务本金约 $67B、并购后杠杆仍高 -1；约 $1.73T 市值但 forward P/E~32，相对增长并非极端 -0",
             ),
             (
-                4,
-                "Hock Tan 长期以高纪律并购、提价/精简产品线和自由现金流管理创造价值，VMware 整合与 AI ASIC 客户扩张再次验证执行 +4；高度集中的 CEO 决策模式和并购式增长带来继任与客户关系风险 -0",
+                -2,
+                "Hock Tan 高度集中的 CEO 决策模式和并购式增长带来继任与客户关系风险 -0",
             ),
             (
-                3,
+                1,
                 "custom AI ASIC、Tomahawk/Jericho/Thor 网络芯片与 VMware 形成芯片+基础设施软件双重壁垒，AI 客户与产品可见度强 +4；top-5 end customers约占收入50%，hyperscaler 自研/多供应商策略、分销集中、出口管制和 AI capex 周期合计 -1",
             ),
         ],
@@ -469,16 +469,16 @@ STOCKS = {
         "L",
         [
             (
-                3,
+                2,
                 "Q2 FY27 rev $47.0B +58%、net income $4.13B +255%；ISG rev $31.8B +89%、OP $4.78B +225%、OPM 8.8→15.0%，AI server $16.4B +100%/H1 $32.5B +222%、Q2 orders $60.9B/backlog $95B，AI基础设施需求极强 +3；traditional server/network +122%，但增长主要来自ASP上升而非纯unit growth：企业refresh+AI/agentic CPU需求+Dell连续两季份额提升>10ppt，同时CPU/DRAM/NAND供应紧张导致demand>supply、disciplined pricing，存在真实需求也存在shortage pricing windfall +1；Q2 product GM 12.1→17.3%(+520bp)主要由disciplined pricing驱动，而AI-server mix本身仍稀释GM，因此当前15% ISG OPM不可直接normalized，供应恢复后ASP/GM可能回落 -2；但规模扩大带来强OpEx leverage：ISG rev +89%而SG&A/R&D仅+27%/+24%，部分margin改善具有结构性 +1；H1 net income $7.57B/OCF $6.31B/FCF约$4.1B，AI server造成inventory/A/R/financing receivables大量占用working capital但供应商AP部分融资，现金转换弱于利润增长 -1；H1回购$5.4B+dividend~$0.9B、SBC仅$0.37B，股东回报强 +1",
             ),
             (
-                4,
+                3,
                 "Michael Dell创始人/CEO、持股约40.9%=极强owner alignment +2；1984创立→2013私有化→$67B EMC并购→VMware价值释放→去杠杆/大额回购→AI infrastructure转型，跨40年周期资本配置/适应能力强 +2",
             ),
             (
-                2,
-                "AI infrastructure超级周期，AI server backlog $95B，同时传统server进入多年refresh周期且AI/agentic workload额外拉动CPU compute +2；PowerEdge+Dell-IP storage+networking+DFS+全球enterprise sales/service形成rack-scale一站式部署能力，在enterprise/sovereign/neocloud客户中有真实渠道/集成壁垒 +2；但核心GPU/CPU/HBM价值主要由NVDA/AMD/Intel/SKH/MU获取，Dell仍是相对低GM system integrator，技术护城河明显弱于上游芯片公司 -1；HPE/Lenovo/Supermicro及Quanta/Wiwynn/Foxconn ODM Direct竞争，hyperscaler具备绕过Dell自建能力 -1；当前traditional server供不应求主要受CPU/DRAM/NAND紧张推动，供应恢复可能导致ASP/pricing power和GM normalization -1；AI cluster复杂化、liquid cooling/storage/networking需求提升系统集成价值，Dell规模/采购能力在短缺环境下反而扩大份额 +1",
+                1,
+                "rack-scale一站式部署能力的护城河，渠道壁垒，品牌溢价存疑 +2；HPE/Lenovo/Supermicro及ODM Direct竞争，hyperscaler具备绕过Dell自建能力 -1；当前traditional server供不应求主要受CPU/DRAM/NAND紧张推动，供应恢复可能导致ASP/pricing power和GM normalization -1；AI cluster复杂化、liquid cooling/storage/networking需求提升系统集成价值，Dell规模/采购能力在短缺环境下反而扩大份额 +1",
             ),
         ],
     ),
@@ -489,11 +489,11 @@ STOCKS = {
         "L",
         [
             (
-                4,
+                3,
                 "Q2’26 orders $24.2B +88%、rev $11.1B +22%(organic +12%)、adjusted EBITDA margin 11.3%(+340bp)，经营杠杆兑现 +3；季度 FCF $5.1B 已超过 FY25 全年、现金 $13.1B，YTD 回购/分红 $3.9B，资产负债表和股东回报强 +2；$176B backlog 提供多年可见度，但约 $268B 市值已反映较多增长 -1",
             ),
             (
-                4,
+                2,
                 "Scott Strazik 在拆分后持续提升 Power/Electrification 利润率、上调指引并保持现金纪律，执行可信度高 +3；通过 Prolec GE 等并购补强电网设备，同时在扩产与回购间维持平衡 +1",
             ),
             (
@@ -505,51 +505,24 @@ STOCKS = {
 }
 
 DIR_FULL = {"L": "Long", "S": "Short", "W": "Watch"}
-ORDER = [
-    "SKHY",
-    "MU",
-    "SNDK",
-    "HOOD",
-    "COHR",
-    "GOOG",
-    "NVDA",
-    "CCL",
-    "RKLB",
-    "AMD",
-    "CRWV",
-    "NBIS",
-    "CRWD",
-    "NET",
-    "PANW",
-    "NOW",
-    "COIN",
-    "SNOW",
-    "INTC",
-    "MSTR",
-    "BE",
-    "ASST",
-    "PURR",
-    "MOD",
-    "STRL",
-    "LITE",
-    "TSLA",
-    "FIG",
-    "AAOI",
-    "SPCX",
-    "GLW",
-    "ALAB",
-    "SMCI",
-    "IREN",
-    "ASTS",
-    "MRVL",
-    "AVGO",
-    "AXTI",
-    "DELL",
-    "RCL",
-    "U",
-    "CBRS",
-    "GEV",
+CONFIG = OUT.parent.parent / "config" / "tickers.json"
+trading_tickers = json.loads(CONFIG.read_text(encoding="utf-8"))["watchlist"]
+for ticker in trading_tickers:
+    STOCKS.setdefault(ticker, ("W", [(None, ""), (None, ""), (None, "")]))
+
+# 当前 Trading Desk 全量纳入；已从 Desk 删除但已有明确 Long/Short 观点的历史标的继续保留。
+retained_view_tickers = [
+    ticker
+    for ticker, (direction, _) in STOCKS.items()
+    if ticker not in trading_tickers and direction in {"L", "S"}
 ]
+ORDER = [*trading_tickers, *retained_view_tickers]
+
+# 移除不再属于上述两类的旧输出，避免页面继续读到遗留文件。
+expected_files = {f"{ticker}.csv" for ticker in ORDER}
+for path in OUT.glob("*.csv"):
+    if not path.name.startswith("_") and path.name not in expected_files:
+        path.unlink()
 
 SUMMARY = OUT / "_summary.csv"
 previous_rows = {}

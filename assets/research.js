@@ -1,12 +1,12 @@
 /* Research 页 — 多 topic 研究台。Topic 1:熊市预测(v1 熊侧)。
    模型在浏览器里跑(approach A):L2 正则 logistic(IRLS)+ leave-one-bear-out。
    数据 data/research_bearbull.json(topic/方向/实体三层可扩展)。 */
-import { $, esc, loadJSON, loadFreshJSON, getPat, ghHeaders, REPO } from "./shared.js";
+import { $, esc, loadJSON, loadFreshJSON, getPat, ghHeaders, REPO } from "./shared.js?v=20261028-manual-versions";
 import { loadRetailData } from "./retail-data.mjs";
 import { buildSnapshot } from "./macd-research.mjs";
 import { decomposeFiveFactor } from "./five-factor.mjs";
 import { REGIME_DIMENSIONS, defaultRegimeValues, isRegimeFriday, latestRegimeSnapshotBefore, mergeRegimeStores, radarPoint, radarValueFromPoint, regimeFriday, saveRegimeSnapshot } from "./regime.mjs?v=20261018-anchor";
-import { initScorecards } from "./trading.js?v=20261012-scorecard-sort-filter";   // 个股分析 tab 复用交易台的 Scorecards 渲染(trading.js 自启动已守卫)
+import { initScorecards } from "./trading.js?v=20261029-clean-notes";   // 个股分析 tab 复用交易台的 Scorecards 渲染(trading.js 自启动已守卫)
 
 const floatingTableHeaders = new Map();
 function installFloatingTableHeader(wrap, tableSelector, key) {

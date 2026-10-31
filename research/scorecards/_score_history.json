@@ -1716,5 +1716,293 @@
     "mean": 3.667
    }
   }
+ },
+ "2026-10-29": {
+  "features": [
+   "Operation",
+   "Leadership",
+   "Externality"
+  ],
+  "scores": {
+   "AMD": {
+    "dir": "L",
+    "scores": {
+     "Operation": 2,
+     "Leadership": 0,
+     "Externality": -1
+    },
+    "mean": 0.333
+   },
+   "SNDK": {
+    "dir": "L",
+    "scores": {
+     "Operation": 4,
+     "Leadership": 0,
+     "Externality": 1
+    },
+    "mean": 1.667
+   },
+   "HOOD": {
+    "dir": "L",
+    "scores": {
+     "Operation": 5,
+     "Leadership": 1,
+     "Externality": -1
+    },
+    "mean": 1.667
+   },
+   "MU": {
+    "dir": "L",
+    "scores": {
+     "Operation": 4,
+     "Leadership": 0,
+     "Externality": 0
+    },
+    "mean": 1.333
+   },
+   "RKLB": {
+    "dir": "L",
+    "scores": {
+     "Operation": 0,
+     "Leadership": 2,
+     "Externality": 2
+    },
+    "mean": 1.333
+   },
+   "COIN": {
+    "dir": "S",
+    "scores": {
+     "Operation": -2,
+     "Leadership": 0,
+     "Externality": -3
+    },
+    "mean": -1.667
+   },
+   "FIG": {
+    "dir": "W",
+    "scores": {
+     "Operation": 2,
+     "Leadership": 4,
+     "Externality": 2
+    },
+    "mean": 2.667
+   },
+   "AAOI": {
+    "dir": "W",
+    "scores": {
+     "Operation": 0,
+     "Leadership": 2,
+     "Externality": 1
+    },
+    "mean": 1.0
+   },
+   "SPCX": {
+    "dir": "W",
+    "scores": {
+     "Operation": 0,
+     "Leadership": 2,
+     "Externality": 3
+    },
+    "mean": 1.667
+   },
+   "LITE": {
+    "dir": "W",
+    "scores": {
+     "Operation": 2,
+     "Leadership": 3,
+     "Externality": 3
+    },
+    "mean": 2.667
+   },
+   "INTC": {
+    "dir": "S",
+    "scores": {
+     "Operation": 0,
+     "Leadership": -2,
+     "Externality": 2
+    },
+    "mean": 0.0
+   },
+   "CRWD": {
+    "dir": "W",
+    "scores": {
+     "Operation": 2,
+     "Leadership": 1,
+     "Externality": 1
+    },
+    "mean": 1.333
+   },
+   "NOW": {
+    "dir": "W",
+    "scores": {
+     "Operation": 3,
+     "Leadership": 3,
+     "Externality": 1
+    },
+    "mean": 2.333
+   },
+   "NBIS": {
+    "dir": "S",
+    "scores": {
+     "Operation": -1,
+     "Leadership": -2,
+     "Externality": 0
+    },
+    "mean": -1.0
+   },
+   "SMCI": {
+    "dir": "W",
+    "scores": {
+     "Operation": 3,
+     "Leadership": 0,
+     "Externality": 2
+    },
+    "mean": 1.667
+   },
+   "NVDA": {
+    "dir": "L",
+    "scores": {
+     "Operation": 5,
+     "Leadership": 4,
+     "Externality": 2
+    },
+    "mean": 3.667
+   },
+   "CRWV": {
+    "dir": "S",
+    "scores": {
+     "Operation": -2,
+     "Leadership": -4,
+     "Externality": -1
+    },
+    "mean": -2.333
+   },
+   "NET": {
+    "dir": "W",
+    "scores": {
+     "Operation": 1,
+     "Leadership": 1,
+     "Externality": 1
+    },
+    "mean": 1.0
+   },
+   "COHR": {
+    "dir": "L",
+    "scores": {
+     "Operation": 3,
+     "Leadership": 0,
+     "Externality": 1
+    },
+    "mean": 1.333
+   },
+   "PANW": {
+    "dir": "W",
+    "scores": {
+     "Operation": 2,
+     "Leadership": 3,
+     "Externality": 1
+    },
+    "mean": 2.0
+   },
+   "SNOW": {
+    "dir": "W",
+    "scores": {
+     "Operation": 3,
+     "Leadership": 1,
+     "Externality": 1
+    },
+    "mean": 1.667
+   },
+   "MRVL": {
+    "dir": "W",
+    "scores": {
+     "Operation": 2,
+     "Leadership": 3,
+     "Externality": 2
+    },
+    "mean": 2.333
+   },
+   "AVGO": {
+    "dir": "W",
+    "scores": {
+     "Operation": 3,
+     "Leadership": -2,
+     "Externality": 1
+    },
+    "mean": 0.667
+   },
+   "MSTR": {
+    "dir": "S",
+    "scores": {
+     "Operation": -3,
+     "Leadership": -3,
+     "Externality": -5
+    },
+    "mean": -3.667
+   },
+   "PURR": {
+    "dir": "W",
+    "scores": {
+     "Operation": -2,
+     "Leadership": 1,
+     "Externality": -3
+    },
+    "mean": -1.333
+   },
+   "ASST": {
+    "dir": "W",
+    "scores": {
+     "Operation": -4,
+     "Leadership": 0,
+     "Externality": -4
+    },
+    "mean": -2.667
+   },
+   "DELL": {
+    "dir": "L",
+    "scores": {
+     "Operation": 2,
+     "Leadership": 3,
+     "Externality": 1
+    },
+    "mean": 2.0
+   },
+   "BE": {
+    "dir": "L",
+    "scores": {
+     "Operation": 1,
+     "Leadership": -1,
+     "Externality": 2
+    },
+    "mean": 0.667
+   },
+   "SKHY": {
+    "dir": "L",
+    "scores": {
+     "Operation": 5,
+     "Leadership": 0,
+     "Externality": -1
+    },
+    "mean": 1.333
+   },
+   "GEV": {
+    "dir": "L",
+    "scores": {
+     "Operation": 3,
+     "Leadership": 2,
+     "Externality": 3
+    },
+    "mean": 2.667
+   },
+   "CCL": {
+    "dir": "L",
+    "scores": {
+     "Operation": 3,
+     "Leadership": 1,
+     "Externality": -1
+    },
+    "mean": 1.0
+   }
+  }
  }
 }

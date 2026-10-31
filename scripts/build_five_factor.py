@@ -287,7 +287,7 @@ def company_snapshots(company, split_events):
     return snapshots, chosen, None
 
 
-def build(as_of):
+def build(as_of, refresh_sec=False):
     cfg = json.loads((ROOT / "config" / "tickers.json").read_text())
     tickers = cfg["watchlist"]
     mapping = get_json("https://www.sec.gov/files/company_tickers.json", {"User-Agent": SEC_UA})
@@ -314,7 +314,7 @@ def build(as_of):
             cik = str(mapping_row["cik_str"]).zfill(10)
             entity = mapping_row["title"]
             cache = SEC_CACHE / f"CIK{cik}.json"
-            if cache.exists():
+            if cache.exists() and not refresh_sec:
                 company = json.loads(cache.read_text())
             else:
                 try:
@@ -322,7 +322,11 @@ def build(as_of):
                     cache.write_text(json.dumps(company))
                     time.sleep(0.12)
                 except Exception as error:  # noqa: BLE001
-                    reason = f"SEC Company Facts unavailable: {error}"
+                    if cache.exists():
+                        company = json.loads(cache.read_text())
+                        print(f"  SEC refresh failed; using cached facts: {error}", flush=True)
+                    else:
+                        reason = f"SEC Company Facts unavailable: {error}"
             if company:
                 snapshots, concepts, reason = company_snapshots(company, splits.get(ticker, []))
 
@@ -369,8 +373,10 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--as-of", default=date.today().isoformat())
     parser.add_argument("--output", default=str(ROOT / "data" / "five_factor.json"))
+    parser.add_argument("--refresh-sec", action="store_true",
+                        help="Refresh every SEC Company Facts file; fall back to cache on request failure")
     args = parser.parse_args()
-    result = build(day(args.as_of))
+    result = build(day(args.as_of), refresh_sec=args.refresh_sec)
     output = Path(args.output)
     output.write_text(json.dumps(result, indent=2) + "\n")
     for period, rows in result["periods"].items():

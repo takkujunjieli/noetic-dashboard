@@ -1,5 +1,5 @@
-﻿# AVGO,方向=Watch 无仓位,更新=2026-10-11,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
+﻿# AVGO,方向=Watch 无仓位,更新=2026-10-29,"分值 -5~+5(0=中性,正=好/看多,负=差/看空)"
 Feature,Score,Rationale
-Operation,4,Q3 FY26 rev $29.6B +86%、GAAP operating income $16.0B、FCF $13.7B/46% margin，AI semiconductor rev $16.7B +221%，规模与现金转换顶级 +5；VMware 带来高质量 recurring software cash flow；固定利率债务本金约 $67B、并购后杠杆仍高 -1；约 $1.73T 市值但 forward P/E~32，相对增长并非极端 -0
-Leadership,4,Hock Tan 长期以高纪律并购、提价/精简产品线和自由现金流管理创造价值，VMware 整合与 AI ASIC 客户扩张再次验证执行 +4；高度集中的 CEO 决策模式和并购式增长带来继任与客户关系风险 -0
-Externality,3,custom AI ASIC、Tomahawk/Jericho/Thor 网络芯片与 VMware 形成芯片+基础设施软件双重壁垒，AI 客户与产品可见度强 +4；top-5 end customers约占收入50%，hyperscaler 自研/多供应商策略、分销集中、出口管制和 AI capex 周期合计 -1
+Operation,3,Q3 FY26 rev $29.6B +86%、GAAP operating income $16.0B、FCF $13.7B/46% margin，AI semiconductor rev $16.7B +221%，规模与现金转换顶级 +5；VMware 带来高质量 recurring software cash flow；固定利率债务本金约 $67B、并购后杠杆仍高 -1；约 $1.73T 市值但 forward P/E~32，相对增长并非极端 -0
+Leadership,-2,Hock Tan 高度集中的 CEO 决策模式和并购式增长带来继任与客户关系风险 -0
+Externality,1,custom AI ASIC、Tomahawk/Jericho/Thor 网络芯片与 VMware 形成芯片+基础设施软件双重壁垒，AI 客户与产品可见度强 +4；top-5 end customers约占收入50%，hyperscaler 自研/多供应商策略、分销集中、出口管制和 AI capex 周期合计 -1

@@ -73,7 +73,7 @@
 
 <!-- ========== Topic 3.5:宏观环境 Regime 手工快照 ========== -->
 <section data-topic-panel="regime" hidden>
-  <h2>Regime <span class="muted small">七维市场环境手工快照 · 1–10</span></h2>
+  <h2>Regime</h2>
   <div class="card regime-controls">
     <label>周五日期 <input id="regime-date" type="date" min="2020-01-03" step="7"></label>
     <button id="regime-save">保存当前快照</button>
@@ -84,7 +84,7 @@
     <div id="regime-chart" class="regime-chart" aria-label="Regime 七维雷达图"></div>
     <div id="regime-values" class="regime-values"></div>
   </div>
-  <div class="muted small" style="margin-top:8px">每个周五对应一份周快照。选择未保存的周五可从默认值 5 开始回填；已保存的周只读，需直接修改 snapshot 数据才能更正。</div>
+
 </section>
 
 <!-- ========== Topic 2:散户订单流(live, 30d 滚动) ========== -->
@@ -104,21 +104,21 @@
   <h2>散户净买入热力图</h2>
   <div id="rf-series" class="card"><span class="muted small">计算中…</span></div>
 
-  <h2>采样验证 <span class="muted small">每日轮一票额外跑全量,对比 全量 / naive / 精确 —— 看采样是否可信</span></h2>
+  <h2>采样验证</h2>
   <div id="rf-valid" class="card"><span class="muted small">计算中…</span></div>
 </section>
 
 <!-- ========== Topic 3:收益率×市场(债券收益率对市场的影响) ========== -->
 <section data-topic-panel="rates" hidden>
-  <h2>国债 vs 股市 <span class="muted small">左轴:SPY/QQQ/IWM 归一100 · 右轴(虚线):US 10/30Y 收益率% · 点击图例开关曲线</span></h2>
+  <h2>国债 vs 股市</h2>
   <div id="rates-legend" class="rt-legend"></div>
   <div class="chart-wrap">
     <div id="rates-chart" style="height:380px"></div>
     <div id="rates-hover" class="chart-hover"></div>
   </div>
-  <div class="muted small" style="margin-top:8px">研究国债收益率对股市的影响:利率(10/30Y)上行区间,成长(QQQ)相对小盘(IWM)/大盘(SPY)的相对表现。点击图例开关任意曲线;鼠标悬停显示该日所有已展示曲线的值。数据 FRED + Yahoo,近 5 年。</div>
 
-  <h2 style="margin-top:18px">收益率 × 股市 · 当日相关性 <span class="muted small">(只算 |Δ收益率|≥阈值 的交易日;负相关=收益率↑股市↓=压制)</span></h2>
+
+  <h2 style="margin-top:18px">收益率 × 股市 · 当日相关性</h2>
   <div id="rates-corr" class="card"><span class="muted small">计算中…</span></div>
 </section>
 
@@ -130,19 +130,19 @@
 
 <!-- ========== Topic 4.5:期权流 → 方向(逐票 rank-IC) ========== -->
 <section data-topic-panel="flowdir" hidden>
-  <h2>期权流 → 方向 <span class="muted small">逐票期权变量的横截面 rank-IC · entry_lag=1 无前视 · 用秩不拟合</span></h2>
+  <h2>期权流 → 方向</h2>
   <div id="fd-caveat" class="card" style="border-color:#a3620d"><span class="muted small">计算中…</span></div>
-  <h2>IC 表 <span class="muted small">预测变量 × horizon(1/5/21 交易日)· 绿正红负 · ★=block-bootstrap CI 不含 0</span></h2>
+  <h2>IC 表</h2>
   <div id="fd-ic" class="card"></div>
-  <h2>net_flow 分 dealer gamma 状态 <span class="muted small">空γ 追涨→动量 / 多γ 抑制;两组差异=免费聚合数据给不了的信号</span></h2>
+  <h2>net_flow 分 dealer gamma 状态</h2>
   <div id="fd-gamma" class="card"></div>
-  <h2>扣成本 L/S 五档回测 <span class="muted small">net_flow · H=1 日频全换手 · 展示「可预测≠可盈利」</span></h2>
+  <h2>扣成本 L/S 五档回测</h2>
   <div id="fd-ls" class="card"></div>
 </section>
 
 <!-- ========== Topic 5:仓位情报(免费版 JPM Positioning Intelligence) ========== -->
 <section data-topic-panel="positioning" hidden>
-  <h2>仓位情报 <span class="muted small">免费版 JPM Positioning Intelligence · 各 cohort 分位 + 潜在买卖盘(COT/CTA/散户)</span></h2>
+  <h2>仓位情报</h2>
   <div id="pos-gauge" class="card"><span class="muted small">计算中…</span></div>
 
   <div style="margin:12px 0 4px">
@@ -151,7 +151,7 @@
     </label>
   </div>
 
-  <h2>各 cohort 定位(z 分数,周频) <span class="muted small">点击图例开关曲线</span></h2>
+  <h2>各 cohort 定位(z 分数,周频)</h2>
   <div id="pos-legend" class="rt-legend"></div>
   <div class="chart-wrap">
     <div id="pos-chart" style="height:340px"></div>
@@ -159,10 +159,10 @@
   </div>
   <div class="muted small" style="margin-top:6px">纵轴 = z 分数(相对近 3 年均值的标准差,0=均值=虚线基线);<span style="color:#fbbf24">real−fast 背离</span> = 资管 z − 杠杆 z(real money 与 fast money 的定位差,极值常见于转折前)。</div>
 
-  <h2>潜在买卖盘 <span class="muted small">COT 拥挤度$(回中位)</span></h2>
+  <h2>潜在买卖盘</h2>
   <div id="pos-pressure" class="card"><span class="muted small">计算中…</span></div>
 
-  <h2>CTA 定位(DBMF 复制器) <span class="muted small">趋势跟随者每日披露的真实多空持仓</span></h2>
+  <h2>CTA 定位(DBMF 复制器)</h2>
   <div id="pos-cta" class="card"><span class="muted small">计算中…</span></div>
 
   <div class="muted small" id="pos-caveat" style="margin-top:10px"></div>
@@ -170,7 +170,7 @@
 
 <!-- ========== Topic 6:MACD 区间完整交易对收益 ========== -->
 <section data-topic-panel="macd" hidden>
-  <h2>MACD return <span class="muted small">Trading Desk 全部 ticker · 日线收盘价 · MACD(12,26,9)</span></h2>
+  <h2>MACD return</h2>
   <div class="card" style="margin-bottom:12px">
     <div class="ff-controls">
       <span class="muted small">区间</span>
@@ -183,7 +183,7 @@
     <div id="macd-status" class="muted small" style="margin-top:8px">加载中…</div>
   </div>
   <div id="macd-table" class="card"><span class="muted small">计算中…</span></div>
-  <div class="muted small" style="margin-top:8px">页面展示上次同步后保存的快照，打开页面或切换区间不会重新计算；只有点击「同步所有 tickers」才读取当时的 Trading Desk 清单与行情，重算四个区间并更新计算日期。Histogram slope：柱体一阶差分由负转正买入、由正转负卖出；zero-line：MACD 主线上穿零轴买入、下穿卖出；crossover：主线上穿 signal 买入、下穿卖出。仅统计所选区间内完整闭合的做多交易对，信号日收盘成交；Total return 为逐笔简单收益之和，不复利、不年化，未计成本与滑点。</div>
+
 </section>
 
 <!-- ========== Topic 7:个股分析(Scorecards,本地私有) ========== -->
@@ -193,7 +193,7 @@
 
 <!-- ========== Topic 8:Five-Factor Equity Return Decomposition ========== -->
 <section data-topic-panel="fivefactor" hidden>
-  <h2>Five-Factor Equity Return Decomposition <span class="muted small">Trading Desk 全部 ticker · SEC TTM fundamentals · split-adjusted price</span></h2>
+  <h2>Five-Factor Equity Return Decomposition</h2>
   <div class="card" style="margin-bottom:12px">
     <div class="ff-controls">
       <span class="muted small">对比区间</span>
@@ -205,18 +205,12 @@
     <div id="ff-status" class="muted small">加载中…</div>
   </div>
   <div id="ff-table" class="card"><span class="muted small">加载中…</span></div>
-  <div class="muted small ff-note">
-    财务原始值来自 <a href="https://data.sec.gov/api/xbrl/companyfacts/" target="_blank" rel="noopener">SEC Company Facts</a>；
-    价格为 Yahoo Finance 拆股调整收盘价的静态快照。每格粗体为因子比例，下方为“之前 TTM → 最新 TTM”原始值。
-    负营业利润或负净利润仍保留代数结果并标注 ⚠，但不应按常规扩张或估值倍数解释。ETF 与历史不足的标的保留在表内并说明原因。
-  </div>
+
 </section>
 
-<footer class="muted small">
-  熊侧 v1 · 模型 L2-logistic 在浏览器实时计算 · 公开宏观数据(French/FRED/Welch-Goyal)· personal research only
-</footer>
+
 
 <script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
-<script type="module" src="assets/research.js?v=20261018-regime-anchor"></script>
+<script type="module" src="assets/research.js?v=20261028-manual-versions"></script>
 </body>
 </html>
