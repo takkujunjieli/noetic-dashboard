@@ -55,7 +55,8 @@
     "RKLB",
     "SMCI",
     "MRVL",
-    "TER"
+    "TER",
+    "HOOD"
   ],
   "neutral": [
     "AAOI",
@@ -82,7 +83,6 @@
     "CRWD",
     "NOW",
     "PURR",
-    "HOOD",
     "AVGO",
     "ASST",
     "CEG",
