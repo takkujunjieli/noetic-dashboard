@@ -54,7 +54,8 @@
     "GEV",
     "RKLB",
     "SMCI",
-    "MRVL"
+    "MRVL",
+    "TER"
   ],
   "neutral": [
     "AAOI",
@@ -85,7 +86,6 @@
     "AVGO",
     "ASST",
     "CEG",
-    "TER",
     "FTNT",
     "ZS"
   ]
