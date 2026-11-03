@@ -28,11 +28,22 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SEC_CACHE = ROOT / "data" / ".five_factor_sec_cache"
+KOREAN_CACHE = ROOT / "data" / ".five_factor_korean_cache"
 SEC_UA = "Noetic Research Desk five-factor study data-quality@example.com"
 PRICE_URL = "https://yfin-h.tigzig.com/v1/get-all-prices/"
 FORMS = {"10-Q", "10-Q/A", "10-K", "10-K/A", "20-F", "20-F/A", "40-F", "6-K"}
 PERIODS = {"1y": 1, "3y": 3, "5y": 5}
 FUND_TICKERS = {"SOXX", "IGV"}
+KOREAN_OVERRIDES = {
+    "SKHY": {
+        "code": "000660",
+        "price_symbol": "000660.KS",
+        "entity": "SK hynix Inc.",
+        "source_url": "https://navercomp.wisereport.co.kr/v2/company/c1010001.aspx?cmp_cd=000660",
+        "financial_url": "https://navercomp.wisereport.co.kr/v2/company/cF3002.aspx",
+        "encparam": "WnFsUW9wV1I1SFhiTWxJelVMb3pBUT09",
+    },
+}
 
 CONCEPTS = {
     "us-gaap": {
@@ -301,13 +312,97 @@ def company_snapshots(company, split_events):
     return snapshots, chosen, None
 
 
+def korean_company_snapshots(payload):
+    """Build actual annual IFRS snapshots from Naver/WiseReport Korea data."""
+    periods = []
+    for label in payload.get("YYMM", []):
+        year = label[:4]
+        if year.isdigit() and "(E)" not in label:
+            periods.append((year, f"DATA{len(periods) + 1}"))
+
+    rows = payload.get("DATA", [])
+    def find_row(*names):
+        for name in names:
+            exact = next((row for row in rows if row.get("ACC_NM") == name), None)
+            if exact:
+                return exact
+        return None
+
+    revenue = find_row("매출액(수익)", "매출액")
+    operating_income = find_row("영업이익", "영업이익(발표기준)")
+    parent_income = find_row("....(지배주주지분)당기순이익", "....*(지배주주지분)연결당기순이익")
+    parent_eps = find_row("*(지배주주지분)주당순이익", "*주당순이익")
+    if not all((revenue, operating_income, parent_income, parent_eps)):
+        return None, {}, "Korean IFRS rows missing from Naver/WiseReport"
+
+    snapshots = {}
+    for year, field in periods:
+        values = [row.get(field) for row in (revenue, operating_income, parent_income, parent_eps)]
+        if not all(valid_number(value) for value in values) or values[0] <= 0 or values[3] == 0:
+            continue
+        # Financial statement amounts are KRW 100 million; EPS is KRW/share.
+        revenue_value = float(values[0]) * 100_000_000
+        operating_value = float(values[1]) * 100_000_000
+        net_value = float(values[2]) * 100_000_000
+        shares_value = net_value / float(values[3])
+        end = f"{year}-12-31"
+        snapshots[end] = {
+            "ttm_end": end,
+            "revenue": revenue_value,
+            "operating_income": operating_value,
+            "net_income": net_value,
+            "diluted_shares": shares_value,
+            "filed": f"{int(year) + 1}-03-31",
+            "accessions": [],
+        }
+    concepts = {
+        "revenue": "Naver/WiseReport IFRS consolidated:매출액(수익)",
+        "operating_income": "Naver/WiseReport IFRS consolidated:영업이익",
+        "net_income": "Naver/WiseReport IFRS consolidated:지배주주지분 당기순이익",
+        "diluted_shares": "derived from parent net income / parent EPS",
+    }
+    return (snapshots or None), concepts, None if snapshots else "No actual Korean IFRS history"
+
+
+def load_korean_financials(ticker, refresh=False):
+    override = KOREAN_OVERRIDES[ticker]
+    KOREAN_CACHE.mkdir(parents=True, exist_ok=True)
+    cache = KOREAN_CACHE / f"{override['code']}.json"
+    payload = None
+    if cache.exists() and not refresh:
+        payload = json.loads(cache.read_text())
+    else:
+        query = urllib.parse.urlencode({
+            "cmp_cd": override["code"], "frq": "0", "rpt": "0", "finGubun": "MAIN",
+            "frqTyp": "0", "cn": "", "encparam": override["encparam"],
+        })
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Noetic Research Desk)",
+            "Referer": override["source_url"],
+            "X-Requested-With": "XMLHttpRequest",
+        }
+        try:
+            payload = get_json(f"{override['financial_url']}?{query}", headers)
+            cache.write_text(json.dumps(payload))
+        except Exception as error:  # noqa: BLE001
+            if cache.exists():
+                payload = json.loads(cache.read_text())
+                print(f"  Korean finance refresh failed; using cached facts: {error}", flush=True)
+            else:
+                return None, {}, f"Korean financial data unavailable: {error}"
+    return korean_company_snapshots(payload)
+
+
 def build(as_of, refresh_sec=False):
     cfg = json.loads((ROOT / "config" / "tickers.json").read_text())
     tickers = cfg["watchlist"]
     mapping = get_json("https://www.sec.gov/files/company_tickers.json", {"User-Agent": SEC_UA})
     by_ticker = {value["ticker"].upper(): value for value in mapping.values()}
     start = shift_year(as_of, 6) - timedelta(days=45)
-    prices, splits = fetch_prices(tickers, start.isoformat(), (as_of + timedelta(days=1)).isoformat())
+    price_symbols = [KOREAN_OVERRIDES.get(ticker, {}).get("price_symbol", ticker) for ticker in tickers]
+    raw_prices, raw_splits = fetch_prices(price_symbols, start.isoformat(), (as_of + timedelta(days=1)).isoformat())
+    prices = {ticker: raw_prices.get(symbol, {}) for ticker, symbol in zip(tickers, price_symbols)}
+    splits = {ticker: raw_splits.get(symbol, []) for ticker, symbol in zip(tickers, price_symbols)}
     periods = {period: [] for period in PERIODS}
     SEC_CACHE.mkdir(parents=True, exist_ok=True)
 
@@ -320,7 +415,13 @@ def build(as_of, refresh_sec=False):
         snapshots = None
         cik = None
         entity = None
-        if ticker in FUND_TICKERS:
+        source_url = None
+        if ticker in KOREAN_OVERRIDES:
+            override = KOREAN_OVERRIDES[ticker]
+            entity = override["entity"]
+            source_url = override["source_url"]
+            snapshots, concepts, reason = load_korean_financials(ticker, refresh=refresh_sec)
+        elif ticker in FUND_TICKERS:
             reason = "Investment fund: issuer-level revenue decomposition is not applicable"
         elif not mapping_row:
             reason = "Ticker not present in SEC company mapping"
@@ -350,6 +451,9 @@ def build(as_of, refresh_sec=False):
             prior_price = price_at(prices.get(ticker, {}), target.isoformat())
             row = {"ticker": ticker, "entity": entity, "cik": cik, "status": "ok", "reason": None,
                    "current": None, "prior": None}
+            if source_url:
+                row["source_url"] = source_url
+                row["currency"] = "KRW"
             if reason:
                 row.update(status="unavailable", reason=reason)
             elif not current_price or not prior_price:
@@ -358,29 +462,36 @@ def build(as_of, refresh_sec=False):
                 current_ttm = select_ttm(snapshots, as_of.isoformat())
                 prior_ttm = select_ttm(snapshots, target.isoformat())
                 if not current_ttm or not prior_ttm:
-                    row.update(status="unavailable", reason=f"Insufficient four-quarter SEC history for {period.upper()}")
+                    source_name = "Korean IFRS" if ticker in KOREAN_OVERRIDES else "SEC"
+                    row.update(status="unavailable", reason=f"Insufficient {source_name} history for {period.upper()}")
                 elif not ttm_is_fresh(current_ttm, as_of) or not ttm_is_fresh(prior_ttm, target):
-                    row.update(status="unavailable", reason=f"SEC TTM snapshot is stale for {period.upper()}")
+                    source_name = "Korean IFRS" if ticker in KOREAN_OVERRIDES else "SEC TTM"
+                    row.update(status="unavailable", reason=f"{source_name} snapshot is stale for {period.upper()}")
                 elif current_ttm["ttm_end"] == prior_ttm["ttm_end"]:
-                    row.update(status="unavailable", reason=f"Distinct SEC TTM snapshots unavailable for {period.upper()}")
+                    source_name = "Korean IFRS" if ticker in KOREAN_OVERRIDES else "SEC TTM"
+                    row.update(status="unavailable", reason=f"Distinct {source_name} snapshots unavailable for {period.upper()}")
                 else:
                     report_price = post_report_average(
                         prices.get(ticker, {}), current_ttm["filed"], as_of.isoformat())
                     row["current"] = {**current_ttm, "price": current_price["value"], "price_date": current_price["date"],
                                       "post_report_price": report_price}
                     row["prior"] = {**prior_ttm, "price": prior_price["value"], "price_date": prior_price["date"]}
-                    row["concepts"] = {metric: f"{item['namespace']}:{item['concept']}" for metric, item in concepts.items()}
+                    row["concepts"] = {
+                        metric: item if isinstance(item, str) else f"{item['namespace']}:{item['concept']}"
+                        for metric, item in concepts.items()
+                    }
             periods[period].append(row)
 
     return {
         "version": 2,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "as_of": as_of.isoformat(),
-        "methodology": "Latest available SEC-filed TTM on or before each comparison date; split-adjusted closes; currently restated facts. Post-report anchor is the average close of the 2nd-4th trading sessions after the SEC filing date.",
+        "methodology": "Latest available SEC-filed TTM on or before each comparison date; SKHY uses actual Korean IFRS consolidated statements for SK hynix (000660) from Naver/WiseReport and 000660.KS adjusted closes; currently restated facts.",
         "sources": {
             "financials": "https://data.sec.gov/api/xbrl/companyfacts/",
             "prices": "Yahoo Finance via https://yfin-h.tigzig.com/v1/get-all-prices/",
             "ticker_mapping": "https://www.sec.gov/files/company_tickers.json",
+            "korean_financials": "https://navercomp.wisereport.co.kr/",
         },
         "periods": periods,
     }

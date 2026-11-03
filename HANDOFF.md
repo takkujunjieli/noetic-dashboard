@@ -174,6 +174,7 @@ GitHub Pages(deploy.yml 用 workflow 部署 main)
 - 先枚举账户，自动忽略所有昵称为 `Agentic` 的账户及 Moomoo 模拟账户。Takku 必须匹配尾号 `2566`，hui 必须匹配 `7159`，Moomoo 必须匹配枚举得到的账户（尾号 `8609`）；每个账户接口显式传入选定账户号。不可读取时停止，不能用 Agentic 或模拟账户的零余额替代。交易权限标志为 false 不代表禁止只读查询。
 - 日常刷新：当前账户总值、现金/借记余额、购买力（仅作来源信息，不作月末锚点）；完整正股/期权/加密持仓；每个持仓的数量、成本、行情及行情时间；未结订单、上次水位之后的成交；已实现 P&L 与分页历史。不可用端点记录原因，不能记作零。
 - **月末净值不可推算**：每个账户的月末 `netliq` 只能由用户明确指定的对应券商 MCP 实际读取后人工落入 `monthly_returns.json`（或用户提供的券商实际值）。不得用交易历史、价格、持仓或当前净值反推；不得覆盖已标记为 `manual_mcp_month_end` 的快照。若净入金仍是 `pending_deposits`、尚未包含在 `total_value`，仅记录待结算状态，不能先从月收益扣除。
+- **新账户首月**：若没有前月月末快照，用户可明确提供该月期初净值，记在当月 `opening_netliq`，不得伪造前月 `netliq`。首月总 P&L = 当月末 `netliq` − `opening_netliq` − 当月外部净现金流；收益率依用户指定口径，以 `opening_netliq` + 净现金流作分母（现金流视为月初）。聚合月历只纳入当月已开始跟踪的账户；新账户没有官方已实现 P&L 数据时，不显示不完整的「全部账户」已实现值。
 - 写入对应的本地 gitignore raw：替换目标账户 positions；更新 accounts[].equity、顶层和账户级 `source_updated_at`（实际券商拉取时间）；行情时间单独保存。历史 transactions 必须保留并增量去重，不能用近端订单覆盖整段历史；未成交订单不计入成交。
 - 保留完整持仓原料；风险热力图按既有规则隐藏绝对数量不超过 1 股的股票。因此完整原料数量与热力图行数可以不同。Agentic 是账户级排除规则，与小仓位显示规则无关。
 - 日常同步本机使用 `.venv/bin/python scripts/build_portfolio.py --skip-monthly`（系统 Python 缺 requests，会跳过 ATR），确认 portfolio.json、portfolio_history.json、pnl.json 及 ATR 依赖的实际输出，并核对 `monthly_returns.json` 未变；检查日志中的跳过/错误。构建时间 updated_at 不能冒充 source_updated_at。

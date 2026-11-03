@@ -14,7 +14,7 @@ function render(){
   const mismatch=revision&&revision!==report.settings_revision;
   $('observations-stale').textContent=mismatch?'股票池配置已更新，请点击「更新行情」应用新名单。':'';
   const body=rows.map(r=>{
-    const values=[esc(r.symbol),number(r.price),...['60','20','5'].flatMap(p=>[percent(r.periods[p].momentum,100),percent(r.periods[p].volatility,100)])];
+    const values=[esc(r.symbol)+(r.reason?` <span class="muted" title="${esc(r.reason)}">· 暂不可用</span>`:''),number(r.price),...['60','20','5'].flatMap(p=>[percent(r.periods[p].momentum,100),percent(r.periods[p].volatility,100)])];
     return `<tr>${values.map(v=>`<td>${v}</td>`).join('')}</tr>`;
   });
   const headers=columns.map(([key,label])=>{
@@ -34,6 +34,7 @@ async function load(){
   if(!response.ok)return;
   const value=await response.json();if(value.schema!=='market-observations-v1')return;
   report=value;render();
+  document.dispatchEvent(new CustomEvent('market-observations-loaded',{detail:{asof:report.asof,revision:report.settings_revision}}));
 }
 async function status(){
   try{
@@ -41,7 +42,7 @@ async function status(){
     if(!response.ok)return;
     const job=await response.json();running=job.running;button();
     if(job.running){
-      $('observations-job').textContent=job.kind==='observations'?'正在更新行情与历史统计…':'研究任务运行中，请稍后更新行情。';
+      $('observations-job').textContent=job.kind==='observations'?'正在更新行情与历史统计…':'归因或研究任务运行中，请稍后更新行情。';
       pollTimer=setTimeout(status,2500);
     }else if(job.kind==='observations'&&job.started_at){
       $('observations-job').textContent=job.exit_code===0?'行情统计已更新':'更新失败，保留上次结果。';
@@ -50,6 +51,7 @@ async function status(){
   }catch{ $('observations-job').textContent='无法读取本地更新状态。'; }
 }
 export function initObservations(){
+  document.addEventListener('quant-job-started',()=>{clearTimeout(pollTimer);status();});
   $('observations-table').addEventListener('click',event=>{
     const header=event.target.closest('[data-observations-sort]');if(!header)return;
     const key=header.dataset.observationsSort;
@@ -65,7 +67,7 @@ export function initObservations(){
     try{
       const response=await fetch('/api/qlib/observations/refresh',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});
       if(!response.ok)throw Error('refresh');
-      clearTimeout(pollTimer);await status();
+      document.dispatchEvent(new CustomEvent('quant-job-started'));
     }catch{running=false;button();$('observations-job').textContent='行情更新启动失败。';}
   });
   load().catch(()=>{$('observations-job').textContent='暂无行情统计，请先更新行情。';});

@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "generated_at": "2026-10-31T21:09:12.914654+00:00",
+  "generated_at": "2026-11-01T02:45:38.212673+00:00",
   "as_of": "2026-10-31",
-  "methodology": "Latest available SEC-filed TTM on or before each comparison date; split-adjusted closes; currently restated facts. Post-report anchor is the average close of the 2nd-4th trading sessions after the SEC filing date.",
+  "methodology": "Latest available SEC-filed TTM on or before each comparison date; SKHY uses actual Korean IFRS consolidated statements for SK hynix (000660) from Naver/WiseReport and 000660.KS adjusted closes; currently restated facts.",
   "sources": {
     "financials": "https://data.sec.gov/api/xbrl/companyfacts/",
     "prices": "Yahoo Finance via https://yfin-h.tigzig.com/v1/get-all-prices/",
-    "ticker_mapping": "https://www.sec.gov/files/company_tickers.json"
+    "ticker_mapping": "https://www.sec.gov/files/company_tickers.json",
+    "korean_financials": "https://navercomp.wisereport.co.kr/"
   },
   "periods": {
     "1y": [
@@ -1665,11 +1666,49 @@
       {
         "ticker": "SKHY",
         "entity": "SK hynix Inc.",
-        "cik": "0002120882",
-        "status": "unavailable",
-        "reason": "SEC facts missing: revenue, operating_income, net_income, diluted_shares",
-        "current": null,
-        "prior": null
+        "cik": null,
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2025-12-31",
+          "revenue": 97146675000000.02,
+          "operating_income": 47206319000000.01,
+          "net_income": 42919287000000.01,
+          "diluted_shares": 691755641.157888,
+          "filed": "2026-03-31",
+          "accessions": [],
+          "price": 1418000.0,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 863668.2933333333,
+            "dates": [
+              "2026-04-02",
+              "2026-04-03",
+              "2026-04-06"
+            ],
+            "report_date": "2026-03-31",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
+        },
+        "prior": {
+          "ttm_end": "2024-12-31",
+          "revenue": 66192960000000.01,
+          "operating_income": 23467319000000.004,
+          "net_income": 19788681000000.004,
+          "diluted_shares": 688733154.6707505,
+          "filed": "2025-03-31",
+          "accessions": [],
+          "price": 557357.0,
+          "price_date": "2025-10-31"
+        },
+        "source_url": "https://navercomp.wisereport.co.kr/v2/company/c1010001.aspx?cmp_cd=000660",
+        "currency": "KRW",
+        "concepts": {
+          "revenue": "Naver/WiseReport IFRS consolidated:\ub9e4\ucd9c\uc561(\uc218\uc775)",
+          "operating_income": "Naver/WiseReport IFRS consolidated:\uc601\uc5c5\uc774\uc775",
+          "net_income": "Naver/WiseReport IFRS consolidated:\uc9c0\ubc30\uc8fc\uc8fc\uc9c0\ubd84 \ub2f9\uae30\uc21c\uc774\uc775",
+          "diluted_shares": "derived from parent net income / parent EPS"
+        }
       },
       {
         "ticker": "GEV",
@@ -3137,7 +3176,7 @@
         "entity": "Strive, Inc.",
         "cik": "0001920406",
         "status": "unavailable",
-        "reason": "Insufficient four-quarter SEC history for 3Y",
+        "reason": "Insufficient SEC history for 3Y",
         "current": null,
         "prior": null
       },
@@ -3318,11 +3357,49 @@
       {
         "ticker": "SKHY",
         "entity": "SK hynix Inc.",
-        "cik": "0002120882",
-        "status": "unavailable",
-        "reason": "SEC facts missing: revenue, operating_income, net_income, diluted_shares",
-        "current": null,
-        "prior": null
+        "cik": null,
+        "status": "ok",
+        "reason": null,
+        "current": {
+          "ttm_end": "2025-12-31",
+          "revenue": 97146675000000.02,
+          "operating_income": 47206319000000.01,
+          "net_income": 42919287000000.01,
+          "diluted_shares": 691755641.157888,
+          "filed": "2026-03-31",
+          "accessions": [],
+          "price": 1418000.0,
+          "price_date": "2026-10-30",
+          "post_report_price": {
+            "value": 863668.2933333333,
+            "dates": [
+              "2026-04-02",
+              "2026-04-03",
+              "2026-04-06"
+            ],
+            "report_date": "2026-03-31",
+            "rule": "average close of 2nd-4th trading sessions after SEC filing date"
+          }
+        },
+        "prior": {
+          "ttm_end": "2022-12-31",
+          "revenue": 44621568000000.01,
+          "operating_income": 6809417000000.001,
+          "net_income": 2229560000000.0,
+          "diluted_shares": 687711289.3275756,
+          "filed": "2023-03-31",
+          "accessions": [],
+          "price": 114071.16,
+          "price_date": "2023-10-31"
+        },
+        "source_url": "https://navercomp.wisereport.co.kr/v2/company/c1010001.aspx?cmp_cd=000660",
+        "currency": "KRW",
+        "concepts": {
+          "revenue": "Naver/WiseReport IFRS consolidated:\ub9e4\ucd9c\uc561(\uc218\uc775)",
+          "operating_income": "Naver/WiseReport IFRS consolidated:\uc601\uc5c5\uc774\uc775",
+          "net_income": "Naver/WiseReport IFRS consolidated:\uc9c0\ubc30\uc8fc\uc8fc\uc9c0\ubd84 \ub2f9\uae30\uc21c\uc774\uc775",
+          "diluted_shares": "derived from parent net income / parent EPS"
+        }
       },
       {
         "ticker": "GEV",
@@ -4891,11 +4968,13 @@
       {
         "ticker": "SKHY",
         "entity": "SK hynix Inc.",
-        "cik": "0002120882",
+        "cik": null,
         "status": "unavailable",
-        "reason": "SEC facts missing: revenue, operating_income, net_income, diluted_shares",
+        "reason": "Insufficient Korean IFRS history for 5Y",
         "current": null,
-        "prior": null
+        "prior": null,
+        "source_url": "https://navercomp.wisereport.co.kr/v2/company/c1010001.aspx?cmp_cd=000660",
+        "currency": "KRW"
       },
       {
         "ticker": "GEV",
