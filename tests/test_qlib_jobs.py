@@ -26,6 +26,14 @@ class QlibJobsTest(unittest.TestCase):
                 result.write_text(json.dumps({"started_at": "2026-10-24T14:00:01+00:00", "exit_code": 1, "error": "previous failure"}))
                 self.assertIsNone(qlib_jobs.status()["error"])
 
+    def test_attribution_failure_reads_its_own_current_result(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);state=root/'data/factor-attribution';state.mkdir(parents=True)
+            (state/'refresh-result.json').write_text(json.dumps({'started_at':'2026-11-01T12:00:01+00:00','exit_code':1,'error':'请先更新行情'}))
+            process=Mock();process.poll.return_value=1
+            with patch.object(qlib_jobs,'RESEARCH',root),patch.object(qlib_jobs,'PROCESS',process),patch.object(qlib_jobs,'STARTED','2026-11-01T12:00:00+00:00'),patch.object(qlib_jobs,'KIND','attribution'):
+                self.assertEqual(qlib_jobs.status()['error'],'请先更新行情')
+
     def test_universe_save_validates_and_prevents_stale_overwrite(self):
         actual = qlib_jobs.RESEARCH
         with tempfile.TemporaryDirectory() as tmp:
@@ -86,6 +94,21 @@ class QlibJobsTest(unittest.TestCase):
             handler.do_POST()
             start.assert_called_once_with(observations=True)
             handler.reply.assert_called_once_with(202,{'running':True})
+
+    def test_attribution_endpoint_runs_fixed_attribution_script(self):
+        handler=self.handler();handler.path='/api/qlib/attribution/refresh'
+        with patch.object(qlib_jobs,'start',return_value={'running':True}) as start:
+            handler.do_POST()
+            start.assert_called_once_with(attribution=True)
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            python=root/'.venv-qlib/bin/python';python.parent.mkdir(parents=True);python.touch()
+            (root/'run_qlib.py').touch()
+            process=Mock();process.poll.return_value=None
+            with patch.object(qlib_jobs,'RESEARCH',root),patch.object(qlib_jobs.subprocess,'Popen',return_value=process) as popen,patch.dict(qlib_jobs.os.environ,{},clear=True):
+                job=qlib_jobs.start(attribution=True)
+                self.assertEqual(job['kind'],'attribution')
+                self.assertEqual(popen.call_args.args[0],[str(python),str(root/'run_factor_attribution.py'),'--fetch','yahoo'])
 
     def test_fixed_command_provider_selection_and_single_background_job(self):
         with tempfile.TemporaryDirectory() as tmp:

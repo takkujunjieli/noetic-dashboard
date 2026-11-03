@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Qlib · 量化研究</title>
+  <title>因子归因 · 量化观察</title>
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/theme.css">
   <link rel="stylesheet" href="assets/qlib.css">
@@ -14,9 +14,9 @@
     <a href="trading.html">Trading</a><a href="research.html">Research</a>
     <a href="strategy.html" class="active">Qlib</a>
   </nav>
-  <header><div><h1>Qlib · 选股与择时</h1>
+  <header><div><h1>量化观察 · 因子归因</h1>
     </div>
-    <div id="qlib-status" class="qlib-badge" role="status">读取研究结果…</div></header>
+    <div id="qlib-status" class="qlib-badge" role="status">历史收益观察</div></header>
   <main>
     <div id="qlib-notice" class="card" role="status"></div>
     <details id="pool-editor" class="card" hidden>
@@ -51,29 +51,21 @@
 
       <div id="observations-table" class="qlib-table-wrap"><p class="qlib-empty">暂无行情统计，保存股票池后点击「更新行情」。</p></div>
     </details></section>
-    <section class="qlib-toolbar"><div class="chips seg" role="group" aria-label="预测周期">
-      <button type="button" data-horizon="5" class="active" aria-pressed="true">未来 5 个交易日</button>
-      <button type="button" data-horizon="20" aria-pressed="false">未来 20 个交易日</button>
-    </div><div><button type="button" id="qlib-refresh" hidden>刷新研究</button> <span id="qlib-job" class="muted small" role="status"></span></div><span id="qlib-meta" class="muted small"></span></section>
-    <section><h2>选股 · 横截面 IC / ICIR</h2><div id="qlib-summary" class="qlib-stats"></div>
-      <p class="muted small" id="qlib-sample"></p>
-
+    <section id="attribution-panel">
+      <div class="qlib-toolbar"><h2>因子归因 · 过去60 / 20 / 5个交易日</h2><div><button id="attribution-refresh" type="button" hidden>更新归因</button> <span id="attribution-job" class="muted small" role="status"></span></div></div>
+      <p id="attribution-meta" class="muted small"></p>
+      <p id="attribution-stale" class="qlib-error" role="status"></p>
+      <div class="qlib-toolbar"><div class="chips seg" role="group" aria-label="归因区间">
+        <button type="button" data-period="60" aria-pressed="false">过去60日</button>
+        <button type="button" data-period="20" class="active" aria-pressed="true">过去20日</button>
+        <button type="button" data-period="5" aria-pressed="false">过去5日</button>
+      </div><label>查看个股 <select id="attribution-symbol" aria-label="查看个股归因"></select></label></div>
+      <div id="attribution-detail" aria-live="polite"></div>
+      <div id="attribution-table" class="qlib-table-wrap"><p class="qlib-empty">暂无归因结果，请先更新行情，再更新归因。</p></div>
+      <details><summary>口径、数据来源与限制</summary><p class="muted small">使用此前252个完整交易日估计暴露，滞后一个交易日应用；行业ETF先剔除市场与风格影响。贡献使用每日贡献乘此前个股累计净值进行链接，单位为收益百分点，各项之和等于区间实际收益。无风险收益单列，截距与残差合称未解释收益。</p><ul id="attribution-warnings" class="muted small"></ul><p id="attribution-sources" class="muted small"></p></details>
     </section>
-    <section><div class="qlib-title"><h2>每日候选</h2><label><input id="qlib-all" type="checkbox"> 显示全部候选</label></div>
-
-      <div id="qlib-candidates" class="qlib-table-wrap"></div></section>
-    <section><details id="qlib-timing-panel"><summary class="qlib-section-toggle">择时 · 单票时间序列 IC / ICIR</summary>
-      <div id="qlib-timing" class="qlib-table-wrap"></div></details>
-      <details><summary>逐日横截面 IC（最近60个信号日）</summary><div id="qlib-ic-series" class="qlib-table-wrap"></div></details>
-      <details><summary>训练与测试时间边界</summary><div id="qlib-folds" class="qlib-table-wrap"></div></details></section>
-    <section><h2>前向信号 · IC / ICIR</h2><p class="muted small" id="qlib-forward-sample"></p>
-
-      <div id="qlib-ledger-stats" class="qlib-stats"></div>
-      <details><summary>前向单票择时 IC / ICIR</summary><div id="qlib-forward-timing" class="qlib-table-wrap"></div></details>
-      <details><summary>原始预测记录</summary><div id="qlib-ledger" class="qlib-table-wrap"></div></details></section>
-    <section><h2>数据覆盖与限制</h2><ul id="qlib-warnings"></ul><div id="qlib-quality" class="qlib-table-wrap"></div></section>
   </main>
 
-  <script type="module" src="assets/qlib.js"></script>
+  <script type="module" src="assets/qlib.js?v=20261102-trading-history-r2"></script>
 </body>
 </html>

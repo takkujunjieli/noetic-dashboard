@@ -213,7 +213,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
                 return self.reply(200, {"ok": True, "publishedAt": result["publishedAt"], "snapshot": result})
             except (ValueError, TypeError, KeyError, AttributeError, OSError) as error:
                 return self.reply(400, {"error": str(error)})
-        if urlsplit(self.path).path in ("/api/qlib/refresh", "/api/qlib/observations/refresh"):
+        if urlsplit(self.path).path in ("/api/qlib/refresh", "/api/qlib/observations/refresh", "/api/qlib/attribution/refresh"):
             if not self.allowed(mutation=True):
                 return
             # Require an explicit same-origin JSON request. The body is fixed;
@@ -224,7 +224,8 @@ class DashboardHandler(SimpleHTTPRequestHandler):
                     raise ValueError("需要空 JSON object")
                 if json.loads(self.rfile.read(length)) != {}:
                     raise ValueError("刷新不接受参数")
-                result = qlib_jobs.start(observations=True) if urlsplit(self.path).path.endswith('/observations/refresh') else qlib_jobs.start()
+                path = urlsplit(self.path).path
+                result = qlib_jobs.start(attribution=True) if path.endswith('/attribution/refresh') else qlib_jobs.start(observations=True) if path.endswith('/observations/refresh') else qlib_jobs.start()
                 return self.reply(202, result)
             except (ValueError, OSError) as error:
                 return self.reply(400, {"error": str(error)})

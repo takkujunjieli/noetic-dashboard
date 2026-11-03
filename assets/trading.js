@@ -1670,23 +1670,33 @@ function monthlyExact(acctKey) {
   const accts = MONTHLY?.accounts; if (!accts) return null;
   if (acctKey !== "_all") return accts[acctKey] || null;
   const rows = Object.entries(accts).filter(([k]) => k !== "_all");
-  const accountCount = rows.length;
   const finite = (v) => v != null && v !== "" && Number.isFinite(+v);
-  const realized = {}, snapshots = {};
+  const starts = new Map(rows.map(([k, a]) => [k, Object.keys(a.snapshots || {}).sort()[0]]));
+  const accountCount = (ym) => rows.filter(([k]) => starts.get(k) && starts.get(k) <= ym).length;
+  const realized = {}, realizedN = {}, snapshots = {};
   for (const [, a] of rows) {
-    for (const [ym, v] of Object.entries(a.realized || {})) realized[ym] = (realized[ym] || 0) + v;
+    for (const [ym, v] of Object.entries(a.realized || {})) {
+      if (!finite(v)) continue;
+      realized[ym] = (realized[ym] || 0) + +v;
+      realizedN[ym] = (realizedN[ym] || 0) + 1;
+    }
     for (const [ym, s] of Object.entries(a.snapshots || {})) {
-      const t = snapshots[ym] || (snapshots[ym] = { netliq: 0, unreal: 0, net_flow: 0, cash_flows: [], _netliq_n: 0, _unreal_n: 0 });
+      const t = snapshots[ym] || (snapshots[ym] = { netliq: 0, unreal: 0, opening_netliq: 0, net_flow: 0, cash_flows: [], _netliq_n: 0, _unreal_n: 0 });
       if (finite(s.netliq)) { t.netliq += +s.netliq; t._netliq_n++; }
       if (finite(s.unreal)) { t.unreal += +s.unreal; t._unreal_n++; }
+      if (finite(s.opening_netliq)) t.opening_netliq += +s.opening_netliq;
       if (finite(s.net_flow)) t.net_flow += +s.net_flow;
       if (Array.isArray(s.cash_flows)) t.cash_flows.push(...s.cash_flows);
     }
   }
-  for (const s of Object.values(snapshots)) {
-    if (s._netliq_n !== accountCount) delete s.netliq;
-    if (s._unreal_n !== accountCount) delete s.unreal;
+  for (const [ym, s] of Object.entries(snapshots)) {
+    if (s._netliq_n !== accountCount(ym)) delete s.netliq;
+    if (s._unreal_n !== accountCount(ym)) delete s.unreal;
+    if (!s.opening_netliq) delete s.opening_netliq;
     delete s._netliq_n; delete s._unreal_n;
+  }
+  for (const ym of Object.keys(realized)) {
+    if (realizedN[ym] !== accountCount(ym)) delete realized[ym];
   }
   return { realized, snapshots };
 }
@@ -1714,21 +1724,24 @@ function buildMonthlyCalendar() {
   const exactMoney = (ym) => {
     const cur = snaps[ym], prev = snaps[prevYm(ym)];
     // 真实月末账户净值优先；net_flow 约定正数=净入金、负数=净出金。
-    if (finite(cur?.netliq) && finite(prev?.netliq)) {
-      return +cur.netliq - +prev.netliq - (finite(cur.net_flow) ? +cur.net_flow : 0);
+    const hasOpening = finite(prev?.netliq) || finite(cur?.opening_netliq);
+    if (finite(cur?.netliq) && hasOpening) {
+      const base = (finite(prev?.netliq) ? +prev.netliq : 0) + (finite(cur?.opening_netliq) ? +cur.opening_netliq : 0);
+      return +cur.netliq - base - (finite(cur.net_flow) ? +cur.net_flow : 0);
     }
     const r = realized[ym], u = cur?.unreal, pu = prev?.unreal;
     return (r != null && u != null && pu != null) ? r + (u - pu) : null;
   };
   const retObj = (ym) => {   // 外部现金流按月初到账的用户指定口径。
-    const cur = snaps[ym], ex = exactMoney(ym), base = snaps[prevYm(ym)]?.netliq;
-    if (ex != null && base > 0) {
+    const cur = snaps[ym], ex = exactMoney(ym), prev = snaps[prevYm(ym)];
+    const hasOpening = finite(prev?.netliq) || finite(cur?.opening_netliq);
+    const base = (finite(prev?.netliq) ? +prev.netliq : 0) + (finite(cur?.opening_netliq) ? +cur.opening_netliq : 0);
+    if (ex != null && hasOpening) {
       const flows = Array.isArray(cur?.cash_flows) ? cur.cash_flows : [];
-      if (flows.length) {
-        const openingFlow = flows.reduce((sum, f) => sum + (+f.amount || 0), 0);
-        return { v: ex / (base + openingFlow) * 100, est: false, method: "BOM" };
-      }
-      return { v: ex / base * 100, est: false };
+      const openingFlow = flows.length ? flows.reduce((sum, f) => sum + (+f.amount || 0), 0)
+        : (finite(cur?.net_flow) ? +cur.net_flow : 0);
+      if (base + openingFlow <= 0) return null;
+      return { v: ex / (base + openingFlow) * 100, est: false, method: "BOM" };
     }
     const e = robMap[ym]?.ret_pct; return e == null ? null : { v: e, est: true };
   };

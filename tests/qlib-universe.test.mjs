@@ -5,6 +5,11 @@ test('manual symbols normalize, deduplicate and reject injected text',()=>{
   assert.deepEqual(parseSymbols('purr, NVDA，purr BRK.B'),['BRK.B','NVDA','PURR']);
   assert.throws(()=>parseSymbols('PURR <script>'));
 });
+test('Trading history preview retains SPY alongside deleted historical members',()=>{
+  const p={include_base:false,groups:[],include:['SPY','QQQ','OLD'],exclude:[]};
+  assert.deepEqual(previewSymbols([],p,[],{keepBenchmark:true}),['OLD','QQQ','SPY']);
+  assert.deepEqual(previewSymbols([],p,[]),['OLD','QQQ']);
+});
 test('themes union with manual entries and excludes take precedence',()=>{
   const groups=[{id:'hype',symbols:['PURR']},{id:'memory',symbols:['MU','SNDK']}];
   assert.deepEqual(previewSymbols(['AAPL'],{include_base:false,groups:['hype','memory'],include:['NVDA'],exclude:['MU']},groups),['NVDA','PURR','SNDK']);

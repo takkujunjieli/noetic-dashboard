@@ -1,5 +1,5 @@
 import {escapeHTML as esc} from './qlib-view.mjs';
-import {parseSymbols,previewSymbols,numberInput} from './qlib-universe.mjs';
+import {parseSymbols,previewSymbols,numberInput} from './qlib-universe.mjs?v=20261102';
 const $=id=>document.getElementById(id);
 let source,settings,dirty=false;
 const profile=()=>settings.profiles[settings.active];
@@ -17,8 +17,9 @@ function collect(){
 }
 function preview(){
   try{
-    const symbols=previewSymbols(source.base_symbols,collect(),source.catalog.groups);
-    $('pool-preview').textContent=`待筛选 ${symbols.length} 只：${symbols.join(' · ')}`;
+    const history=settings.active==='trading-history';
+    const symbols=previewSymbols(source.base_symbols,collect(),source.catalog.groups,{keepBenchmark:history});
+    $('pool-preview').textContent=`${history?'完整历史范围':'待筛选'} ${symbols.length} 只：${symbols.join(' · ')}${history?'。不按流动性或历史长度删减成员，缺失行情留空。':''}`;
   }catch(e){$('pool-preview').textContent=e.message;}
 }
 function populate(){
@@ -29,6 +30,7 @@ function populate(){
   $('pool-min-price').value=f.min_price;$('pool-min-volume').value=f.min_dollar_volume/10000;
   $('pool-volume-window').value=f.volume_window;$('pool-min-cap').value=f.min_market_cap/100000000;
   $('pool-max-cap').value=f.max_market_cap==null?'':f.max_market_cap/100000000;$('pool-history').value=f.min_history;
+  document.querySelectorAll('.pool-numbers input').forEach(input=>{input.disabled=settings.active==='trading-history';});
   $('pool-groups').innerHTML=source.catalog.groups.map(g=>`<label class="pool-group"><input type="checkbox" value="${esc(g.id)}" ${p.groups.includes(g.id)?'checked':''}><span>${esc(g.name)} <small>${g.symbols.length}只</small></span></label>`).join('');
   preview();
 }

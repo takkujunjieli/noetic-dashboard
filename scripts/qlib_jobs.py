@@ -26,7 +26,8 @@ def status():
     error = None
     if code not in (None, 0) and STARTED and KIND != "observations":
         try:
-            result = json.loads((RESEARCH / "data/qlib-v1/refresh-result.json").read_text())
+            result_path = "data/factor-attribution/refresh-result.json" if KIND == "attribution" else "data/qlib-v1/refresh-result.json"
+            result = json.loads((RESEARCH / result_path).read_text())
             if result.get("started_at", "") >= STARTED and result.get("exit_code") == code:
                 error = result.get("error")
         except (OSError, ValueError, TypeError):
@@ -35,7 +36,7 @@ def status():
             "available": (RESEARCH / ".venv-qlib/bin/python").exists() and (RESEARCH / "run_qlib.py").exists()}
 
 
-def start(observations=False):
+def start(observations=False, attribution=False):
     global PROCESS, STARTED, LOG, KIND
     with LOCK:
         current = status()
@@ -45,12 +46,12 @@ def start(observations=False):
             raise ValueError("请先按 Qlib 文档安装 factor-research/.venv-qlib")
         state = RESEARCH / "data/qlib-v1"
         state.mkdir(parents=True, exist_ok=True)
-        LOG = (state / ("observations-refresh.log" if observations else "refresh.log")).open("w")
+        LOG = (state / ("attribution-refresh.log" if attribution else "observations-refresh.log" if observations else "refresh.log")).open("w")
         has_keys = bool((os.getenv("ALPACA_API_KEY") or os.getenv("APCA_API_KEY_ID"))
                         and (os.getenv("ALPACA_API_SECRET") or os.getenv("APCA_API_SECRET_KEY")))
-        provider = "alpaca" if has_keys else "yahoo"
+        provider = "yahoo" if attribution else "alpaca" if has_keys else "yahoo"
         try:
-            script = "run_market_observations.py" if observations else "run_qlib.py"
+            script = "run_factor_attribution.py" if attribution else "run_market_observations.py" if observations else "run_qlib.py"
             PROCESS = subprocess.Popen([str(RESEARCH / ".venv-qlib/bin/python"), str(RESEARCH / script),
                                         "--fetch", provider], cwd=RESEARCH, stdout=LOG, stderr=subprocess.STDOUT,
                                        start_new_session=True)
@@ -59,7 +60,7 @@ def start(observations=False):
             LOG = None
             raise
         STARTED = datetime.now(timezone.utc).isoformat()
-        KIND = "observations" if observations else "research"
+        KIND = "attribution" if attribution else "observations" if observations else "research"
         return {**status(), "provider": provider}
 
 
