@@ -2088,7 +2088,7 @@ function renderScorecards() {
   const head = rows[0];
   const SCORE_COLS = ["Operation", "Leadership", "Externality"].map((name) => head.indexOf(name));
   const UPDATED_COL = head.indexOf("Updated");
-  const TH = { Operation: "经营", Leadership: "管理层", Externality: "外部" };
+  const TH = { Operation: "Operations", Leadership: "Leadership", Externality: "Externality" };
   // 底色:0/无=中性无色;正=绿、负=红,深浅按 |分|/5。
   const heat = (s) => {
     if (!s || isNaN(s)) return "";
@@ -2107,15 +2107,15 @@ function renderScorecards() {
   };
   const sortButton = (i) => {
     const mark = scoreSortCol === i ? (scoreSortDir > 0 ? "↑" : "↓") : "↕";
-    return `<button class="rf-sort-btn" data-sc-sort="${i}" title="点击切换升降序">${esc(TH[head[i]] ?? head[i])}<span>${mark}</span></button>`;
+    return `<button class="rf-sort-btn" data-sc-sort="${i}" title="Click to toggle sort direction">${esc(TH[head[i]] ?? head[i])}<span>${mark}</span></button>`;
   };
   const tickerMark = scoreSortCol === "ticker" ? (scoreSortDir > 0 ? "↑" : "↓") : "↕";
-  const th = `<th><button class="rf-sort-btn" data-sc-sort="ticker" title="按标的字母序排序">标的<span>${tickerMark}</span></button></th><th></th>`
+  const th = `<th><button class="rf-sort-btn" data-sc-sort="ticker" title="Sort alphabetically by ticker">Ticker<span>${tickerMark}</span></button></th><th></th>`
     + SCORE_COLS.map((i) => `<th>${sortButton(i)}</th>`).join("");
   const allRows = rows.slice(1).filter((r) => r.length > 1 && r[0]);
   const directions = ["Long", "Short", "Watch"];
   const counts = Object.fromEntries(directions.map((direction) => [direction, allRows.filter((r) => r[1] === direction).length]));
-  const filters = [["all", "全部", allRows.length], ...directions.map((direction) => [direction, direction, counts[direction]])]
+  const filters = [["all", "All", allRows.length], ...directions.map((direction) => [direction, direction, counts[direction]])]
     .map(([value, label, count]) => `<button class="tab${scoreDirectionFilter === value ? " active" : ""}" data-sc-direction="${value}" aria-pressed="${scoreDirectionFilter === value}">${label} <span>${count}</span></button>`)
     .join("");
   const displayRows = allRows.filter((r) => scoreDirectionFilter === "all" || r[1] === scoreDirectionFilter);
@@ -2132,16 +2132,16 @@ function renderScorecards() {
   const body = displayRows.map((r) => {
     const dir = r[1];
     const dirCls = dir === "Short" ? "down" : dir === "Long" ? "up" : "muted";
-    const dirTxt = dir === "Short" ? "空" : dir === "Long" ? "多" : "观";  // Watch=无仓位
+    const dirTxt = dir === "Short" ? "S" : dir === "Long" ? "L" : "W";  // Watch=no position
     const updated = UPDATED_COL >= 0 ? r[UPDATED_COL] : "";
-    return `<tr><td class="sc-tk"><b>${esc(r[0])}</b><small>${esc(updated || "待填写")}</small></td>`
+    return `<tr><td class="sc-tk"><b>${esc(r[0])}</b><small>${esc(updated || "Pending")}</small></td>`
       + `<td><span class="sc-dir ${dirCls}">${dirTxt}</span></td>`
       + SCORE_COLS.map((i) => { const p = parse(r[i]); return cell(p.s, p.why); }).join("")
       + `</tr>`;
-  }).join("") || `<tr><td colspan="5" class="muted sc-empty">该类别暂无标的</td></tr>`;
+  }).join("") || `<tr><td colspan="5" class="muted sc-empty">No tickers in this category</td></tr>`;
   el.innerHTML = `<div class="card"><div class="sc-head"><b>Scorecards</b> `
-    + `<span class="muted small">本地 · 3 维单分(-5~+5,0=中性/正好负差),理由直显。经营/管理层/外部=质量维度。多头看高、空头看低;★需数据校准 ⚠身份存疑</span></div>`
-    + `<div class="ff-controls sc-filters"><span class="muted small">类别</span>${filters}</div>`
+    + `<span class="muted small">Local · three dimensions scored from −5 to +5 (0 = neutral/fair), with rationale shown inline. Operations, Leadership, and Externality are quality dimensions. Higher supports longs; lower supports shorts. ★ needs data calibration ⚠ identity uncertain</span></div>`
+    + `<div class="ff-controls sc-filters"><span class="muted small">Category</span>${filters}</div>`
     + `<div class="sc-wrap"><table class="bt-table sc-table"><thead><tr>${th}</tr></thead><tbody>${body}</tbody></table></div></div>`;
   el.querySelectorAll("[data-sc-sort]").forEach((button) => { button.onclick = () => {
     const col = button.dataset.scSort === "ticker" ? "ticker" : Number(button.dataset.scSort);

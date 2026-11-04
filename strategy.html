@@ -1,71 +1,71 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>因子归因 · 量化观察</title>
+  <title>Factor attribution · Market observations</title>
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/theme.css">
   <link rel="stylesheet" href="assets/qlib.css">
 </head>
 <body class="trading">
-  <nav class="pagenav" aria-label="主导航">
+  <nav class="pagenav" aria-label="Main navigation">
     <a href="workflow.html">Workflow</a><a href="portfolio.html">Portfolio</a>
     <a href="trading.html">Trading</a><a href="research.html">Research</a>
     <a href="strategy.html" class="active">Qlib</a>
   </nav>
-  <header><div><h1>量化观察 · 因子归因</h1>
+  <header><div><h1>Market observations · Factor attribution</h1>
     </div>
-    <div id="qlib-status" class="qlib-badge" role="status">历史收益观察</div></header>
+    <div id="qlib-status" class="qlib-badge" role="status">Historical return analysis</div></header>
   <main>
     <div id="qlib-notice" class="card" role="status"></div>
     <details id="pool-editor" class="card" hidden>
-      <summary>股票池配置 · 细分行业 / 主题 / 自选</summary>
+      <summary>Universe settings · Industries / Themes / Custom</summary>
       <form id="pool-form">
-        <div class="pool-profile-row"><label>股票池 <select id="pool-profile"></select></label><button id="pool-new" type="button">另存为新股票池</button><label>名称 <input id="pool-name" required maxlength="80"></label></div>
-        <label class="pool-base"><input type="checkbox" id="pool-base"> 包含原始103只基础研究名单</label>
+        <div class="pool-profile-row"><label>Universe <select id="pool-profile"></select></label><button id="pool-new" type="button">Save as new universe</button><label>Name <input id="pool-name" required maxlength="80"></label></div>
+        <label class="pool-base"><input type="checkbox" id="pool-base"> Include the original 103-ticker research universe</label>
 
-        <input id="pool-search" type="search" placeholder="查找细分行业或主题" aria-label="查找细分行业或主题">
+        <input id="pool-search" type="search" placeholder="Search industries or themes" aria-label="Search industries or themes">
         <div id="pool-groups" class="pool-groups"></div>
-        <div class="pool-fields"><label>手动 Include<textarea id="pool-include" rows="2" placeholder="PURR RKLB AAOI"></textarea></label><label>手动 Exclude<textarea id="pool-exclude" rows="2" placeholder="股票代码，以空格或逗号分隔"></textarea></label></div>
+        <div class="pool-fields"><label>Manual include<textarea id="pool-include" rows="2" placeholder="PURR RKLB AAOI"></textarea></label><label>Manual exclude<textarea id="pool-exclude" rows="2" placeholder="Tickers separated by spaces or commas"></textarea></label></div>
         <div class="pool-fields pool-numbers">
-          <label>最低股价（美元）<input id="pool-min-price" type="number" min="0" step="any"></label>
-          <label>最低平均成交额（万美元 / 日）<input id="pool-min-volume" type="number" min="0" step="any"></label>
-          <label>成交额平均窗口（交易日）<input id="pool-volume-window" type="number" min="1" max="252" step="1" required></label>
-          <label>最低市值（亿美元）<input id="pool-min-cap" type="number" min="0" step="any"></label>
-          <label>最高市值（亿美元，空白不限）<input id="pool-max-cap" type="number" min="0" step="any"></label>
-          <label>最少历史长度（交易日）<input id="pool-history" type="number" min="61" max="2520" step="1" required></label>
+          <label>Minimum price (USD)<input id="pool-min-price" type="number" min="0" step="any"></label>
+          <label>Minimum average daily turnover (USD 10k)<input id="pool-min-volume" type="number" min="0" step="any"></label>
+          <label>Turnover averaging window (sessions)<input id="pool-volume-window" type="number" min="1" max="252" step="1" required></label>
+          <label>Minimum market cap (USD 100m)<input id="pool-min-cap" type="number" min="0" step="any"></label>
+          <label>Maximum market cap (USD 100m; blank = unlimited)<input id="pool-max-cap" type="number" min="0" step="any"></label>
+          <label>Minimum history (sessions)<input id="pool-history" type="number" min="61" max="2520" step="1" required></label>
         </div>
 
         <p id="pool-preview" class="muted small pool-preview"></p>
-        <button id="pool-save" type="submit" disabled>保存股票池</button> <span id="pool-message" class="muted small" role="status"></span>
+        <button id="pool-save" type="submit" disabled>Save universe</button> <span id="pool-message" class="muted small" role="status"></span>
       </form>
     </details>
-    <section><h2>当前筛选股票池 <span id="pool-current-name" class="muted small"></span></h2><p id="pool-current" class="pool-preview muted small"></p></section>
+    <section><h2>Current universe <span id="pool-current-name" class="muted small"></span></h2><p id="pool-current" class="pool-preview muted small"></p></section>
     <section><details id="observations-panel" open>
-      <summary class="qlib-section-toggle">动量与波动 · 过去60 / 20 / 5个交易日</summary>
+      <summary class="qlib-section-toggle">Momentum & volatility · Last 60 / 20 / 5 sessions</summary>
       <div class="qlib-toolbar">
-        <div><button id="observations-refresh" type="button" hidden>更新行情</button> <span id="observations-job" class="muted small" role="status"></span></div>
+        <div><button id="observations-refresh" type="button" hidden>Update prices</button> <span id="observations-job" class="muted small" role="status"></span></div>
       </div>
       <p id="observations-meta" class="muted small"></p><p id="observations-stale" class="muted small" role="status"></p>
 
-      <div id="observations-table" class="qlib-table-wrap"><p class="qlib-empty">暂无行情统计，保存股票池后点击「更新行情」。</p></div>
+      <div id="observations-table" class="qlib-table-wrap"><p class="qlib-empty">No price statistics yet. Save the universe, then select Update prices.</p></div>
     </details></section>
     <section id="attribution-panel">
-      <div class="qlib-toolbar"><h2>因子归因 · 过去60 / 20 / 5个交易日</h2><div><button id="attribution-refresh" type="button" hidden>更新归因</button> <span id="attribution-job" class="muted small" role="status"></span></div></div>
+      <div class="qlib-toolbar"><h2>Factor attribution · Last 60 / 20 / 5 sessions</h2><div><button id="attribution-refresh" type="button" hidden>Update attribution</button> <span id="attribution-job" class="muted small" role="status"></span></div></div>
       <p id="attribution-meta" class="muted small"></p>
       <p id="attribution-stale" class="qlib-error" role="status"></p>
-      <div class="qlib-toolbar"><div class="chips seg" role="group" aria-label="归因区间">
-        <button type="button" data-period="60" aria-pressed="false">过去60日</button>
-        <button type="button" data-period="20" class="active" aria-pressed="true">过去20日</button>
-        <button type="button" data-period="5" aria-pressed="false">过去5日</button>
-      </div><label>查看个股 <select id="attribution-symbol" aria-label="查看个股归因"></select></label></div>
+      <div class="qlib-toolbar"><div class="chips seg" role="group" aria-label="Attribution period">
+        <button type="button" data-period="60" aria-pressed="false">Last 60 sessions</button>
+        <button type="button" data-period="20" class="active" aria-pressed="true">Last 20 sessions</button>
+        <button type="button" data-period="5" aria-pressed="false">Last 5 sessions</button>
+      </div><label>View ticker <select id="attribution-symbol" aria-label="View ticker attribution"></select></label></div>
       <div id="attribution-detail" aria-live="polite"></div>
-      <div id="attribution-table" class="qlib-table-wrap"><p class="qlib-empty">暂无归因结果，请先更新行情，再更新归因。</p></div>
-      <details><summary>口径、数据来源与限制</summary><p class="muted small">使用此前252个完整交易日估计暴露，滞后一个交易日应用；行业ETF先剔除市场与风格影响。贡献使用每日贡献乘此前个股累计净值进行链接，单位为收益百分点，各项之和等于区间实际收益。无风险收益单列，截距与残差合称未解释收益。</p><ul id="attribution-warnings" class="muted small"></ul><p id="attribution-sources" class="muted small"></p></details>
+      <div id="attribution-table" class="qlib-table-wrap"><p class="qlib-empty">No attribution results yet. Update prices first, then update attribution.</p></div>
+      <details><summary>Methodology, sources & limitations</summary><p class="muted small">Exposures use the prior 252 complete trading sessions and are applied with a one-session lag. Industry ETF returns are adjusted for market and style effects. Daily contributions are linked using prior cumulative stock wealth, in percentage points, and sum to the actual period return. The risk-free contribution is shown separately; intercept plus residual is reported as unexplained return.</p><ul id="attribution-warnings" class="muted small"></ul><p id="attribution-sources" class="muted small"></p></details>
     </section>
   </main>
 
-  <script type="module" src="assets/qlib.js?v=20261102-trading-history-r2"></script>
+  <script type="module" src="assets/qlib.js?v=20261103-en"></script>
 </body>
 </html>

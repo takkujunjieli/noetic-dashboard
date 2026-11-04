@@ -1,5 +1,5 @@
-import {escapeHTML as esc,percent,number,table} from './qlib-view.mjs';
-import {detailHTML} from './factor-attribution.mjs';
+import {escapeHTML as esc,percent,number,table} from './qlib-view.mjs?v=20261103-en';
+import {detailHTML} from './factor-attribution.mjs?v=20261103-en';
 const $=id=>document.getElementById(id);
 const local=['localhost','127.0.0.1','[::1]'].includes(location.hostname);
 let report,days='20',symbol='',revision,marketAsOf,dirty=false,running=false,timer;
@@ -7,21 +7,21 @@ function button(){ $('attribution-refresh').disabled=dirty||running; }
 function render(){
   if(!report)return;
   const rows=report.rows||[];
-  $('attribution-meta').textContent=`${report.universe_name} · 归因截至 ${report.asof} · 行情截至 ${report.market_asof} · 因子截至 ${report.factor_asof} · 可归因 ${report.coverage.available}/${report.coverage.total}只`;
-  $('attribution-stale').textContent=revision&&revision!==report.settings_revision?'股票池配置已改变，请先更新行情，再更新归因。':marketAsOf&&marketAsOf!==report.market_asof?'行情统计已更新，请更新归因；归因仍受因子发布日期限制。':report.asof<report.market_asof?'因子发布滞后，归因与上方动量的截止日期不同。':'';
+  $('attribution-meta').textContent=`${report.universe_name} · Attribution through ${report.asof} · Prices through ${report.market_asof} · Factors through ${report.factor_asof} · Attribution coverage ${report.coverage.available}/${report.coverage.total} tickers`;
+  $('attribution-stale').textContent=revision&&revision!==report.settings_revision?'The universe has changed. Update prices first, then update attribution.':marketAsOf&&marketAsOf!==report.market_asof?'Price statistics have changed. Update attribution; factor publication dates still limit coverage.':report.asof<report.market_asof?'Factor publication lags behind prices; attribution and momentum have different end dates.':'';
   if(!rows.some(r=>r.symbol===symbol))symbol=rows.find(r=>r.periods?.[days]?.status==='ok')?.symbol||rows[0]?.symbol||'';
-  $('attribution-symbol').innerHTML=rows.map(r=>`<option value="${esc(r.symbol)}" ${r.symbol===symbol?'selected':''}>${esc(r.symbol)}${r.status==='ok'?'':' · 暂不可用'}</option>`).join('');
+  $('attribution-symbol').innerHTML=rows.map(r=>`<option value="${esc(r.symbol)}" ${r.symbol===symbol?'selected':''}>${esc(r.symbol)}${r.status==='ok'?'':' · Unavailable'}</option>`).join('');
   $('attribution-detail').innerHTML=detailHTML(rows.find(r=>r.symbol===symbol),days);
   const body=rows.map(r=>{
     const p=r.periods?.[days];
     const name=`<button type="button" data-attribution-symbol="${esc(r.symbol)}" class="observations-column-sort">${esc(r.symbol)}</button>`;
-    if(p?.status!=='ok')return `<tr><td>${name}</td><td>${esc(r.industry_proxy||'—')}</td><td colspan="8" class="muted">${esc(p?.reason||r.reason||'样本不足')}</td></tr>`;
+    if(p?.status!=='ok')return `<tr><td>${name}</td><td>${esc(r.industry_proxy||'—')}</td><td colspan="8" class="muted">${esc(p?.reason||r.reason||'Insufficient data')}</td></tr>`;
     const c=p.contributions;
     return `<tr><td>${name}</td>${[esc(r.industry_proxy),percent(p.actual_return,100),number(c['Mkt-RF']*100,2),number(c.industry*100,2),number(p.style*100,2),number(c.RF*100,2),number(p.unexplained*100,2),percent(p.r_squared,100),number(p.beta['Mkt-RF'],2)].map(v=>`<td>${v}</td>`).join('')}</tr>`;
   });
-  $('attribution-table').innerHTML=table(['股票','行业代理','实际收益','市场 pp','行业 pp','风格合计 pp','无风险 pp','未解释 pp','估计窗口 R²','市场 Beta'],body);
+  $('attribution-table').innerHTML=table(['Ticker','Industry proxy','Actual return','Market pp','Industry pp','Style total pp','Risk-free pp','Unexplained pp','Estimation-window R²','Market beta'],body);
   $('attribution-warnings').innerHTML=(report.warnings||[]).map(w=>`<li>${esc(w)}</li>`).join('');
-  $('attribution-sources').textContent='数据来源：Kenneth French Data Library · Yahoo Finance（含分红复权收盘价）';
+  $('attribution-sources').textContent='Sources: Kenneth French Data Library · Yahoo Finance (dividend-adjusted closing prices)';
 }
 async function load(){
   const response=await fetch('data/factor_attribution.json?t='+Date.now(),{cache:'no-store'});
@@ -33,10 +33,10 @@ async function status(){
   try{
     const response=await fetch('/api/qlib/status',{cache:'no-store'});if(!response.ok)return;
     const job=await response.json();running=job.running;button();
-    if(running){$('attribution-job').textContent=job.kind==='attribution'?'正在下载因子及含分红行情、计算归因…':'行情或研究任务正在运行，请稍后。';timer=setTimeout(status,2500);}
-    else if(job.kind==='attribution'&&job.started_at){$('attribution-job').textContent=job.exit_code===0?'归因已更新':`更新失败，保留上次结果；${job.error||'请检查 attribution-refresh.log'}`;if(job.exit_code===0)await load();}
+    if(running){$('attribution-job').textContent=job.kind==='attribution'?'Downloading factors and dividend-adjusted prices; calculating attribution…':'A price or research task is running. Please wait.';timer=setTimeout(status,2500);}
+    else if(job.kind==='attribution'&&job.started_at){$('attribution-job').textContent=job.exit_code===0?'Attribution updated':`Update failed; previous results retained. ${job.error||'Check attribution-refresh.log'}`;if(job.exit_code===0)await load();}
     else $('attribution-job').textContent='';
-  }catch{$('attribution-job').textContent='无法读取本地更新状态。';}
+  }catch{$('attribution-job').textContent='Unable to read local update status.';}
 }
 export function initAttribution(){
   document.addEventListener('quant-job-started',()=>{clearTimeout(timer);status();});
@@ -52,8 +52,8 @@ export function initAttribution(){
   $('attribution-refresh').addEventListener('click',async()=>{
     running=true;button();
     try{const r=await fetch('/api/qlib/attribution/refresh',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});if(!r.ok)throw Error('refresh');document.dispatchEvent(new CustomEvent('quant-job-started'));}
-    catch{running=false;button();$('attribution-job').textContent='归因启动失败，请检查本地服务。';}
+    catch{running=false;button();$('attribution-job').textContent='Unable to start attribution. Check the local server.';}
   });
-  load().catch(()=>{$('attribution-meta').textContent='暂无归因数据，更新行情后点击「更新归因」。';});
+  load().catch(()=>{$('attribution-meta').textContent='No attribution data yet. Update prices, then select Update attribution.';});
   if(local)status();
 }

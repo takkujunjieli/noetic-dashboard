@@ -4,10 +4,10 @@ export const number=(value,digits=2)=>typeof value==='number'&&Number.isFinite(v
 export const percent=(value,scale=1)=>typeof value==='number'&&Number.isFinite(value)?`${(value*scale).toFixed(2)}%`:'—';
 export const table=(headers,rows)=>`<table class="qlib-table"><thead><tr>${headers.map(h=>`<th scope="col">${escapeHTML(h)}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table>`;
 export function icStats(cs={}){
-  return [{label:'IC',value:number(cs.ic,4),detail:'横截面 Pearson 均值'},
-    {label:'ICIR',value:number(cs.icir,4),detail:'IC 均值 / 样本标准差 · 不年化'},
-    {label:'Rank IC',value:number(cs.rank_ic,4),detail:'横截面 Spearman 均值'},
-    {label:'Rank ICIR',value:number(cs.rank_icir,4),detail:'Rank IC 均值 / 样本标准差'}];
+  return [{label:'IC',value:number(cs.ic,4),detail:'Mean cross-sectional Pearson IC'},
+    {label:'ICIR',value:number(cs.icir,4),detail:'Mean IC / sample standard deviation · Unannualized'},
+    {label:'Rank IC',value:number(cs.rank_ic,4),detail:'Mean cross-sectional Spearman IC'},
+    {label:'Rank ICIR',value:number(cs.rank_icir,4),detail:'Mean rank IC / sample standard deviation'}];
 }
 export function staleSessions(asof,now=new Date()){
   // Calendar age only; the UI labels this explicitly instead of claiming trading-session precision.

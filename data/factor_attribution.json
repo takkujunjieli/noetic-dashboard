@@ -4,8 +4,8 @@
   "asof": "2026-09-30",
   "market_asof": "2026-10-30",
   "factor_asof": "2026-09-30",
-  "settings_revision": "488701fcba010c3a6eadc552a5df1b52ed439f4b04cf56ba9f26b54ee71c05ae",
-  "universe_name": "Trading · 全部历史 ticker",
+  "settings_revision": "d0236349a3a8addade25a6fdec5153cf703f51f7c4d7dd62b77ed11f45b5308a",
+  "universe_name": "Trading · All historical tickers",
   "rows": [
     {
       "symbol": "AAOI",
@@ -572,7 +572,7 @@
       "industry_proxy": null,
       "periods": {},
       "status": "unavailable",
-      "reason": "尚未配置可靠行业代理；主题名单不作为行业"
+      "reason": "No reliable industry proxy configured; themes do not define industries"
     },
     {
       "symbol": "ASTS",
@@ -1027,7 +1027,7 @@
       "industry_proxy": null,
       "periods": {},
       "status": "unavailable",
-      "reason": "尚未配置可靠行业代理；主题名单不作为行业"
+      "reason": "No reliable industry proxy configured; themes do not define industries"
     },
     {
       "symbol": "CCL",
@@ -1370,7 +1370,7 @@
       "industry_proxy": null,
       "periods": {},
       "status": "unavailable",
-      "reason": "尚未配置可靠行业代理；主题名单不作为行业"
+      "reason": "No reliable industry proxy configured; themes do not define industries"
     },
     {
       "symbol": "CRWD",
@@ -1784,7 +1784,7 @@
         },
         "60": {
           "status": "insufficient",
-          "reason": "区间行情、因子或此前252日估计样本不完整"
+          "reason": "Incomplete period prices, factors, or prior 252-session estimation history"
         }
       },
       "status": "ok"
@@ -2242,7 +2242,7 @@
       "industry_proxy": null,
       "periods": {},
       "status": "unavailable",
-      "reason": "尚未配置可靠行业代理；主题名单不作为行业"
+      "reason": "No reliable industry proxy configured; themes do not define industries"
     },
     {
       "symbol": "INTC",
@@ -2361,7 +2361,7 @@
       "industry_proxy": null,
       "periods": {},
       "status": "unavailable",
-      "reason": "尚未配置可靠行业代理；主题名单不作为行业"
+      "reason": "No reliable industry proxy configured; themes do not define industries"
     },
     {
       "symbol": "KLAR",
@@ -2404,11 +2404,11 @@
         },
         "20": {
           "status": "insufficient",
-          "reason": "区间行情、因子或此前252日估计样本不完整"
+          "reason": "Incomplete period prices, factors, or prior 252-session estimation history"
         },
         "60": {
           "status": "insufficient",
-          "reason": "区间行情、因子或此前252日估计样本不完整"
+          "reason": "Incomplete period prices, factors, or prior 252-session estimation history"
         }
       },
       "status": "ok"
@@ -2754,7 +2754,7 @@
       "industry_proxy": null,
       "periods": {},
       "status": "unavailable",
-      "reason": "尚未配置可靠行业代理；主题名单不作为行业"
+      "reason": "No reliable industry proxy configured; themes do not define industries"
     },
     {
       "symbol": "MU",
@@ -3657,14 +3657,14 @@
       "industry_proxy": null,
       "periods": {},
       "status": "unavailable",
-      "reason": "尚未配置可靠行业代理；主题名单不作为行业"
+      "reason": "No reliable industry proxy configured; themes do not define industries"
     },
     {
       "symbol": "QQQ",
       "industry_proxy": null,
       "periods": {},
       "status": "unavailable",
-      "reason": "尚未配置可靠行业代理；主题名单不作为行业"
+      "reason": "No reliable industry proxy configured; themes do not define industries"
     },
     {
       "symbol": "RCL",
@@ -4007,7 +4007,7 @@
       "industry_proxy": null,
       "periods": {},
       "status": "unavailable",
-      "reason": "尚未配置可靠行业代理；主题名单不作为行业"
+      "reason": "No reliable industry proxy configured; themes do not define industries"
     },
     {
       "symbol": "SMCI",
@@ -4350,21 +4350,21 @@
       "industry_proxy": null,
       "periods": {},
       "status": "unavailable",
-      "reason": "尚未配置可靠行业代理；主题名单不作为行业"
+      "reason": "No reliable industry proxy configured; themes do not define industries"
     },
     {
       "symbol": "SPCX",
       "industry_proxy": null,
       "periods": {},
       "status": "unavailable",
-      "reason": "尚未配置可靠行业代理；主题名单不作为行业"
+      "reason": "No reliable industry proxy configured; themes do not define industries"
     },
     {
       "symbol": "SPY",
       "industry_proxy": null,
       "periods": {},
       "status": "unavailable",
-      "reason": "尚未配置可靠行业代理；主题名单不作为行业"
+      "reason": "No reliable industry proxy configured; themes do not define industries"
     },
     {
       "symbol": "STRL",
@@ -4948,7 +4948,7 @@
     "industry": "ETF excess return residualized against intercept + six common factors on the same prior window",
     "linking": "daily contribution × prior cumulative stock wealth; sum equals compounded stock return",
     "mapping": {
-      "description": "人工维护的行业ETF代理；主题不充当行业，未映射标的不生成归因。ETF为宽泛代理，成分可能含被归因股票。",
+      "description": "Manually maintained industry ETF proxies. Themes do not define industries; unmapped tickers have no attribution. ETFs are broad proxies and may hold the stock being analyzed.",
       "groups": {
         "semiconductors": "SOXX",
         "optical": "XLK",
@@ -5050,11 +5050,11 @@
     "classification": "current manual proxy map, not historical membership"
   },
   "warnings": [
-    "统计归因反映给定因子与行业代理下的关联，不是因果解释；未解释收益不是已验证alpha。",
-    "行业ETF是代理，可能持有被归因股票；人工分类不代表历史行业成分。数字资产主题暂不强行映射。",
-    "公开French因子存在发布滞后和历史修订；归因截至行情与完整因子的共同日期，未使用最新行情填补。",
-    "Yahoo含分红复权价格用于归因；上方动量使用不含分红价格，收益口径可能不同。",
-    "252个完整交易日估计，系数滞后一天；缺失或共线窗口不生成结果。拟合度为估计窗口内指标。"
+    "Attribution describes associations under the selected factors and industry proxies, not causation. Unexplained return is not proven alpha.",
+    "Industry ETFs are proxies and may hold the stock being analyzed. Manual classifications do not represent historical membership. Digital-asset themes are not assigned an industry proxy by default.",
+    "Public French factors have publication lags and historical revisions. Attribution ends at the latest date covered by both prices and complete factors; newer prices do not fill missing factor dates.",
+    "Attribution uses Yahoo dividend- and split-adjusted prices. Momentum above excludes dividends, so the return definitions may differ.",
+    "Estimation uses 252 complete trading sessions with coefficients lagged one session. Missing or collinear windows produce no result. R-squared is measured within the estimation window."
   ],
   "sources": [
     {

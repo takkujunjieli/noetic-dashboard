@@ -6,7 +6,7 @@ import { loadRetailData } from "./retail-data.mjs";
 import { buildSnapshot } from "./macd-research.mjs";
 import { decomposeFiveFactor } from "./five-factor.mjs?v=20261031-original-warning";
 import { REGIME_DIMENSIONS, defaultRegimeValues, isRegimeFriday, latestRegimeSnapshotBefore, mergeRegimeStores, radarPoint, radarValueFromPoint, regimeFriday, saveRegimeSnapshot } from "./regime.mjs?v=20261018-anchor";
-import { initScorecards } from "./trading.js?v=20261029-clean-notes";   // 个股分析 tab 复用交易台的 Scorecards 渲染(trading.js 自启动已守卫)
+import { initScorecards } from "./trading.js?v=20261103-english-ui";   // 个股分析 tab 复用交易台的 Scorecards 渲染(trading.js 自启动已守卫)
 
 const floatingTableHeaders = new Map();
 function installFloatingTableHeader(wrap, tableSelector, key) {
@@ -69,12 +69,12 @@ const DRIVER = {
   1990: "imbalance", 1998: "imbalance", 2000: "imbalance", 2007: "imbalance", 2020: "shock", 2021: "shock",
 };
 const DRIVER_COLOR = { imbalance: "#f87171", shock: "#8b96ad" };
-const DRIVER_LABEL = { imbalance: "信用/估值", shock: "冲击" };
+const DRIVER_LABEL = { imbalance: "Credit/Valuation", shock: "Shock" };
 const DRIVER_NOTE = {
-  1966: "信用紧缩(credit crunch)", 1968: "高估值 + 滞胀酝酿", 1972: "Nifty-Fifty 估值泡沫 + 紧缩",
-  1980: "Volcker 加息冲击(货币 regime 突变)", 1987: "利率飙升 + 估值拉伸下的结构性崩盘",
-  1990: "S&L 信用危机 + 海湾油价", 1998: "LTCM / 俄债信用挤兑", 2000: "互联网估值泡沫破裂",
-  2007: "次贷 / 房地产信用危机", 2020: "COVID 外生冲击", 2021: "通胀飙升 + 联储加息 regime 突变",
+  1966: "Credit crunch", 1968: "High valuations + emerging stagflation", 1972: "Nifty Fifty valuation bubble + tightening",
+  1980: "Volcker rate shock (monetary regime shift)", 1987: "Rate spike + structural crash under stretched valuations",
+  1990: "S&L credit crisis + Gulf oil shock", 1998: "LTCM / Russian debt liquidity squeeze", 2000: "Dot-com valuation bubble burst",
+  2007: "Subprime / housing credit crisis", 2020: "Exogenous COVID shock", 2021: "Inflation surge + Fed tightening regime shift",
 };
 const driverOf = (e) => DRIVER[+e.peak.slice(0, 4)] || "shock";
 
@@ -224,7 +224,7 @@ function runModel(A, lam = LAM, embargo = 12) {
 function probBearsChart(host, J, dir, series, benchmarks) {
   if (!host) return;
   const LWC = window.LightweightCharts;
-  if (!LWC) { host.innerHTML = '<span class="muted small">图表库未加载</span>'; return; }
+  if (!LWC) { host.innerHTML = '<span class="muted small">Chart library failed to load</span>'; return; }
   const dates = J.dates, eps = (J.directions[dir].entities.market.episodes) || [];
   const cssVar = (c) => c && c.startsWith("var(")
     ? (getComputedStyle(document.documentElement).getPropertyValue(c.slice(4, -1).trim()).trim() || "#60a5fa") : c;
@@ -237,8 +237,8 @@ function probBearsChart(host, J, dir, series, benchmarks) {
   const hov = document.createElement("div"); hov.className = "chart-hover"; hov.style.display = "none";
   wrap.append(chartEl, hov);
   const cap = document.createElement("div"); cap.className = "muted small"; cap.style.marginTop = "8px";
-  cap.innerHTML = "左轴=模型全样本拟合的熊市预警概率%;右轴=大盘指数(对数,起点=100);阴影=历史熊市。"
-    + "3 变量=曲线(10Y-3M)+信用(GZ 利差)+估值(b/m)极简领先基准;23 特征=全信号。点击图例开关曲线,悬停看当月读数,可缩放/平移。";
+  cap.innerHTML = "Left axis = in-sample bear-market warning probability; right axis = broad-market index (log scale, rebased to 100); shading = historical bear markets. "
+    + "The 3-variable benchmark uses the yield curve (10Y−3M), credit (GZ spread), and valuation (B/M); the 23-feature model uses all signals. Click the legend to toggle a line; hover for monthly values; zoom or pan as needed.";
   host.append(leg, wrap, cap);
 
   const LOG = (LWC.PriceScaleMode && LWC.PriceScaleMode.Logarithmic) ?? 1;
@@ -280,7 +280,7 @@ function probBearsChart(host, J, dir, series, benchmarks) {
     S.push({ label: s.name, color: col, series: ser, visible: true,
       latest: last == null ? "—" : (last * 100).toFixed(0) + "%", fmt: (v) => v.toFixed(0) + "%" });
   }
-  for (const m of [{ key: "sp500", label: "标普500", color: "#94a3b8" }, { key: "nasdaq", label: "纳斯达克", color: "#2dd4bf" }]) {
+  for (const m of [{ key: "sp500", label: "S&P 500", color: "#94a3b8" }, { key: "nasdaq", label: "Nasdaq", color: "#2dd4bf" }]) {
     const arr = benchmarks[m.key]; if (!arr || !arr.length) continue;   // 基准指数(右轴,对数,归一 100)
     const base = arr.find((v) => v != null && v > 0) || 1;
     const ser = chart.addLineSeries({ color: m.color, lineWidth: 1, priceScaleId: "right", priceLineVisible: false, lastValueVisible: false });
@@ -298,7 +298,7 @@ function probBearsChart(host, J, dir, series, benchmarks) {
     leg.appendChild(chip);
   });
   const shadeChip = document.createElement("span"); shadeChip.className = "rt-leg"; shadeChip.style.cursor = "default";
-  shadeChip.innerHTML = `阴影=历史熊市(<span style="color:${DRIVER_COLOR.imbalance}">信用/估值</span> / <span style="color:${DRIVER_COLOR.shock}">冲击</span>)`;
+  shadeChip.innerHTML = `Shading = historical bear markets (<span style="color:${DRIVER_COLOR.imbalance}">Credit/Valuation</span> / <span style="color:${DRIVER_COLOR.shock}">Shock</span>)`;
   leg.appendChild(shadeChip);
 
   chart.subscribeCrosshairMove((param) => {                 // 悬停:当月各可见曲线值 + 是否处于历史熊市
@@ -311,7 +311,7 @@ function probBearsChart(host, J, dir, series, benchmarks) {
       rows.push(`<span style="color:${s.color}">● ${esc(s.label)} ${s.fmt(d.value)}</span>`);
     }
     const bi = bearInfo[monthIdx[String(param.time).slice(0, 7)] ?? -1];
-    if (bi) rows.push(`<span style="color:${DRIVER_COLOR[bi.driver]}">▮ 熊市 #${bi.id} ${DRIVER_LABEL[bi.driver]}(${(bi.dd * 100).toFixed(0)}%)</span>`);
+    if (bi) rows.push(`<span style="color:${DRIVER_COLOR[bi.driver]}">▮ Bear market #${bi.id} ${DRIVER_LABEL[bi.driver]} (${(bi.dd * 100).toFixed(0)}%)</span>`);
     if (!rows.length) { hov.style.display = "none"; return; }
     hov.innerHTML = `<div class="muted" style="margin-bottom:2px">${param.time}</div>` + rows.join("<br>");
     hov.style.display = "block";
@@ -336,13 +336,13 @@ function scorecard(J, dir, res) {
     const hit = vals.filter((v) => v > 0.5).length;
     return `mean ${mean(vals).toFixed(3)} · min ${Math.min(...vals).toFixed(3)} · hit ${hit}/${vals.length}`;
   };
-  return `<table class="bt-table"><tr><th>#</th><th>熊市(峰→谷)</th><th>跌幅</th><th>驱动机制</th><th>LOBO AUC</th></tr>${rows}</table>
+  return `<table class="bt-table"><tr><th>#</th><th>Bear Market (Peak→Trough)</th><th>Drawdown</th><th>Driver</th><th>LOBO AUC</th></tr>${rows}</table>
     <div class="opt-grid" style="margin-top:10px">
-      ${tile("全部可评估", sub(() => true), "9 次揉成一个均值 → 会骗人")}
-      ${tile("信用/估值驱动", sub((d) => d === "imbalance"), "内生金融失衡 — 稳健可预警")}
-      ${tile("冲击(外生/政策)", sub((d) => d === "shock"), "regime 突变 — 本质不可预警")}
+      ${tile("All Evaluable", sub(() => true), "A single average across nine episodes can mislead")}
+      ${tile("Credit/Valuation Driven", sub((d) => d === "imbalance"), "Endogenous financial imbalances — more forecastable")}
+      ${tile("Shock (Exogenous/Policy)", sub((d) => d === "shock"), "Regime shifts — inherently difficult to forecast")}
     </div>
-    <div class="muted small">按<b>驱动机制</b>分簇(比 内生/政策/外生 名实相符):<span style="color:${DRIVER_COLOR.imbalance}">信用/估值驱动</span>=信用扩张过度 / 估值泡沫 / 曲线倒挂酝酿的顶,模型稳健可预警;<span style="color:${DRIVER_COLOR.shock}">冲击</span>=外生(COVID)或政策 regime 突变(1980 Volcker、2022 通胀加息),leading 信号看不到、甚至反向(2022→0.17)。LOBO 用 embargo + 净基线(口径同 factorlab/model.py):留出该熊市训练其余、再看能否认出它,&gt;0.5 有效。hover「驱动机制」看成因。</div>`;
+    <div class="muted small">Episodes are grouped by <b>driver</b>. <span style="color:${DRIVER_COLOR.imbalance}">Credit/valuation</span> episodes reflect excess credit, valuation bubbles, or curve inversion and are generally more forecastable. <span style="color:${DRIVER_COLOR.shock}">Shock</span> episodes are exogenous or policy regime shifts that leading indicators may miss. LOBO uses an embargo and clean baseline: hold out one bear market, train on the rest, and test whether the model identifies it; AUC &gt; 0.5 is informative. Hover over the driver for the episode rationale.</div>`;
 }
 
 function tile(k, v, sub = "") {
@@ -351,29 +351,29 @@ function tile(k, v, sub = "") {
 
 // 系数(特征)中文释义:16 宏观 + 7 市场技术,附在系数名后帮助解读
 const COEF_CN = {
-  term_10y3m: "期限利差 10Y−3M(倒挂=衰退前兆)",
-  term_10y3m_long: "期限利差 10Y−3M(长窗平滑)",
-  term_10y2y: "期限利差 10Y−2Y",
-  credit_baa_aaa: "信用利差 Baa−Aaa(企业债风险溢价)",
-  nfci: "NFCI 全国金融状况(>0=收紧)",
-  vix: "VIX 波动率(恐慌情绪)",
-  unrate: "失业率",
-  sahm: "Sahm 衰退指标(失业率上行触发)",
-  cfnai: "CFNAI 全国活动指数(<0=低于趋势)",
-  claims: "初请失业金人数",
-  cpi_yoy: "CPI 同比通胀",
-  bm: "账面市值比 B/M(高=便宜)",
-  ntis: "净股票发行率(高=供给过剩,看空)",
-  gz_spread: "GZ 信用利差(企业债超额利差)",
-  ebp: "超额债券溢价 EBP(升=避险)",
-  est_prob: "基线先验概率",
-  mkt_dd: "大盘回撤(距高点回落)",
-  mkt_ret_1m: "近 1 月收益",
-  mkt_mom_12m: "12 月动量",
-  mkt_dist_10ma: "距 10 月均线偏离",
-  mkt_rvol_3m: "近 3 月已实现波动",
-  def_minus_cyc_12m: "防御−周期 12 月相对强弱(避险)",
-  breadth_pct_above_10ma: "市场宽度(站上 10 月线个股占比)",
+  term_10y3m: "10Y−3M term spread (inversion = recession warning)",
+  term_10y3m_long: "10Y−3M term spread (long-window smoothed)",
+  term_10y2y: "10Y−2Y term spread",
+  credit_baa_aaa: "Baa−Aaa credit spread (corporate risk premium)",
+  nfci: "NFCI financial conditions (>0 = tighter)",
+  vix: "VIX volatility (risk aversion)",
+  unrate: "Unemployment rate",
+  sahm: "Sahm recession indicator",
+  cfnai: "CFNAI activity index (<0 = below trend)",
+  claims: "Initial jobless claims",
+  cpi_yoy: "CPI inflation, year over year",
+  bm: "Book-to-market (high = cheaper)",
+  ntis: "Net equity issuance (high = excess supply)",
+  gz_spread: "GZ corporate excess bond premium",
+  ebp: "Excess bond premium (higher = risk-off)",
+  est_prob: "Baseline prior probability",
+  mkt_dd: "Market drawdown from peak",
+  mkt_ret_1m: "Trailing 1-month return",
+  mkt_mom_12m: "12-month momentum",
+  mkt_dist_10ma: "Distance from 10-month moving average",
+  mkt_rvol_3m: "Trailing 3-month realized volatility",
+  def_minus_cyc_12m: "Defensive minus cyclical 12-month relative strength",
+  breadth_pct_above_10ma: "Market breadth: share above 10-month average",
 };
 
 function coefBars(res) {
@@ -389,20 +389,20 @@ function coefBars(res) {
       <span style="flex:1">${bar}</span>
       <span style="width:52px;font-size:11px" class="${c >= 0 ? "down" : "up"}">${c >= 0 ? "+" : ""}${c.toFixed(2)}</span></div>`;
   }).join("");
-  return `${rows}<div class="muted small" style="margin-top:6px">标准化系数:<span class="down">红=推高</span>预警 / <span class="up">绿=压低</span>。⚠️ 特征相关时个别系数符号可能翻转,别单独解读。</div>`;
+  return `${rows}<div class="muted small" style="margin-top:6px">Standardized coefficients: <span class="down">red raises</span> the warning probability; <span class="up">green lowers</span> it. ⚠️ Correlated features can flip individual signs, so do not interpret a coefficient in isolation.</div>`;
 }
 
 /* ---------- Topic 1:熊市预测 ---------- */
 async function renderBearbull() {
   const J = await loadJSON("data/research_bearbull.json");
-  if (!J) { $("bb-status").textContent = "缺 data/research_bearbull.json(在 factor-research 跑 export_web.py 生成)"; return; }
-  $("bb-status").textContent = `Topic: 熊市预测 · 熊侧 · ${J.dates[0]}→${J.dates[J.dates.length - 1]} · ${J.dates.length} 月 · 模型在浏览器实时计算(L2-logistic, λ=${LAM})`;
+  if (!J) { $("bb-status").textContent = "Missing data/research_bearbull.json (run export_web.py in factor-research)"; return; }
+  $("bb-status").textContent = `Topic: Bear Market Forecast · bear side · ${J.dates[0]}→${J.dates[J.dates.length - 1]} · ${J.dates.length} months · calculated live in the browser (L2-logistic, λ=${LAM})`;
   const A = assemble(J, "bear", "market");
   const res = runModel(A, LAM);
   const res3 = runModel(assembleFeats(J, LEADING3, "bear", "market"), LAM);   // 3 变量领先基准
   const series = [
-    { name: "预警概率·23特征", prob: res.probAll, color: "#f472b6", w: 1.8 },
-    { name: "预警概率·3变量", prob: res3.probAll, color: "#c084fc", w: 1.5, dash: "5 3" },
+    { name: "Warning Probability · 23 Features", prob: res.probAll, color: "#f472b6", w: 1.8 },
+    { name: "Warning Probability · 3 Variables", prob: res3.probAll, color: "#c084fc", w: 1.5, dash: "5 3" },
   ];
   probBearsChart($("bb-chart"), J, "bear", series, J.benchmarks || {});
   $("bb-score").innerHTML = scorecard(J, "bear", res);
@@ -417,35 +417,45 @@ const sgncls = (v) => v == null ? "" : (v > 0 ? "up" : "down");
 // Frozen point-in-time research: daily cross-sectional IC and quantile cohorts.
 function renderRetailResearch(R, set) {
   if (!R) {
-    set("rf-scatter", "尚未生成 PIT 研究数据，请运行新版 retailflow 工作流。");
+    set("rf-scatter", "PIT research data has not been generated. Run the latest retailflow workflow.");
     set("rf-ic", "—");
     return;
   }
   const pct = (v) => v == null ? "—" : `${(v * 100).toFixed(2)}%`;
   const priceErrors = Object.keys(R.price_errors || {});
   const rows = [];
-  for (const [field, label] of [["signal", "PIT 复合"], ["netbuy", "净买入对照"]]) {
+  for (const [field, label] of [["signal", "PIT Composite"], ["netbuy", "Net-Buying Baseline"]]) {
     for (const h of [1, 5]) {
       const v = R.results[field][String(h)].summary;
-      rows.push(`<tr><td>${label}</td><td>${h}D</td><td>${v.n_days}</td><td>${fmtIC(v.mean_ic)}</td><td>${fmtIC(v.ic_std)}</td><td>${fmtIC(v.icir)}</td><td>${pct(v.positive_ic_rate)}</td><td>${v.status === "insufficient" ? "样本不足" : "描述性统计"}</td></tr>`);
+      rows.push(`<tr><td>${label}</td><td>${h}D</td><td>${v.n_days}</td><td>${fmtIC(v.mean_ic)}</td><td>${fmtIC(v.ic_std)}</td><td>${fmtIC(v.icir)}</td><td>${pct(v.positive_ic_rate)}</td><td>${v.status === "insufficient" ? "Insufficient sample" : "Descriptive"}</td></tr>`);
     }
   }
-  set("rf-ic", `<div class="muted small">已冻结 ${R.snapshot_count} 个入场日快照。每个交易日先算横截面 Spearman，再对日期等权平均；每日至少 ${R.min_names} 只股票。ICIR = mean(IC) / sample std(IC)，不年化。5D 窗口重叠。</div>
-    <div style="overflow-x:auto"><table class="bt-table"><tr><th>信号</th><th>持有期</th><th>有效IC天数</th><th>Mean IC</th><th>IC std</th><th>ICIR</th><th>IC胜率</th><th>状态</th></tr>${rows.join("")}</table></div>`);
-  let html = priceErrors.length ? `<p class="down">前瞻价格采集失败：${priceErrors.map(esc).join(", ")}。相关收益缺失，见覆盖率。</p>` : "";
-  html += `<div class="muted small">实际冻结时间 t → t 后首个 XNYS 交易日开盘 → 第 1/5 个交易日收盘。历史观察数据不补造 PIT 信号。主信号为 z(sentiment) × z(activity)，以此前最多20个交易日标准化（至少5个有效观测），搜索热度仅展示。</div>`;
-  for (const [field, label] of [["signal", "PIT 复合"], ["netbuy", "净买入对照"]]) {
+  set("rf-ic", `<div class="muted small">${R.snapshot_count} entry-date snapshots are frozen. Cross-sectional Spearman IC is computed each trading day and then equally averaged across dates; each day requires at least ${R.min_names} stocks. ICIR = mean(IC) / sample std(IC), not annualized. 5D windows overlap.</div>
+    <div style="overflow-x:auto"><table class="bt-table"><tr><th>Signal</th><th>Horizon</th><th>Valid IC Days</th><th>Mean IC</th><th>IC std</th><th>ICIR</th><th>Positive IC Rate</th><th>Status</th></tr>${rows.join("")}</table></div>`);
+  let html = priceErrors.length ? `<p class="down">Forward-price collection failed for ${priceErrors.map(esc).join(", ")}. Related returns are missing; see coverage.</p>` : "";
+  html += `<div class="muted small">Actual freeze time t → first XNYS open after t → close of trading day 1/5. Historical observations do not receive fabricated PIT signals. The primary signal is z(sentiment) × z(activity), standardized on up to 20 prior trading days with at least five valid observations. Search interest is display-only.</div>`;
+  for (const [field, label] of [["signal", "PIT Composite"], ["netbuy", "Net-Buying Baseline"]]) {
     for (const h of [1, 5]) {
       const r = R.results[field][String(h)], v = r.summary;
-      html += `<h3>${label} · ${h}D 五分位多空</h3><div class="muted small">Q5−Q1，等权，100%多 + 100%空。有效批次 ${v.ls_days} · 平均毛收益 ${pct(v.mean_ls_gross)} · 成本后 ${pct(v.mean_ls_net)}（每腿每边 ${R.cost_bps_per_side}bp，往返共 ${4 * R.cost_bps_per_side}bp）。${h === 5 ? "5D 为重叠批次收益，不是每日策略收益，不复利。" : "开盘建仓、收盘平仓。"}</div>`;
+      html += `<h3>${label} · ${h}D Quintile Long/Short</h3><div class="muted small">Q5−Q1, equal weight, 100% long + 100% short. ${v.ls_days} valid batches · average gross return ${pct(v.mean_ls_gross)} · net ${pct(v.mean_ls_net)} (${R.cost_bps_per_side}bp per side per leg; ${4 * R.cost_bps_per_side}bp round trip). ${h === 5 ? "5D batches overlap; these are not daily strategy returns and are not compounded." : "Enter at the open and exit at the close."}</div>`;
       if (!r.daily.length) {
-        html += `<p class="muted small">暂无到期的严格 PIT 样本，等待冻结信号后的交易窗口完成。</p>`;
+        html += `<p class="muted small">No matured strict-PIT samples yet; waiting for post-freeze trading windows to complete.</p>`;
       } else {
-        html += `<details><summary>每日 IC、覆盖率与分位收益（最近60批次）</summary><div style="overflow-x:auto"><table class="bt-table"><tr><th>实际冻结 UTC</th><th>入场</th><th>退出</th><th>收益覆盖</th><th>IC</th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th><th>Q5</th><th>L/S毛</th><th>L/S净</th></tr>${r.daily.slice(-60).reverse().map(d => `<tr><td>${esc(d.formed_at)}</td><td>${d.entry_date}</td><td>${d.exit_date}</td><td>${d.n_returns}/${d.n_universe}</td><td>${fmtIC(d.ic)}</td>${[0,1,2,3,4].map(i => `<td>${pct(d.quantile_returns?.[i])}</td>`).join("")}<td>${pct(d.long_short_gross)}</td><td>${pct(d.long_short_net)}</td></tr>`).join("")}</table></div></details>`;
+        html += `<details><summary>Daily IC, coverage, and quantile returns (latest 60 batches)</summary><div style="overflow-x:auto"><table class="bt-table"><tr><th>Actual Freeze UTC</th><th>Entry</th><th>Exit</th><th>Return Coverage</th><th>IC</th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th><th>Q5</th><th>L/S Gross</th><th>L/S Net</th></tr>${r.daily.slice(-60).reverse().map(d => `<tr><td>${esc(d.formed_at)}</td><td>${d.entry_date}</td><td>${d.exit_date}</td><td>${d.n_returns}/${d.n_universe}</td><td>${fmtIC(d.ic)}</td>${[0,1,2,3,4].map(i => `<td>${pct(d.quantile_returns?.[i])}</td>`).join("")}<td>${pct(d.long_short_gross)}</td><td>${pct(d.long_short_net)}</td></tr>`).join("")}</table></div></details>`;
       }
     }
   }
-  html += `<details><summary>研究口径与限制</summary><ul>${R.caveats.map(c => `<li>${esc(c)}</li>`).join("")}</ul></details>`;
+  const caveats = [
+    "No PIT history is fabricated for older observations; strict results accumulate only after the first actual signal freeze.",
+    "The primary signal is z(netbuy) × z(intensity), standardized only on the prior 20 trading days with at least five valid observations; Google Trends is excluded.",
+    "The universe is the set of tickers with an actual signal at each freeze and is not selected using future returns. Missing returns reduce coverage; a long/short batch is excluded if any constituent return is missing.",
+    "1D runs from the next tradable open to that day's close; 5D runs from the same open to the fifth trading day's close.",
+    `Quintiles are equal-weighted Q5−Q1, 100% long + 100% short. Costs are ${R.cost_bps_per_side}bp per side per leg; borrow fees and availability constraints are excluded.`,
+    "Daily 5D entry windows overlap. Batch means are shown without compounding; ICIR is not annualized and is not a significance test.",
+    "Returns use split-adjusted prices and exclude cash dividends. The fixed tracking universe creates selection bias, so results do not generalize to the full market.",
+    "Fewer than 60 valid IC dates is marked insufficient; even larger samples are descriptive evidence only.",
+  ];
+  html += `<details><summary>Methodology and Limitations</summary><ul>${caveats.map(c => `<li>${esc(c)}</li>`).join("")}</ul></details>`;
   set("rf-scatter", html);
 }
 
@@ -460,13 +470,13 @@ function netbuyHeatmap(J) {
   const head = `<tr><th></th>${d.map((x) => `<th style="font-size:8px;font-weight:400;color:var(--muted)">${x.slice(5).replace("-", "/")}</th>`).join("")}</tr>`;
   const rows = tks.map((tk) => `<tr><td style="font-size:11px">${esc(tk)}</td>${d.map((_, i) => cell(D[tk].netbuy[i])).join("")}</tr>`).join("");
   return `<div style="overflow-x:auto"><table class="bt-table" style="border-spacing:1px">${head}${rows}</table></div>
-    <div class="muted small" style="margin-top:6px">每格=某票某日散户净买入(<span class="up">绿=净买</span>/<span class="down">红=净卖</span>,深浅随 |值|,饱和于 0.3)。</div>`;
+    <div class="muted small" style="margin-top:6px">Each cell is a ticker's daily retail net buying (<span class="up">green = net buy</span>/<span class="down">red = net sell</span>); intensity scales with absolute value and saturates at 0.3.</div>`;
 }
 
 /* 散户流跑批标的多选器:写回 config/retail_syms.json(独立于交易台 ticker 状态)。下次跑批生效。 */
 async function saveRetailSyms(symbols) {
   const pat = getPat();
-  if (!pat) return { ok: false, msg: "需要 fine-grained PAT(Contents 读写;在交易台采集面板输入,存本机)" };
+  if (!pat) return { ok: false, msg: "A fine-grained PAT is required (Contents read/write; enter it in Trading's collection panel and store it locally)" };
   const url = `https://api.github.com/repos/${REPO}/contents/config/retail_syms.json`;
   let sha;
   try {
@@ -475,10 +485,10 @@ async function saveRetailSyms(symbols) {
     if (cur.ok) sha = (await cur.json()).sha;
     else if (cur.status !== 404) {
       const j = await cur.json().catch(() => ({}));
-      return { ok: false, msg: `读 sha ${cur.status}: ${j.message || "(PAT 需 Contents 读写)"}` };
+      return { ok: false, msg: `Read SHA ${cur.status}: ${j.message || "(PAT requires Contents read/write)"}` };
     }
-  } catch (e) { return { ok: false, msg: "读 sha 异常 " + e }; }
-  const body = { _note: "散户订单流引擎跑哪些票(独立于交易台 ticker 状态;research 页多选下拉编辑)。逐笔成本 ~2-15min/票。", symbols };
+  } catch (e) { return { ok: false, msg: "Read SHA error: " + e }; }
+  const body = { _note: "Tickers processed by the retail-order-flow engine (independent of Trading ticker state; edited from the Research multi-select). Tick-level processing costs ~2–15 min per ticker.", symbols };
   const content = btoa(unescape(encodeURIComponent(JSON.stringify(body, null, 2) + "\n")));
   try {
     const r = await fetch(url, { method: "PUT", headers: ghHeaders(pat),
@@ -495,25 +505,25 @@ async function renderPicker() {
   const [cfg, rs] = await Promise.all([loadJSON("config/tickers.json"), loadFreshJSON("config/retail_syms.json")]);
   const wl = (cfg && cfg.watchlist) || [];
   const sel = new Set(((rs && rs.symbols) || []).map((s) => s.toUpperCase()));
-  const label = (arr) => `跑批标的:${arr.length ? arr.join(", ") : "（无）"} (${arr.length}) — 点开选择`;
+  const label = (arr) => `Batch universe: ${arr.length ? arr.join(", ") : "None"} (${arr.length}) — open to select`;
   const chips = wl.map((t) => `<label class="rf-chip" style="display:inline-flex;align-items:center;gap:4px;font-size:12px">
       <input type="checkbox" value="${esc(t)}"${sel.has(t.toUpperCase()) ? " checked" : ""}> ${esc(t)}</label>`).join("");
   el.innerHTML = `<details>
     <summary id="rf-pick-sum" style="cursor:pointer;font-weight:600">${esc(label([...sel]))}</summary>
     <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px 14px">${chips}</div>
     <div style="margin-top:10px;display:flex;align-items:center;gap:10px">
-      <button id="rf-save" class="tab">保存到 config/retail_syms.json</button>
+      <button id="rf-save" class="tab">Save to config/retail_syms.json</button>
       <span id="rf-save-msg" class="muted small"></span>
     </div>
-    <div class="muted small" style="margin-top:6px">改动写回仓库 config,<b>下次跑批(每日 cron / 手动)生效</b>,不影响已采集历史。逐笔 ~2-15min/票,别选太多。需 fine-grained PAT(Contents 读写)。</div>
+    <div class="muted small" style="margin-top:6px">Changes are written to the repository config and take effect on the <b>next daily cron or manual batch</b>; collected history is unchanged. Tick-level processing takes ~2–15 min per ticker, so keep the list focused. A fine-grained PAT with Contents read/write is required.</div>
   </details>`;
   const checked = () => [...el.querySelectorAll("input:checked")].map((i) => i.value.toUpperCase());
   el.querySelectorAll("input[type=checkbox]").forEach((cb) => cb.addEventListener("change",
     () => { $("rf-pick-sum").textContent = label(checked()); }));
   $("rf-save").addEventListener("click", async () => {
-    const msg = $("rf-save-msg"); msg.textContent = "保存中…";
+    const msg = $("rf-save-msg"); msg.textContent = "Saving…";
     const r = await saveRetailSyms(checked());
-    msg.textContent = r.ok ? "✓ 已保存,下次跑批生效" : "✗ " + r.msg;
+    msg.textContent = r.ok ? "✓ Saved; effective on the next batch" : "✗ " + r.msg;
     if (r.ok) setTimeout(renderPicker, 800);          // 重读 main 最新,确认真的写进去了
   });
 }
@@ -523,12 +533,12 @@ async function renderRetailflow() {
   const { data: J, source } = await loadRetailData(loadJSON);
   const set = (id, html) => { const el = $(id); if (el) el.innerHTML = html; };
   if (!J) {
-    $("rf-status").textContent = "Topic: 散户订单流 · 缺 data/retailflow.json(在 Actions 跑 retailflow 工作流生成)";
-    ["rf-now", "rf-scatter", "rf-ic", "rf-series"].forEach((id) => set(id, `<span class="muted small">暂无数据:需在 Actions 跑 fetch_tick_flow + build_retailflow 生成 data/retailflow.json</span>`));
+    $("rf-status").textContent = "Topic: Retail Order Flow · missing data/retailflow.json (run the retailflow workflow in Actions)";
+    ["rf-now", "rf-scatter", "rf-ic", "rf-series"].forEach((id) => set(id, `<span class="muted small">No data. Run fetch_tick_flow + build_retailflow in Actions to generate data/retailflow.json.</span>`));
     return;
   }
   const d = J.dates, tks = J.tickers, D = J.data;
-  $("rf-status").textContent = `Topic: 散户订单流 · ${d[0]}→${d[d.length - 1]} · ${tks.length} 票 × ${d.length} 天(${J.window_days || 30}d 滚动)· 更新 ${(J.updated || "").slice(0, 16)}${source ? ` · ${source}` : ""}`;
+  $("rf-status").textContent = `Topic: Retail Order Flow · ${d[0]}→${d[d.length - 1]} · ${tks.length} tickers × ${d.length} days (${J.window_days || 30}d rolling) · updated ${(J.updated || "").slice(0, 16)}${source ? ` · ${source}` : ""}`;
 
   // ① 当前信号表(可在日历日间任选;默认最新)。只列有数据的日子。
   const validIdx = d.map((_, i) => i).filter((i) => tks.some((tk) => D[tk].netbuy[i] != null));
@@ -579,7 +589,7 @@ async function renderRetailflow() {
   };
   const sortButton = (key, label) => {
     const mark = nowSortKey === key ? (nowSortDir < 0 ? "↓" : "↑") : "↕";
-    return `<button class="rf-sort-btn" data-rf-sort="${key}" title="点击切换升降序">${label}<span>${mark}</span></button>`;
+    return `<button class="rf-sort-btn" data-rf-sort="${key}" title="Click to toggle sort direction">${label}<span>${mark}</span></button>`;
   };
   const sortHead = (key, label) => `<th>${sortButton(key, label)}</th>`;
   // 日历选择:范围从 2026-01 起(便于日后 backfill),只有有数据的日子可点,其余(周末/未回填)灰不可选。
@@ -595,7 +605,7 @@ async function renderRetailflow() {
   const drawNow = () => {
     const lead = new Date(calY, calM - 1, 1).getDay();      // 首日星期(0=周日)
     const dim = new Date(calY, calM, 0).getDate();          // 当月天数
-    const wk = ["日", "一", "二", "三", "四", "五", "六"]
+    const wk = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
       .map((w) => `<div style="text-align:center;color:#8b96ad;font-size:11px;padding:2px">${w}</div>`).join("");
     let cells = "";
     for (let k = 0; k < lead; k++) cells += "<div></div>";
@@ -609,7 +619,7 @@ async function renderRetailflow() {
     const selSt = "background:var(--card-hover);border:1px solid var(--border);border-radius:5px;padding:2px 6px;color:var(--text);font-size:12px";
     let yOpts = "", mOpts = "";
     for (let y = 2026; y <= maxY; y++) yOpts += `<option value="${y}"${y === calY ? " selected" : ""}>${y}</option>`;
-    for (let m = 1; m <= 12; m++) mOpts += `<option value="${m}"${m === calM ? " selected" : ""}>${pad2(m)} 月</option>`;
+    for (let m = 1; m <= 12; m++) mOpts += `<option value="${m}"${m === calM ? " selected" : ""}>${new Date(2000, m - 1, 1).toLocaleString("en", { month: "short" })}</option>`;
     set("rf-now", `<div style="max-width:280px;margin-bottom:10px">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
           <button id="rf-cal-prev" class="tab" style="padding:1px 9px"${canPrev() ? "" : " disabled"}>‹</button>
@@ -618,14 +628,14 @@ async function renderRetailflow() {
         </div>
         <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px">${wk}${cells}</div>
       </div>
-      <div class="muted small" style="margin-bottom:6px">选中:<b>${d[nowIdx] || "—"}</b>${nowIdx === latestI ? "(最新)" : ""} · 灰色=无数据(周末/未回填)</div>
+      <div class="muted small" style="margin-bottom:6px">Selected: <b>${d[nowIdx] || "—"}</b>${nowIdx === latestI ? " (latest)" : ""} · gray = no data (weekend/not backfilled)</div>
       <div class="rf-now-table-wrap"><table class="bt-table rf-now-table"><thead>
-        <tr><th rowspan="2">票</th><th colspan="3">sentiment</th><th colspan="3">activity</th>
-          <th rowspan="2">${sortButton("at", "Google Trends")}</th><th rowspan="2">${sortButton("sg", "已冻结 PIT 复合")}</th></tr>
-        <tr>${sortHead("nb", "当前")}${sortHead("nbMean", "前20日均值")}${sortHead("nbZ", "z-score")}
-          ${sortHead("it", "当前")}${sortHead("itMean", "前20日均值")}${sortHead("itZ", "z-score")}</tr>
+        <tr><th rowspan="2">Ticker</th><th colspan="3">sentiment</th><th colspan="3">activity</th>
+          <th rowspan="2">${sortButton("at", "Google Trends")}</th><th rowspan="2">${sortButton("sg", "Frozen PIT Composite")}</th></tr>
+        <tr>${sortHead("nb", "Current")}${sortHead("nbMean", "Prior-20D Mean")}${sortHead("nbZ", "z-score")}
+          ${sortHead("it", "Current")}${sortHead("itMean", "Prior-20D Mean")}${sortHead("itZ", "z-score")}</tr>
       </thead><tbody>${rowsAt(nowIdx)}</tbody></table></div>
-      <div class="muted small">所选原始数据日。sentiment=估计的散户买卖不平衡（报价规则+tick rule）；activity=估计散户量/总量。“前20日均值”和 z-score 均只使用本票当前日之前最多20个交易日、至少5个有效观测，z-score 使用样本标准差。Google Trends仅展示，不参与主信号。复合列仅显示实际冻结的两项z分数之积，历史未冻结显示—；对应可交易时点见下方研究。</div>`);
+      <div class="muted small">Selected raw-data date. sentiment estimates retail buy/sell imbalance (quote rule + tick rule); activity estimates retail volume / total volume. Prior-20D means and z-scores use only up to 20 trading days before the current date for that ticker, with at least five valid observations and sample standard deviation. Google Trends is display-only. The composite column shows the product of the two actually frozen z-scores; unfrozen history is shown as —. See the research below for the tradable timestamp.</div>`);
     const prev = $("rf-cal-prev"), next = $("rf-cal-next");
     if (prev) prev.onclick = () => { if (canPrev()) { if (--calM < 1) { calM = 12; calY--; } drawNow(); } };
     if (next) next.onclick = () => { if (canNext()) { if (++calM > 12) { calM = 1; calY++; } drawNow(); } };
@@ -665,7 +675,7 @@ function renderRetailValidation(J) {
   const V = J.validation || {};
   const days = Object.keys(V).sort();
   if (!days.length) {
-    return `<span class="muted small">尚无验证记录。采样模式每晚会轮一只票额外跑一次全量,与 naive/精确 对照;${J.sampled ? "" : "(当前数据为全量模式,未开采样)"}攒几天后这里出现散点与误差表。</span>`;
+    return `<span class="muted small">No validation records yet. Sampling mode rotates one ticker each night through a full-data run for comparison with naive and precise estimates; ${J.sampled ? "" : "the current dataset is full-data mode with sampling disabled. "}After several days, scatter and error tables will appear here.</span>`;
   }
   const rows = days.map((d) => ({ d, ...V[d] })).filter((r) => r.full && r.precise);
   const absErr = (a, b) => (a == null || b == null) ? null : Math.abs(a - b);
@@ -679,15 +689,15 @@ function renderRetailValidation(J) {
   const S = 240, pad = 28, X = (v) => pad + (v + 1) / 2 * (S - 2 * pad), Y = (v) => S - pad - (v + 1) / 2 * (S - 2 * pad);
   const pts = (sel, color) => rows.map((r) => {
     const y = sel(r); if (y == null) return "";
-    return `<circle cx="${X(r.full.netbuy).toFixed(1)}" cy="${Y(y).toFixed(1)}" r="3" fill="${color}" fill-opacity="0.8"><title>${esc(r.ticker)} ${r.d}\n全量 ${r.full.netbuy.toFixed(3)} → ${(color === "#34d399" ? "精确" : "naive")} ${y.toFixed(3)}</title></circle>`;
+    return `<circle cx="${X(r.full.netbuy).toFixed(1)}" cy="${Y(y).toFixed(1)}" r="3" fill="${color}" fill-opacity="0.8"><title>${esc(r.ticker)} ${r.d}\nFull ${r.full.netbuy.toFixed(3)} → ${(color === "#34d399" ? "Precise" : "naive")} ${y.toFixed(3)}</title></circle>`;
   }).join("");
   const svg = `<svg viewBox="0 0 ${S} ${S}" width="${S}" height="${S}" style="background:#0d1526;border:1px solid #1e2941;border-radius:6px">
     <line x1="${X(-1)}" y1="${Y(-1)}" x2="${X(1)}" y2="${Y(1)}" stroke="#3a4560" stroke-dasharray="4 3"/>
     <line x1="${X(0)}" y1="${pad}" x2="${X(0)}" y2="${S - pad}" stroke="#1e2941"/>
     <line x1="${pad}" y1="${Y(0)}" x2="${S - pad}" y2="${Y(0)}" stroke="#1e2941"/>
     ${pts((r) => r.naive && r.naive.netbuy, "#8b96ad")}${pts((r) => r.precise.netbuy, "#34d399")}
-    <text x="${S / 2}" y="${S - 6}" fill="#8b96ad" font-size="10" text-anchor="middle">全量 netbuy (真值)</text>
-    <text x="10" y="${S / 2}" fill="#8b96ad" font-size="10" text-anchor="middle" transform="rotate(-90 10 ${S / 2})">采样估计</text></svg>`;
+    <text x="${S / 2}" y="${S - 6}" fill="#8b96ad" font-size="10" text-anchor="middle">Full netbuy (truth)</text>
+    <text x="10" y="${S / 2}" fill="#8b96ad" font-size="10" text-anchor="middle" transform="rotate(-90 10 ${S / 2})">Sample estimate</text></svg>`;
 
   const fmt = (x) => x == null ? "—" : (x > 0 ? "+" : "") + x.toFixed(3);
   const recent = rows.slice(-14).reverse();
@@ -704,16 +714,16 @@ function renderRetailValidation(J) {
   }).join("");
 
   return `<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start">
-      <div>${svg}<div class="muted small" style="text-align:center"><span style="color:#34d399">●</span> 精确 <span style="color:#8b96ad">●</span> naive · 越贴虚线越准</div></div>
+      <div>${svg}<div class="muted small" style="text-align:center"><span style="color:#34d399">●</span> precise <span style="color:#8b96ad">●</span> naive · closer to the diagonal is better</div></div>
       <div class="opt-grid" style="flex:1;min-width:220px">
-        ${tile("平均绝对误差·精确", pe.length ? mean(pe).toFixed(3) : "—", `n=${pe.length}`)}
-        ${tile("平均绝对误差·naive", ne.length ? mean(ne).toFixed(3) : "—", "越大说明采样偏差越需精确版纠正")}
-        ${tile("全量落入精确 CI", nCI ? `${inCI}/${nCI}` : "—", "≈95% 则 CI 校准良好")}
-        ${tile("验证样本", String(rows.length), `每票轮一次,共 ${J.tickers ? J.tickers.length : "?"} 票`)}
+        ${tile("Mean Absolute Error · Precise", pe.length ? mean(pe).toFixed(3) : "—", `n=${pe.length}`)}
+        ${tile("Mean Absolute Error · Naive", ne.length ? mean(ne).toFixed(3) : "—", "Larger values imply a greater need for precise sampling correction")}
+        ${tile("Full Value Inside Precise CI", nCI ? `${inCI}/${nCI}` : "—", "About 95% indicates a well-calibrated CI")}
+        ${tile("Validation Samples", String(rows.length), `One rotation per ticker; ${J.tickers ? J.tickers.length : "?"} tickers total`)}
       </div>
     </div>
-    <table class="bt-table" style="margin-top:10px"><tr><th>日期</th><th>票</th><th>全量</th><th>naive</th><th>精确</th><th>精确CI</th><th>|精确−全量|</th><th>|naive−全量|</th></tr>${tbl}</table>
-    <div class="muted small">每日轮一只票额外跑全量(真值),对比 naive(池化)与精确(分层比率)。精确的绝对误差应小于 naive、且散点更贴对角线;全量落入 CI 的比例应≈95%。绿色=精确误差≤naive。</div>`;
+    <table class="bt-table" style="margin-top:10px"><tr><th>Date</th><th>Ticker</th><th>Full</th><th>Naive</th><th>Precise</th><th>Precise CI</th><th>|Precise−Full|</th><th>|Naive−Full|</th></tr>${tbl}</table>
+    <div class="muted small">Each day, one ticker receives an extra full-data run as truth, compared with naive pooling and a precise stratified-ratio estimate. Precise absolute error should be lower than naive and closer to the diagonal; full values should fall inside the CI about 95% of the time. Green means precise error ≤ naive.</div>`;
 }
 
 /* Topic 3:国债 vs 股市 — 左轴=SPY/QQQ/IWM 归一100,右轴(虚线)=US 2/10/30Y 收益率%。
@@ -722,9 +732,9 @@ function renderRetailValidation(J) {
 async function renderRates() {
   const el = $("rates-chart"); if (!el) return;
   const LWC = window.LightweightCharts;
-  if (!LWC) { el.innerHTML = '<span class="muted small">图表库未加载</span>'; return; }
+  if (!LWC) { el.innerHTML = '<span class="muted small">Chart library failed to load</span>'; return; }
   const r = await loadJSON("data/rates.json");
-  if (!r || !r.series) { el.innerHTML = '<span class="muted small">缺 data/rates.json</span>'; return; }
+  if (!r || !r.series) { el.innerHTML = '<span class="muted small">Missing data/rates.json</span>'; return; }
   const meta = r.meta || {};
   el.innerHTML = "";
   const chart = LWC.createChart(el, {
@@ -818,7 +828,7 @@ function pearson(xs, ys) {
    负=收益率↑当日股市↓(压制);正=同向。每对独立在共同交易日上算日度变化。 */
 function renderRatesCorr(r, bps) {
   const host = $("rates-corr"); if (!host) return;
-  if (!r || !r.series) { host.innerHTML = '<span class="muted small">缺 data/rates.json</span>'; return; }
+  if (!r || !r.series) { host.innerHTML = '<span class="muted small">Missing data/rates.json</span>'; return; }
   const meta = r.meta || {}, S = r.series;
   const yks = ["DGS2", "DGS10", "DGS30"].filter((k) => S[k]);
   const eks = ["SPY", "QQQ", "IWM"].filter((k) => S[k]);
@@ -846,11 +856,11 @@ function renderRatesCorr(r, bps) {
   }).join("");
   host.innerHTML =
     `<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap">
-       <label class="muted small">|Δ收益率| 阈值 <input id="rc-thr" type="number" step="1" min="0" value="${bps}" style="width:60px;background:var(--card-hover);border:1px solid var(--border);border-radius:6px;padding:3px 6px;color:var(--text)"> bps/日</label>
-       <span class="muted small">同期日度相关(Pearson);n=达标交易日数</span>
+       <label class="muted small">|ΔYield| threshold <input id="rc-thr" type="number" step="1" min="0" value="${bps}" style="width:60px;background:var(--card-hover);border:1px solid var(--border);border-radius:6px;padding:3px 6px;color:var(--text)"> bps/day</label>
+       <span class="muted small">Same-day Pearson correlation; n = qualifying trading days</span>
      </div>
      <div class="sc-wrap"><table class="bt-table sc-table">${thead}${rows}</table></div>
-     <div class="muted small" style="margin-top:8px"><span class="down">负(红)</span>=收益率↑当日股市↓(压制)/ 收益率↓股市↑;<span class="up">正(绿)</span>=同向。只看<b>当日相关、非预测</b>;阈值越高→只留大幅变动日(样本变少)。</div>`;
+     <div class="muted small" style="margin-top:8px"><span class="down">Negative (red)</span> = yields up / equities down on the same day, or vice versa; <span class="up">positive (green)</span> = same direction. This is <b>same-day correlation, not a forecast</b>. A higher threshold keeps only larger yield moves and reduces the sample.</div>`;
   const el = $("rc-thr"); if (el) el.addEventListener("change", () => renderRatesCorr(r, +el.value || 0));
 }
 
@@ -860,8 +870,8 @@ async function renderGexVol() {
   const host = $("gx-study"); if (!host) return;
   const d = await loadJSON("data/strategy_bt.json");
   const s = d && d.study;
-  if (!s || s.insufficient) { host.innerHTML = '<span class="muted small">暂无研究数据(data/strategy_bt.json 的 study 字段)</span>'; return; }
-  const sub = $("gx-sub"); if (sub) sub.textContent = `${s.n} 天 · ${s.start}→${s.end}`;
+  if (!s || s.insufficient) { host.innerHTML = '<span class="muted small">No research data (study field in data/strategy_bt.json)</span>'; return; }
+  const sub = $("gx-sub"); if (sub) sub.textContent = `${s.n} days · ${s.start}→${s.end}`;
   const T = (k, v, sb = "", cls = "") =>
     `<div class="opt-tile"><div class="opt-k">${esc(k)}</div><div class="opt-v ${cls}">${esc(v)}${sb ? ` <span class="opt-sub">${esc(sb)}</span>` : ""}</div></div>`;
   const num = (v, dg = 2) => (v == null ? "—" : (+v).toFixed(dg));
@@ -875,13 +885,13 @@ async function renderGexVol() {
      </div>`).join("");
   host.innerHTML =
     `<div class="wb-statbar">${[
-      T("GEX<0 vs >0 次日波动", (rg.ratio ?? "—") + "×", `${rg.neg_mean_pct}% / ${rg.pos_mean_pct}%`, "down"),
+      T("Next-Day Vol: GEX<0 vs >0", (rg.ratio ?? "—") + "×", `${rg.neg_mean_pct}% / ${rg.pos_mean_pct}%`, "down"),
       T("Spearman", num(s.spearman, 3), `CI [${(s.spearman_ci || []).join(", ")}]`, "down"),
-      T("增量 ΔR²", "+" + num((ic.delta_r2 ?? 0) * 100, 2) + "%", "控制|r_t|后", "up"),
-      T("子期", (s.subperiods || []).map((p) => `${p.label} ${p.spearman}`).join(" · ")),
+      T("Incremental ΔR²", "+" + num((ic.delta_r2 ?? 0) * 100, 2) + "%", "after controlling for |r_t|", "up"),
+      T("Subperiods", (s.subperiods || []).map((p) => `${p.label} ${p.spearman}`).join(" · ")),
     ].join("")}</div>
      <div style="display:flex;gap:14px;align-items:flex-end;margin:14px 0 4px;height:120px">${bars}</div>
-     <div class="muted small">${esc(s.label || "净 GEX → 次日已实现波动")}:按 GEX 五分位分组的次日 |r|——低 GEX(Q1)→ 高波动,高 GEX(Q5)→ 低波动(单调,符合 dealer-gamma 抑制/放大机制)。纯预测力研究(无持仓/成本)。</div>`;
+     <div class="muted small">${esc(s.label || "Net GEX → Next-Day Realized Volatility")}: next-day |r| grouped by GEX quintile. Low GEX (Q1) maps to higher volatility; high GEX (Q5) maps to lower volatility, consistent with dealer-gamma amplification/suppression. This is a pure predictive-power study with no positions or costs.</div>`;
 }
 
 /* Topic 5:仓位情报(免费版 JPM Positioning Intelligence)。COT-TFF 两大 cohort(HF/CTA 杠杆基金、
@@ -893,6 +903,8 @@ const POS_DIV_COLOR = "#fbbf24";                    // real−fast 背离(第三
 const fmtZ = (v) => v == null ? "—" : (v > 0 ? "+" : "") + v.toFixed(2);
 const fmtPct = (v) => v == null ? "—" : (v > 0 ? "+" : "") + v.toFixed(1) + "%";
 const POS_MLABEL = { SP500: "S&P 500", NDX100: "Nasdaq 100" };
+const POS_COHORT_LABEL = { lev: "Leveraged Funds (HF/CTA)", am: "Asset Managers / Mutual Funds" };
+const posCohortLabel = (key, fallback) => POS_COHORT_LABEL[key] || fallback || key;
 const fmtNum = (v) => v == null ? "—" : Math.round(v).toLocaleString();
 const fmtB = (v) => {
   if (v == null) return "—";
@@ -906,7 +918,7 @@ async function renderPositioning() {
   const J = await loadJSON("data/positioning.json");
   POS_ETF = await loadJSON("data/etf_weekly.json");   // QQQ/SOXX/IGV 周K,叠加到 cohort z 图(可开关)
   if (!J || !J.markets || !Object.keys(J.markets).length) {
-    $("pos-gauge").innerHTML = '<span class="muted small">缺 data/positioning.json(跑 scripts/fetch_cot.py + scripts/build_positioning.py)</span>';
+    $("pos-gauge").innerHTML = '<span class="muted small">Missing data/positioning.json (run scripts/fetch_cot.py + scripts/build_positioning.py)</span>';
     return;
   }
   POS_J = J;
@@ -920,27 +932,27 @@ async function renderPositioning() {
 
   // ① 复合 TPM + 各市场各 cohort 分位 tiles
   const comp = J.composite_pctile;
-  const gt = [tile("复合分位 TPM", comp == null ? "—" : comp + " pct",
-    comp == null ? "" : (comp >= 70 ? "整体偏拥挤多" : comp <= 30 ? "整体偏轻/空" : "中性"))];
+  const gt = [tile("Composite Percentile TPM", comp == null ? "—" : comp + " pct",
+    comp == null ? "" : (comp >= 70 ? "Overall crowded long" : comp <= 30 ? "Overall light/short" : "Neutral"))];
   for (const mk of mkeys) {
     for (const [ck] of POS_COH) {
       const c = J.markets[mk].cohorts[ck];
       if (!c) continue;
-      gt.push(tile(`${POS_MLABEL[mk] || mk}·${c.label}`,
+      gt.push(tile(`${POS_MLABEL[mk] || mk} · ${posCohortLabel(ck, c.label)}`,
         c.pctile == null ? "—" : c.pctile + " pct",
-        `z${c.z} · Δ周 ${(c.weekly_chg || 0) > 0 ? "+" : ""}${fmtNum(c.weekly_chg)}`));
+        `z${c.z} · weekly Δ ${(c.weekly_chg || 0) > 0 ? "+" : ""}${fmtNum(c.weekly_chg)}`));
     }
     const dv = J.markets[mk].divergence;
     if (dv && dv.latest != null) {
-      gt.push(tile(`${POS_MLABEL[mk] || mk}·real−fast 背离`, fmtZ(dv.latest) + "σ",
-        dv.latest > 0.5 ? "real money 更拥挤多" : dv.latest < -0.5 ? "fast money 更拥挤多" : "两者步调一致"));
+      gt.push(tile(`${POS_MLABEL[mk] || mk} · real−fast Divergence`, fmtZ(dv.latest) + "σ",
+        dv.latest > 0.5 ? "Real money is more crowded long" : dv.latest < -0.5 ? "Fast money is more crowded long" : "Both cohorts are aligned"));
     }
   }
   const yrs = Math.round((J.window_wk || 156) / 52);
   const rf = J.retail;
   $("pos-gauge").innerHTML = `<div class="opt-grid">${gt.join("")}</div>
-    <div class="muted small" style="margin-top:6px">分位 = 该 cohort 净持仓在近 ${yrs} 年的历史排名(高=相对拥挤多);z = 同窗标准分。散户:${rf && rf.avg_netbuy != null ? `近端净买入均值 ${(rf.avg_netbuy * 100).toFixed(1)}%(${rf.n} 票)` : "(缺 retailflow)"}。</div>`;
-  $("pos-caveat").innerHTML = "⚠ " + ((J.meta && J.meta.caveats) || []).join(";");
+    <div class="muted small" style="margin-top:6px">Percentile = the cohort's net position rank over the past ${yrs} years (high = relatively crowded long); z = standardized within the same window. Retail: ${rf && rf.avg_netbuy != null ? `recent average net buying ${(rf.avg_netbuy * 100).toFixed(1)}% across ${rf.n} tickers` : "retailflow unavailable"}.</div>`;
+  $("pos-caveat").innerHTML = "⚠ COT positioning is delayed and reflects futures cohorts, not the full cash-equity market. DBMF is a public CTA proxy, not a complete industry aggregate.";
   renderCta(J);          // CTA(DBMF)市场无关,渲染一次
   drawPosMarket();
 }
@@ -970,9 +982,9 @@ function drawPosMarket() {
     };
     for (const [ck, color] of POS_COH) {
       const c = mk.cohorts[ck];
-      if (c) addLine(c.label + " (z)", color, c.series_z);
+      if (c) addLine(posCohortLabel(ck, c.label) + " (z)", color, c.series_z);
     }
-    if (mk.divergence) addLine(mk.divergence.label, POS_DIV_COLOR, mk.divergence.series_z, { w: 2 });
+    if (mk.divergence) addLine("real−fast Divergence (Asset Managers−Leveraged Funds)", POS_DIV_COLOR, mk.divergence.series_z, { w: 2 });
     if (S.length) S[0].series.createPriceLine({ price: 0, color: "#3a4560", lineStyle: LWC.LineStyle.Dashed, lineWidth: 1, axisLabelVisible: false });   // 0=3年均值基线
     // ETF 周K 叠加(QQQ/SOXX/IGV):各自独立隐藏价格轴 → 各自铺满、形态可比,不与 z 轴混;默认关,点图例开
     const ETF_COLORS = { QQQ: "#60a5fa", SOXX: "#fbbf24", IGV: "#c084fc" };
@@ -1000,7 +1012,7 @@ function drawPosMarket() {
       etfSeries.forEach((e) => {   // ETF 周K 开关(默认关)
         const chip = document.createElement("span");
         chip.className = "rt-leg off";
-        chip.innerHTML = `<span class="rt-sw" style="background:${e.color}"></span>${e.sym} 周K`;
+        chip.innerHTML = `<span class="rt-sw" style="background:${e.color}"></span>${e.sym} Weekly`;
         chip.onclick = () => { e.visible = !e.visible; e.series.applyOptions({ visible: e.visible }); chip.classList.toggle("off", !e.visible); };
         leg.appendChild(chip);
       });
@@ -1032,37 +1044,37 @@ function drawPosMarket() {
     const c = mk.cohorts[ck];
     if (!c) return "";
     const s = c.crowd_usd, cls = s > 0 ? "up" : s < 0 ? "down" : "";
-    return `<tr><td>${esc(c.label)}</td><td class="sc-num">${c.pctile == null ? "—" : c.pctile}</td>
+    return `<tr><td>${esc(posCohortLabel(ck, c.label))}</td><td class="sc-num">${c.pctile == null ? "—" : c.pctile}</td>
       <td class="sc-num ${cls}">${fmtUsd(s)}</td>
-      <td class="muted small">${s > 0 ? "潜在买(偏轻/空)" : s < 0 ? "潜在卖(偏拥挤多)" : "—"}</td></tr>`;
+      <td class="muted small">${s > 0 ? "Potential buy (light/short)" : s < 0 ? "Potential sell (crowded long)" : "—"}</td></tr>`;
   }).join("");
-  $("pos-pressure").innerHTML = `<table class="bt-table"><tr><th>cohort</th><th>分位</th><th>拥挤$(回中位)</th><th>含义</th></tr>${rows}</table>
-    <div class="muted small" style="margin-top:6px">拥挤$ = (当前净−中位净)×合约乘数×指数,即回到历史中位需成交的名义 $(签名:+潜在买 / −潜在卖)。</div>`;
+  $("pos-pressure").innerHTML = `<table class="bt-table"><tr><th>Cohort</th><th>Percentile</th><th>Crowding $ (to Median)</th><th>Interpretation</th></tr>${rows}</table>
+    <div class="muted small" style="margin-top:6px">Crowding $ = (current net − median net) × contract multiplier × index. It is the notional required to return to the historical median; positive indicates potential buying and negative indicates potential selling.</div>`;
 }
 
 /* CTA 定位:DBMF 复制器每日披露持仓(真实多空,非假设)。市场无关,renderPositioning 调一次。 */
 function renderCta(J) {
   const el = $("pos-cta"); if (!el) return;
   const c = J.cta;
-  if (!c || !c.buckets) { el.innerHTML = '<span class="muted small">缺 DBMF 持仓(跑 scripts/fetch_dbmf.py)</span>'; return; }
+  if (!c || !c.buckets) { el.innerHTML = '<span class="muted small">Missing DBMF holdings (run scripts/fetch_dbmf.py)</span>'; return; }
   const b = c.buckets;
   const ROWS = [
-    ["股票 · S&P500", b.sp500, ""],
-    ["股票 · 国际(EAFE/EM)", b.intl, ""],
-    ["利率(2/10Y/长债)", b.rates, b.rates < 0 ? "做空久期" : "做多久期"],
-    ["外汇(JPY/EUR…)", b.fx, b.fx < 0 ? "空外币≈多美元" : "多外币≈空美元"],
-    ["商品(原油/黄金)", b.commodity, ""],
+    ["Equities · S&P 500", b.sp500, ""],
+    ["Equities · International (EAFE/EM)", b.intl, ""],
+    ["Rates (2Y/10Y/Long Bonds)", b.rates, b.rates < 0 ? "Short duration" : "Long duration"],
+    ["FX (JPY/EUR…)", b.fx, b.fx < 0 ? "Short foreign currency ≈ long USD" : "Long foreign currency ≈ short USD"],
+    ["Commodities (Oil/Gold)", b.commodity, ""],
   ];
   const tr = ROWS.map(([k, v, note]) => {
     if (v == null) return "";
     const cls = v > 0 ? "up" : v < 0 ? "down" : "";
     return `<tr><td>${esc(k)}</td><td class="sc-num ${cls}">${fmtPct(v)}</td>
-      <td class="muted small">${v > 0 ? "净多" : v < 0 ? "净空" : "—"}${note ? " · " + esc(note) : ""}</td></tr>`;
+      <td class="muted small">${v > 0 ? "Net long" : v < 0 ? "Net short" : "—"}${note ? " · " + esc(note) : ""}</td></tr>`;
   }).join("");
   const eq = b.equity, eqCls = eq > 0 ? "up" : eq < 0 ? "down" : "";
-  el.innerHTML = `<div class="muted small" style="margin-bottom:6px">读自 <b>${esc(c.source || "DBMF")}</b> 每日披露持仓 · asof ${c.asof || "—"} · 股票总净敞口 <b class="${eqCls}">${fmtPct(eq)}</b></div>
-    <table class="bt-table"><tr><th>资产</th><th>DBMF 净敞口(占 NAV)</th><th>方向</th></tr>${tr}</table>
-    <div class="muted small" style="margin-top:6px">%=占 NAV 名义权重,符号=多空(读自持仓 sh 正负)。这是趋势跟随者(SG CTA 指数复制器,0.88 相关)当前<b>真实披露</b>的定位,非假设/触发价模型。DBMF 股票腿为 S&P500+国际,无单独 Nasdaq。</div>`;
+  el.innerHTML = `<div class="muted small" style="margin-bottom:6px">Daily disclosed holdings from <b>${esc(c.source || "DBMF")}</b> · as of ${c.asof || "—"} · total net equity exposure <b class="${eqCls}">${fmtPct(eq)}</b></div>
+    <table class="bt-table"><tr><th>Asset</th><th>DBMF Net Exposure (% NAV)</th><th>Direction</th></tr>${tr}</table>
+    <div class="muted small" style="margin-top:6px">Percentages are notional weights as a share of NAV; signs indicate long or short based on disclosed share quantities. This is the current <b>reported</b> positioning of a trend-following SG CTA Index replicator (0.88 correlation), not a hypothetical trigger-price model. DBMF's equity sleeve combines S&P 500 and international exposure, with no separate Nasdaq sleeve.</div>`;
 }
 
 /* ---------- Tab 调度 ---------- */
@@ -1095,7 +1107,7 @@ async function saveMacdSnapshot(snapshot) {
   if (!pat) return false;
   const url = `https://api.github.com/repos/${REPO}/contents/${MACD_SNAPSHOT_PATH}`;
   const meta = await fetch(`${url}?ref=data`, { headers: ghHeaders(pat) });
-  if (!meta.ok && meta.status !== 404) throw new Error(`读取远端快照失败 (${meta.status})`);
+  if (!meta.ok && meta.status !== 404) throw new Error(`Failed to read remote snapshot (${meta.status})`);
   const previous = meta.ok ? await meta.json() : null;
   const response = await fetch(url, {
     method: "PUT",
@@ -1107,7 +1119,7 @@ async function saveMacdSnapshot(snapshot) {
       ...(previous && previous.sha ? { sha: previous.sha } : {}),
     }),
   });
-  if (!response.ok) throw new Error(`保存远端快照失败 (${response.status})`);
+  if (!response.ok) throw new Error(`Failed to save remote snapshot (${response.status})`);
   return true;
 }
 
@@ -1120,8 +1132,8 @@ function macdValue(row, key) {
 
 function drawMacdTable() {
   if (!macdSnapshot) {
-    $("macd-table").innerHTML = '<span class="muted small">尚无已保存结果。点击「同步所有 tickers」生成第一份快照。</span>';
-    $("macd-status").textContent = "尚未计算";
+    $("macd-table").innerHTML = '<span class="muted small">No saved results. Click “Sync All Tickers” to generate the first snapshot.</span>';
+    $("macd-status").textContent = "Not yet calculated";
     return;
   }
   const rows = macdSnapshot.periods[macdPeriod];
@@ -1135,7 +1147,7 @@ function drawMacdTable() {
   });
   const button = (key, label) => {
     const mark = macdSort.key === key ? (macdSort.direction > 0 ? "↑" : "↓") : "↕";
-    return `<button class="rf-sort-btn" data-macd-sort="${key}" title="点击切换升降序">${label}<span>${mark}</span></button>`;
+    return `<button class="rf-sort-btn" data-macd-sort="${key}" title="Click to toggle sort direction">${label}<span>${mark}</span></button>`;
   };
   const pct = (value) => value == null ? "—" : `${value >= 0 ? "+" : ""}${(value * 100).toFixed(2)}%`;
   const cell = (result, signal) => {
@@ -1146,7 +1158,7 @@ function drawMacdTable() {
   const body = sorted.map((row) => `<tr><td><b>${esc(row.ticker)}</b></td>${cell(row.result, "histogramSlope")}${cell(row.result, "zeroLine")}${cell(row.result, "crossover")}</tr>`).join("");
   $("macd-table").innerHTML = `<div class="rf-now-table-wrap"><table class="bt-table rf-now-table"><thead>
     <tr><th rowspan="2">${button("ticker", "Ticker")}</th><th colspan="2">MACD histogram slope</th><th colspan="2">Zero-line</th><th colspan="2">Crossover</th></tr>
-    <tr><th>${button("histogramSlope.totalReturn", "Total return")}</th><th>${button("histogramSlope.trades", "交易次数")}</th><th>${button("zeroLine.totalReturn", "Total return")}</th><th>${button("zeroLine.trades", "交易次数")}</th><th>${button("crossover.totalReturn", "Total return")}</th><th>${button("crossover.trades", "交易次数")}</th></tr>
+    <tr><th>${button("histogramSlope.totalReturn", "Total Return")}</th><th>${button("histogramSlope.trades", "Trades")}</th><th>${button("zeroLine.totalReturn", "Total Return")}</th><th>${button("zeroLine.trades", "Trades")}</th><th>${button("crossover.totalReturn", "Total Return")}</th><th>${button("crossover.trades", "Trades")}</th></tr>
     </thead><tbody>${body}</tbody></table></div>`;
   const available = rows.filter((row) => row.result), missing = rows.filter((row) => !row.result).map((row) => row.ticker);
   const starts = available.map((row) => row.result.validFrom).sort();
@@ -1154,7 +1166,7 @@ function drawMacdTable() {
   const latest = available.map((row) => row.result.latest).sort().at(-1) || "—";
   const calculated = macdSnapshot.generated_at ? new Date(macdSnapshot.generated_at).toLocaleString("zh-CN", { hour12: false, timeZone: "America/New_York" }) + " ET" : "—";
   const periodLabel = { "3m": "3M", "6m": "6M", "1y": "1Y", all: "ALL" }[macdPeriod];
-  $("macd-status").innerHTML = `上次计算：<b>${calculated}</b> · 当前 ${periodLabel} 实际回测最早区间 <b>${rangeStarts[0] || "—"} → ${latest}</b> · MACD 最早有效 ${starts[0] || "—"} · ${rows.length} 个 tickers / ${available.length} 个可计算${missing.length ? ` · 暂无数据：${missing.map(esc).join(", ")}` : ""}`;
+  $("macd-status").innerHTML = `Last calculated: <b>${calculated}</b> · ${periodLabel} backtest range <b>${rangeStarts[0] || "—"} → ${latest}</b> · earliest valid MACD ${starts[0] || "—"} · ${available.length}/${rows.length} tickers calculable${missing.length ? ` · no data: ${missing.map(esc).join(", ")}` : ""}`;
   document.querySelectorAll("[data-macd-sort]").forEach((el) => { el.onclick = () => {
     const key = el.dataset.macdSort;
     macdSort = macdSort.key === key ? { key, direction: -macdSort.direction } : { key, direction: key === "ticker" ? 1 : -1 };
@@ -1164,18 +1176,18 @@ function drawMacdTable() {
 
 async function syncMacd() {
   const sync = $("macd-sync");
-  sync.disabled = true; sync.textContent = "同步中…";
+  sync.disabled = true; sync.textContent = "Syncing…";
   try {
     const [config, research] = await Promise.all([loadFreshJSON("config/tickers.json"), loadFreshJSON("data/research.json")]);
-    if (!config || !Array.isArray(config.watchlist) || !research || !research.tickers) throw new Error("ticker 清单或行情数据读取失败");
+    if (!config || !Array.isArray(config.watchlist) || !research || !research.tickers) throw new Error("Failed to read the ticker list or market data");
     macdSnapshot = buildSnapshot(config.watchlist, research);
     const remote = await saveMacdSnapshot(macdSnapshot);
     drawMacdTable();
-    sync.textContent = remote ? "同步完成" : "已保存到本机";
+    sync.textContent = remote ? "Sync Complete" : "Saved Locally";
   } catch (error) {
     console.error(error);
-    sync.textContent = "同步失败 · 重试";
-    $("macd-status").textContent = `同步失败：${error.message}`;
+    sync.textContent = "Sync Failed · Retry";
+    $("macd-status").textContent = `Sync failed: ${error.message}`;
   } finally {
     sync.disabled = false;
   }
@@ -1197,31 +1209,36 @@ async function renderMacd() {
 async function renderFlowDir() {
   const d = await loadJSON("data/flow_ic.json");
   if (!d || d.error || !d.predictors) {
-    $("fd-caveat").innerHTML = `<span class="muted small">暂无数据 — 本地跑 <code>scripts/analyze_flow_ic.py</code> 生成 <code>data/flow_ic.json</code>(读 gex_daily)。</span>`;
+    $("fd-caveat").innerHTML = `<span class="muted small">No data. Run <code>scripts/analyze_flow_ic.py</code> locally to generate <code>data/flow_ic.json</code> from gex_daily.</span>`;
     return;
   }
   const heat = (v) => v == null ? "" : `background:hsl(${v >= 0 ? 142 : 0} 65% 45% / ${(0.1 + Math.min(Math.abs(v) / 0.2, 1) * 0.4).toFixed(2)})`;
   const icCell = (s) => {
-    if (!s || s.status !== "ok") return `<td class="muted small" title="n_eff ${s ? s.n_eff : "?"}(重叠后有效样本太少)">样本不足</td>`;
+    if (!s || s.status !== "ok") return `<td class="muted small" title="n_eff ${s ? s.n_eff : "?"} (too few effective observations after overlap)">Insufficient sample</td>`;
     const v = s.mean_ic;
     return `<td style="${heat(v)}" title="IR ${s.ir} · 95%CI [${(s.ci || []).join(", ")}] · n=${s.n_days} (eff ${s.n_eff})">${v >= 0 ? "+" : ""}${v.toFixed(3)}${s.sig ? " ★" : ""}</td>`;
   };
   const H = d.horizons.map((h) => `${h}d`);
   // ① IC 表
-  const SIGN = { "1": "预期 +(看多流→涨)", "-1": "" };
+  const SIGN = { "1": "expected + (bullish flow → gain)", "-1": "" };
+  const flowDescriptions = {
+    net_flow: "Signed net options flow / |dealer gamma| (direction)",
+    vrp: "Variance risk premium, IV−RV (expensive protection → mean reversion)",
+    skew_rr: "Risk reversal, call−put IV (bullish pricing)",
+  };
   const rows = Object.entries(d.predictors).map(([p, pd]) => {
     const exp = pd.expected_sign > 0 ? "＋" : "－";
-    return `<tr><td class="fd-name"><b>${esc(p)}</b> <span class="muted small">${esc(pd.desc)} · 预期 ${exp}</span></td>`
+    return `<tr><td class="fd-name"><b>${esc(p)}</b> <span class="muted small">${esc(flowDescriptions[p] || pd.desc)} · expected ${exp}</span></td>`
       + d.horizons.map((h) => icCell(pd.ic[String(h)])).join("") + "</tr>";
   }).join("");
-  $("fd-ic").innerHTML = `<div class="sc-wrap"><table class="bt-table fd-tbl"><thead><tr><th>预测变量(横截面按秩)</th>${H.map((h) => `<th>${h}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div>`
-    + `<div class="muted small" style="margin-top:6px">IC = 每日「预测变量名次 vs 后续收益名次」的 Spearman,再对天求均值。★ 只是 block-bootstrap CI 不含 0,样本小仍需谨慎。</div>`;
+  $("fd-ic").innerHTML = `<div class="sc-wrap"><table class="bt-table fd-tbl"><thead><tr><th>Predictor (Cross-Sectional Rank)</th>${H.map((h) => `<th>${h}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div>`
+    + `<div class="muted small" style="margin-top:6px">IC is the daily Spearman correlation between predictor rank and subsequent-return rank, averaged across days. ★ means the block-bootstrap CI excludes zero; the small sample still requires caution.</div>`;
   // ② gamma 分层(net_flow)
   const gs = d.predictors.net_flow.gamma_split || {};
   const gRow = (label, reg) => `<tr><td class="fd-name"><b>${label}</b></td>${d.horizons.map((h) => icCell((gs[reg] || {})[String(h)])).join("")}</tr>`;
-  $("fd-gamma").innerHTML = `<div class="sc-wrap"><table class="bt-table fd-tbl"><thead><tr><th>net_flow IC · 按 dealer gamma</th>${H.map((h) => `<th>${h}</th>`).join("")}</tr></thead><tbody>`
-    + gRow("空 gamma(dealer short,net_nom<0)", "short") + gRow("多 gamma(dealer long,net_nom≥0)", "long")
-    + `</tbody></table></div><div class="muted small" style="margin-top:6px">机制:空 gamma 时做市商顺势对冲→放大→flow 预示<b>同向</b>(动量);多 gamma 时抑制→flow 失效。两组 IC 明显不同,才是付费 tick 独有的边。</div>`;
+  $("fd-gamma").innerHTML = `<div class="sc-wrap"><table class="bt-table fd-tbl"><thead><tr><th>net_flow IC · by Dealer Gamma</th>${H.map((h) => `<th>${h}</th>`).join("")}</tr></thead><tbody>`
+    + gRow("Short gamma (dealer short, net_nom<0)", "short") + gRow("Long gamma (dealer long, net_nom≥0)", "long")
+    + `</tbody></table></div><div class="muted small" style="margin-top:6px">Mechanism: under short gamma, dealers hedge with the move, amplifying it, so flow may predict the <b>same direction</b> (momentum). Under long gamma, hedging suppresses the move and flow should weaken. A clear IC difference between regimes would be the edge unique to paid tick data.</div>`;
   // ③ L/S 扣成本回测
   const ls = d.predictors.net_flow.ls_quintile_h1;
   if (ls && ls.status === "ok") {
@@ -1236,16 +1253,19 @@ async function renderFlowDir() {
       return `<svg viewBox="0 0 ${W} ${Hh}" width="100%" style="max-width:${W}px;margin-top:8px"><line x1="${pl}" y1="${Y(0).toFixed(1)}" x2="${W - pr}" y2="${Y(0).toFixed(1)}" stroke="var(--border)"/><polyline points="${pts}" fill="none" stroke="#f87171" stroke-width="1.5"/><text x="${pl - 4}" y="${(Y(hi) + 3).toFixed(1)}" text-anchor="end" font-size="9" fill="var(--muted)">${hi.toFixed(0)}%</text><text x="${pl - 4}" y="${(Y(lo) + 3).toFixed(1)}" text-anchor="end" font-size="9" fill="var(--muted)">${lo.toFixed(0)}%</text></svg>`;
     })();
     $("fd-ls").innerHTML = `<div class="opt-grid">`
-      + tile("多空档", `顶/底 各 ${ls.quintile} 票`, `${ls.n} 天`)
-      + tile("毛年化", `${ls.gross.ann_pct}%`, `Sharpe ${ls.gross.sharpe}`, cur(ls.gross))
-      + tile("扣成本年化", `${ls.net.ann_pct}%`, `${ls.cost_bps}bp/边 · Sharpe ${ls.net.sharpe}`, cur(ls.net))
-      + `</div>${spark}<div class="muted small" style="margin-top:6px">多头顶档 net_flow / 空头底档,H=1 日频全换手。net_flow 的 IC 现为<b>负/弱</b>,加上日换手成本极重 → 直接交易不可行(这是诚实结果,不是失败)。</div>`;
+      + tile("Long/Short Buckets", `Top/bottom ${ls.quintile} tickers each`, `${ls.n} days`)
+      + tile("Gross Annualized", `${ls.gross.ann_pct}%`, `Sharpe ${ls.gross.sharpe}`, cur(ls.gross))
+      + tile("Net Annualized", `${ls.net.ann_pct}%`, `${ls.cost_bps}bp/side · Sharpe ${ls.net.sharpe}`, cur(ls.net))
+      + `</div>${spark}<div class="muted small" style="margin-top:6px">Long the top net_flow bucket and short the bottom bucket, H=1 with daily full turnover. net_flow IC is currently <b>negative/weak</b>, and daily turnover costs are heavy, so direct trading is not viable. This is an honest result, not a failure.</div>`;
   } else {
-    $("fd-ls").innerHTML = `<span class="muted small">回测样本不足。</span>`;
+    $("fd-ls").innerHTML = `<span class="muted small">Insufficient backtest sample.</span>`;
   }
   // caveat
-  const note = (d.notes || []).map((n) => `<li>${esc(n)}</li>`).join("");
-  $("fd-caveat").innerHTML = `<b>⚠️ 样本极小,现阶段主要看引擎与机制,别信绝对数值</b> · ${d.n_dates} 交易日(${(d.date_range || []).join("→")})`
+  const note = [
+    "Daily IC observations for H>1 overlap heavily. Confidence intervals use a block bootstrap rather than a naive bootstrap; n_eff = n_days / H is only a rough effective sample size.",
+    "entry_lag=1 prevents look-ahead because signals are known only after the close and positions enter the next day. The L/S test turns over daily, so high costs are an intentional part of the result.",
+  ].map((n) => `<li>${esc(n)}</li>`).join("");
+  $("fd-caveat").innerHTML = `<b>⚠️ The sample is extremely small. Focus on the engine and mechanism, not the absolute values.</b> · ${d.n_dates} trading days (${(d.date_range || []).join("→")})`
     + `<ul class="muted small" style="margin:6px 0 0;padding-left:18px">${note}</ul>`;
 }
 
@@ -1272,7 +1292,7 @@ function ffShares(value) {
 
 function ffCell(result, key, formatter, warning) {
   const factor = result.factors[key], raw = result.raw[key];
-  if (!Number.isFinite(factor)) return `<td title="分母为零或数据不足">
+  if (!Number.isFinite(factor)) return `<td title="Denominator is zero or data is unavailable">
     <div class="ff-factor ff-warning">⚠</div>
     <div class="ff-raw">${formatter(raw.prior)} → ${formatter(raw.current)}</div>
   </td>`;
@@ -1307,9 +1327,9 @@ function drawFiveFactorTable() {
   });
   const complete = rows.filter((row) => row.status === "ok").length;
   const body = rows.map((row) => {
-    if (row.status !== "ok") return `<tr><td><b>${esc(row.ticker)}</b></td><td colspan="6" class="ff-missing">${esc(row.reason || "数据不足")}</td></tr>`;
+    if (row.status !== "ok") return `<tr><td><b>${esc(row.ticker)}</b></td><td colspan="6" class="ff-missing">${esc(row.reason || "Insufficient data")}</td></tr>`;
     const result = decomposeFiveFactor(row);
-    if (!result) return `<tr><td><b>${esc(row.ticker)}</b></td><td colspan="6" class="ff-missing">无法计算</td></tr>`;
+    if (!result) return `<tr><td><b>${esc(row.ticker)}</b></td><td colspan="6" class="ff-missing">Unable to calculate</td></tr>`;
     const warning = result.unstable.join("；");
     const priceClass = result.priceRatio > 1 ? "up" : result.priceRatio > 0 && result.priceRatio < 1 ? "down" : "ff-warning";
     const source = row.source_url || (row.cik ? `https://data.sec.gov/api/xbrl/companyfacts/CIK${row.cik}.json` : null);
@@ -1338,7 +1358,7 @@ function drawFiveFactorTable() {
   </tr></thead><tbody>${body}</tbody></table></div>`;
   const generated = fiveFactorSnapshot.generated_at
     ? new Date(fiveFactorSnapshot.generated_at).toLocaleString("zh-CN", { hour12: false, timeZone: "America/New_York" }) + " ET" : "—";
-  $("ff-status").textContent = `as of ${fiveFactorSnapshot.as_of} · ${complete}/${rows.length} 可计算 · 静态快照生成 ${generated}`;
+  $("ff-status").textContent = `as of ${fiveFactorSnapshot.as_of} · ${complete}/${rows.length} calculable · static snapshot generated ${generated}`;
   document.querySelectorAll("#ff-table [data-ff-sort]").forEach((button) => { button.onclick = () => {
     const key = button.dataset.ffSort;
     fiveFactorSort = fiveFactorSort.key === key
@@ -1352,8 +1372,8 @@ function drawFiveFactorTable() {
 async function renderFiveFactor() {
   if (!fiveFactorSnapshot) fiveFactorSnapshot = await loadFreshJSON("data/five_factor.json");
   if (!fiveFactorSnapshot?.periods) {
-    $("ff-table").innerHTML = '<span class="muted small">缺少 data/five_factor.json。</span>';
-    $("ff-status").textContent = "数据不可用";
+    $("ff-table").innerHTML = '<span class="muted small">Missing data/five_factor.json.</span>';
+    $("ff-status").textContent = "Data unavailable";
     return;
   }
   drawFiveFactorTable();
@@ -1408,7 +1428,7 @@ async function writeRemoteRegimeStore(store) {
   if (!pat) return false;
   const url = `https://api.github.com/repos/${REPO}/contents/${REGIME_PATH}`;
   const meta = await fetch(`${url}?ref=data&t=${Date.now()}`, { headers: ghHeaders(pat), cache: "no-store" });
-  if (!meta.ok && meta.status !== 404) throw new Error(`读取远端快照失败 (${meta.status})`);
+  if (!meta.ok && meta.status !== 404) throw new Error(`Failed to read remote snapshot (${meta.status})`);
   const previous = meta.ok ? await meta.json() : null;
   const response = await fetch(url, {
     method: "PUT",
@@ -1420,7 +1440,7 @@ async function writeRemoteRegimeStore(store) {
       ...(previous?.sha ? { sha: previous.sha } : {}),
     }),
   });
-  if (!response.ok) throw new Error(`保存远端快照失败 (${response.status})`);
+  if (!response.ok) throw new Error(`Failed to save remote snapshot (${response.status})`);
   return true;
 }
 
@@ -1439,7 +1459,7 @@ function buildRegimeRadar() {
     return `<line x1="250" y1="250" x2="${end.x}" y2="${end.y}" class="regime-axis"/><text x="${label.x}" y="${label.y}" text-anchor="${anchor}" class="regime-label">${name}</text>`;
   }).join("");
   const points = REGIME_DIMENSIONS.map((name, index) => `<circle data-regime-point="${index}" r="8" tabindex="0" role="slider" aria-label="${name}" aria-valuemin="1" aria-valuemax="10" class="regime-point"/>`).join("");
-  $("regime-chart").innerHTML = `<svg id="regime-svg" viewBox="0 0 500 500" role="img" aria-label="七维 Regime 雷达图">${rings}${axes}<polygon id="regime-shape" class="regime-shape"/>${points}</svg>`;
+  $("regime-chart").innerHTML = `<svg id="regime-svg" viewBox="0 0 500 500" role="img" aria-label="Seven-dimension regime radar chart">${rings}${axes}<polygon id="regime-shape" class="regime-shape"/>${points}</svg>`;
   const svg = $("regime-svg");
   svg.addEventListener("pointerdown", (event) => {
     if (regimeFrozen) return;
@@ -1461,7 +1481,7 @@ function buildRegimeRadar() {
     const index = Number(point.dataset.regimePoint), name = REGIME_DIMENSIONS[index];
     regimeValues[name] = Math.max(1, Math.min(10, regimeValues[name] + (["ArrowUp", "ArrowRight"].includes(event.key) ? 1 : -1)));
     updateRegimeView();
-    $("regime-status").textContent = "当前调整尚未保存";
+    $("regime-status").textContent = "Current adjustments are unsaved";
   });
 }
 
@@ -1472,7 +1492,7 @@ function updateRegimeFromPointer(event) {
   const name = REGIME_DIMENSIONS[regimeDragIndex];
   regimeValues[name] = radarValueFromPoint(regimeDragIndex, point.x, point.y);
   updateRegimeView();
-  $("regime-status").textContent = "当前调整尚未保存";
+  $("regime-status").textContent = "Current adjustments are unsaved";
 }
 
 function updateRegimeView() {
@@ -1499,17 +1519,17 @@ function selectRegimeFriday(date) {
   $("regime-reset").disabled = regimeFrozen;
   updateRegimeView();
   $("regime-status").textContent = snapshot
-    ? `${date} · 已保存，只读`
-    : regimeAnchor ? `${date} · 尚未保存，以上次快照 ${regimeAnchor.date} 为锚` : `${date} · 尚未保存，无历史快照，默认均为 5`;
+    ? `${date} · saved, read-only`
+    : regimeAnchor ? `${date} · unsaved; anchored to the prior snapshot ${regimeAnchor.date}` : `${date} · unsaved; no historical snapshot, defaulting all values to 5`;
 }
 
 async function persistRegime() {
   const date = $("regime-date").value;
-  if (!isRegimeFriday(date)) { $("regime-status").textContent = "请选择周五日期"; return; }
-  if (date > regimeLatestFriday()) { $("regime-status").textContent = "只能回填已经结束的周"; return; }
+  if (!isRegimeFriday(date)) { $("regime-status").textContent = "Select a Friday"; return; }
+  if (date > regimeLatestFriday()) { $("regime-status").textContent = "Only completed weeks can be backfilled"; return; }
   if (regimeFrozen) return;
   const button = $("regime-save");
-  button.disabled = true; button.textContent = "保存中…";
+  button.disabled = true; button.textContent = "Saving…";
   try {
     const remote = await loadFreshJSON(REGIME_PATH);
     regimeStore = mergeRegimeStores(remote, regimeStore);
@@ -1525,12 +1545,12 @@ async function persistRegime() {
     $("regime-save").disabled = true;
     $("regime-reset").disabled = true;
     updateRegimeView();
-    $("regime-status").textContent = synced ? `${date} 已保存并同步 · 只读` : `${date} 已保存到本机 · 只读`;
+    $("regime-status").textContent = synced ? `${date} saved and synced · read-only` : `${date} saved locally · read-only`;
   } catch (error) {
     console.error(error);
-    $("regime-status").textContent = `保存失败：${error.message}`;
+    $("regime-status").textContent = `Save failed: ${error.message}`;
   } finally {
-    button.disabled = regimeFrozen; button.textContent = "保存当前快照";
+    button.disabled = regimeFrozen; button.textContent = "Save Snapshot";
   }
 }
 
@@ -1543,7 +1563,7 @@ async function renderRegime() {
   $("regime-reset").onclick = () => {
     regimeValues = regimeAnchor ? { ...regimeAnchor.values } : defaultRegimeValues();
     updateRegimeView();
-    $("regime-status").textContent = regimeAnchor ? `已重置到 ${regimeAnchor.date} 快照，尚未保存` : "无历史快照，已重置为 5，尚未保存";
+    $("regime-status").textContent = regimeAnchor ? `Reset to the ${regimeAnchor.date} snapshot; unsaved` : "No historical snapshot; reset to 5 and unsaved";
   };
   $("regime-save").onclick = persistRegime;
   $("regime-date").onchange = (event) => {

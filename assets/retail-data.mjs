@@ -12,9 +12,9 @@ export async function loadRetailData(loadLocal, hostname = globalThis.location?.
       const data = await response.json();
       if (!Array.isArray(data.dates) || !data.dates.length ||
           !Array.isArray(data.tickers) || !data.data) throw new Error("Invalid retail data");
-      return { data, source: "线上最新数据" };
+      return { data, source: "Latest online data" };
     } catch {
-      return { data: await loadLocal("data/retailflow.json"), source: "本地副本（线上读取失败，可能滞后）" };
+      return { data: await loadLocal("data/retailflow.json"), source: "Local copy (online fetch failed; may be stale)" };
     }
   }
   return { data: await loadLocal("data/retailflow.json"), source: "" };

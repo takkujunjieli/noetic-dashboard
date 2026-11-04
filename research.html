@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Research · 研究台</title>
-  <link rel="stylesheet" href="assets/style.css?v=20261031-five-factor-tab-align">
+<title>Research</title>
+  <link rel="stylesheet" href="assets/style.css?v=20261103-compact-research-tabs">
 <link rel="stylesheet" href="assets/theme.css">
 </head>
 <body class="trading">
@@ -20,40 +20,40 @@
 </header>
 
 <!-- Topic 导航(每个 topic 是自成一体的研究模块) -->
-<nav class="research-topic-nav" aria-label="研究主题">
-  <div class="research-topic-group" role="group" aria-label="宏观环境">
-    <span class="research-topic-label">宏观环境</span>
+<nav class="research-topic-nav" aria-label="Research topics">
+  <div class="research-topic-group" role="group" aria-label="Macro Environment">
+    <span class="research-topic-label">Macro</span>
     <div class="research-topic-tabs">
-      <span class="tab active" data-topic="bearbull">熊市预测</span>
-      <span class="tab" data-topic="rates">国债vs股市</span>
+      <span class="tab active" data-topic="bearbull">Bear Forecast</span>
+      <span class="tab" data-topic="rates">Rates vs Equities</span>
       <span class="tab" data-topic="regime">Regime</span>
     </div>
   </div>
-  <div class="research-topic-group" role="group" aria-label="资金与仓位">
-    <span class="research-topic-label">资金与仓位</span>
+  <div class="research-topic-group" role="group" aria-label="Flows and Positioning">
+    <span class="research-topic-label">Flows</span>
     <div class="research-topic-tabs">
-      <span class="tab" data-topic="retailflow">散户订单流</span>
-      <span class="tab" data-topic="positioning">仓位情报</span>
+      <span class="tab" data-topic="retailflow">Retail Flow</span>
+      <span class="tab" data-topic="positioning">Positioning</span>
     </div>
   </div>
-  <div class="research-topic-group" role="group" aria-label="期权研究">
-    <span class="research-topic-label">期权研究</span>
+  <div class="research-topic-group" role="group" aria-label="Options Research">
+    <span class="research-topic-label">Options</span>
     <div class="research-topic-tabs">
-      <span class="tab" data-topic="gexvol">GEX→波动</span>
-      <span class="tab" data-topic="flowdir">期权流→方向</span>
+      <span class="tab" data-topic="gexvol">GEX Volatility</span>
+      <span class="tab" data-topic="flowdir">Options Direction</span>
     </div>
   </div>
-  <div class="research-topic-group" role="group" aria-label="技术分析">
-    <span class="research-topic-label">技术分析</span>
+  <div class="research-topic-group" role="group" aria-label="Technical Analysis">
+    <span class="research-topic-label">Technical</span>
     <div class="research-topic-tabs">
       <span class="tab" data-topic="macd">MACD</span>
     </div>
   </div>
-  <div class="research-topic-group" role="group" aria-label="个股基本面研究">
-    <span class="research-topic-label">个股基本面研究</span>
+  <div class="research-topic-group" role="group" aria-label="Single-Stock Fundamentals">
+    <span class="research-topic-label">Fundamentals</span>
     <div class="research-topic-tabs">
-      <span class="tab" data-topic="stocks">个股分析</span>
-      <span class="tab" data-topic="fivefactor">5因子分解</span>
+      <span class="tab" data-topic="stocks">Stock Analysis</span>
+      <span class="tab" data-topic="fivefactor">5-Factor</span>
     </div>
   </div>
 </nav>
@@ -61,27 +61,27 @@
 <!-- ========== Topic 1:熊市预测(v1 熊侧) ========== -->
 <section data-topic-panel="bearbull">
   <div id="bb-status" class="muted small" style="padding:8px 0"></div>
-  <h2>预警概率 vs 历史熊市</h2>
-  <div id="bb-chart" class="card"><span class="muted small">计算中…</span></div>
+  <h2>Warning Probability vs Historical Bear Markets</h2>
+  <div id="bb-chart" class="card"><span class="muted small">Calculating…</span></div>
 
-  <h2>逐熊市记分卡(leave-one-bear-out)</h2>
-  <div id="bb-score" class="card"><span class="muted small">计算中…</span></div>
+  <h2>Bear-Market Scorecard (Leave-One-Bear-Out)</h2>
+  <div id="bb-score" class="card"><span class="muted small">Calculating…</span></div>
 
-  <h2>模型系数(标准化)</h2>
-  <div id="bb-coef" class="card"><span class="muted small">计算中…</span></div>
+  <h2>Model Coefficients (Standardized)</h2>
+  <div id="bb-coef" class="card"><span class="muted small">Calculating…</span></div>
 </section>
 
 <!-- ========== Topic 3.5:宏观环境 Regime 手工快照 ========== -->
 <section data-topic-panel="regime" hidden>
   <h2>Regime</h2>
   <div class="card regime-controls">
-    <label>周五日期 <input id="regime-date" type="date" min="2020-01-03" step="7"></label>
-    <button id="regime-save">保存当前快照</button>
-    <button id="regime-reset">重置为 5</button>
+    <label>Week Ending (Friday) <input id="regime-date" type="date" min="2020-01-03" step="7"></label>
+    <button id="regime-save">Save Snapshot</button>
+    <button id="regime-reset">Reset to 5</button>
     <span id="regime-status" class="muted small"></span>
   </div>
   <div class="card regime-layout">
-    <div id="regime-chart" class="regime-chart" aria-label="Regime 七维雷达图"></div>
+    <div id="regime-chart" class="regime-chart" aria-label="Seven-dimension regime radar chart"></div>
     <div id="regime-values" class="regime-values"></div>
   </div>
 
@@ -90,27 +90,27 @@
 <!-- ========== Topic 2:散户订单流(live, 30d 滚动) ========== -->
 <section data-topic-panel="retailflow" hidden>
   <div id="rf-status" class="muted small" style="padding:8px 0"></div>
-  <div id="rf-picker" class="card" style="margin-bottom:12px"><span class="muted small">加载跑批标的…</span></div>
+  <div id="rf-picker" class="card" style="margin-bottom:12px"><span class="muted small">Loading batch universe…</span></div>
 
-  <h2>当前信号(每票)</h2>
-  <div id="rf-now" class="card"><span class="muted small">计算中…</span></div>
+  <h2>Current Signal by Ticker</h2>
+  <div id="rf-now" class="card"><span class="muted small">Calculating…</span></div>
 
-  <h2>Investment usefulness · PIT 前瞻收益与分位多空</h2>
-  <div id="rf-scatter" class="card"><span class="muted small">计算中…</span></div>
+  <h2>Investment Usefulness · PIT Forward Returns &amp; Quantile Long/Short</h2>
+  <div id="rf-scatter" class="card"><span class="muted small">Calculating…</span></div>
 
-  <h2>每日横截面 IC · ICIR</h2>
-  <div id="rf-ic" class="card"><span class="muted small">计算中…</span></div>
+  <h2>Daily Cross-Sectional IC · ICIR</h2>
+  <div id="rf-ic" class="card"><span class="muted small">Calculating…</span></div>
 
-  <h2>散户净买入热力图</h2>
-  <div id="rf-series" class="card"><span class="muted small">计算中…</span></div>
+  <h2>Retail Net-Buying Heatmap</h2>
+  <div id="rf-series" class="card"><span class="muted small">Calculating…</span></div>
 
-  <h2>采样验证</h2>
-  <div id="rf-valid" class="card"><span class="muted small">计算中…</span></div>
+  <h2>Sampling Validation</h2>
+  <div id="rf-valid" class="card"><span class="muted small">Calculating…</span></div>
 </section>
 
 <!-- ========== Topic 3:收益率×市场(债券收益率对市场的影响) ========== -->
 <section data-topic-panel="rates" hidden>
-  <h2>国债 vs 股市</h2>
+  <h2>Treasuries vs Equities</h2>
   <div id="rates-legend" class="rt-legend"></div>
   <div class="chart-wrap">
     <div id="rates-chart" style="height:380px"></div>
@@ -118,52 +118,52 @@
   </div>
 
 
-  <h2 style="margin-top:18px">收益率 × 股市 · 当日相关性</h2>
-  <div id="rates-corr" class="card"><span class="muted small">计算中…</span></div>
+  <h2 style="margin-top:18px">Yields × Equities · Same-Day Correlation</h2>
+  <div id="rates-corr" class="card"><span class="muted small">Calculating…</span></div>
 </section>
 
 <!-- ========== Topic 4:净 GEX → 次日已实现波动(自 strategy 页迁入) ========== -->
 <section data-topic-panel="gexvol" hidden>
-  <h2>净 GEX → 次日已实现波动 <span class="muted small" id="gx-sub"></span></h2>
-  <div id="gx-study" class="card"><span class="muted small">计算中…</span></div>
+  <h2>Net GEX → Next-Day Realized Volatility <span class="muted small" id="gx-sub"></span></h2>
+  <div id="gx-study" class="card"><span class="muted small">Calculating…</span></div>
 </section>
 
 <!-- ========== Topic 4.5:期权流 → 方向(逐票 rank-IC) ========== -->
 <section data-topic-panel="flowdir" hidden>
-  <h2>期权流 → 方向</h2>
-  <div id="fd-caveat" class="card" style="border-color:#a3620d"><span class="muted small">计算中…</span></div>
-  <h2>IC 表</h2>
+  <h2>Options Flow → Direction</h2>
+  <div id="fd-caveat" class="card" style="border-color:#a3620d"><span class="muted small">Calculating…</span></div>
+  <h2>IC Table</h2>
   <div id="fd-ic" class="card"></div>
-  <h2>net_flow 分 dealer gamma 状态</h2>
+  <h2>net_flow by Dealer Gamma Regime</h2>
   <div id="fd-gamma" class="card"></div>
-  <h2>扣成本 L/S 五档回测</h2>
+  <h2>Cost-Adjusted L/S Quintile Backtest</h2>
   <div id="fd-ls" class="card"></div>
 </section>
 
 <!-- ========== Topic 5:仓位情报(免费版 JPM Positioning Intelligence) ========== -->
 <section data-topic-panel="positioning" hidden>
-  <h2>仓位情报</h2>
-  <div id="pos-gauge" class="card"><span class="muted small">计算中…</span></div>
+  <h2>Positioning Intelligence</h2>
+  <div id="pos-gauge" class="card"><span class="muted small">Calculating…</span></div>
 
   <div style="margin:12px 0 4px">
-    <label class="muted small">市场
+    <label class="muted small">Market
       <select id="pos-mkt" style="background:var(--card-hover);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text)"></select>
     </label>
   </div>
 
-  <h2>各 cohort 定位(z 分数,周频)</h2>
+  <h2>Cohort Positioning (Weekly z-Scores)</h2>
   <div id="pos-legend" class="rt-legend"></div>
   <div class="chart-wrap">
     <div id="pos-chart" style="height:340px"></div>
     <div id="pos-hover" class="chart-hover"></div>
   </div>
-  <div class="muted small" style="margin-top:6px">纵轴 = z 分数(相对近 3 年均值的标准差,0=均值=虚线基线);<span style="color:#fbbf24">real−fast 背离</span> = 资管 z − 杠杆 z(real money 与 fast money 的定位差,极值常见于转折前)。</div>
+  <div class="muted small" style="margin-top:6px">Y-axis = z-score versus the trailing three-year mean (0 = mean, shown as the dashed baseline). <span style="color:#fbbf24">real−fast divergence</span> = asset-manager z − leveraged-fund z; extremes often appear before turning points.</div>
 
-  <h2>潜在买卖盘</h2>
-  <div id="pos-pressure" class="card"><span class="muted small">计算中…</span></div>
+  <h2>Potential Buying / Selling Pressure</h2>
+  <div id="pos-pressure" class="card"><span class="muted small">Calculating…</span></div>
 
-  <h2>CTA 定位(DBMF 复制器)</h2>
-  <div id="pos-cta" class="card"><span class="muted small">计算中…</span></div>
+  <h2>CTA Positioning (DBMF Replicator)</h2>
+  <div id="pos-cta" class="card"><span class="muted small">Calculating…</span></div>
 
   <div class="muted small" id="pos-caveat" style="margin-top:10px"></div>
 </section>
@@ -173,48 +173,48 @@
   <h2>MACD return</h2>
   <div class="card" style="margin-bottom:12px">
     <div class="ff-controls">
-      <span class="muted small">区间</span>
+      <span class="muted small">Period</span>
       <button class="tab" data-macd-period="3m">3M</button>
       <button class="tab" data-macd-period="6m">6M</button>
       <button class="tab" data-macd-period="1y">1Y</button>
       <button class="tab active" data-macd-period="all">ALL</button>
-      <button id="macd-sync" class="tab" style="margin-left:auto">同步所有 tickers</button>
+      <button id="macd-sync" class="tab" style="margin-left:auto">Sync All Tickers</button>
     </div>
-    <div id="macd-status" class="muted small" style="margin-top:8px">加载中…</div>
+    <div id="macd-status" class="muted small" style="margin-top:8px">Loading…</div>
   </div>
-  <div id="macd-table" class="card"><span class="muted small">计算中…</span></div>
+  <div id="macd-table" class="card"><span class="muted small">Calculating…</span></div>
 
 </section>
 
 <!-- ========== Topic 7:个股分析(Scorecards,本地私有) ========== -->
 <section data-topic-panel="stocks" hidden>
-  <div id="scorecards"><span class="muted small">加载打分…(本地专用 · 读 research/scorecards/_summary.csv,gitignored;公开站不显示)</span></div>
+  <div id="scorecards"><span class="muted small">Loading scorecards… (local only · reads research/scorecards/_summary.csv, gitignored; hidden on the public site)</span></div>
 </section>
 
 <!-- ========== Topic 8:Five-Factor Equity Return Decomposition ========== -->
 <section data-topic-panel="fivefactor" hidden>
-  <h2>Five-Factor Equity Return Decomposition <span class="muted small">Trading Desk 全部 ticker · SEC TTM fundamentals · split-adjusted price</span></h2>
+  <h2>Five-Factor Equity Return Decomposition <span class="muted small">All Trading Desk tickers · SEC TTM fundamentals · split-adjusted price</span></h2>
   <div class="card" style="margin-bottom:12px">
     <div class="ff-controls">
-      <span class="muted small">对比区间</span>
+      <span class="muted small">Comparison Period</span>
       <button class="tab active" data-ff-period="1y">1Y</button>
       <button class="tab" data-ff-period="3y">3Y</button>
       <button class="tab" data-ff-period="5y">5Y</button>
     </div>
     <div class="ff-formula">P₁/P₀ = (R₁/R₀) × (OM₁/OM₀) × ((NI/OI)₁/(NI/OI)₀) × (Shares₀/Shares₁) × (PE₁/PE₀)</div>
-    <div id="ff-status" class="muted small">加载中…</div>
+    <div id="ff-status" class="muted small">Loading…</div>
   </div>
-  <div id="ff-table" class="card"><span class="muted small">加载中…</span></div>
+  <div id="ff-table" class="card"><span class="muted small">Loading…</span></div>
   <div class="muted small ff-note">
-    财务原始值来自 <a href="https://data.sec.gov/api/xbrl/companyfacts/" target="_blank" rel="noopener">SEC Company Facts</a>；
-    价格为 Yahoo Finance 拆股调整收盘价的静态快照。每格粗体为因子比例，下方为“之前 TTM → 最新 TTM”原始值。
-    负营业利润或负净利润仍保留代数结果并标注 <span class="ff-warning">⚠</span>，但不应按常规扩张或估值倍数解释。ETF 与历史不足的标的保留在表内并说明原因。
+    Raw fundamentals come from <a href="https://data.sec.gov/api/xbrl/companyfacts/" target="_blank" rel="noopener">SEC Company Facts</a>;
+    prices are static snapshots of split-adjusted Yahoo Finance closes. Each cell shows the factor ratio in bold and the raw “prior TTM → latest TTM” values below.
+    Algebraic results are retained for negative operating or net income and marked with <span class="ff-warning">⚠</span>, but should not be interpreted as conventional margin expansion or valuation multiples. ETFs and tickers with insufficient history remain in the table with an explanation.
   </div>
 </section>
 
 
 
 <script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
-<script type="module" src="assets/research.js?v=20261031-original-warning"></script>
+<script type="module" src="assets/research.js?v=20261103-english-ui"></script>
 </body>
 </html>

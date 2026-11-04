@@ -43,7 +43,7 @@ def start(observations=False, attribution=False):
         if current["running"]:
             return current
         if not current["available"]:
-            raise ValueError("请先按 Qlib 文档安装 factor-research/.venv-qlib")
+            raise ValueError("Install factor-research/.venv-qlib as described in the Qlib documentation.")
         state = RESEARCH / "data/qlib-v1"
         state.mkdir(parents=True, exist_ok=True)
         LOG = (state / ("attribution-refresh.log" if attribution else "observations-refresh.log" if observations else "refresh.log")).open("w")
@@ -87,10 +87,10 @@ def universe_module():
 def save_universe(document, revision):
     with LOCK:
         if status()["running"]:
-            raise ValueError("研究正在运行，请完成后再保存股票池")
+            raise ValueError("A task is running. Wait for it to finish before saving the universe.")
         current = universe_config()
         if revision != current["revision"]:
-            raise ValueError("配置已被其他页面更新，请重新加载后保存")
+            raise ValueError("Settings changed in another page. Reload before saving.")
         module = universe_module()
         settings = module.validate_settings(document, current["catalog"])
         base = json.loads((RESEARCH / "config/qlib-v1.json").read_text())

@@ -181,10 +181,10 @@ class DashboardHandler(SimpleHTTPRequestHandler):
             try:
                 length = int(self.headers.get("Content-Length", "0"))
                 if self.headers.get("Content-Type", "").split(";")[0] != "application/json" or not 0 < length <= 100000:
-                    raise ValueError("配置必须是100KB以内的JSON")
+                    raise ValueError("Settings must be JSON no larger than 100 KB.")
                 body = json.loads(self.rfile.read(length))
                 if not isinstance(body, dict) or set(body) != {"settings", "revision"}:
-                    raise ValueError("配置请求格式无效")
+                    raise ValueError("Invalid settings request format.")
                 return self.reply(200, qlib_jobs.save_universe(body["settings"], body["revision"]))
             except (ValueError, TypeError, OSError) as error:
                 return self.reply(400, {"error": str(error)})
@@ -221,9 +221,9 @@ class DashboardHandler(SimpleHTTPRequestHandler):
             try:
                 length = int(self.headers.get("Content-Length", "0"))
                 if self.headers.get("Content-Type", "").split(";")[0] != "application/json" or not 0 < length <= 16:
-                    raise ValueError("需要空 JSON object")
+                    raise ValueError("An empty JSON object is required.")
                 if json.loads(self.rfile.read(length)) != {}:
-                    raise ValueError("刷新不接受参数")
+                    raise ValueError("Refresh does not accept parameters.")
                 path = urlsplit(self.path).path
                 result = qlib_jobs.start(attribution=True) if path.endswith('/attribution/refresh') else qlib_jobs.start(observations=True) if path.endswith('/observations/refresh') else qlib_jobs.start()
                 return self.reply(202, result)

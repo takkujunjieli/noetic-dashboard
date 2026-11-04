@@ -1,32 +1,32 @@
-import {escapeHTML as esc,number,percent} from './qlib-view.mjs';
-import {sortObservations} from './market-observations.mjs';
+import {escapeHTML as esc,number,percent} from './qlib-view.mjs?v=20261103-en';
+import {sortObservations} from './market-observations.mjs?v=20261103-en';
 const $=id=>document.getElementById(id);
 let report,dirty=false,revision=null,running=false,pollTimer=null;
 let sortKey='20:momentum',sortDirection='desc';
-const columns=[['symbol','股票'],['price','最新收盘价'],['60:momentum','60日动量'],['60:volatility','60日波动率'],['20:momentum','20日动量'],['20:volatility','20日波动率'],['5:momentum','5日动量'],['5:volatility','5日波动率']];
+const columns=[['symbol','Ticker'],['price','Latest close'],['60:momentum','60-session momentum'],['60:volatility','60-session volatility'],['20:momentum','20-session momentum'],['20:volatility','20-session volatility'],['5:momentum','5-session momentum'],['5:volatility','5-session volatility']];
 const local=['localhost','127.0.0.1','[::1]'].includes(location.hostname);
 function button(){ $('observations-refresh').disabled=dirty||running; }
 function render(){
   if(!report)return;
   const [period,metric]=sortKey.includes(':')?sortKey.split(':'):['',sortKey];
   const rows=sortObservations(report.rows,period,metric,sortDirection);
-  $('observations-meta').textContent=`${report.universe_name} · ${rows.length}只 · 行情截至 ${report.asof} · ${report.provider}`;
+  $('observations-meta').textContent=`${report.universe_name} · ${rows.length} tickers · Prices through ${report.asof} · ${report.provider}`;
   const mismatch=revision&&revision!==report.settings_revision;
-  $('observations-stale').textContent=mismatch?'股票池配置已更新，请点击「更新行情」应用新名单。':'';
+  $('observations-stale').textContent=mismatch?'The universe has changed. Select Update prices to apply the new list.':'';
   const body=rows.map(r=>{
-    const values=[esc(r.symbol)+(r.reason?` <span class="muted" title="${esc(r.reason)}">· 暂不可用</span>`:''),number(r.price),...['60','20','5'].flatMap(p=>[percent(r.periods[p].momentum,100),percent(r.periods[p].volatility,100)])];
+    const values=[esc(r.symbol)+(r.reason?` <span class="muted" title="${esc(r.reason)}">· Unavailable</span>`:''),number(r.price),...['60','20','5'].flatMap(p=>[percent(r.periods[p].momentum,100),percent(r.periods[p].volatility,100)])];
     return `<tr>${values.map(v=>`<td>${v}</td>`).join('')}</tr>`;
   });
   const headers=columns.map(([key,label])=>{
     const active=key===sortKey,order=active?(sortDirection==='asc'?'ascending':'descending'):'none';
     const arrow=active?(sortDirection==='asc'?'▲':'▼'):'↕';
-    return `<th scope="col" aria-sort="${order}"><button type="button" class="observations-column-sort" data-observations-sort="${key}" title="点击按${label}排序">${label} <span aria-hidden="true">${arrow}</span></button></th>`;
+    return `<th scope="col" aria-sort="${order}"><button type="button" class="observations-column-sort" data-observations-sort="${key}" title="Sort by ${label}">${label} <span aria-hidden="true">${arrow}</span></button></th>`;
   }).join('');
-  $('observations-table').innerHTML=rows.length?`<table class="qlib-table"><thead><tr>${headers}</tr></thead><tbody>${body.join('')}</tbody></table>`:'<p class="qlib-empty">当前筛选条件下没有股票。</p>';
+  $('observations-table').innerHTML=rows.length?`<table class="qlib-table"><thead><tr>${headers}</tr></thead><tbody>${body.join('')}</tbody></table>`:'<p class="qlib-empty">No tickers match the current filters.</p>';
   if(!mismatch){
     $('observations-panel').dataset.loaded='true';
     $('pool-current-name').textContent=report.universe_name;
-    $('pool-current').textContent=`${rows.length}只 · ${report.rows.map(r=>r.symbol).sort().join(' · ')}`;
+    $('pool-current').textContent=`${rows.length} tickers · ${report.rows.map(r=>r.symbol).sort().join(' · ')}`;
   }
 }
 async function load(){
@@ -42,13 +42,13 @@ async function status(){
     if(!response.ok)return;
     const job=await response.json();running=job.running;button();
     if(job.running){
-      $('observations-job').textContent=job.kind==='observations'?'正在更新行情与历史统计…':'归因或研究任务运行中，请稍后更新行情。';
+      $('observations-job').textContent=job.kind==='observations'?'Updating prices and historical statistics…':'An attribution or research task is running. Update prices after it finishes.';
       pollTimer=setTimeout(status,2500);
     }else if(job.kind==='observations'&&job.started_at){
-      $('observations-job').textContent=job.exit_code===0?'行情统计已更新':'更新失败，保留上次结果。';
+      $('observations-job').textContent=job.exit_code===0?'Price statistics updated':'Update failed; previous results retained.';
       if(job.exit_code===0)await load();
     }else $('observations-job').textContent='';
-  }catch{ $('observations-job').textContent='无法读取本地更新状态。'; }
+  }catch{ $('observations-job').textContent='Unable to read local update status.'; }
 }
 export function initObservations(){
   document.addEventListener('quant-job-started',()=>{clearTimeout(pollTimer);status();});
@@ -68,8 +68,8 @@ export function initObservations(){
       const response=await fetch('/api/qlib/observations/refresh',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});
       if(!response.ok)throw Error('refresh');
       document.dispatchEvent(new CustomEvent('quant-job-started'));
-    }catch{running=false;button();$('observations-job').textContent='行情更新启动失败。';}
+    }catch{running=false;button();$('observations-job').textContent='Unable to start the price update.';}
   });
-  load().catch(()=>{$('observations-job').textContent='暂无行情统计，请先更新行情。';});
+  load().catch(()=>{$('observations-job').textContent='No price statistics yet. Update prices first.';});
   if(local)status();
 }

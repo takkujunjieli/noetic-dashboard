@@ -1,9 +1,9 @@
-import {escapeHTML as esc} from './qlib-view.mjs';
-import {parseSymbols,previewSymbols,numberInput} from './qlib-universe.mjs?v=20261102';
+import {escapeHTML as esc} from './qlib-view.mjs?v=20261103-en';
+import {parseSymbols,previewSymbols,numberInput} from './qlib-universe.mjs?v=20261103-en';
 const $=id=>document.getElementById(id);
 let source,settings,dirty=false;
 const profile=()=>settings.profiles[settings.active];
-function changed(value=true){dirty=value;document.dispatchEvent(new CustomEvent('qlib-universe-change',{detail:{dirty}}));$('pool-save').disabled=!value;$('pool-message').textContent=value?'有未保存的修改':'';}
+function changed(value=true){dirty=value;document.dispatchEvent(new CustomEvent('qlib-universe-change',{detail:{dirty}}));$('pool-save').disabled=!value;$('pool-message').textContent=value?'Unsaved changes':'';}
 function collect(){
   return {name:$('pool-name').value.trim(),include_base:$('pool-base').checked,
     groups:[...document.querySelectorAll('#pool-groups input:checked')].map(i=>i.value).sort(),
@@ -19,7 +19,7 @@ function preview(){
   try{
     const history=settings.active==='trading-history';
     const symbols=previewSymbols(source.base_symbols,collect(),source.catalog.groups,{keepBenchmark:history});
-    $('pool-preview').textContent=`${history?'完整历史范围':'待筛选'} ${symbols.length} 只：${symbols.join(' · ')}${history?'。不按流动性或历史长度删减成员，缺失行情留空。':''}`;
+    $('pool-preview').textContent=`${history?'Full historical universe':'Before filters'} · ${symbols.length} tickers: ${symbols.join(' · ')}${history?'. Members are retained regardless of liquidity or history length; missing prices remain blank.':''}`;
   }catch(e){$('pool-preview').textContent=e.message;}
 }
 function populate(){
@@ -31,7 +31,7 @@ function populate(){
   $('pool-volume-window').value=f.volume_window;$('pool-min-cap').value=f.min_market_cap/100000000;
   $('pool-max-cap').value=f.max_market_cap==null?'':f.max_market_cap/100000000;$('pool-history').value=f.min_history;
   document.querySelectorAll('.pool-numbers input').forEach(input=>{input.disabled=settings.active==='trading-history';});
-  $('pool-groups').innerHTML=source.catalog.groups.map(g=>`<label class="pool-group"><input type="checkbox" value="${esc(g.id)}" ${p.groups.includes(g.id)?'checked':''}><span>${esc(g.name)} <small>${g.symbols.length}只</small></span></label>`).join('');
+  $('pool-groups').innerHTML=source.catalog.groups.map(g=>`<label class="pool-group"><input type="checkbox" value="${esc(g.id)}" ${p.groups.includes(g.id)?'checked':''}><span>${esc(g.name)} <small>${g.symbols.length} tickers</small></span></label>`).join('');
   preview();
 }
 export async function initUniverse(){
@@ -47,7 +47,7 @@ export async function initUniverse(){
     $('pool-new').addEventListener('click',()=>{
       try{settings.profiles[settings.active]=collect();}catch(e){$('pool-message').textContent=e.message;return;}
       const id='pool-'+Date.now().toString(36);settings.profiles[id]=structuredClone(profile());
-      settings.profiles[id].name='新研究股票池';settings.active=id;populate();changed();$('pool-name').focus();
+      settings.profiles[id].name='New research universe';settings.active=id;populate();changed();$('pool-name').focus();
     });
     $('pool-search').addEventListener('input',()=>{
       const query=$('pool-search').value.toLowerCase();
@@ -59,9 +59,9 @@ export async function initUniverse(){
         settings.profiles[settings.active]=collect();
         const response=await fetch('/api/qlib/universe',{method:'PUT',headers:{'Content-Type':'application/json'},
           body:JSON.stringify({settings,revision:source.revision})});
-        const result=await response.json();if(!response.ok)throw Error(result.error||'保存失败');
+        const result=await response.json();if(!response.ok)throw Error(result.error||'Save failed');
         source=result;settings=structuredClone(result.settings);populate();changed(false);
-        $('pool-message').textContent='已保存。点击「更新行情」查看动量与波动；需要预测时再点击「刷新研究」。';
+        $('pool-message').textContent='Saved. Select Update prices for momentum and volatility, then Update attribution for factor contributions.';
         document.dispatchEvent(new CustomEvent('qlib-universe-saved',{detail:{revision:source.revision}}));
       }catch(e){$('pool-message').textContent=e.message;$('pool-save').disabled=false;}
     });

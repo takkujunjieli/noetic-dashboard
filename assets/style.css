@@ -66,11 +66,12 @@ nav .tab:hover { background: var(--card-hover); color: var(--text); }
 nav .tab.active { background: var(--accent); border-color: var(--accent); color: #0b1020; font-weight: 600; }
 
 /* Research topic tabs: related studies stay together, with clear spacing between groups. */
-.research-topic-nav { position: static; align-items: stretch; gap: 22px; }
+.research-topic-nav { position: static; align-items: stretch; gap: 10px; }
 .research-topic-group { display: flex; flex-direction: column; gap: 5px; }
-.research-topic-group + .research-topic-group { margin-left: 2px; padding-left: 24px; border-left: 1px solid var(--border); }
+.research-topic-group + .research-topic-group { margin-left: 0; padding-left: 10px; border-left: 1px solid var(--border); }
 .research-topic-label { color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .08em; }
 .research-topic-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.research-topic-nav .tab { padding: 6px 10px; font-size: 13px; white-space: nowrap; }
 
 @media (max-width: 760px) {
   .research-topic-nav { gap: 14px 22px; }
