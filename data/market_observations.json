@@ -3,9 +3,9 @@
   "generated_at": "2026-11-02T15:17:46.307183+00:00",
   "asof": "2026-10-30",
   "provider": "yahoo_exploratory",
-  "settings_revision": "488701fcba010c3a6eadc552a5df1b52ed439f4b04cf56ba9f26b54ee71c05ae",
+  "settings_revision": "d0236349a3a8addade25a6fdec5153cf703f51f7c4d7dd62b77ed11f45b5308a",
   "universe_id": "current-237d3bc8627b14ab",
-  "universe_name": "Trading · 全部历史 ticker",
+  "universe_name": "Trading · All historical tickers",
   "filters": {
     "min_price": 0,
     "min_dollar_volume": 0,
