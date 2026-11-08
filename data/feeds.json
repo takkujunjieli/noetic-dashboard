@@ -1,6 +1,87 @@
 {
- "updated_at": "2026-11-07T01:01:36+00:00",
+ "updated_at": "2026-11-08T00:44:49+00:00",
  "items": [
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "What about the FCF for investors ?",
+   "link": "https://www.reddit.com/r/stocks/comments/1xqk8lb/what_about_the_fcf_for_investors/",
+   "published": "2026-11-07T23:40:11+00:00",
+   "summary": "Hi I was reading a lot of posts and contradictorian opinions on Reddit and YouTube the past days, and playing with my own model to try and make sens of the AI company. I will not add to the debate on wether or not AI is over/OpenAi and anthropic possible collapse etc…. My opinion…",
+   "rank": 5
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "Does Value+Profitability actually beat Market Cap (ETFs) in the real world (ex-US Factor Investing)?",
+   "link": "https://www.reddit.com/r/stocks/comments/1xqj6pb/does_valueprofitability_actually_beat_market_cap/",
+   "published": "2026-11-07T22:49:33+00:00",
+   "summary": "I’m currently reviewing my ex-US allocation (Developed ex-US and Emerging Markets) and looking into whether factor tilting is worth it (specifically using Dimensional/Avantis ) for a 10-year buy&amp;hold strategy. When I asked two different AIs to review Fama-French data (particu…",
+   "rank": 6
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "Michael Burry makes sense",
+   "link": "https://www.reddit.com/r/stocks/comments/1xqhla3/michael_burry_makes_sense/",
+   "published": "2026-11-07T21:35:39+00:00",
+   "summary": "This is not to say that Michael Burry has always been right with his short trades. However, when I look back at his thesis on the structural problems that current AI and semi companies are facing, it says a lot. His recent post questioning Anthropics valuation and its future prof…",
+   "rank": 16
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "Broadcom (AVGO) hit a 52 week low yesterday. Headed lower?",
+   "link": "https://www.reddit.com/r/stocks/comments/1xqfhdb/broadcom_avgo_hit_a_52_week_low_yesterday_headed/",
+   "published": "2026-11-07T20:01:48+00:00",
+   "summary": "Broadcom hit a 52 week low briefly before reversing and closing positive (barely so) as the rest of the market. Even while NVDA and TSMC rebounded better, Broadcom opened really strong and closed almost flat. The stock has taken a beating the whole year. YTD and 1 year down 16%. …",
+   "rank": 1
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "r/Stocks Weekly Thread on Meme Stocks Saturday - Nov 07, 2026",
+   "link": "https://www.reddit.com/r/stocks/comments/1xqb69a/rstocks_weekly_thread_on_meme_stocks_saturday_nov/",
+   "published": "2026-11-07T17:00:12+00:00",
+   "summary": "The meme stock scheduled posts will now run weekly and post Saturday afternoon and won't be a sticky; you're probably seeing this because automod sent you here! Full list of meme stocks here. This will be updated every once in a while. Welcome traders who just can't help them sel…",
+   "rank": 9
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "Sterling infrastructure STRL",
+   "link": "https://www.reddit.com/r/stocks/comments/1xq3hs1/sterling_infrastructure_strl/",
+   "published": "2026-11-07T10:42:54+00:00",
+   "summary": "Sterling Infrastructure builds large-scale site infrastructure for data centres, warehouses, transport and energy projects, with data centres driving most of its growth. The stock has been crushed, first falling 37% between 6 and 23 October, then dropping about 21% in a single da…",
+   "rank": 4
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "/r/Stocks Weekend Discussion Saturday - Nov 07, 2026",
+   "link": "https://www.reddit.com/r/stocks/comments/1xq3aze/rstocks_weekend_discussion_saturday_nov_07_2026/",
+   "published": "2026-11-07T10:30:08+00:00",
+   "summary": "This is the weekend edition of our stickied discussion thread. Discuss your trades / moves from last week and what you're planning on doing for the week ahead. Some helpful links: Finviz for charts, fundamentals, and aggregated news on individual stocks Bloomberg market news Stre…",
+   "rank": 0
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "What the market thinks: a case study from AI hardware, cloud, electricity stocks",
+   "link": "https://www.reddit.com/r/stocks/comments/1xq18c3/what_the_market_thinks_a_case_study_from_ai/",
+   "published": "2026-11-07T08:13:16+00:00",
+   "summary": "When we look at how the market prices AI, it is clearer to look at non-hyperscaler (GOOG, MSFT, AMZN, big names) stocks because these hyperscalers have a more stable alternative source of income. Four-week category performance, from October 9 to November 6, 2026: Hardware: -34.17…",
+   "rank": 8
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "BLOOMBERG: HOW THE THURSDAY SELL-OFF UNFOLDED THAT ERASED $3.7 TRILLION",
+   "link": "https://www.reddit.com/r/stocks/comments/1xq0mxn/bloomberg_how_the_thursday_selloff_unfolded_that/",
+   "published": "2026-11-07T07:36:19+00:00",
+   "summary": "SOURCE: https://www.bloomberg.com/news/articles/2026-11-06/anatomy-of-a-selloff-sudden-chain-reaction-rattles-wall-street Anatomy of a Selloff: Sudden Chain Reaction Rattles Wall Street: - The blue wave initially lifted stocks on Wednesday after the midterms. - Overnight, Retail …",
+   "rank": 2
+  },
   {
    "source": "r/stocks 热帖",
    "category": "community",
@@ -8,7 +89,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1xpo8vj/which_part_of_an_annual_report_do_you_read_before/",
    "published": "2026-11-06T21:09:06+00:00",
    "summary": "For people who read annual reports rather than just earnings summaries, where do you start and why? Segment reporting, cash flow, share-count changes, footnotes, or something else? Curious which section has most often changed your understanding of a business after the headline nu…",
-   "rank": 13
+   "rank": 18
   },
   {
    "source": "CNBC Markets",
@@ -25,7 +106,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1xpmfh4/is_this_actually_an_ai_bubble_burst_or_just_macro/",
    "published": "2026-11-06T19:54:35+00:00",
    "summary": "Whenever tech stocks take a major hit, everyone suddenly loves throwing around the word &quot;bubble,&quot; especially after yesterday's brutal selloff in semiconductors and the S&amp;P 500 dropping more than 4%. If all you're doing is staring at charts without even taking the ti…",
-   "rank": 2
+   "rank": 7
   },
   {
    "source": "r/stocks 热帖",
@@ -34,7 +115,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1xpjkkr/microsoft_corp_is_winding_down_an_arrangement_to/",
    "published": "2026-11-06T18:02:06+00:00",
    "summary": "Microsoft Corp. is winding down an arrangement to rent AI computing from Oracle Corp., part of a larger reassessment of billions of dollars in cloud partnerships. In recent months, Microsoft has been turning off rented computing capacity from Oracle after declining to renew the c…",
-   "rank": 1
+   "rank": 3
   },
   {
    "source": "CNBC Markets",
@@ -47,29 +128,11 @@
   {
    "source": "r/stocks 热帖",
    "category": "community",
-   "title": "Here's What VVIX At 135 History Says About SPY Returns",
-   "link": "https://www.reddit.com/r/stocks/comments/1xpcq24/heres_what_vvix_at_135_history_says_about_spy/",
-   "published": "2026-11-06T13:25:10+00:00",
-   "summary": "Yesterday VVIX jumped nearly 50%, briefly moving above 136 before closing at 135 VVIX measures the expected volatility of the VIX itself - in simple terms, it tells us how aggressively the market is pricing changes in volatility. When VVIX closes at or above 135, SPY has delivere…",
-   "rank": 14
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
    "title": "Forward P/E vs. what the price actually needs: 14 chip stocks after yesterday's selloff",
    "link": "https://www.reddit.com/r/stocks/comments/1xpbg1b/forward_pe_vs_what_the_price_actually_needs_14/",
    "published": "2026-11-06T12:21:11+00:00",
    "summary": "A forward P/E chart of semis went around yesterday (ARM at 71x, all the way down to MU at 4x and SNDK at 3.5x). I wanted to flip the question. Take today's market cap and trailing free cash flow: how fast does FCF have to grow every year for the next 10 years to justify the price…",
-   "rank": 5
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "r/Stocks Daily Discussion & Fundamentals Friday Nov 06, 2026",
-   "link": "https://www.reddit.com/r/stocks/comments/1xp9kqm/rstocks_daily_discussion_fundamentals_friday_nov/",
-   "published": "2026-11-06T10:30:14+00:00",
-   "summary": "This is the daily discussion, so anything stocks related is fine, but the theme for today is on fundamentals, but if fundamentals aren't your thing then just ignore the theme. Some helpful day to day links, including news: Finviz for charts, fundamentals, and aggregated news on i…",
-   "rank": 0
+   "rank": 11
   },
   {
    "source": "r/stocks 热帖",
@@ -78,16 +141,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1xp6kf0/this_overreaction_is_getting_ridiculous/",
    "published": "2026-11-06T07:12:23+00:00",
    "summary": "This midterm was a huge sweep for the democrats. No doubt about that. But, is this a referendum against the AI trade? Definitely not. The Democrats did not sweep this election because of AI or Datacenters. It was because of the unnecessary war in Iran and how stubborn and clueles…",
-   "rank": 8
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "Buying opportunity in tech and why",
-   "link": "https://www.reddit.com/r/stocks/comments/1xp0f0p/buying_opportunity_in_tech_and_why/",
-   "published": "2026-11-06T01:37:02+00:00",
-   "summary": "Yes, semi's have been crushed because the thought is data centers will slow construction with Dems back in power. However 1.) - as an example, Micron and Sandisk forward valuations are at a laughable 4.8 now. Is there that much more room for these to crash even with slower ai bui…",
-   "rank": 16
+   "rank": 14
   },
   {
    "source": "r/stocks 热帖",
@@ -96,7 +150,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1xp0e2x/overblown_fears_of_ai_datacenter_bust_due_to_blue/",
    "published": "2026-11-06T01:35:41+00:00",
    "summary": "New Texas Governor-elect Gina Hinojosa outlined her stance on AI Datacentre policy in Texas a few days ago in a TV interview. Its all quite reasonable. She explicitly said that all currently permitted datacenters in Texas will be allowed to finish construction. This essentially c…",
-   "rank": 9
+   "rank": 17
   },
   {
    "source": "r/stocks 热帖",
@@ -105,7 +159,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1xoxm76/anthropic_may_need_to_delay_its_ipo_major/",
    "published": "2026-11-05T23:26:22+00:00",
    "summary": "WSJ Major investors are increasingly skeptical Anthropic's blockbuster initial public offering can proceed at the expected valuation of $1.5 trillion after a deep market selloff tied to the unwinding of artificial-intelligence related bets, according to people familiar with the m…",
-   "rank": 3
+   "rank": 10
   },
   {
    "source": "CNBC Markets",
@@ -118,55 +172,10 @@
   {
    "source": "r/stocks 热帖",
    "category": "community",
-   "title": "Amazon ditches Grubhub, taps Uber Eats for US Prime members",
-   "link": "https://www.reddit.com/r/stocks/comments/1xosm0y/amazon_ditches_grubhub_taps_uber_eats_for_us/",
-   "published": "2026-11-05T19:59:13+00:00",
-   "summary": "Amazon has made Uber Eats its official restaurant delivery partner for Prime members in the United States, effectively ending the e-commerce giant’s existing deal with Grubhub. Under the new partnership announced Thursday, Amazon Prime members will be able to order food from Uber…",
-   "rank": 17
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "Dow Plunges 1,728 Points as Tech Enters a Correction",
-   "link": "https://www.reddit.com/r/stocks/comments/1xos80r/dow_plunges_1728_points_as_tech_enters_a/",
-   "published": "2026-11-05T19:43:37+00:00",
-   "summary": "The Dow plummeted 1,728 points (3.2%), while the Nasdaq fell a brutal 5.2%. Digesting a newly empowered Democratic majority that ran campaigns critical of AI data centers, amplified by Senator Bernie Sanders calling for a national data center moratorium over environmental and lab…",
-   "rank": 15
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
    "title": "Dear Reddit - The stock market isn't broken",
    "link": "https://www.reddit.com/r/stocks/comments/1xorznf/dear_reddit_the_stock_market_isnt_broken/",
    "published": "2026-11-05T19:34:22+00:00",
    "summary": "I began trading in 1999, just before things got ugly. I was young and was told to invest using a Roth IRA so I started to put money into the S&amp;P500. I practiced disciplined DCA. And watched my money go down in value for a LONG LONG TIME. But I kept putting it in. Many people …",
-   "rank": 4
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "Chip stocks get slaughtered as Wall Street heads for its worst post-midterm day since 1896",
-   "link": "https://www.reddit.com/r/stocks/comments/1xoo6ex/chip_stocks_get_slaughtered_as_wall_street_heads/",
-   "published": "2026-11-05T17:10:05+00:00",
-   "summary": "We are making history bois! &quot;Wall Street's midterm celebration lasted one day. Chip stocks are getting taken to the woodshed Thursday, and the Dow Jones Industrial Average ( ^DJI ) is heading for its worst second session after a midterm election in data going back to its sta…",
-   "rank": 11
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "What Happened to Tech, Semis, and AI Stocks and Why Have They Been Crashing Lately?",
-   "link": "https://www.reddit.com/r/stocks/comments/1xonpwu/what_happened_to_tech_semis_and_ai_stocks_and_why/",
-   "published": "2026-11-05T16:52:49+00:00",
-   "summary": "Confused, if the midterm elections are officially over, shouldn't the economy now stabilize? Why are tech, semis, ai, and memory stocks crashing today and lately in general? We have many stocks like NBIS, SanDisk, AMD, Micron, and most of the tech sector in general, once that wer…",
-   "rank": 19
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "V shaped recovery incoming within 30 days.",
-   "link": "https://www.reddit.com/r/stocks/comments/1xomuwg/v_shaped_recovery_incoming_within_30_days/",
-   "published": "2026-11-05T16:19:59+00:00",
-   "summary": "Why? Because the market is running crazy leverage up and down. Algos are pushing high beta stocks deeper and deeper until significant buys are triggered which in turn create upward algo momentum. On top of that over the last five years, total financial assets in money market fund…",
    "rank": 12
   },
   {
@@ -184,7 +193,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1xomj2e/everyone_is_talking_about_ai_but_everything_is/",
    "published": "2026-11-05T16:07:15+00:00",
    "summary": "I'm not sure what to make of this situation to be honest. Every single sector that I keep an eye on. Automotive (mostly EV), New Energy, Semiconductors, IT, Software, Banking, and on and on and on are all down 5% to 20% suddenly and skipping along the bottom. What's going on? Thi…",
-   "rank": 10
+   "rank": 19
   },
   {
    "source": "CNBC Markets",
@@ -201,7 +210,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1xom4pn/ai_selloff_escalates_nasdaq_100_plummets_57/",
    "published": "2026-11-05T15:51:53+00:00",
    "summary": "The Nasdaq Composite plummeted on Thursday, erasing the sharp gains from the previous session, as investors continued to rotate away from technology stocks and into more defensive areas of the market. The tech-heavy Nasdaq declined 5% and dipped into correction territory, while t…",
-   "rank": 7
+   "rank": 15
   },
   {
    "source": "r/stocks 热帖",
@@ -210,16 +219,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1xolp0d/anybody_buying_the_dip/",
    "published": "2026-11-05T15:34:22+00:00",
    "summary": "All major AI stocks are down 10% or more over the belief that Democrats are going to want to clamp down on the very thing that's keeping economic growth going in the country. I'm looking at Nvidia, MU and AMD. I feel all 3 are much more insulated from the debt fueled mania that C…",
-   "rank": 6
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "SOXX, Semis are CRASHING",
-   "link": "https://www.reddit.com/r/stocks/comments/1xoktnd/soxx_semis_are_crashing/",
-   "published": "2026-11-05T15:00:39+00:00",
-   "summary": "There’s no other word to describe the drop. I don’t think I’m being hyperbolic either. In the past month it has PLUNGED from 218 to now 138. If that’s not a crash then I don’t know what is. So now what? If you haven’t already sold then you have to hold. That’s my opinion and what…",
-   "rank": 18
+   "rank": 13
   },
   {
    "source": "CNBC Markets",
@@ -316,30 +316,6 @@
    "link": "https://www.cnbc.com/2026/10/29/european-central-bank-interest-rates.html",
    "published": "2026-10-29T14:48:01+00:00",
    "summary": "Markets saw the decision as a hawkish pause and were last pricing in a 67% chance of a December rate hike."
-  },
-  {
-   "source": "CNBC Markets",
-   "category": "news",
-   "title": "Here are five key takeaways from the Fed rate decision and Warsh news conference",
-   "link": "https://www.cnbc.com/2026/10/28/fed-rate-decision-warsh-takeaways.html",
-   "published": "2026-10-28T21:31:46+00:00",
-   "summary": "Even though the interest-rate vote went as expected, there were a few surprises out of this week's Federal Open Market Committee meeting."
-  },
-  {
-   "source": "CNBC Markets",
-   "category": "news",
-   "title": "Bessent says 'not necessarily' a mistake if the Fed hikes again",
-   "link": "https://www.cnbc.com/2026/10/28/scott-bessent-interview.html",
-   "published": "2026-10-28T21:06:37+00:00",
-   "summary": "Treasury Secretary Scott Bessent joined CNBC for an interview on Oct. 28, 2026."
-  },
-  {
-   "source": "CNBC Markets",
-   "category": "news",
-   "title": "The UK cuts energy bills, taxes banks and boosts defense in high-stakes budget",
-   "link": "https://www.cnbc.com/2026/10/28/uk-autumn-budget-cost-living-defense-ai.html",
-   "published": "2026-10-28T15:39:14+00:00",
-   "summary": "The U.K. budget cuts household energy costs, raises taxes on banks and directs billions toward defense, Ukraine and artificial intelligence"
   }
  ],
  "errors": [
@@ -353,7 +329,7 @@
   },
   {
    "source": "Massive News",
-   "error": "401 Client Error: Unauthorized for url: https://api.massiveprivateserver.site/v2/reference/news?apiKey=ma_7ungVgJVpdgcb99JWduZVNd6avF0cIZI&limit=100&sort=published_utc&order=desc&published_utc.gte=2026-10-28T01%3A00%3A58Z"
+   "error": "401 Client Error: Unauthorized for url: https://api.massiveprivateserver.site/v2/reference/news?apiKey=ma_7ungVgJVpdgcb99JWduZVNd6avF0cIZI&limit=100&sort=published_utc&order=desc&published_utc.gte=2026-10-29T00%3A44%3A11Z"
   }
  ]
 }
