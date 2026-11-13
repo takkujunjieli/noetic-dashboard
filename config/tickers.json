@@ -47,10 +47,7 @@
     "CCL",
     "RCL"
   ],
-  "deep": [
-    "CCL",
-    "RCL"
-  ],
+  "deep": [],
   "uncertain": [
     "GEV",
     "NBIS",
@@ -96,6 +93,8 @@
     "SMCI",
     "MRVL",
     "HOOD",
-    "NCLH"
+    "NCLH",
+    "CCL",
+    "RCL"
   ]
 }
