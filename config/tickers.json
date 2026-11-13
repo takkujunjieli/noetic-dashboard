@@ -44,10 +44,12 @@
     "TER",
     "ZS",
     "NCLH",
-    "CCL"
+    "CCL",
+    "RCL"
   ],
   "deep": [
-    "CCL"
+    "CCL",
+    "RCL"
   ],
   "uncertain": [
     "GEV",
