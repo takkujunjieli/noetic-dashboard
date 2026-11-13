@@ -45,7 +45,6 @@
     "ZS"
   ],
   "deep": [
-    "COHR",
     "CRWV",
     "BE"
   ],
@@ -56,7 +55,8 @@
     "TER",
     "NVDA",
     "SKHY",
-    "DELL"
+    "DELL",
+    "COHR"
   ],
   "neutral": [
     "AAOI",
