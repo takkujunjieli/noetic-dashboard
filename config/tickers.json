@@ -52,7 +52,6 @@
   ],
   "uncertain": [
     "GEV",
-    "RKLB",
     "SMCI",
     "MRVL",
     "HOOD"
@@ -86,6 +85,7 @@
     "ASST",
     "CEG",
     "FTNT",
-    "ZS"
+    "ZS",
+    "RKLB"
   ]
 }
