@@ -51,7 +51,6 @@
   ],
   "uncertain": [
     "GEV",
-    "HOOD",
     "NBIS",
     "SNDK",
     "TER",
@@ -89,6 +88,7 @@
     "ZS",
     "RKLB",
     "SMCI",
-    "MRVL"
+    "MRVL",
+    "HOOD"
   ]
 }
