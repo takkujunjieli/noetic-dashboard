@@ -44,9 +44,7 @@
     "TER",
     "ZS"
   ],
-  "deep": [
-    "CRWV"
-  ],
+  "deep": [],
   "uncertain": [
     "GEV",
     "NBIS",
@@ -58,7 +56,8 @@
     "COHR",
     "BE",
     "AAOI",
-    "MU"
+    "MU",
+    "CRWV"
   ],
   "neutral": [
     "ALAB",
