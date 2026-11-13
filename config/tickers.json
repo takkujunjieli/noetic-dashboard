@@ -45,8 +45,7 @@
     "ZS"
   ],
   "deep": [
-    "CRWV",
-    "BE"
+    "CRWV"
   ],
   "uncertain": [
     "GEV",
@@ -56,7 +55,8 @@
     "NVDA",
     "SKHY",
     "DELL",
-    "COHR"
+    "COHR",
+    "BE"
   ],
   "neutral": [
     "AAOI",
