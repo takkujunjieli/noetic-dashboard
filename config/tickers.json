@@ -45,7 +45,6 @@
     "ZS"
   ],
   "deep": [
-    "NVDA",
     "COHR",
     "CRWV",
     "BE"
@@ -56,7 +55,9 @@
     "HOOD",
     "NBIS",
     "SNDK",
-    "TER"
+    "TER",
+    "NVDA",
+    "SKHY"
   ],
   "neutral": [
     "AAOI",
