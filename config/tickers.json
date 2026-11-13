@@ -45,9 +45,12 @@
     "ZS",
     "NCLH",
     "CCL",
-    "RCL"
+    "RCL",
+    "CHTR"
   ],
-  "deep": [],
+  "deep": [
+    "CHTR"
+  ],
   "uncertain": [
     "GEV",
     "NBIS",
