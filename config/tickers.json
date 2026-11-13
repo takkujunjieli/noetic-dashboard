@@ -48,9 +48,7 @@
     "RCL",
     "CHTR"
   ],
-  "deep": [
-    "CHTR"
-  ],
+  "deep": [],
   "uncertain": [
     "GEV",
     "NBIS",
@@ -98,6 +96,7 @@
     "HOOD",
     "NCLH",
     "CCL",
-    "RCL"
+    "RCL",
+    "CHTR"
   ]
 }
