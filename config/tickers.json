@@ -48,13 +48,13 @@
     "NVDA",
     "COHR",
     "CRWV",
-    "BE",
-    "NBIS"
+    "BE"
   ],
   "uncertain": [
     "GEV",
     "MRVL",
-    "HOOD"
+    "HOOD",
+    "NBIS"
   ],
   "neutral": [
     "AAOI",
