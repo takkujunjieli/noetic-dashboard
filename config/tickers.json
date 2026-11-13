@@ -45,9 +45,7 @@
     "ZS",
     "NCLH"
   ],
-  "deep": [
-    "NCLH"
-  ],
+  "deep": [],
   "uncertain": [
     "GEV",
     "NBIS",
@@ -92,6 +90,7 @@
     "RKLB",
     "SMCI",
     "MRVL",
-    "HOOD"
+    "HOOD",
+    "NCLH"
   ]
 }
