@@ -48,7 +48,8 @@
     "NVDA",
     "COHR",
     "CRWV",
-    "BE"
+    "BE",
+    "NBIS"
   ],
   "uncertain": [
     "GEV",
@@ -66,7 +67,6 @@
     "ASTS",
     "CBRS",
     "FIG",
-    "NBIS",
     "NET",
     "PANW",
     "U",
