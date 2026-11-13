@@ -42,9 +42,12 @@
     "CEG",
     "FTNT",
     "TER",
-    "ZS"
+    "ZS",
+    "NCLH"
   ],
-  "deep": [],
+  "deep": [
+    "NCLH"
+  ],
   "uncertain": [
     "GEV",
     "NBIS",
