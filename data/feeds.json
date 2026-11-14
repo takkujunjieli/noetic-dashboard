@@ -1,58 +1,136 @@
 {
- "updated_at": "2026-11-13T01:56:09+00:00",
+ "updated_at": "2026-11-14T01:32:40+00:00",
  "items": [
   {
    "source": "r/stocks 热帖",
    "category": "community",
-   "title": "Just purchased NVDA for the first time!",
-   "link": "https://www.reddit.com/r/stocks/comments/1xuuoul/just_purchased_nvda_for_the_first_time/",
-   "published": "2026-11-13T01:23:44+00:00",
-   "summary": "I was thinking about buying NVDA stock for the last couple of years, but the price kept going up and up and I couldn’t pull the trigger and do it. Looking at the price now I thought this was too good of an opportunity. I think the stock still might go down slightly, and that’s ok…",
-   "rank": 18
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "Colette Kress, Nvidia's new interim CEO, is a graduate of SMU's Cox School of Business",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xuuci7/colette_kress_nvidias_new_interim_ceo_is_a/",
-   "published": "2026-11-13T01:07:34+00:00",
-   "summary": "Cox &#32; submitted by &#32; /u/TexansforJesus [link] &#32; [comments]",
-   "rank": 18
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "Learn to count with Jensen",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xutmzj/learn_to_count_with_jensen/",
-   "published": "2026-11-13T00:34:31+00:00",
-   "summary": "&#32; submitted by &#32; /u/Ti666mo [link] &#32; [comments]",
+   "title": "Who Gets Left Holding the Bag When a Company's Stock Crashes After It Borrows Against Its Higher Valuation?",
+   "link": "https://www.reddit.com/r/stocks/comments/1xvp1xh/who_gets_left_holding_the_bag_when_a_companys/",
+   "published": "2026-11-14T00:55:38+00:00",
+   "summary": "Here's an interesting question: Suppose a company's stock skyrockets, increasing its market capitalization from $2 billion to $10 billion. The company takes advantage of that higher valuation and borrows $1 billion from banks or institutional lenders. Then the stock crashes, and …",
    "rank": 14
   },
   {
-   "source": "r/wallstreetbets 热帖",
+   "source": "r/stocks 热帖",
    "category": "community",
-   "title": "HARDEST Working Man in the Business.",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xutdky/hardest_working_man_in_the_business/",
-   "published": "2026-11-13T00:22:29+00:00",
-   "summary": "&#32; submitted by &#32; /u/Negative_Acadia6554 [link] &#32; [comments]",
+   "title": "SMCI vs. BABA- which one are would you pick?",
+   "link": "https://www.reddit.com/r/stocks/comments/1xvofd8/smci_vs_baba_which_one_are_would_you_pick/",
+   "published": "2026-11-14T00:25:10+00:00",
+   "summary": "I’m torn between SMCI and Alibaba Baba and wanted to get the sub's take before pulling the trigger. Both are sitting way off their 52-week highs right now ($SMCI hovering around ~$27 after hitting ~$51 earlier this year, and $BABA down in the mid-$90s from ~$181), so both feel li…",
+   "rank": 15
+  },
+  {
+   "source": "CNBC Markets",
+   "category": "news",
+   "title": "AI risks are the biggest threat to the financial system, Fed survey finds",
+   "link": "https://www.cnbc.com/2026/11/13/ai-risks-financial-system-federal-reserve.html",
+   "published": "2026-11-13T21:18:30+00:00",
+   "summary": "The report comes with Wall Street on edge over high-flying AI hyperscalers, while communities are on alert for the rapid spread of data centers."
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "I would be wary of another big sell off in AI stocks over the next month and here’s why",
+   "link": "https://www.reddit.com/r/stocks/comments/1xvhlhv/i_would_be_wary_of_another_big_sell_off_in_ai/",
+   "published": "2026-11-13T19:42:15+00:00",
+   "summary": "It’s really simple. The US 10yr Treasury yield is now rapidly rising again after dipping to 4.84. Right now it’s back to 5.15%, a 30 basis point move since Monday, just 5 days, which is a dramatic move for US treasuries. You can’t talk about stocks without understanding bonds. If…",
+   "rank": 1
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "Why do people still follow analysts' price targets?",
+   "link": "https://www.reddit.com/r/stocks/comments/1xvdxat/why_do_people_still_follow_analysts_price_targets/",
+   "published": "2026-11-13T17:25:11+00:00",
+   "summary": "Genuine question. Credit to where it's due - their factual information and insights are very helpful, and how they personally digest the company/macro's direction as well. Sometimes they're right, sometimes they're wrong, and so is everyone including myself. Their analysis are st…",
+   "rank": 6
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "Anthropic says its chatbot now beats most AI built for robots. Does that hurt the NVDA robotics story?",
+   "link": "https://www.reddit.com/r/stocks/comments/1xvdu9a/anthropic_says_its_chatbot_now_beats_most_ai/",
+   "published": "2026-11-13T17:21:58+00:00",
+   "summary": "I've been looking at NVDA partly for the robotics angle (GR00T, Jetson), so this caught my eye with earnings coming on Nov 17. In the Fable 5.2 launch, Anthropic says the model beat most AI systems built specifically to control robots. If a chatbot can just do that, I don't see w…",
+   "rank": 8
+  },
+  {
+   "source": "CNBC Markets",
+   "category": "news",
+   "title": "Bessent blames Lutnick’s Commerce as he slams Nvidia chip ‘leakage’ to China",
+   "link": "https://www.cnbc.com/2026/11/13/us-inflation-outlook-federal-reserve-rate-hike.html",
+   "published": "2026-11-13T17:06:57+00:00",
+   "summary": "Jensen Huang resigned as Nvidia CEO days after admitting to an affair following scrutiny of his relationship with a woman reportedly deemed a Chinese spy."
+  },
+  {
+   "source": "CNBC Markets",
+   "category": "news",
+   "title": "Wholesale prices rose 0.3% in October, putting annual rate at 6.5%, the highest in nearly four years",
+   "link": "https://www.cnbc.com/2026/11/13/ppi-inflation-report-october-2026.html",
+   "published": "2026-11-13T15:44:16+00:00",
+   "summary": "The producer price index was expected to increase 0.4% in October, according to the Dow Jones consensus."
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "Long-term thesis on buying the Nvidia dip. What risks am I missing?",
+   "link": "https://www.reddit.com/r/stocks/comments/1xv9kkv/longterm_thesis_on_buying_the_nvidia_dip_what/",
+   "published": "2026-11-13T14:39:02+00:00",
+   "summary": "Apologies if this is a beginner question. I’ve researched as much as I can, but past a point, Google and AI answers get buried in technical terms. I’d rather hear how real people think about this. My thesis: AI compute demand will keep growing, and the current crash is mostly the…",
+   "rank": 3
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "Wholesale prices rose 0.3% in October, putting annual rate at 6.5%, the highest in nearly four years",
+   "link": "https://www.reddit.com/r/stocks/comments/1xv87tu/wholesale_prices_rose_03_in_october_putting/",
+   "published": "2026-11-13T13:43:12+00:00",
+   "summary": "Wholesale prices increased less than expected in October as the Federal Reserve contemplates its next move on interest rates. The producer price index, which measures the prices domestic producers get for their products before they reach the consumer, rose a seasonally adjusted 0…",
+   "rank": 2
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "Retail earnings next week. Are consumers actually spending more, or just paying higher prices?",
+   "link": "https://www.reddit.com/r/stocks/comments/1xv510e/retail_earnings_next_week_are_consumers_actually/",
+   "published": "2026-11-13T11:05:11+00:00",
+   "summary": "Next week should give us a better look at how US consumers are holding up. October retail sales come out Tuesday, along with Home Depot earnings. Target, Lowe's and TJX report Wednesday, followed by Walmart on Thursday. September retail sales rose 0.8% from August, but the report…",
+   "rank": 13
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "r/Stocks Daily Discussion & Fundamentals Friday Nov 13, 2026",
+   "link": "https://www.reddit.com/r/stocks/comments/1xv4fs0/rstocks_daily_discussion_fundamentals_friday_nov/",
+   "published": "2026-11-13T10:30:05+00:00",
+   "summary": "This is the daily discussion, so anything stocks related is fine, but the theme for today is on fundamentals, but if fundamentals aren't your thing then just ignore the theme. Some helpful day to day links, including news: Finviz for charts, fundamentals, and aggregated news on i…",
+   "rank": 0
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "Is GOOG not the most obvious buy here?",
+   "link": "https://www.reddit.com/r/stocks/comments/1xv2biv/is_goog_not_the_most_obvious_buy_here/",
+   "published": "2026-11-13T08:16:01+00:00",
+   "summary": "First of all, I know Google has been very popular with this sub for a while now. Obviously I'm not breaking new ground with this post, but just wanted to lay out my thoughts. I break down Alphabet into these segments: Core Search Everything else (Android, GMail, Chrome, Maps, etc…",
+   "rank": 7
+  },
+  {
+   "source": "r/stocks 热帖",
+   "category": "community",
+   "title": "Widespread outage in Microsoft services",
+   "link": "https://www.reddit.com/r/stocks/comments/1xv0agw/widespread_outage_in_microsoft_services/",
+   "published": "2026-11-13T06:12:14+00:00",
+   "summary": "Many microsoft services have been down for almost a full day. The stock has stayed flat during the day and afterhours. Could this be some AI spaghetti code? They don't seem able to fix the issue, and even finding it seems difficult from the articles I've read. If this turns out t…",
    "rank": 9
   },
   {
-   "source": "r/wallstreetbets 热帖",
+   "source": "r/stocks 热帖",
    "category": "community",
-   "title": "ABSOLUTE CINEMA",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xuserl/absolute_cinema/",
-   "published": "2026-11-12T23:40:03+00:00",
-   "summary": "&#32; submitted by &#32; /u/abishop717 [link] &#32; [comments]",
-   "rank": 4
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "Jensen Huang was having a third affair, Reuters reports",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xus5m3/jensen_huang_was_having_a_third_affair_reuters/",
-   "published": "2026-11-12T23:28:31+00:00",
-   "summary": "&#32; submitted by &#32; /u/Brix001 [link] &#32; [comments]",
+   "title": "US Markets actually … rallying?",
+   "link": "https://www.reddit.com/r/stocks/comments/1xuz07b/us_markets_actually_rallying/",
+   "published": "2026-11-13T05:01:07+00:00",
+   "summary": "The S&amp;P 500 is up about 11% this year, and the US Dollar Index (DXY) is up about 5%. I think that second number gets overlooked when people say the market has been going sideways lately. Imagine the S&amp;P is at the same level it was six months ago. An American investor sees…",
    "rank": 10
   },
   {
@@ -62,7 +140,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1xurwzx/cisco_csco_q1_fy27_ai_revenue_guide_raised_to_9b/",
    "published": "2026-11-12T23:17:56+00:00",
    "summary": "Cisco reported fiscal Q1 2027 (quarter ended Oct 24) after the close on Nov 12. Revenue was $18.5B, up 24%, against a $18.14B LSEG consensus per Reuters. Non-GAAP EPS was $1.40, up 40%. Cisco raised its FY27 revenue guide to $74.8-75.8B, from $72.2-73.4B in August. The more usefu…",
-   "rank": 11
+   "rank": 17
   },
   {
    "source": "CNBC Markets",
@@ -73,49 +151,13 @@
    "summary": "The tech giant's web of ties to other companies is raising the possibility that it could do far-reaching economic and financial damage."
   },
   {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "$800k->$200",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xurm3g/800k200/",
-   "published": "2026-11-12T23:04:31+00:00",
-   "summary": "Reposting my loss porn because i didn’t tell what tickers made me lose $800k. It was a lot of different tickets mainly from spy short dated options. Finally took some healing after a catastrophic past 5 months of my life. I’ve been trading for over 3 years now and today came the …",
-   "rank": 13
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "Huang agrees to appear before Congress, US lawmakers say, after scandal-hit Nvidia CEO resigns",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xur205/huang_agrees_to_appear_before_congress_us/",
-   "published": "2026-11-12T22:40:36+00:00",
-   "summary": "&#32; submitted by &#32; /u/ViralTrendsToday [link] &#32; [comments]",
-   "rank": 12
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "Judging by the current exponential rate, Jensen Huang's affairs should exceed all human population by December",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xuqve9/judging_by_the_current_exponential_rate_jensen/",
-   "published": "2026-11-12T22:32:45+00:00",
-   "summary": "&#32; submitted by &#32; /u/GutiV [link] &#32; [comments]",
-   "rank": 2
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "Elon hiring Jensen to run XAI would be the greatest acquisition in American business history.",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xuphq1/elon_hiring_jensen_to_run_xai_would_be_the/",
-   "published": "2026-11-12T21:36:53+00:00",
-   "summary": "Jensen single handedly developed CUDA, the system that enabled every single AI company. AI was impossible before CUDA. He created CUDA when the market for it did not exist and lost billions before AI took off. His board wanted him to focus on gaming chips and he insisted on conti…",
-   "rank": 7
-  },
-  {
    "source": "r/stocks 热帖",
    "category": "community",
    "title": "Jensen Huang was having a third affair with another Nvidia employee",
    "link": "https://www.reddit.com/r/stocks/comments/1xupbak/jensen_huang_was_having_a_third_affair_with/",
    "published": "2026-11-12T21:29:55+00:00",
    "summary": "Nvidia founder Jensen Huang was having a separate affair with an employee that has not been previously reported, Reuters reported on Thursday. Huang stepped down as CEO and board member for the company earlier today, in the wake of news of extramarital affairs with accused spy Al…",
-   "rank": 2
+   "rank": 5
   },
   {
    "source": "r/stocks 热帖",
@@ -124,79 +166,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1xup2qu/cerebras_surges_13_after_beating_on_quarterly/",
    "published": "2026-11-12T21:20:25+00:00",
    "summary": "Cerebras Systems reported better-than-expected revenue and quarterly guidance in its earnings report on Thursday, and touted a new deal with Microsoft. The stock soared 13% in extended trading. Here’s how the company performed relative to LSEG consensus: Loss per share: 67 cents.…",
-   "rank": 5
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "What Are Your Moves Tomorrow, November 13, 2026",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xuokuz/what_are_your_moves_tomorrow_november_13_2026/",
-   "published": "2026-11-12T21:00:37+00:00",
-   "summary": "This post contains content not supported on old Reddit. Click here to view the full post &#32; submitted by &#32; /u/verified-trader [link] &#32; [comments]",
-   "rank": 0
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "68k -> 6k -> 1m in 7 trading days on 0DTE SPY/SPX",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xuofnd/68k_6k_1m_in_7_trading_days_on_0dte_spyspx/",
-   "published": "2026-11-12T20:54:54+00:00",
-   "summary": "255-row Fidelity CSV ready for the mods. $967,566.50 net profit , 11,362 contracts traded , $9,167.69 in commissions , and $0 in 2026 taxes because the whole thing happened inside my dad's Traditional IRA. The 8-Day Run: 11/02 ($63.5k -&gt; $106.7k): 5-for-5 on$SPY puts. Thought …",
    "rank": 16
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "Thats it boys the outage has begun",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xumymy/thats_it_boys_the_outage_has_begun/",
-   "published": "2026-11-12T19:57:24+00:00",
-   "summary": "https://preview.redd.it/qzm824bql81i1.png?width=1886&amp;format=png&amp;auto=webp&amp;s=6a48e7b5c2bd99dc41919eca807df185394dd17f worldwide &#32; submitted by &#32; /u/Dismal-Access7599 [link] &#32; [comments]",
-   "rank": 5
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "EXCLUSIVE: Former Nvidia CEO Huang had a relationship with a second employee, sources say",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xumcg9/exclusive_former_nvidia_ceo_huang_had_a/",
-   "published": "2026-11-12T19:34:36+00:00",
-   "summary": "&#32; submitted by &#32; /u/brighterside0 [link] &#32; [comments]",
-   "rank": 3
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "With a general model scoring 64.9% in robot control sims, do dedicated VLAs and world models still justify $25B+ robot-brain valuations?",
-   "link": "https://www.reddit.com/r/stocks/comments/1xuksjz/with_a_general_model_scoring_649_in_robot_control/",
-   "published": "2026-11-12T18:37:32+00:00",
-   "summary": "General multimodal models like GPT-6 Astra and Claude Fable 5.2 are posting competitive scores on robot control benchmarks. The investment question is whether dedicated robot models like VLAs, world models and touch encoders still justify the billions flowing into them. Anthropic…",
-   "rank": 16
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "Nebius ($NBIS) beat Q3 revenue and EBITDA estimates, yet shares plunged.",
-   "link": "https://www.reddit.com/r/stocks/comments/1xukone/nebius_nbis_beat_q3_revenue_and_ebitda_estimates/",
-   "published": "2026-11-12T18:33:26+00:00",
-   "summary": "The overlooked details: • $325M (33%) of revenue was nonrecurring • Power delays pushed capacity into 2027 • 2027 CapEx: $40–45B AI demand isn't the only question. Execution and cash conversion matter. Nebius says Q3 contract prepayments covered &gt;100% of associated CapEx, up f…",
-   "rank": 9
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "So where in Jenson going next?",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xui4ux/so_where_in_jenson_going_next/",
-   "published": "2026-11-12T17:00:07+00:00",
-   "summary": "Completely stupid of the board to oust Jenson. First off, who cares who he bangs. Secondly, every company is selling shit to China and there’s zero change the USG didn’t know about it. However, it’s happened. He’s been fired. The question now is, where’s he going to land? If you …",
-   "rank": 17
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "OpenAI posts steep losses even as quarterly revenue rises to $10 billion, WSJ reports",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xuhwmq/openai_posts_steep_losses_even_as_quarterly/",
-   "published": "2026-11-12T16:51:40+00:00",
-   "summary": "&#32; submitted by &#32; /u/PROGRAMKOD [link] &#32; [comments]",
-   "rank": 15
   },
   {
    "source": "r/stocks 热帖",
@@ -205,34 +175,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1xuhvhp/trump_calls_for_tim_cook_to_replace_jensen_huang/",
    "published": "2026-11-12T16:50:31+00:00",
    "summary": "This is pretty crazy to me. Usually Trump will go crazy when he doesn’t get his way. And he would defend his matter what they did. but this time when Jensen was removed all he said on truthSocial is &gt;NOW THAT Nvidia CEO JENSEN HUANG, who has done a fantastic job, has resigned,…",
-   "rank": 3
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "Shooters shoot",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xuf5x9/shooters_shoot/",
-   "published": "2026-11-12T15:07:36+00:00",
-   "summary": "&#32; submitted by &#32; /u/calpol-dealer [link] &#32; [comments]",
-   "rank": 6
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "MP Materials Insider Purchase",
-   "link": "https://www.reddit.com/r/stocks/comments/1xuf3ss/mp_materials_insider_purchase/",
-   "published": "2026-11-12T15:05:12+00:00",
-   "summary": "Hi guys, the mp materials insider have purchased shares worth more than 3 million dollars from the open market. I know this company's stock is highly volatile and yet it has to compete with China for rare earth minerals. They face a huge competition.Do you guys have any convictio…",
-   "rank": 19
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "AVGO is the best play over AMD for Huangs ouster at NVDA",
-   "link": "https://www.reddit.com/r/stocks/comments/1xuehn0/avgo_is_the_best_play_over_amd_for_huangs_ouster/",
-   "published": "2026-11-12T14:41:04+00:00",
-   "summary": "Huangs ouster at NVDA only accelerates hyperscalers demand to custom silicon (produced by AVGO and MRVL) and away from their dependence on merchant silicon (NVDA and AMD). Also, worth noting, both NVDA and AMD are both directly exposed to upcoming Commerce Department restrictions…",
-   "rank": 12
+   "rank": 11
   },
   {
    "source": "r/stocks 热帖",
@@ -241,25 +184,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1xuddr7/nvidia_ceo_jensen_huang_is_stepping_down_as_ceo/",
    "published": "2026-11-12T13:56:06+00:00",
    "summary": "Nvidia CEO Jensen Huang is stepping down as CEO of the chipmaker he co-founded 33 years ago and built into a $4 trillion company that powered the artificial intelligence boom. After a meteoric rise to fame due to Nvidia’s central role in AI, Huang’s dramatic fall has been even mo…",
-   "rank": 1
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "MSCI is dropping Strategy from its indexes. Last quarter it had $125M of revenue and $19.5B of net income",
-   "link": "https://www.reddit.com/r/stocks/comments/1xudalx/msci_is_dropping_strategy_from_its_indexes_last/",
-   "published": "2026-11-12T13:52:23+00:00",
-   "summary": "MSCI confirmed on Wednesday that Strategy (MSTR) leaves its global indexes after the close on November 30, under a new rule for &quot;non-operating&quot; companies. The numbers behind that call: - Q3 2026: $125.4M of revenue, $19.5B of net income - Q2 2026: $122.4M of revenue, an…",
-   "rank": 14
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "NVIDIA Announces CEO Transition",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xud8bz/nvidia_announces_ceo_transition/",
-   "published": "2026-11-12T13:49:40+00:00",
-   "summary": "&#32; submitted by &#32; /u/Revolutionz [link] &#32; [comments]",
-   "rank": 8
+   "rank": 4
   },
   {
    "source": "r/stocks 热帖",
@@ -268,34 +193,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1xuchd3/nebius_falls_10_as_company_expects_increased_2026/",
    "published": "2026-11-12T13:15:20+00:00",
    "summary": "Nebius shares sank 10% on Thursday as one of the biggest publicly traded neoclouds reported third-quarter revenue that beat analysts’ estimates, but issued disappointing guidance. Here’s how the company performed relative to LSEG consensus: Loss per share: Loss of 13 cents per sh…",
-   "rank": 7
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "Taiwan union ends bonus talks with Micron after 'defeat'",
-   "link": "https://www.reddit.com/r/stocks/comments/1xuavke/taiwan_union_ends_bonus_talks_with_micron_after/",
-   "published": "2026-11-12T11:56:18+00:00",
-   "summary": "A labor union at Micron's Taoyuan, Taiwan plant conceded &quot;defeat&quot; in its campaign for a new profit-sharing deal and pulled out of further negotiations, despite surging AI-driven revenues for the US chipmaker. Union Concedes &amp; Withdraws: After weeks of talks and thre…",
-   "rank": 13
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "Jensen Huang entering NVIDIA Office",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xu9ka5/jensen_huang_entering_nvidia_office/",
-   "published": "2026-11-12T10:40:21+00:00",
-   "summary": "&#32; submitted by &#32; /u/FitResearcher2865 [link] &#32; [comments]",
-   "rank": 11
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "r/Stocks Daily Discussion & Options Trading Thursday - Nov 12, 2026",
-   "link": "https://www.reddit.com/r/stocks/comments/1xu9ea9/rstocks_daily_discussion_options_trading_thursday/",
-   "published": "2026-11-12T10:30:24+00:00",
-   "summary": "This is the daily discussion, so anything stocks related is fine, but the theme for today is on stock options, but if options aren't your thing then just ignore the theme. Some helpful day to day links, including news: Finviz for charts, fundamentals, and aggregated news on indiv…",
-   "rank": 0
+   "rank": 19
   },
   {
    "source": "r/stocks 热帖",
@@ -304,7 +202,7 @@
    "link": "https://www.reddit.com/r/stocks/comments/1xu8675/buying_nvda_this_morning/",
    "published": "2026-11-12T09:13:46+00:00",
    "summary": "I’m buying the NVDA dip. Wall Street is panicking over the Jensen Huang headlines, forgetting that great CEOs build the foundation, but the product carries the empire. Look at Apple: Steve Jobs was an irreplaceable visionary, yet Apple has thrived through two CEO transitions sinc…",
-   "rank": 4
+   "rank": 12
   },
   {
    "source": "CNBC Markets",
@@ -317,56 +215,11 @@
   {
    "source": "r/stocks 热帖",
    "category": "community",
-   "title": "OpenAI posts steep losses even as quarterly revenue rises to $10 billion, WSJ reports",
-   "link": "https://www.reddit.com/r/stocks/comments/1xu5t9u/openai_posts_steep_losses_even_as_quarterly/",
-   "published": "2026-11-12T06:45:56+00:00",
-   "summary": "Nov 10 (Reuters) - OpenAI's quarterly revenue rose about 50% to $10 billion in the third quarter, but the ChatGPT maker continued to ‌post steep operating losses, the Wall Street Journal reported on Tuesday. OpenAI told investors its adjusted operating margin improved to -109% fr…",
-   "rank": 10
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "Absolute Cinematic reality we live right now!",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xu1ang/absolute_cinematic_reality_we_live_right_now/",
-   "published": "2026-11-12T02:43:48+00:00",
-   "summary": "This is it lads &#32; submitted by &#32; /u/Nomad-010 [link] &#32; [comments]",
-   "rank": 19
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
    "title": "Am I the only one who thinks there is more to the scandal story of Jensen Huang?",
    "link": "https://www.reddit.com/r/stocks/comments/1xtzobg/am_i_the_only_one_who_thinks_there_is_more_to_the/",
    "published": "2026-11-12T01:24:35+00:00",
    "summary": "I’ve been seeing the Jensen Huang stuff blowing up the last few days: the whole cheating admission, the alleged Chinese spy, the second affair rumors, board looking at kicking him out, stock getting wrecked, all of it. But my spidey senses tell me that the timing of this suddenly…",
-   "rank": 6
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "Nvidia stock slides after NYT report alleges Jensen Huang had a second affair with an employee",
-   "link": "https://www.reddit.com/r/stocks/comments/1xtvvn1/nvidia_stock_slides_after_nyt_report_alleges/",
-   "published": "2026-11-11T22:35:42+00:00",
-   "summary": "Nvidia (NVDA) is facing further scrutiny following a new New York Times report alleging CEO Jensen Huang had another affair, this time involving an employee. The controversy comes just days after Huang acknowledged an extramarital affair amid allegations involving a businesswoman…",
-   "rank": 8
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "Nvidia handed downgrade on Jensen Huang and AI uncertainty",
-   "link": "https://www.reddit.com/r/stocks/comments/1xtqmlv/nvidia_handed_downgrade_on_jensen_huang_and_ai/",
-   "published": "2026-11-11T19:09:12+00:00",
-   "summary": "Baird gave Nvidia a rare downgrade on Wednesday, as chief executive Jensen Huang 's alleged affair with a Chinese spy casts doubt over his tenure. In a note, Baird analyst Tristan Gerra more than halved the chip maker's target from $500 to $200. Mr Gerra delayed his forecasts for…",
-   "rank": 17
-  },
-  {
-   "source": "r/stocks 热帖",
-   "category": "community",
-   "title": "Real inflation in America seems to be at least 8%...Why isn't this talked about more?",
-   "link": "https://www.reddit.com/r/stocks/comments/1xtm1sc/real_inflation_in_america_seems_to_be_at_least/",
-   "published": "2026-11-11T16:21:30+00:00",
-   "summary": "I'm surprised this isn't talked about more but when you look at goods that are actually in demand by consumers in U.S everything seems to be growing 8%+ Y/Y. It's rather sick and very grateful to be lucky and blessed the more I think about it and see what I'm paying. Whether it b…",
-   "rank": 15
+   "rank": 18
   },
   {
    "source": "CNBC Markets",
@@ -423,15 +276,6 @@
    "link": "https://www.cnbc.com/2026/11/06/long-term-unemployment-october-jobs-report.html",
    "published": "2026-11-06T20:11:17+00:00",
    "summary": "The average jobless worker's bout of unemployment surpassed 27 weeks in October, the highest outside of the pandemic period in a decade."
-  },
-  {
-   "source": "r/wallstreetbets 热帖",
-   "category": "community",
-   "title": "Weekly Earnings Thread Nov 9 - Nov 13, 2026",
-   "link": "https://www.reddit.com/r/wallstreetbets/comments/1xpjj4e/weekly_earnings_thread_nov_9_nov_13_2026/",
-   "published": "2026-11-06T18:00:38+00:00",
-   "summary": "This post contains content not supported on old Reddit. Click here to view the full post &#32; submitted by &#32; /u/verified-trader [link] &#32; [comments]",
-   "rank": 1
   },
   {
    "source": "CNBC Markets",
@@ -496,32 +340,20 @@
    "link": "https://www.cnbc.com/2026/11/04/euro-zone-cpi-inflation-october-ecb-rate-hike.html",
    "published": "2026-11-04T10:47:30+00:00",
    "summary": "It was driven by energy inflation, which surged above 20% in October."
-  },
-  {
-   "source": "CNBC Markets",
-   "category": "news",
-   "title": "Job openings posted big September gain in positive sign for labor market ahead of payrolls report",
-   "link": "https://www.cnbc.com/2026/11/03/job-openings-posted-big-september-gain-in-positive-sign-for-labor-market-ahead-of-payrolls-report.html",
-   "published": "2026-11-03T19:15:21+00:00",
-   "summary": "The BLS reported job openings at 7.52 million, up 333,000 from August and well above the Dow Jones consensus outlook for 7.15 million"
-  },
-  {
-   "source": "CNBC Markets",
-   "category": "news",
-   "title": "Australia hikes rates to 18-year high to fight inflation",
-   "link": "https://www.cnbc.com/2026/11/03/australia-hikes-rates-18-year-high-finflation.html",
-   "published": "2026-11-03T03:46:20+00:00",
-   "summary": "The Reserve Bank of Australia's decision was in line with expectations from economists polled by Reuters, and marked its fifth rate increase this year."
   }
  ],
  "errors": [
+  {
+   "source": "r/wallstreetbets 热帖",
+   "error": "429 Client Error: Too Many Requests for url: https://www.reddit.com/r/wallstreetbets/hot/.rss?limit=25"
+  },
   {
    "source": "Reddit",
    "error": "匿名 JSON 被拒,已回退 RSS — 社区帖按 hot 榜排名排序但无点赞/评论数;配置 OAuth 可显示数值,见 README"
   },
   {
    "source": "Massive News",
-   "error": "401 Client Error: Unauthorized for url: https://api.massiveprivateserver.site/v2/reference/news?apiKey=ma_7ungVgJVpdgcb99JWduZVNd6avF0cIZI&limit=100&sort=published_utc&order=desc&published_utc.gte=2026-11-03T01%3A55%3A31Z"
+   "error": "401 Client Error: Unauthorized for url: https://api.massiveprivateserver.site/v2/reference/news?apiKey=ma_7ungVgJVpdgcb99JWduZVNd6avF0cIZI&limit=100&sort=published_utc&order=desc&published_utc.gte=2026-11-04T01%3A31%3A43Z"
   }
  ]
 }
