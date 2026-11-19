@@ -1,13 +1,21 @@
 {
- "updated_at": "2026-11-18T03:00:54+00:00",
+ "updated_at": "2026-11-19T02:41:14+00:00",
  "items": [
   {
-   "source": "Seeking Alpha Transcripts",
+   "source": "CNBC Markets",
    "category": "news",
-   "title": "NVIDIA Corporation (NVDA) Q3 2027 Earnings Call Transcript",
-   "link": "https://seekingalpha.com/article/4969356-nvidia-corporation-nvda-q3-2027-earnings-call-transcript?source=feed_sector_transcripts",
-   "published": "2026-11-18T01:22:48+00:00",
-   "summary": ""
+   "title": "Southeast Asia’s data center boom leaned on Chinese demand. New U.S. rules put that pipeline at risk",
+   "link": "https://www.cnbc.com/2026/11/18/nvidia-us-ai-chip-export-controls-data-centers-.html",
+   "published": "2026-11-18T14:09:26+00:00",
+   "summary": "The rules require data centers in Southeast Asia to seek U.S. approval to buy advanced AI chips, threatening to slow a build-out fueled heavily on Chinese demand."
+  },
+  {
+   "source": "CNBC Markets",
+   "category": "news",
+   "title": "Record diesel prices drive UK inflation to 1-year high of 3.6%",
+   "link": "https://www.cnbc.com/2026/11/18/uk-inflation-cpi-fuel-prices.html",
+   "published": "2026-11-18T07:57:37+00:00",
+   "summary": "It put the U.K.'s annual inflation rate at a 1-year high."
   },
   {
    "source": "CNBC Markets",
@@ -137,7 +145,7 @@
   },
   {
    "source": "r/wallstreetbets 热帖",
-   "error": "429 Client Error: Too Many Requests for url: https://www.reddit.com/r/wallstreetbets/hot/.rss?limit=25"
+   "error": "404 Client Error: Not Found for url: https://www.reddit.com/r/wallstreetbets/hot/.rss?limit=25"
   },
   {
    "source": "Reddit",
@@ -145,7 +153,7 @@
   },
   {
    "source": "Massive News",
-   "error": "401 Client Error: Unauthorized for url: https://api.massiveprivateserver.site/v2/reference/news?apiKey=ma_7ungVgJVpdgcb99JWduZVNd6avF0cIZI&limit=100&sort=published_utc&order=desc&published_utc.gte=2026-11-08T03%3A00%3A17Z"
+   "error": "401 Client Error: Unauthorized for url: https://api.massiveprivateserver.site/v2/reference/news?apiKey=ma_7ungVgJVpdgcb99JWduZVNd6avF0cIZI&limit=100&sort=published_utc&order=desc&published_utc.gte=2026-11-09T02%3A40%3A37Z"
   }
  ]
 }
