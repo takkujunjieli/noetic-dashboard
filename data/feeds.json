@@ -1,6 +1,38 @@
 {
- "updated_at": "2026-11-19T02:41:14+00:00",
+ "updated_at": "2026-11-20T02:25:59+00:00",
  "items": [
+  {
+   "source": "Seeking Alpha Transcripts",
+   "category": "news",
+   "title": "Strategy Inc (MSTR) Discusses Capital Structure, Risk, Returns and Bitcoin Strategy Transcript",
+   "link": "https://seekingalpha.com/article/4970411-strategy-inc-mstr-discusses-capital-structure-risk-returns-and-bitcoin-strategy-transcript?source=feed_sector_transcripts",
+   "published": "2026-11-20T02:12:54+00:00",
+   "summary": ""
+  },
+  {
+   "source": "CNBC Markets",
+   "category": "news",
+   "title": "Japan core inflation soars to highest this year as energy subsidy expiry pushes up consumer prices",
+   "link": "https://www.cnbc.com/2026/11/20/japan-inflation-cpi-october.html",
+   "published": "2026-11-20T01:49:03+00:00",
+   "summary": "The core inflation figure — which strips out prices of food — was lower than the 2.3% expected by Reuters-polled economists."
+  },
+  {
+   "source": "CNBC Markets",
+   "category": "news",
+   "title": "Peterson: Nvidia’s leadership crisis tests the chipmaker’s role as the ‘central bank of AI’",
+   "link": "https://www.cnbc.com/2026/11/11/nvidia-jensen-huang-ai-financial-system-risk.html",
+   "published": "2026-11-19T20:21:10+00:00",
+   "summary": "The tech giant's web of ties to other companies is raising the possibility that it could do far-reaching economic and financial damage."
+  },
+  {
+   "source": "CNBC Markets",
+   "category": "news",
+   "title": "Peterson: The Fed's chairman sees an AI revolution coming. Now he has to figure out what it means",
+   "link": "https://www.cnbc.com/2026/11/16/kevin-warsh-fed-ai-jobs-productivity-interest-rateshtml.html",
+   "published": "2026-11-19T20:18:47+00:00",
+   "summary": "Kevin Warsh sees AI at a turning point. He faces tough questions on jobs and interest rates."
+  },
   {
    "source": "CNBC Markets",
    "category": "news",
@@ -24,14 +56,6 @@
    "link": "https://www.cnbc.com/2026/11/18/japan-exports-october-imports-chips.html",
    "published": "2026-11-18T00:35:31+00:00",
    "summary": "Semiconductor shipments spiked almost 50% year on year."
-  },
-  {
-   "source": "CNBC Markets",
-   "category": "news",
-   "title": "Analysis: The Fed's chairman sees an AI revolution coming. Now he has to figure out what it means",
-   "link": "https://www.cnbc.com/2026/11/16/kevin-warsh-fed-ai-jobs-productivity-interest-rateshtml.html",
-   "published": "2026-11-17T15:35:13+00:00",
-   "summary": "Kevin Warsh sees AI at a turning point. He faces tough questions on jobs and interest rates."
   },
   {
    "source": "CNBC Markets",
@@ -76,14 +100,6 @@
   {
    "source": "CNBC Markets",
    "category": "news",
-   "title": "Analysis: Nvidia’s leadership crisis tests the chipmaker’s role as the ‘central bank of AI’",
-   "link": "https://www.cnbc.com/2026/11/11/nvidia-jensen-huang-ai-financial-system-risk.html",
-   "published": "2026-11-12T23:08:50+00:00",
-   "summary": "The tech giant's web of ties to other companies is raising the possibility that it could do far-reaching economic and financial damage."
-  },
-  {
-   "source": "CNBC Markets",
-   "category": "news",
    "title": "UK economy expands 0.7% in third quarter as AI provides 'extra engine of growth'",
    "link": "https://www.cnbc.com/2026/11/12/uk-gdp-third-quarter-2026.html",
    "published": "2026-11-12T08:02:15+00:00",
@@ -112,30 +128,6 @@
    "link": "https://www.cnbc.com/2026/11/10/china-trade-october-exports-imports-surplus-.html",
    "published": "2026-11-10T10:24:13+00:00",
    "summary": "China's trade surplus topped $1 trillion as of October, potentially intensifying complaints from trading partners already wary over the glut of cheap Chinese goods."
-  },
-  {
-   "source": "CNBC Markets",
-   "category": "news",
-   "title": "3 unexpected reasons the October jobs report was so strong",
-   "link": "https://www.cnbc.com/2026/11/09/october-jobs-report-hiring-by-sector.html",
-   "published": "2026-11-09T22:23:56+00:00",
-   "summary": "October's jobs report blew past economist forecasts. Here are three reasons."
-  },
-  {
-   "source": "CNBC Markets",
-   "category": "news",
-   "title": "A key report for where inflation stood in October comes out Tuesday. Here's what to expect",
-   "link": "https://www.cnbc.com/2026/11/09/october-cpi-report-2026-inflation.html",
-   "published": "2026-11-09T21:03:55+00:00",
-   "summary": "The CPI headline reading is expected to show an increase of 0.3% while the core is forecast to increase 0.2%."
-  },
-  {
-   "source": "CNBC Markets",
-   "category": "news",
-   "title": "China wholesale inflation hits highest in more than four years as consumer measure slows",
-   "link": "https://www.cnbc.com/2026/11/09/china-wholesale-inflation-rises-consumer.html",
-   "published": "2026-11-09T02:50:22+00:00",
-   "summary": "The PPI for October came in at 5.7%, compared to the 5.3% expected by economists polled by Reuters."
   }
  ],
  "errors": [
@@ -145,7 +137,7 @@
   },
   {
    "source": "r/wallstreetbets 热帖",
-   "error": "404 Client Error: Not Found for url: https://www.reddit.com/r/wallstreetbets/hot/.rss?limit=25"
+   "error": "429 Client Error: Too Many Requests for url: https://www.reddit.com/r/wallstreetbets/hot/.rss?limit=25"
   },
   {
    "source": "Reddit",
@@ -153,7 +145,7 @@
   },
   {
    "source": "Massive News",
-   "error": "401 Client Error: Unauthorized for url: https://api.massiveprivateserver.site/v2/reference/news?apiKey=ma_7ungVgJVpdgcb99JWduZVNd6avF0cIZI&limit=100&sort=published_utc&order=desc&published_utc.gte=2026-11-09T02%3A40%3A37Z"
+   "error": "401 Client Error: Unauthorized for url: https://api.massiveprivateserver.site/v2/reference/news?apiKey=ma_7ungVgJVpdgcb99JWduZVNd6avF0cIZI&limit=100&sort=published_utc&order=desc&published_utc.gte=2026-11-10T02%3A25%3A22Z"
   }
  ]
 }
