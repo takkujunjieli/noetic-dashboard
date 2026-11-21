@@ -1,13 +1,13 @@
 {
- "updated_at": "2026-11-20T02:25:59+00:00",
+ "updated_at": "2026-11-21T02:25:35+00:00",
  "items": [
   {
-   "source": "Seeking Alpha Transcripts",
+   "source": "CNBC Markets",
    "category": "news",
-   "title": "Strategy Inc (MSTR) Discusses Capital Structure, Risk, Returns and Bitcoin Strategy Transcript",
-   "link": "https://seekingalpha.com/article/4970411-strategy-inc-mstr-discusses-capital-structure-risk-returns-and-bitcoin-strategy-transcript?source=feed_sector_transcripts",
-   "published": "2026-11-20T02:12:54+00:00",
-   "summary": ""
+   "title": "Peterson: The Fed's chairman sees an AI revolution coming. Now he has to figure out what it means",
+   "link": "https://www.cnbc.com/2026/11/16/kevin-warsh-fed-ai-jobs-productivity-interest-rateshtml.html",
+   "published": "2026-11-20T21:07:08+00:00",
+   "summary": "Kevin Warsh sees AI at a turning point. He faces tough questions on jobs and interest rates."
   },
   {
    "source": "CNBC Markets",
@@ -24,14 +24,6 @@
    "link": "https://www.cnbc.com/2026/11/11/nvidia-jensen-huang-ai-financial-system-risk.html",
    "published": "2026-11-19T20:21:10+00:00",
    "summary": "The tech giant's web of ties to other companies is raising the possibility that it could do far-reaching economic and financial damage."
-  },
-  {
-   "source": "CNBC Markets",
-   "category": "news",
-   "title": "Peterson: The Fed's chairman sees an AI revolution coming. Now he has to figure out what it means",
-   "link": "https://www.cnbc.com/2026/11/16/kevin-warsh-fed-ai-jobs-productivity-interest-rateshtml.html",
-   "published": "2026-11-19T20:18:47+00:00",
-   "summary": "Kevin Warsh sees AI at a turning point. He faces tough questions on jobs and interest rates."
   },
   {
    "source": "CNBC Markets",
@@ -112,22 +104,6 @@
    "link": "https://www.cnbc.com/2026/11/11/october-retail-sales-cnbc-nrf-2026.html",
    "published": "2026-11-11T12:27:47+00:00",
    "summary": "Retail sales rose at their slowest pace in nearly a year in October as American consumers showed signs of strain from high prices."
-  },
-  {
-   "source": "CNBC Markets",
-   "category": "news",
-   "title": "Consumer prices rose 0.4% in October, more than expected, complicating Fed's inflation fight",
-   "link": "https://www.cnbc.com/2026/11/10/cpi-inflation-report-october-2026.html",
-   "published": "2026-11-10T23:53:58+00:00",
-   "summary": "The report comes at a critical juncture for the Federal Reserve as it considers its next move regarding interest rates."
-  },
-  {
-   "source": "CNBC Markets",
-   "category": "news",
-   "title": "China's goods surplus tops $1 trillion for a second year amid calls for Beijing to rebalance trade",
-   "link": "https://www.cnbc.com/2026/11/10/china-trade-october-exports-imports-surplus-.html",
-   "published": "2026-11-10T10:24:13+00:00",
-   "summary": "China's trade surplus topped $1 trillion as of October, potentially intensifying complaints from trading partners already wary over the glut of cheap Chinese goods."
   }
  ],
  "errors": [
@@ -145,7 +121,7 @@
   },
   {
    "source": "Massive News",
-   "error": "401 Client Error: Unauthorized for url: https://api.massiveprivateserver.site/v2/reference/news?apiKey=ma_7ungVgJVpdgcb99JWduZVNd6avF0cIZI&limit=100&sort=published_utc&order=desc&published_utc.gte=2026-11-10T02%3A25%3A22Z"
+   "error": "401 Client Error: Unauthorized for url: https://api.massiveprivateserver.site/v2/reference/news?apiKey=ma_7ungVgJVpdgcb99JWduZVNd6avF0cIZI&limit=100&sort=published_utc&order=desc&published_utc.gte=2026-11-11T02%3A24%3A58Z"
   }
  ]
 }
